@@ -16,7 +16,7 @@ func DB() *gorm.DB {
 
 func SetupDatabase() {
 
-	database, err := gorm.Open(sqlite.Open("sa-65.db"), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("se-65.db"), &gorm.Config{})
 
 	if err != nil {
 
@@ -28,6 +28,58 @@ func SetupDatabase() {
 
 	//database.AutoMigrate(&User{})
 
+	database.AutoMigrate(
+		&Status{},
+		&Damage{},
+		&CostDetail{},
+		&OrderTech{},
+	)
 	db = database
+
+	//Status
+	StatusA := Status{
+		StatusName: "ยังไม่ดำเนินการ",
+	}
+	db.Model(&Status{}).Create(&StatusA)
+	StatusB := Status{
+		StatusName: "กำลังดำเนินการ",
+	}
+	db.Model(&Status{}).Create(&StatusB)
+	StatusC := Status{
+		StatusName: "ดำเนินการเสร็จสิ้น",
+	}
+	db.Model(&Status{}).Create(&StatusC)
+
+	//Damage
+	DamageA := Damage{
+		DamageName: "น้อย",
+	}
+	db.Model(&Damage{}).Create(&DamageA)
+	DamageB := Damage{
+		DamageName: "ปานกลาง",
+	}
+	db.Model(&Damage{}).Create(&DamageB)
+	DamageC := Damage{
+		DamageName: "มาก",
+	}
+	db.Model(&Damage{}).Create(&DamageC)
+
+	//CostDetail
+	CostDetailA := CostDetail{
+		Cost: 300,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailA)
+	CostDetailB := CostDetail{
+		Cost: 500,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailB)
+	CostDetailC := CostDetail{
+		Cost: 700,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailC)
+	CostDetailD := CostDetail{
+		Cost: 1000,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailD)
 
 }
