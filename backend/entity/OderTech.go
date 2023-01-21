@@ -6,12 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type Type struct {
-	gorm.Model
-	TypeName  string
-	OrderTech []OrderTech `gorm:"ForeignKey:TypeID"`
-}
-
 type CostDetail struct {
 	gorm.Model
 	Cost      int
