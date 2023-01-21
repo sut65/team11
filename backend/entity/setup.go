@@ -34,6 +34,7 @@ func SetupDatabase() {
 		&CostDetail{},
 		&OrderTech{},
 		&Hardware{},
+		&PayTech{},
 	)
 	db = database
 
