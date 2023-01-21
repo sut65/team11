@@ -15,7 +15,20 @@ func main() {
 	// ================= USER ===========================
 	r.GET("/GetUser", controller.GetUser)
 	r.GET("/ListUsers", controller.ListUsers)
-	// ================= USER ===========================
+
+	// =============== Payment ==========================
+
+	r.GET("/ListBank", controller.ListBank)
+	r.POST("/CreateBank", controller.CreateBank)
+
+	//r.GET("/ListPAYTECH", controller.ListPAYTECH)         //ใช้จริงใช้ของเหมียว
+	//r.POST("/CreatePAYTECH", controller.CreatePAYTECH)	//ใช้จริงใช้ของเหมียว
+
+	r.GET("/ListPayment", controller.ListPayments)
+	r.GET("/GetPayment/:id", controller.GetPayment)
+	r.POST("/CreatePayment", controller.CreatePayment)
+	r.POST("DeletePayment", controller.DeletePayment)
+
 	r.Run()
 }
 
