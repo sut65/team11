@@ -29,6 +29,16 @@ func main() {
 	r.POST("/CreatePayment", controller.CreatePayment)
 	r.POST("DeletePayment", controller.DeletePayment)
 
+	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
+	r.POST("/CreateSatisfaction_System",controller.CreateSatisfaction_System)
+	r.POST("/CreateSatisfaction_Technician",controller.CreateSatisfaction_Technician)
+
+	r.POST("/CreateReview",controller.CreateReview)
+	r.PATCH("/UpdateReview", controller.UpdateReview)
+	r.DELETE("/DeleteReview", controller.DeleteReview)
+	r.GET("/GetListReviews",controller.GetListReviews)
+	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
+
 	r.Run()
 }
 

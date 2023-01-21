@@ -35,6 +35,10 @@ func SetupDatabase() {
 		&OrderTech{},
 		&Hardware{},
 		&PayTech{},
+
+		&Satisfaction_System{}, // B6304577-ระบบประเมินความพึงพอใจ
+		&Satisfaction_Technician{}, // B6304577-ระบบประเมินความพึงพอใจ
+		&Review{}, // B6304577-ระบบประเมินความพึงพอใจ
 	)
 	db = database
 
