@@ -16,7 +16,7 @@ func CreatePayment(c *gin.Context) {
 	var User entity.User
 	var Payment entity.Payment
 	var Bank entity.Bank
-	var PAYTECH entity.PAYTECH
+	var PAYTECH entity.PayTech
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Payment
 	if err := c.ShouldBindJSON(&Payment); err != nil {

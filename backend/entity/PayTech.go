@@ -1,7 +1,7 @@
 package entity
 
 import (
-	_ "time"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -11,4 +11,15 @@ type Hardware struct {
 	HardwareName string
 	Amount       int
 	CostHardware int
+	PayTech      []PayTech `gorm:"ForeignKey:HardwareID"`
+}
+
+type PayTech struct {
+	gorm.Model
+
+	HardwareID *uint
+	Hardware   Hardware
+
+	TimeStamp time.Time
+	Note      string
 }
