@@ -33,6 +33,7 @@ func SetupDatabase() {
 		&Damage{},
 		&CostDetail{},
 		&OrderTech{},
+		&Hardware{},
 	)
 	db = database
 
@@ -81,5 +82,25 @@ func SetupDatabase() {
 		Cost: 1000,
 	}
 	db.Model(&CostDetail{}).Create(&CostDetailD)
+
+	//Hardware
+	HardwareA := Hardware{
+		HardwareName: "หน้าจอ",
+		Amount:       1,
+		CostHardware: 1600,
+	}
+	db.Model(&Hardware{}).Create(&HardwareA)
+	HardwareB := Hardware{
+		HardwareName: "สายไฟ",
+		Amount:       1,
+		CostHardware: 150,
+	}
+	db.Model(&Hardware{}).Create(&HardwareB)
+	HardwareC := Hardware{
+		HardwareName: "พัดลม",
+		Amount:       1,
+		CostHardware: 730,
+	}
+	db.Model(&Hardware{}).Create(&HardwareC)
 
 }
