@@ -45,4 +45,5 @@ type Customer struct {
 
 	Address []Address `gorm:"ForeignKey:CustomerID"`
 	Device []Device `gorm:"ForeignKey:CustomerID"`
+	ORDER []ORDER `gorm:"foreignKey:CustomerID"`
 }
