@@ -44,4 +44,5 @@ type Customer struct {
 	Password	string	`json:"-"`
 
 	Address []Address `gorm:"ForeignKey:CustomerID"`
+	Device []Device `gorm:"ForeignKey:CustomerID"`
 }
