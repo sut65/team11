@@ -37,5 +37,7 @@ type Device struct {
 	WindowsID			*uint
 	Windows            Windows `gorm:"references:id"`
 
+	DEVICED []DEVICED `gorm:"foreignKey:Device_ID"`
+
 	Save_Time			time.Time
 }
