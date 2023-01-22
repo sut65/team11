@@ -43,4 +43,5 @@ type Customer struct {
 	Email		string `gorm:"uniqueIndex"`
 	Password	string	`json:"-"`
 
+	Address []Address `gorm:"ForeignKey:CustomerID"`
 }
