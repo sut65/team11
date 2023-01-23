@@ -115,6 +115,63 @@ func SetupDatabase() {
 		Password: "123456789",
 	})
 
+	// Mockup  ======ระบบช่าง========
+	//GenderT
+	maleT := GenderT{
+		GenderName: "ชาย",
+	}
+	db.Model(&GenderT{}).Create(&maleT)
+	femaleT := GenderT{
+		GenderName: "ชาย",
+	}
+	db.Model(&GenderT{}).Create(&femaleT)
+
+	//PrefixT
+	mrT := PrefixT{
+		PrefixName: "นาย",
+	}
+	db.Model(&PrefixT{}).Create(&mrT)
+	missT := PrefixT{
+		PrefixName: "นางสาว",
+	}
+	db.Model(&PrefixT{}).Create(&missT)
+	mrsT := PrefixT{
+		PrefixName: "นาง",
+	}
+	db.Model(&PrefixT{}).Create(&mrsT)
+
+	//Educate
+	HSC := Educate{
+		EducateName: "มัธยมศึกษาปีที่ 6",
+	}
+	db.Model(&Educate{}).Create(&HSC)
+	BD := Educate{
+		EducateName: "ปริญญาตรี",
+	}
+	db.Model(&Educate{}).Create(&BD)
+	MD := Educate{
+		EducateName: "ปริญญาโท",
+	}
+	db.Model(&Educate{}).Create(&MD)
+	DD := Educate{
+		EducateName: "ปริญญาเอก",
+	}
+	db.Model(&Educate{}).Create(&DD)
+
+	//Technician
+	db.Model(&Technician{}).Create(&Technician{
+		Name:	"ช่าง 1",
+		ID_card: "1-4000-00000-01-1",
+		DOB:	time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local) ,
+		Phone:	0644444444,
+		GENDER:	maleT,
+		EDUCATE:BD,
+		PREFIX: mrT,
+		Location: "กรุงเทพ....",
+		Username: "T6500001",
+		Password: "1400000000011",
+	})
+
 	//Status
 	StatusA := Status{
 		StatusName: "ยังไม่ดำเนินการ",
