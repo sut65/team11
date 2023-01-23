@@ -31,4 +31,6 @@ type ORDER struct {
 
 	CustomerID *uint
 	Customer   Customer `gorm:"references:id"`
+
+	OrderTech []OrderTech `gorm:"ForeignKey:OrderID"`
 }
