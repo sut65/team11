@@ -11,16 +11,27 @@ type Hardware struct {
 	HardwareName string
 	Amount       int
 	CostHardware int
-	PayTech      []PayTech `gorm:"ForeignKey:HardwareID"`
+
+	PayTech []PayTech `gorm:"ForeignKey:HardwareID"`
 }
 
 type PayTech struct {
 	gorm.Model
 
-	HardwareID *uint
-	Hardware   Hardware
-
 	TimeStamp time.Time
 	Note      string
-	Payments  []Payment `gorm:"ForeignKey:PayTech_ID"`
+
+	HardwareID *uint
+	Hardware   Hardware `gorm:"references:id"`
+
+	TypeID *uint
+	Type   Type `gorm:"references:id"`
+
+	TechnicianID *uint
+	Technician   Technician `gorm:"references:id"`
+
+	OrderID *uint
+	ORDER   ORDER `gorm:"references:id"`
+
+	Payments []Payment `gorm:"ForeignKey:PayTech_ID"`
 }
