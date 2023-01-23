@@ -57,6 +57,4 @@ type Address struct {
 	Record_Time			time.Time
 
 	ORDER []ORDER `gorm:"ForeignKey:AddressID"`
-	ADDRESSED []ADDRESSED `gorm:"ForeignKey:AddressID"`
-
 }

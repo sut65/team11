@@ -48,6 +48,11 @@ func SetupDatabase() {
 		&Tambon{},
 		&Address{},
 		// ========== Address ==========
+
+		//========== Order ==========
+		&CASE{},
+		&ORDER{},
+		//========== Order ==========
 		
 		&Status{},
 		&Damage{},
