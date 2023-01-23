@@ -29,6 +29,16 @@ func SetupDatabase() {
 	//database.AutoMigrate(&User{})
 
 	database.AutoMigrate(
+		&Gender{},// B6311117-ระบบสมาชิกแจ้งซ่อม
+		&Career{},// B6311117-ระบบสมาชิกแจ้งซ่อม
+		&Prefix{},// B6311117-ระบบสมาชิกแจ้งซ่อม
+		&Customer{},// B6311117-ระบบสมาชิกแจ้งซ่อม
+
+		&GenderT{},// B6311117-ระบบช่าง
+		&Educate{},// B6311117-ระบบช่าง
+		&PrefixT{},// B6311117-ระบบช่าง
+		&Technician{},// B6311117-ระบบช่าง
+
 		&Status{},
 		&Damage{},
 		&CostDetail{},
@@ -39,6 +49,7 @@ func SetupDatabase() {
 		&Satisfaction_System{}, // B6304577-ระบบประเมินความพึงพอใจ
 		&Satisfaction_Technician{}, // B6304577-ระบบประเมินความพึงพอใจ
 		&Review{}, // B6304577-ระบบประเมินความพึงพอใจ
+
 	)
 	db = database
 
