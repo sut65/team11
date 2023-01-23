@@ -25,16 +25,22 @@ type Status struct {
 
 type OrderTech struct {
 	gorm.Model
-	Reason  string
+
 	Solving string
 	TimeOut time.Time
 
 	StatusID *uint
-	Status   Status
+	Status   Status `gorm:"references:id"`
 
 	DamageID *uint
-	Damage   Damage
+	Damage   Damage `gorm:"references:id"`
 
 	CostDetailID *uint
-	CostDetail   CostDetail
+	CostDetail   CostDetail `gorm:"references:id"`
+
+	OrderID *uint
+	ORDER   ORDER `gorm:"references:id"`
+
+	TechnicianID *uint
+	Technician   Technician `gorm:"references:id"`
 }

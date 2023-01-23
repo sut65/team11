@@ -32,11 +32,13 @@ func main() {
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 	r.POST("/CreateSatisfaction_System",controller.CreateSatisfaction_System)
 	r.POST("/CreateSatisfaction_Technician",controller.CreateSatisfaction_Technician)
-
 	r.POST("/CreateReview",controller.CreateReview)
+
 	r.PATCH("/UpdateReview", controller.UpdateReview)
 	r.DELETE("/DeleteReview", controller.DeleteReview)
+
 	r.GET("/GetListReviews",controller.GetListReviews)
+	r.GET("/GetReview/:id", controller.GetReview)
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 
 	r.Run()
@@ -47,7 +49,7 @@ func CORSMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT,PATCH")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT,PATCH,DELETE")
 
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
