@@ -41,6 +41,19 @@ func main() {
 	r.GET("/GetReview/:id", controller.GetReview)
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 
+	// ========== Address ==========
+	r.POST("/CreateAddressType",controller.CreateAddressType)
+	r.POST("/CreateProvince",controller.CreateProvince)
+	r.POST("/CreateDistrict",controller.CreateDistrict)
+	r.POST("/CreateTambon",controller.CreateTambon)
+
+	r.POST("/CreateAddress",controller.CreateAddress)
+	r.PATCH("/UpdateAddress", controller.UpdateAddress)
+	r.DELETE("/DeleteAddress", controller.DeleteAddress)
+	r.GET("/GetListAddress",controller.GetListAddress)
+	r.GET("/GetAddress/:id", controller.GetAddress)
+	// ========== Address ==========
+
 	r.Run()
 }
 
