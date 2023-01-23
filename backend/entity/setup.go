@@ -49,6 +49,12 @@ func SetupDatabase() {
 		&Address{},
 		// ========== Address ==========
 
+		// ========== Device ==========
+		&Type{},
+		&Windows{},
+		&Device{},
+		// ========== Device ==========
+
 		//========== Order ==========
 		&CASE{},
 		&ORDER{},
@@ -192,6 +198,19 @@ func SetupDatabase() {
 		Username: "T6500001",
 		Password: "1400000000011",
 	})
+
+	// ====== Mockup Device ========
+
+	database.Create(&Type{Type_Name: "PC"})
+	database.Create(&Type{Type_Name: "Notebook"})
+
+	database.Create(&Windows{Windows_Name: "Window XP"})
+	database.Create(&Windows{Windows_Name: "Window 7"})
+	database.Create(&Windows{Windows_Name: "Window 10"})
+	database.Create(&Windows{Windows_Name: "Window 11"})
+	database.Create(&Windows{Windows_Name: "MacOS"})
+
+	// ====== Mockup Device ========
 
 	//Status
 	StatusA := Status{
