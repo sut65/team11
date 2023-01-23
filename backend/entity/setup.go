@@ -31,15 +31,15 @@ func SetupDatabase() {
 	//database.AutoMigrate(&User{})
 
 	database.AutoMigrate(
-		&Gender{},// B6311117-ระบบสมาชิกแจ้งซ่อม
-		&Career{},// B6311117-ระบบสมาชิกแจ้งซ่อม
-		&Prefix{},// B6311117-ระบบสมาชิกแจ้งซ่อม
-		&Customer{},// B6311117-ระบบสมาชิกแจ้งซ่อม
+		&Gender{},   // B6311117-ระบบสมาชิกแจ้งซ่อม
+		&Career{},   // B6311117-ระบบสมาชิกแจ้งซ่อม
+		&Prefix{},   // B6311117-ระบบสมาชิกแจ้งซ่อม
+		&Customer{}, // B6311117-ระบบสมาชิกแจ้งซ่อม
 
-		&GenderT{},// B6311117-ระบบช่าง
-		&Educate{},// B6311117-ระบบช่าง
-		&PrefixT{},// B6311117-ระบบช่าง
-		&Technician{},// B6311117-ระบบช่าง
+		&GenderT{},    // B6311117-ระบบช่าง
+		&Educate{},    // B6311117-ระบบช่าง
+		&PrefixT{},    // B6311117-ระบบช่าง
+		&Technician{}, // B6311117-ระบบช่าง
 
 		// ========== Address ==========
 		&AddressType{},
@@ -53,7 +53,7 @@ func SetupDatabase() {
 		&CASE{},
 		&ORDER{},
 		//========== Order ==========
-		
+
 		&Status{},
 		&Damage{},
 		&CostDetail{},
@@ -61,9 +61,17 @@ func SetupDatabase() {
 		&Hardware{},
 		&PayTech{},
 
-		&Satisfaction_System{}, // B6304577-ระบบประเมินความพึงพอใจ
+		//========== ระบบชำระเงิน ==========
+		&Bank{},
+		&Payment{},
+		//========== ระบบตรวจสอบการชำระเงิน ==========
+		&Status_check{},
+		&Checked_payment{},
+		//===========================================
+
+		&Satisfaction_System{},     // B6304577-ระบบประเมินความพึงพอใจ
 		&Satisfaction_Technician{}, // B6304577-ระบบประเมินความพึงพอใจ
-		&Review{}, // B6304577-ระบบประเมินความพึงพอใจ
+		&Review{},                  // B6304577-ระบบประเมินความพึงพอใจ
 
 	)
 	db = database
@@ -117,14 +125,14 @@ func SetupDatabase() {
 
 	//Customer
 	db.Model(&Customer{}).Create(&Customer{
-		Name:	"ลูกค้า 1",
-		ID_card: "1-4000-00000-00-1",
-		DOB:	time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local) ,
-		Phone:	0641231231,
-		GENDER:	male,
-		CAREER:	gov_o,
-		PREFIX: mr,
-		Email: "customer01@example.com",
+		Name:     "ลูกค้า 1",
+		ID_card:  "1-4000-00000-00-1",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    0641231231,
+		GENDER:   male,
+		CAREER:   gov_o,
+		PREFIX:   mr,
+		Email:    "customer01@example.com",
 		Password: "123456789",
 	})
 
@@ -173,13 +181,13 @@ func SetupDatabase() {
 
 	//Technician
 	db.Model(&Technician{}).Create(&Technician{
-		Name:	"ช่าง 1",
-		ID_card: "1-4000-00000-01-1",
-		DOB:	time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local) ,
-		Phone:	0644444444,
-		GENDER:	maleT,
-		EDUCATE:BD,
-		PREFIX: mrT,
+		Name:     "ช่าง 1",
+		ID_card:  "1-4000-00000-01-1",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    0644444444,
+		GENDER:   maleT,
+		EDUCATE:  BD,
+		PREFIX:   mrT,
 		Location: "กรุงเทพ....",
 		Username: "T6500001",
 		Password: "1400000000011",
@@ -250,5 +258,19 @@ func SetupDatabase() {
 		CostHardware: 730,
 	}
 	db.Model(&Hardware{}).Create(&HardwareC)
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//ตาราง Bank
+	database.Create(&Bank{Bank_name: "ธนาคารกรุงเทพ จำกัด (มหาชน)"})
+	database.Create(&Bank{Bank_name: "ธนาคารกรุงไทย จำกัด (มหาชน)"})
+	database.Create(&Bank{Bank_name: "ธนาคารกสิกรไทย จำกัด (มหาชน)"})
+	database.Create(&Bank{Bank_name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)"})
+	database.Create(&Bank{Bank_name: "อื่น ๆ โปรดระบุ"})
+	//Demo สถานะ ระบบตรวจสอบการชำระเงิน
+	database.Create(&Status_check{Status_name: "รอการตรวจสอบ"})
+	database.Create(&Status_check{Status_name: "กำลังตรวจสอบ"})
+	database.Create(&Status_check{Status_name: "ชำระไม่สำเร็จ"})
+	database.Create(&Status_check{Status_name: "ชำระเสร็จสิ้น"})
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

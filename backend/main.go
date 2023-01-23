@@ -30,29 +30,42 @@ func main() {
 	r.POST("DeletePayment", controller.DeletePayment)
 
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
-	r.POST("/CreateSatisfaction_System",controller.CreateSatisfaction_System)
-	r.POST("/CreateSatisfaction_Technician",controller.CreateSatisfaction_Technician)
-	r.POST("/CreateReview",controller.CreateReview)
+	r.POST("/CreateSatisfaction_System", controller.CreateSatisfaction_System)
+	r.POST("/CreateSatisfaction_Technician", controller.CreateSatisfaction_Technician)
+	r.POST("/CreateReview", controller.CreateReview)
 
 	r.PATCH("/UpdateReview", controller.UpdateReview)
 	r.DELETE("/DeleteReview", controller.DeleteReview)
 
-	r.GET("/GetListReviews",controller.GetListReviews)
+	r.GET("/GetListReviews", controller.GetListReviews)
 	r.GET("/GetReview/:id", controller.GetReview)
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 
 	// ========== Address ==========
-	r.POST("/CreateAddressType",controller.CreateAddressType)
-	r.POST("/CreateProvince",controller.CreateProvince)
-	r.POST("/CreateDistrict",controller.CreateDistrict)
-	r.POST("/CreateTambon",controller.CreateTambon)
+	r.POST("/CreateAddressType", controller.CreateAddressType)
+	r.POST("/CreateProvince", controller.CreateProvince)
+	r.POST("/CreateDistrict", controller.CreateDistrict)
+	r.POST("/CreateTambon", controller.CreateTambon)
 
-	r.POST("/CreateAddress",controller.CreateAddress)
+	r.POST("/CreateAddress", controller.CreateAddress)
 	r.PATCH("/UpdateAddress", controller.UpdateAddress)
 	r.DELETE("/DeleteAddress", controller.DeleteAddress)
-	r.GET("/GetListAddress",controller.GetListAddress)
+	r.GET("/GetListAddress", controller.GetListAddress)
 	r.GET("/GetAddress/:id", controller.GetAddress)
 	// ========== Address ==========
+
+	// =============== Payment =========================================
+	r.GET("/ListBank", controller.ListBank)
+	r.GET("/ListPayment", controller.ListPayments)
+	r.GET("/GetPayment/:id", controller.GetPayment)
+	r.POST("/CreatePayment", controller.CreatePayment)
+	r.POST("/DeletePayment/:id", controller.DeletePayment)
+	// =============== Checked_payment ==================================
+	r.GET("/ListStatus_check", controller.ListStatus_check)
+	r.GET("/ListChecked_payment", controller.ListChecked_payment)
+	r.GET("/GetChecked_payment/:id", controller.GetChecked_payment)
+	r.POST("/CreateChecked_payment", controller.CreateChecked_payment)
+	r.POST("DeleteChecked_payment/:id", controller.DeleteChecked_payment)
 
 	r.Run()
 }
