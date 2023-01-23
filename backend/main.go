@@ -16,6 +16,16 @@ func main() {
 	r.GET("/GetUser", controller.GetUser)
 	r.GET("/ListUsers", controller.ListUsers)
 
+	//=============== B6311117(โต้ง) -->> ระบบสมาชิกแจ้งซ่อม ==========================
+	r.GET("/GetGender", controller.ListGender)
+	r.GET("/GetCareer", controller.ListCareer)
+	r.GET("/GetPrefix", controller.ListPrefix)
+	r.GET("/GetCustomers", controller.ListCustomer)
+	r.GET("/GetCustomer/:id", controller.GetCustomer)
+	r.PATCH("/UpdateCustomer", controller.UpdateCustomer)
+	r.DELETE("/DeleteCustomer", controller.DeleteCustomer)
+	r.POST("/CreateCustomer", controller.CreateCustomer)
+
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 	r.POST("/CreateSatisfaction_System", controller.CreateSatisfaction_System)
 	r.POST("/CreateSatisfaction_Technician", controller.CreateSatisfaction_Technician)
