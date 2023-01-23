@@ -26,6 +26,16 @@ func main() {
 	r.DELETE("/DeleteCustomer", controller.DeleteCustomer)
 	r.POST("/CreateCustomer", controller.CreateCustomer)
 
+	//=============== B6311117(โต้ง) -->> ระบบช่าง ==========================
+	r.GET("/GetGenderT", controller.ListGenderT)
+	r.GET("/GetEducate", controller.ListEducate)
+	r.GET("/GetPrefixT", controller.ListPrefixT)
+	r.GET("/GetTechnicians", controller.ListTechnician)
+	r.GET("/GetTechnician/:id", controller.GetTechnician)
+	r.PATCH("/UpdateTechnician", controller.UpdateTechnician)
+	r.DELETE("/DeleteTechnician", controller.DeleteTechnician)
+	r.POST("/CreateTechnician", controller.CreateTechnician)
+
 		// OrderTech
 	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
 	r.GET("/order-teches", controller.ListOrderTechs)

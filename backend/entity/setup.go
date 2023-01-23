@@ -89,7 +89,7 @@ func SetupDatabase() {
 	}
 	db.Model(&Gender{}).Create(&male)
 	female := Gender{
-		GenderName: "ชาย",
+		GenderName: "หญิง",
 	}
 	db.Model(&Gender{}).Create(&female)
 
@@ -149,7 +149,7 @@ func SetupDatabase() {
 	}
 	db.Model(&GenderT{}).Create(&maleT)
 	femaleT := GenderT{
-		GenderName: "ชาย",
+		GenderName: "หญิง",
 	}
 	db.Model(&GenderT{}).Create(&femaleT)
 
