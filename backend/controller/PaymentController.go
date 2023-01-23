@@ -7,16 +7,16 @@ import (
 	"github.com/sut65/team11/entity"
 )
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////   		   controller Payment    		////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////   		   controller Payment    		////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // POST /Payment
 func CreatePayment(c *gin.Context) {
 	var User entity.User
 	var Payment entity.Payment
 	var Bank entity.Bank
 	var PAYTECH entity.PayTech
+	var vat_pay float32 = 0.25
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Payment
 	if err := c.ShouldBindJSON(&Payment); err != nil {
@@ -26,13 +26,13 @@ func CreatePayment(c *gin.Context) {
 
 	// 9: ค้นหา PAYTECH ด้วย id
 	if tx := entity.DB().Where("id = ?", Payment.PAYTECH_ID).First(&PAYTECH); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
-		c.JSON(http.StatusBadRequest, gin.H{"error": "triage not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "PAYTECH not found"})
 		return
 	}
 
 	// 10: ค้นหา Bank ด้วย id
 	if tx := entity.DB().Where("id = ?", Payment.Bank_ID).First(&Bank); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "bed not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bank not found"})
 		return
 	}
 
@@ -41,6 +41,7 @@ func CreatePayment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
+	//ค้นหาและคำนวนค่า Amount check
 
 	// 12: สร้าง Payment
 	pm := entity.Payment{
@@ -48,9 +49,9 @@ func CreatePayment(c *gin.Context) {
 		Sender_Name:  Payment.Sender_Name,
 		Bank_ID:      Payment.Bank_ID, // โยงความสัมพันธ์กับ Entity Bank
 		Amount:       Payment.Amount,
-		Amount_Check: Payment.Amount_Check,
+		Amount_Check: float32(Payment.Amount_Check + (Payment.Amount_Check * vat_pay)),
 		Date_time:    Payment.Date_time,
-		Other:        Payment.Other,
+		Status_ID:    Payment.Status_ID,
 		User_ID:      Payment.User_ID, // โยงความสัมพันธ์กับ Entity User
 	}
 
@@ -80,7 +81,7 @@ func ListPayments(c *gin.Context) {
 func GetPayment(c *gin.Context) {
 	var Payment entity.Payment
 	id := c.Param("id")
-	if tx := entity.DB().Where("id = ?", id).First(&Payment); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("id = ?", id).Find(&Payment); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment not found"})
 		return
 	}
@@ -160,7 +161,7 @@ func ListBank(c *gin.Context) {
 func GetBank(c *gin.Context) {
 	var Bank entity.Bank
 	id := c.Param("id")
-	if tx := entity.DB().Where("id = ?", id).First(&Bank); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("id = ?", id).Find(&Bank); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bank not found"})
 		return
 	}
