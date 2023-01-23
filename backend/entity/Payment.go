@@ -16,20 +16,19 @@ type Bank struct {
 type Payment struct {
 	gorm.Model
 	Sender_Name  string
-	Amount       *uint
-	Amount_Check *uint
+	Amount       float32
+	Amount_Check float32
 	Date_time    time.Time
 	Status_ID    *uint
-	Other        string
 
 	//ส่วนที่ดึงมาจากตารางอื่น
 	PAYTECH_ID *uint
-	//	PAYTECH    PAYTECH `gorm:"references:id"`
-	Bank_ID *uint
-	Bank    Bank `gorm:"references:id"`
-	User_ID *uint
-	User    User `gorm:"references:id"`
+	PayTech    PayTech `gorm:"references:id"`
+	Bank_ID    *uint
+	Bank       Bank `gorm:"references:id"`
+	User_ID    *uint
+	User       User `gorm:"references:id"`
 
 	//ส่ง คีย์ไปยัง Checked_payment
-	//	Checked_payment []Checked_payment `gorm:"foreignKey:Payment_ID"`
+	Checked_payment []Checked_payment `gorm:"foreignKey:Payment_ID"`
 }
