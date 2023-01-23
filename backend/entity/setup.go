@@ -41,6 +41,14 @@ func SetupDatabase() {
 		&PrefixT{},// B6311117-ระบบช่าง
 		&Technician{},// B6311117-ระบบช่าง
 
+		// ========== Address ==========
+		&AddressType{},
+		&Province{},
+		&District{},
+		&Tambon{},
+		&Address{},
+		// ========== Address ==========
+		
 		&Status{},
 		&Damage{},
 		&CostDetail{},
