@@ -22,4 +22,5 @@ type PayTech struct {
 
 	TimeStamp time.Time
 	Note      string
+	Payments  []Payment `gorm:"ForeignKey:PayTech_ID"`
 }

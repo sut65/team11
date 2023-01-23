@@ -25,7 +25,7 @@ func CreatePayment(c *gin.Context) {
 	}
 
 	// 9: ค้นหา PAYTECH ด้วย id
-	if tx := entity.DB().Where("id = ?", Payment.PAYTECH_ID).First(&PAYTECH); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
+	if tx := entity.DB().Where("id = ?", Payment.PayTech_ID).First(&PAYTECH); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
 		c.JSON(http.StatusBadRequest, gin.H{"error": "PAYTECH not found"})
 		return
 	}
@@ -45,7 +45,7 @@ func CreatePayment(c *gin.Context) {
 
 	// 12: สร้าง Payment
 	pm := entity.Payment{
-		PAYTECH_ID:   Payment.PAYTECH_ID, // โยงความสัมพันธ์กับ Entity PAYTECH
+		PayTech_ID:   Payment.PayTech_ID, // โยงความสัมพันธ์กับ Entity PAYTECH
 		Sender_Name:  Payment.Sender_Name,
 		Bank_ID:      Payment.Bank_ID, // โยงความสัมพันธ์กับ Entity Bank
 		Amount:       Payment.Amount,

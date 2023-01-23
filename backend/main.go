@@ -16,19 +16,6 @@ func main() {
 	r.GET("/GetUser", controller.GetUser)
 	r.GET("/ListUsers", controller.ListUsers)
 
-	// =============== Payment ==========================
-
-	r.GET("/ListBank", controller.ListBank)
-	r.POST("/CreateBank", controller.CreateBank)
-
-	//r.GET("/ListPAYTECH", controller.ListPAYTECH)         //ใช้จริงใช้ของเหมียว
-	//r.POST("/CreatePAYTECH", controller.CreatePAYTECH)	//ใช้จริงใช้ของเหมียว
-
-	r.GET("/ListPayment", controller.ListPayments)
-	r.GET("/GetPayment/:id", controller.GetPayment)
-	r.POST("/CreatePayment", controller.CreatePayment)
-	r.POST("DeletePayment", controller.DeletePayment)
-
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 	r.POST("/CreateSatisfaction_System", controller.CreateSatisfaction_System)
 	r.POST("/CreateSatisfaction_Technician", controller.CreateSatisfaction_Technician)
@@ -56,6 +43,7 @@ func main() {
 
 	// =============== Payment =========================================
 	r.GET("/ListBank", controller.ListBank)
+	r.POST("/CreateBank", controller.CreateBank)
 	r.GET("/ListPayment", controller.ListPayments)
 	r.GET("/GetPayment/:id", controller.GetPayment)
 	r.POST("/CreatePayment", controller.CreatePayment)
