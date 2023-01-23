@@ -60,12 +60,16 @@ func SetupDatabase() {
 		&ORDER{},
 		//========== Order ==========
 
+		//========== OrderTech ==========
 		&Status{},
 		&Damage{},
 		&CostDetail{},
 		&OrderTech{},
+		//========== OrderTech ==========
+		//========== PayTech ==========
 		&Hardware{},
 		&PayTech{},
+		//========== PayTech ==========
 
 		//========== ระบบชำระเงิน ==========
 		&Bank{},
@@ -212,6 +216,7 @@ func SetupDatabase() {
 
 	// ====== Mockup Device ========
 
+	// ================== Mockup OrderTech ====================
 	//Status
 	StatusA := Status{
 		StatusName: "ยังไม่ดำเนินการ",
@@ -257,7 +262,9 @@ func SetupDatabase() {
 		Cost: 1000,
 	}
 	db.Model(&CostDetail{}).Create(&CostDetailD)
+	// ================== Mockup OrderTech ====================
 
+	// ================== Mockup PayTech ======================
 	//Hardware
 	HardwareA := Hardware{
 		HardwareName: "หน้าจอ",
@@ -277,6 +284,15 @@ func SetupDatabase() {
 		CostHardware: 730,
 	}
 	db.Model(&Hardware{}).Create(&HardwareC)
+	HardwareD := Hardware{
+		HardwareName: "Software",
+		Amount:       1,
+		CostHardware: 200,
+	}
+	db.Model(&Hardware{}).Create(&HardwareD)
+	
+	// ================== Mockup PayTech ======================
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//ตาราง Bank
 	database.Create(&Bank{Bank_name: "ธนาคารกรุงเทพ จำกัด (มหาชน)"})
