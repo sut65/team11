@@ -14,7 +14,7 @@ type GenderT struct{
 
 type Educate struct{
 	gorm.Model
-	CareerName	string
+	EducateName	string
 	Technician	[]Technician	`gorm:"foreignKey:EDUCATE_ID"`
 }
 
@@ -29,7 +29,7 @@ type Technician struct {
 	Name        string
 	ID_card		string
 	DOB			time.Time		
-	Phone		*uint
+	Phone		int
 
 	GENDER_ID	*uint
 	GENDER		GenderT	`gorm:"references:id"`
@@ -41,6 +41,8 @@ type Technician struct {
 	PREFIX		PrefixT	`gorm:"references:id"`
 
 	Location	string
-	Email		string `gorm:"uniqueIndex"`
+	Username		string `gorm:"uniqueIndex"`
 	Password	string	`json:"-"`
+
+	OrderTech	[]OrderTech `gorm:"foreignKey:TechnicianID"`
 }
