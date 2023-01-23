@@ -26,6 +26,21 @@ func main() {
 	r.DELETE("/DeleteCustomer", controller.DeleteCustomer)
 	r.POST("/CreateCustomer", controller.CreateCustomer)
 
+		// OrderTech
+	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
+	r.GET("/order-teches", controller.ListOrderTechs)
+	r.GET("/order-teches/:id", controller.GetOrderTech)
+	r.POST("/order-teches", controller.CreateOrderTech)
+	r.PATCH("/update-order-teches", controller.UpdateOrderTech)
+
+	r.GET("/statuses", controller.ListStatus)
+	r.GET("/status/:id", controller.GetStatus)
+	r.GET("/damages", controller.ListDamage)
+	r.GET("/damage/:id", controller.GetDamage)
+	r.GET("/cost-details", controller.ListCostDetail)
+	r.GET("/cost-detail/:id", controller.GetCostDetail)
+	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
+
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 	r.POST("/CreateSatisfaction_System", controller.CreateSatisfaction_System)
 	r.POST("/CreateSatisfaction_Technician", controller.CreateSatisfaction_Technician)
