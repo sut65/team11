@@ -20,8 +20,8 @@ type Satisfaction_Technician struct {
 
 type Review struct {
 	gorm.Model
-	Order_ID               *uint
-	ORDER                  ORDER `gorm:"references:id"` //ดึงมาจากฟิว
+	// Order_ID                  *uint
+	// Order                     Order `gorm:"references:id"`
 	Satisfaction_System_ID *uint
 	Satisfaction_System    Satisfaction_System `gorm:"references:id"`
 
@@ -33,6 +33,6 @@ type Review struct {
 	Review_Comment_Technician string
 	Timestamp                 time.Time
 	Statetus                  bool
-	// Customer_ID               *uint
-	// Customer                  Customer `gorm:"references:id"` //รอเพื่อน
+	Customer_ID               *uint
+	Customer                  Customer `gorm:"references:id"`
 }
