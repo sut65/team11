@@ -32,7 +32,7 @@ type Customer struct {
 	Phone		*uint
 
 	GENDER_ID	*uint
-	GENER		Gender	`gorm:"references:id"`
+	GENDER		Gender	`gorm:"references:id"`
 
 	CAREER_ID	*uint
 	CAREER		Career	`gorm:"references:id"`
@@ -46,4 +46,5 @@ type Customer struct {
 	Address []Address `gorm:"ForeignKey:CustomerID"`
 	Device []Device `gorm:"ForeignKey:CustomerID"`
 	ORDER []ORDER `gorm:"foreignKey:CustomerID"`
+	Review []Review `gorm:"foreignKey:Customer_ID"`
 }
