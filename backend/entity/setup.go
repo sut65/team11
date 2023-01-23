@@ -1,6 +1,8 @@
 package entity
 
 import (
+	"time"
+
 	"gorm.io/gorm"
 
 	"gorm.io/driver/sqlite"
@@ -52,6 +54,66 @@ func SetupDatabase() {
 
 	)
 	db = database
+
+	// Mockup  ======ระบบสมาชิกแจ้งซ่อม========
+	//Gender
+	male := Gender{
+		GenderName: "ชาย",
+	}
+	db.Model(&Gender{}).Create(&male)
+	female := Gender{
+		GenderName: "ชาย",
+	}
+	db.Model(&Gender{}).Create(&female)
+
+	//Career
+	gov_o := Career{
+		CareerName: "ข้าราชการ",
+	}
+	db.Model(&Career{}).Create(&gov_o)
+	wfh := Career{
+		CareerName: "รับจ้าง",
+	}
+	db.Model(&Career{}).Create(&wfh)
+	trade := Career{
+		CareerName: "ค้าขาย",
+	}
+	db.Model(&Career{}).Create(&trade)
+	student := Career{
+		CareerName: "นักเรียน/นักศึกษา",
+	}
+	db.Model(&Career{}).Create(&student)
+	another := Career{
+		CareerName: "อื่นๆ",
+	}
+	db.Model(&Career{}).Create(&another)
+
+	//Prefix
+	mr := Prefix{
+		PrefixName: "นาย",
+	}
+	db.Model(&Prefix{}).Create(&mr)
+	miss := Prefix{
+		PrefixName: "นางสาว",
+	}
+	db.Model(&Prefix{}).Create(&miss)
+	mrs := Prefix{
+		PrefixName: "นาง",
+	}
+	db.Model(&Prefix{}).Create(&mrs)
+
+	//Customer
+	db.Model(&Customer{}).Create(&Customer{
+		Name:	"ลูกค้า 1",
+		ID_card: "1-4000-00000-00-1",
+		DOB:	time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local) ,
+		Phone:	0641231231,
+		GENDER:	male,
+		CAREER:	gov_o,
+		PREFIX: mr,
+		Email: "customer01@example.com",
+		Password: "123456789",
+	})
 
 	//Status
 	StatusA := Status{
