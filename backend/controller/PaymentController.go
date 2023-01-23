@@ -89,25 +89,19 @@ func GetPayment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Payment})
 }
 
-// PATCH /payment
+// PATCH /UpdatePayment
 func UpdatePayment(c *gin.Context) {
-	var Payment entity.Payment
-	if err := c.ShouldBindJSON(&Payment); err != nil {
+	var UpdatePayment entity.Payment
+
+	if err := c.ShouldBindJSON(&UpdatePayment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", Payment.ID).First(&Payment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&Payment).Error; err != nil {
+	if err := entity.DB().Model(UpdatePayment).Where("id = ?", UpdatePayment.ID).Updates(map[string]interface{}{"Sender_Name": UpdatePayment.Sender_Name, "Bank_ID": UpdatePayment.Bank_ID, "Amount": UpdatePayment.Amount, "Date_time": UpdatePayment.Date_time}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"data": Payment})
+	c.JSON(http.StatusOK, gin.H{"data": UpdatePayment})
 }
 
 // DELETE /payment/:id
