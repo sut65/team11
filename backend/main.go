@@ -36,7 +36,7 @@ func main() {
 	r.DELETE("/DeleteTechnician", controller.DeleteTechnician)
 	r.POST("/CreateTechnician", controller.CreateTechnician)
 
-		// OrderTech
+	// OrderTech
 	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
 	r.GET("/order-teches", controller.ListOrderTechs)
 	r.GET("/order-teches/:id", controller.GetOrderTech)
@@ -82,6 +82,7 @@ func main() {
 	r.GET("/ListPayment", controller.ListPayments)
 	r.GET("/GetPayment/:id", controller.GetPayment)
 	r.POST("/CreatePayment", controller.CreatePayment)
+	r.PATCH("/UpdatePayment", controller.UpdatePayment)
 	r.POST("/DeletePayment/:id", controller.DeletePayment)
 	// =============== Checked_payment ==================================
 	r.GET("/ListStatus_check", controller.ListStatus_check)
