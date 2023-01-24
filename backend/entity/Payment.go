@@ -26,8 +26,9 @@ type Payment struct {
 	PayTech    PayTech `gorm:"references:id"`
 	Bank_ID    *uint
 	Bank       Bank `gorm:"references:id"`
-	User_ID    *uint
-	User       User `gorm:"references:id"`
+
+	CustomerID *uint
+	Customer   Customer `gorm:"references:id"`
 
 	//ส่ง คีย์ไปยัง Checked_payment
 	Checked_payment []Checked_payment `gorm:"foreignKey:Payment_ID"`

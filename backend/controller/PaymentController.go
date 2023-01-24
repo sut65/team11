@@ -37,7 +37,7 @@ func CreatePayment(c *gin.Context) {
 	}
 
 	// 11: ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", Payment.User_ID).First(&User); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", Payment.CustomerID).First(&User); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
@@ -52,7 +52,7 @@ func CreatePayment(c *gin.Context) {
 		Amount_Check: float32(Payment.Amount_Check + (Payment.Amount_Check * vat_pay)),
 		Date_time:    Payment.Date_time,
 		Status_ID:    Payment.Status_ID,
-		User_ID:      Payment.User_ID, // โยงความสัมพันธ์กับ Entity User
+		CustomerID:   Payment.CustomerID, // โยงความสัมพันธ์กับ
 	}
 
 	// 13: บันทึก
@@ -64,15 +64,13 @@ func CreatePayment(c *gin.Context) {
 
 }
 
-// GET /Payment
-// List all Payments
+// GET /Review
 func ListPayments(c *gin.Context) {
 	var Payments []entity.Payment
-	if err := entity.DB().Raw("SELECT * FROM Payments").Scan(&Payments).Error; err != nil {
+	if err := entity.DB().Preload("PayTech").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": Payments})
 }
 

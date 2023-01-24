@@ -37,7 +37,7 @@ func CreateChecked_payment(c *gin.Context) {
 	}
 
 	// *: ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", Checked_payment.User_ID).First(&User); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", Checked_payment.CustomerID).First(&User); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
@@ -48,7 +48,7 @@ func CreateChecked_payment(c *gin.Context) {
 		Status_ID:  Checked_payment.Status_ID,  // โยงความสัมพันธ์กับ Entity Status Check
 		Date_time:  Checked_payment.Date_time,
 		Other:      Checked_payment.Other,
-		User_ID:    Checked_payment.User_ID, // โยงความสัมพันธ์กับ Entity User
+		CustomerID: Checked_payment.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
 	}
 
 	// 13: บันทึก
@@ -60,15 +60,13 @@ func CreateChecked_payment(c *gin.Context) {
 
 }
 
-// GET /Checked_payment
-// List all Checked_payment
+// GET /Device
 func ListChecked_payment(c *gin.Context) {
 	var Checked_payment []entity.Checked_payment
-	if err := entity.DB().Raw("SELECT * FROM Checked_payments").Scan(&Checked_payment).Error; err != nil {
+	if err := entity.DB().Preload("Customer").Preload("Status_check").Preload("Payment").Find(&Checked_payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
 }
 
