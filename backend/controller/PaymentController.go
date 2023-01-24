@@ -67,7 +67,7 @@ func CreatePayment(c *gin.Context) {
 // GET /Review
 func ListPayments(c *gin.Context) {
 	var Payments []entity.Payment
-	if err := entity.DB().Preload("PayTech").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
+	if err := entity.DB().Preload("PayTech.Hardware").Preload("PayTech.OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

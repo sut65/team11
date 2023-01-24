@@ -81,7 +81,7 @@ func CreateOrderTech(c *gin.Context) {
 // List all OrderTechs
 func ListOrderTechs(c *gin.Context) {
 	var OrderTechs []entity.OrderTech
-	if err := entity.DB().Preload("ORDER").Preload("Technician").Preload("CostDetail").Preload("Damage").Preload("Status").Raw("SELECT * FROM order_teches").Find(&OrderTechs).Error; err != nil {
+	if err := entity.DB().Preload("ORDER.CASE").Preload("ORDER.Address.AddressType").Preload("ORDER.Device.Windows").Preload("ORDER.Device.Type").Preload("ORDER.Device.Customer.GENDER").Preload("ORDER.Device.Customer.CAREER").Preload("ORDER.Device.Customer.PREFIX").Preload("Technician.EDUCATE").Preload("Technician.PREFIX").Preload("ORDER.Address.Tambon.District.Province").Preload("ORDER.Device.Windows").Preload("ORDER.Device.Type").Preload("ORDER.Device.Customer.GENDER").Preload("ORDER.Device.Customer.CAREER").Preload("ORDER.Device.Customer.PREFIX").Preload("Technician.GENDER").Preload("CostDetail").Preload("Damage").Preload("Status").Raw("SELECT * FROM order_teches").Find(&OrderTechs).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
