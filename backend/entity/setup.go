@@ -483,8 +483,8 @@ func SetupDatabase() {
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Status_ID:    1,
 		Bank:         Bank_1,
-		// PayTech:,
-		Customer: customer_1,
+		PayTech:      PayTechA,
+		Customer:     customer_1,
 	}
 	db.Model(&Payment{}).Create(&Pay_1)
 
