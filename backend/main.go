@@ -39,9 +39,9 @@ func main() {
 	// OrderTech
 	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
 	r.GET("/order-teches", controller.ListOrderTechs)
-	r.GET("/order-teches/:id", controller.GetOrderTech)
-	r.POST("/order-teches", controller.CreateOrderTech)
-	r.PATCH("/update-order-teches", controller.UpdateOrderTech)
+	r.GET("/order-tech/:id", controller.GetOrderTech)
+	r.POST("/order-tech", controller.CreateOrderTech)
+	r.PATCH("/update-order-tech", controller.UpdateOrderTech)
 
 	r.GET("/statuses", controller.ListStatus)
 	r.GET("/status/:id", controller.GetStatus)
@@ -95,7 +95,7 @@ func main() {
 	r.GET("/GetOrder/:id", controller.GetOrder)
 	// ========== B6304508 (ฟิวส์) Order ==========
 
-		// ========== Refund ==========
+	// ========== Refund ==========
 	r.POST("/CreateCause", controller.CreateCause)
 	r.POST("/CreateContact", controller.CreateContact)
 	r.POST("/CreateRefund", controller.CreateRefund)

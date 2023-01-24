@@ -25,6 +25,6 @@ type Checked_payment struct {
 	Payment_ID *uint
 	Payment    Payment `gorm:"references:id"`
 
-	User_ID *uint
-	User    User `gorm:"references:id"`
+	CustomerID *uint
+	Customer   Customer `gorm:"references:id"`
 }
