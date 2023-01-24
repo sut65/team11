@@ -17,7 +17,7 @@ type Contact struct {
 	gorm.Model
 	Contact string
 	Times   string
-	Refund  []Refund `gorm:"foreignKey:ConatctID"`
+	Refund  []Refund `gorm:"foreignKey:ContactID"`
 }
 
 type Refund struct {
