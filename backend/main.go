@@ -91,6 +91,18 @@ func main() {
 	r.POST("/CreateChecked_payment", controller.CreateChecked_payment)
 	r.POST("DeleteChecked_payment/:id", controller.DeleteChecked_payment)
 
+	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
+	r.POST("/CreateUrgency",controller.CreateUrgency)
+	r.POST("/CreatStatusClaim",controller.CreateStatusClaim)
+	r.POST("/CreateClaimOrder",controller.CreateClaimOrder)
+
+	r.PATCH("/UpdateClaimOrder", controller.UpdateReview)
+	r.DELETE("/DeleteClaimOrder", controller.DeleteReview)
+
+	r.GET("/GetListClaimOrders",controller.GetListClaimOrders)
+	r.GET("/GetClaimOrder/:id", controller.GetClaimOrder)
+	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
+
 	r.Run()
 }
 
