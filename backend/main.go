@@ -51,6 +51,18 @@ func main() {
 	r.GET("/cost-detail/:id", controller.GetCostDetail)
 	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
 
+	// PayTech
+	// =============== B6310646(meow) -->> ระบบบันทึกค่าใช้จ่ายของช่าง(paytech) ==========================
+	r.GET("/pay-teches", controller.ListPayTech)
+	r.GET("/pay-tech/:id", controller.GetPayTech)
+	r.POST("/pay-tech", controller.CreatePayTech)
+	r.PATCH("/update-pay-tech", controller.UpdatePayTech)
+	r.DELETE("/delete-pay-tech/:id", controller.DeletePayTech)
+
+	r.GET("/hardwares", controller.ListHardware)
+	r.GET("/hardware/:id", controller.GetHardware)
+	// =============== B6310646(meow) -->> ระบบบันทึกค่าใช้จ่ายของช่าง(paytech) ==========================
+
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 	r.POST("/CreateSatisfaction_System", controller.CreateSatisfaction_System)
 	r.POST("/CreateSatisfaction_Technician", controller.CreateSatisfaction_Technician)
