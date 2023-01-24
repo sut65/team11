@@ -413,6 +413,19 @@ func SetupDatabase() {
 	db.Model(&CostDetail{}).Create(&CostDetailD)
 	// ================== Mockup OrderTech ====================
 
+	// ====== Mockup OrderTech ========
+	OrderTechA := OrderTech{
+		Solving:    "เปลี่ยนสายชาร์จใหม่",
+		TimeOut:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status:     StatusA,
+		Damage:     DamageA,
+		CostDetail: CostDetailA,
+		Technician: technician_1,
+		ORDER:      Order_1,
+	}
+	db.Model(&OrderTech{}).Create(&OrderTechA)
+	// ====== Mockup OrderTech ========
+
 	// ================== Mockup PayTech ======================
 	//Hardware
 	HardwareA := Hardware{
