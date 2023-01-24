@@ -60,6 +60,12 @@ func SetupDatabase() {
 		&ORDER{},
 		//========== Order ==========
 
+		//========== Refund ==========
+		&Cause{},
+		&Contact{},
+		&Refund{},
+		//========== Refund ==========
+
 		//========== OrderTech ==========
 		&Status{},
 		&Damage{},
@@ -294,7 +300,7 @@ func SetupDatabase() {
 		CostHardware: 200,
 	}
 	db.Model(&Hardware{}).Create(&HardwareD)
-	
+
 	// ================== Mockup PayTech ======================
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
