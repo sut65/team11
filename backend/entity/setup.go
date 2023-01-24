@@ -324,10 +324,31 @@ func SetupDatabase() {
 
 	// ====== Mockup Order ========
 
-	database.Create(&CASE{Case_text: "จอฟ้า", Level_case: "Software or Hardware"})
-	database.Create(&CASE{Case_text: "ชาร์จไฟไม่เข้า", Level_case: "Hardware"})
-	database.Create(&CASE{Case_text: "จอกระพริย", Level_case: "Software or Hardware"})
-	database.Create(&CASE{Case_text: "คอมมีอาการเฟรมเลทตก", Level_case: "Software or Hardware"})
+	Case_1 := CASE{
+		Case_text: "จอฟ้า",
+		Level_case: "Software or Hardware",
+	}
+	db.Model(&Hardware{}).Create(&Case_1)
+	Case_2 := CASE{
+		Case_text: "ชาร์จไฟไม่เข้า",
+		Level_case: "Hardware",
+	}
+	db.Model(&Hardware{}).Create(&Case_2)
+	Case_3 := CASE{
+		Case_text: "จอกระพริย",
+		Level_case: "Software or Hardware",
+	}
+	db.Model(&Hardware{}).Create(&Case_3)
+
+	Order_1 := ORDER{
+		Reason: "เครื่องคอมเสียงดัง",
+		Limit:  12000,
+		Customer: customer_1,
+		CASE:     Case_1,
+		Device:  device_1,
+		Address: address_1,
+	}
+	db.Model(&Device{}).Create(&Order_1)
 
 	// ====== Mockup Order ========
 
