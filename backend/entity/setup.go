@@ -144,7 +144,7 @@ func SetupDatabase() {
 	db.Model(&Prefix{}).Create(&mrs)
 
 	//Customer
-	db.Model(&Customer{}).Create(&Customer{
+	customer_1 := Customer{
 		Name:     "ลูกค้า 1",
 		ID_card:  "1-4000-00000-00-1",
 		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
@@ -154,7 +154,8 @@ func SetupDatabase() {
 		PREFIX:   mr,
 		Email:    "customer01@example.com",
 		Password: "123456789",
-	})
+	}
+	db.Model(&Customer{}).Create(&customer_1)
 
 	// Mockup  ======ระบบช่าง========
 	//GenderT
@@ -200,7 +201,7 @@ func SetupDatabase() {
 	db.Model(&Educate{}).Create(&DD)
 
 	//Technician
-	db.Model(&Technician{}).Create(&Technician{
+	technician_1 := Technician{
 		Name:     "ช่าง 1",
 		ID_card:  "1-4000-00000-01-1",
 		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
@@ -211,7 +212,66 @@ func SetupDatabase() {
 		Location: "กรุงเทพ....",
 		Username: "T6500001",
 		Password: "1400000000011",
+	}
+	db.Model(&Technician{}).Create(&technician_1)
+
+	// ====== Mockup Address ========
+
+	aType_1 := AddressType{
+		Type_Name: "บ้าน",
+	}
+	db.Model(&AddressType{}).Create(&aType_1)
+
+	aType_2 := AddressType{
+		Type_Name: "สำนักงาน",
+	}
+	db.Model(&AddressType{}).Create(&aType_2)
+
+	province_1 := Province{
+		Province_Name: "อุบลราชธานี",
+	}
+	db.Model(&Province{}).Create(&province_1)
+	province_2 := Province{
+		Province_Name: "มุกดาหาร",
+	}
+	db.Model(&Province{}).Create(&province_2)
+	province_3 := Province{
+		Province_Name: "ศรีสะเกษ",
+	}
+	db.Model(&Province{}).Create(&province_3)
+
+	District_1 := District{
+		District_Name: "อำเภอในมุกดาหาร",
+		Province:      province_2,
+	}
+	db.Model(&District{}).Create(&District_1)
+	District_2 := District{
+		District_Name: "อำเภอในศรีสะเกษ",
+		Province:      province_3,
+	}
+	db.Model(&District{}).Create(&District_2)
+
+	tambon_1 := Tambon{
+		Tambon_Name: "ตำบลในศรีสะเกษ",
+		District:    District_2,
+	}
+	db.Model(&Tambon{}).Create(&tambon_1)
+	tambon_2 := Tambon{
+		Tambon_Name: "ตำบลในมุกดาหาร",
+		District:    District_1,
+	}
+	db.Model(&Tambon{}).Create(&tambon_2)
+
+	db.Model(&Address{}).Create(&Address{
+		Customer:    customer_1,
+		AddressType: aType_1,
+		Tambon:      tambon_2,
+		Post_Code:   34190,
+		Detail:      "test Mockup",
+		Record_Time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 	})
+
+	// ====== Mockup Address ========
 
 	// ====== Mockup Device ========
 
