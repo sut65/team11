@@ -6,43 +6,44 @@ import (
 	"gorm.io/gorm"
 )
 
-type GenderT struct{
+type GenderT struct {
 	gorm.Model
-	GenderName	string
-	Technician	[]Technician	`gorm:"foreignKey:GENDER_ID"`
+	GenderName string
+	Technician []Technician `gorm:"foreignKey:GENDER_ID"`
 }
 
-type Educate struct{
+type Educate struct {
 	gorm.Model
-	EducateName	string
-	Technician	[]Technician	`gorm:"foreignKey:EDUCATE_ID"`
+	EducateName string
+	Technician  []Technician `gorm:"foreignKey:EDUCATE_ID"`
 }
 
-type PrefixT	struct{
+type PrefixT struct {
 	gorm.Model
-	PrefixName	string
-	Technician	[]Technician	`gorm:"foreignKey:PREFIX_ID"`
+	PrefixName string
+	Technician []Technician `gorm:"foreignKey:PREFIX_ID"`
 }
 
 type Technician struct {
 	gorm.Model
-	Name        string
-	ID_card		string
-	DOB			time.Time		
-	Phone		int
+	Name    string
+	ID_card string
+	DOB     time.Time
+	Phone   int
 
-	GENDER_ID	*uint
-	GENDER		GenderT	`gorm:"references:id"`
+	GENDER_ID *uint
+	GENDER    GenderT `gorm:"references:id"`
 
-	EDUCATE_ID	*uint
-	EDUCATE		Educate	`gorm:"references:id"`
+	EDUCATE_ID *uint
+	EDUCATE    Educate `gorm:"references:id"`
 
-	PREFIX_ID	*uint
-	PREFIX		PrefixT	`gorm:"references:id"`
+	PREFIX_ID *uint
+	PREFIX    PrefixT `gorm:"references:id"`
 
-	Location	string
-	Username		string `gorm:"uniqueIndex"`
-	Password	string	`json:"-"`
+	Location string
+	Username string `gorm:"uniqueIndex"`
+	Password string `json:"-"`
 
-	OrderTech	[]OrderTech `gorm:"foreignKey:TechnicianID"`
+	OrderTech []OrderTech `gorm:"foreignKey:TechnicianID"`
+	PayTech   []PayTech   `gorm:"foreignKey:TechnicianID"`
 }
