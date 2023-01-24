@@ -36,4 +36,7 @@ type Review struct {
 	Customer_ID               *uint
 	Customer                  Customer      `gorm:"references:id"`
 	Claim_Order               []Claim_Order `gorm:"ForeignKey:Review_ID"`
+
+	Refund  []Refund `gorm:"foreignKey:ReviewID"`
+
 }

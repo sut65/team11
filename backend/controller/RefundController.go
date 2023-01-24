@@ -38,7 +38,7 @@ func CreateContact(c *gin.Context) {
 // Main Table Refund
 func CreateRefund(c *gin.Context) {
 
-	var order entity.ORDER
+	var review entity.Review
 	var cause entity.Cause
 	var contact entity.Contact
 	var refund entity.Refund
@@ -50,13 +50,13 @@ func CreateRefund(c *gin.Context) {
 	}
 
 	// ค้นหา Order ด้วย id
-	if tx := entity.DB().Where("id = ?", refund.OrderID).First(&order); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Order not found"})
+	if tx := entity.DB().Where("id = ?", refund.ReviewID).First(&review); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
 		return
 	}
 
 	// ค้นหา cause  ด้วย id
-	if tx := entity.DB().Where("id = ?", refund.OrderID).First(&cause); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", refund.CauseID).First(&cause); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Cause not found"})
 		return
 	}
@@ -68,7 +68,7 @@ func CreateRefund(c *gin.Context) {
 	}
 
 	ad := entity.Refund{
-		OrderID:        refund.OrderID,   // โยงความสัมพันธ์กับ Entity Case
+		ReviewID:       refund.ReviewID,  // โยงความสัมพันธ์กับ Entity Case
 		CauseID:        refund.CauseID,   // โยงความสัมพันธ์กับ Entity Device
 		ContactID:      refund.ContactID, // โยงความสัมพันธ์กับ Entity Address // ตั้งค่าฟิลด์ date-time
 		Refund_Cause:   refund.Refund_Cause,
@@ -111,7 +111,7 @@ func DeleteRefund(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Exec("DELETE FROM order WHERE id = ?",order.ID); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM order WHERE id = ?", order.ID); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
 		return
 	}
