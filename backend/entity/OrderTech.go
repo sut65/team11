@@ -43,4 +43,6 @@ type OrderTech struct {
 
 	TechnicianID *uint
 	Technician   Technician `gorm:"references:id"`
+
+	PayTech []PayTech `gorm:"foreignKey:OrderTechID"`
 }
