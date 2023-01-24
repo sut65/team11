@@ -114,7 +114,7 @@ func CreateAddress(c *gin.Context) {
 // GET /Address
 func GetListAddress(c *gin.Context) {
 	var addresses []entity.Address
-	if err := entity.DB().Preload("Customer").Preload("AddressType").Preload("Tambon").Preload("Tambon.District").Preload("Tambon.District.Province").Find(&addresses).Error; err != nil {
+	if err := entity.DB().Preload("Customer.GENDER").Preload("Customer.CAREER").Preload("Customer.PREFIX").Preload("AddressType").Preload("Tambon").Preload("Tambon.District").Preload("Tambon.District.Province").Find(&addresses).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
