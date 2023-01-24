@@ -19,7 +19,7 @@ type Payment struct {
 	Amount       float32
 	Amount_Check float32
 	Date_time    time.Time
-	Status_ID    *uint
+	Status_ID    uint
 
 	//ส่วนที่ดึงมาจากตารางอื่น
 	PayTech_ID *uint
