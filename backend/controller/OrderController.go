@@ -61,11 +61,11 @@ func CreateOrder(c *gin.Context) {
 	}
 
 	ad := entity.ORDER{
-		CASEID:     order.CASEID,    // โยงความสัมพันธ์กับ Entity Case
-		DeviceID:   order.DeviceID,  // โยงความสัมพันธ์กับ Entity Device
-		AddressID:  order.AddressID, // โยงความสัมพันธ์กับ Entity Address
-		CustomerID: order.CustomerID,// โยงความสัมพันธ์กับ Entity Customer
-		Date_time:  order.Date_time, // ตั้งค่าฟิลด์ date-time 
+		CASEID:     order.CASEID,     // โยงความสัมพันธ์กับ Entity Case
+		DeviceID:   order.DeviceID,   // โยงความสัมพันธ์กับ Entity Device
+		AddressID:  order.AddressID,  // โยงความสัมพันธ์กับ Entity Address
+		CustomerID: order.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
+		Date_time:  order.Date_time,  // ตั้งค่าฟิลด์ date-time
 		Reason:     order.Reason,
 		Limit:      order.Limit,
 	}
@@ -80,7 +80,7 @@ func CreateOrder(c *gin.Context) {
 // GET /ORDER
 func GetListOrder(c *gin.Context) {
 	var orders []entity.ORDER
-	if err := entity.DB().Preload("Customer").Preload("CASE").Preload("Date_time").Preload("Reason").Preload("Limit").Find(&orders).Error; err != nil {
+	if err := entity.DB().Preload("Customer").Preload("Device").Preload("Address").Preload("CASE").Find(&orders).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

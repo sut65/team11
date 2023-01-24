@@ -324,10 +324,32 @@ func SetupDatabase() {
 
 	// ====== Mockup Order ========
 
-	database.Create(&CASE{Case_text: "จอฟ้า", Level_case: "Software or Hardware"})
-	database.Create(&CASE{Case_text: "ชาร์จไฟไม่เข้า", Level_case: "Hardware"})
-	database.Create(&CASE{Case_text: "จอกระพริย", Level_case: "Software or Hardware"})
-	database.Create(&CASE{Case_text: "คอมมีอาการเฟรมเลทตก", Level_case: "Software or Hardware"})
+	Case_1 := CASE{
+		Case_text:  "จอฟ้า",
+		Level_case: "Software or Hardware",
+	}
+	db.Model(&CASE{}).Create(&Case_1)
+	Case_2 := CASE{
+		Case_text:  "ชาร์จไฟไม่เข้า",
+		Level_case: "Hardware",
+	}
+	db.Model(&CASE{}).Create(&Case_2)
+	Case_3 := CASE{
+		Case_text:  "จอกระพริย",
+		Level_case: "Software or Hardware",
+	}
+	db.Model(&CASE{}).Create(&Case_3)
+
+	Order_1 := ORDER{
+		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Reason:    "เครื่องคอมเสียงดัง",
+		Limit:     12000,
+		CASE:      Case_1,
+		Device:    device_1,
+		Address:   address_1,
+		Customer:  customer_1,
+	}
+	db.Model(&ORDER{}).Create(&Order_1)
 
 	// ====== Mockup Order ========
 
@@ -391,6 +413,19 @@ func SetupDatabase() {
 	db.Model(&CostDetail{}).Create(&CostDetailD)
 	// ================== Mockup OrderTech ====================
 
+	// ====== Mockup OrderTech ========
+	OrderTechA := OrderTech{
+		Solving:    "เปลี่ยนสายชาร์จใหม่",
+		TimeOut:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status:     StatusA,
+		Damage:     DamageA,
+		CostDetail: CostDetailA,
+		Technician: technician_1,
+		ORDER:      Order_1,
+	}
+	db.Model(&OrderTech{}).Create(&OrderTechA)
+	// ====== Mockup OrderTech ========
+
 	// ================== Mockup PayTech ======================
 	//Hardware
 	HardwareA := Hardware{
@@ -420,18 +455,61 @@ func SetupDatabase() {
 
 	// ================== Mockup PayTech ======================
 
+	// ====== Mockup PayTech ========
+	PayTechA := PayTech{
+		Note:       "สายไฟ 4 เมตร",
+		Hardware:   HardwareA,
+		Technician: technician_1,
+		OrderTech:  OrderTechA,
+	}
+	db.Model(&PayTech{}).Create(&PayTechA)
+	// ====== Mockup PayTech ========
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//ตาราง Bank
-	database.Create(&Bank{Bank_name: "ธนาคารกรุงเทพ จำกัด (มหาชน)"})
-	database.Create(&Bank{Bank_name: "ธนาคารกรุงไทย จำกัด (มหาชน)"})
-	database.Create(&Bank{Bank_name: "ธนาคารกสิกรไทย จำกัด (มหาชน)"})
-	database.Create(&Bank{Bank_name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)"})
-	database.Create(&Bank{Bank_name: "อื่น ๆ โปรดระบุ"})
-	//Demo สถานะ ระบบตรวจสอบการชำระเงิน
-	database.Create(&Status_check{Status_name: "รอการตรวจสอบ"})
-	database.Create(&Status_check{Status_name: "กำลังตรวจสอบ"})
-	database.Create(&Status_check{Status_name: "ชำระไม่สำเร็จ"})
-	database.Create(&Status_check{Status_name: "ชำระเสร็จสิ้น"})
+	// ================== Mockup Payment ======================
+	Bank_1 := Bank{Bank_name: "ธนาคารกรุงเทพ จำกัด (มหาชน)"}
+	Bank_2 := Bank{Bank_name: "ธนาคารกรุงไทย จำกัด (มหาชน)"}
+	Bank_3 := Bank{Bank_name: "ธนาคารกสิกรไทย จำกัด (มหาชน)"}
+	Bank_4 := Bank{Bank_name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)"}
+	db.Model(&Bank{}).Create(&Bank_1)
+	db.Model(&Bank{}).Create(&Bank_2)
+	db.Model(&Bank{}).Create(&Bank_3)
+	db.Model(&Bank{}).Create(&Bank_4)
+
+	Pay_1 := Payment{
+		Sender_Name:  "ภัฒนศักดิ์ อัตตะกุล",
+		Amount:       153.22,
+		Amount_Check: 153.22,
+		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status_ID:    1,
+		Bank:         Bank_1,
+		PayTech:      PayTechA,
+		Customer:     customer_1,
+	}
+	db.Model(&Payment{}).Create(&Pay_1)
+
+	// ================== Mockup Payment ======================
+
+	// ============== Mockup Checked_Payment ==================
+	status_1 := Status_check{Status_name: "ยังไม่ชำระเงิน"}
+	status_2 := Status_check{Status_name: "ชำระเงินเรียบร้อย"}
+	status_3 := Status_check{Status_name: "รอตรวจสอบการชำระเงิน"}
+	status_4 := Status_check{Status_name: "การชำระเงินไม่ถูกต้อง"}
+	db.Model(&Status_check{}).Create(&status_1)
+	db.Model(&Status_check{}).Create(&status_2)
+	db.Model(&Status_check{}).Create(&status_3)
+	db.Model(&Status_check{}).Create(&status_4)
+
+	Checked_Pay_1 := Checked_payment{
+		Other:        "นี่คือการทดสอบ comment",
+		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status_check: status_3,
+		Payment:      Pay_1,
+		Customer:     customer_1, // แก้เป็น admin
+	}
+	db.Model(&Checked_payment{}).Create(&Checked_Pay_1)
+
+	// ============== Mockup Checked_Payment ==================
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
