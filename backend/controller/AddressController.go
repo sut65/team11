@@ -1,9 +1,10 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
-	"net/http"
 )
 
 // POST AddressType
@@ -95,12 +96,12 @@ func CreateAddress(c *gin.Context) {
 	}
 
 	ad := entity.Address{
-		CustomerID  :           	address.CustomerID  , // โยงความสัมพันธ์กับ Entity Customer
-		AddressTypeID:     			address.AddressTypeID, // โยงความสัมพันธ์กับ Entity AddressType
-		TambonID:      				address.TambonID, // โยงความสัมพันธ์กับ Entity Tambon
-		Post_Code: 					address.Post_Code,
-		Detail:  					address.Detail,
-		Record_Time:                address.Record_Time, // ตั้งค่าฟิลด์ Record_Time
+		CustomerID:    address.CustomerID,    // โยงความสัมพันธ์กับ Entity Customer
+		AddressTypeID: address.AddressTypeID, // โยงความสัมพันธ์กับ Entity AddressType
+		TambonID:      address.TambonID,      // โยงความสัมพันธ์กับ Entity Tambon
+		Post_Code:     address.Post_Code,
+		Detail:        address.Detail,
+		Record_Time:   address.Record_Time, // ตั้งค่าฟิลด์ Record_Time
 	}
 
 	if err := entity.DB().Create(&ad).Error; err != nil {
@@ -113,7 +114,7 @@ func CreateAddress(c *gin.Context) {
 // GET /Address
 func GetListAddress(c *gin.Context) {
 	var addresses []entity.Address
-	if err := entity.DB().Preload("Customer").Preload("AddressType").Preload("Tambon").Preload("Tambon.District").Preload("Tambon.District.Province").Preload("Post_Code").Preload("Detail").Preload("Record_Time").Find(&addresses).Error; err != nil {
+	if err := entity.DB().Preload("Customer").Preload("AddressType").Preload("Tambon").Preload("Tambon.District").Preload("Tambon.District.Province").Find(&addresses).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -125,8 +126,8 @@ func GetAddress(c *gin.Context) {
 	var address entity.Address
 	id := c.Param("id")
 	if err := entity.DB().Raw("SELECT * FROM addresses WHERE id = ?", id).Scan(&address).Error; err != nil {
-		 c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		 return
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": address})
 }
@@ -134,21 +135,15 @@ func GetAddress(c *gin.Context) {
 // PATCH /Address
 func UpdateAddress(c *gin.Context) {
 	var address entity.Address
+
 	if err := c.ShouldBindJSON(&address); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", address.ID).First(&address); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Address not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&address).Error; err != nil {
+	if err := entity.DB().Model(address).Where("id = ?", address.ID).Updates(map[string]interface{}{"CustomerID": address.CustomerID, "AddressTypeID": address.AddressTypeID, "TambonID": address.TambonID, "Post_Code": address.Post_Code, "Detail": address.Detail, "Record_Time": address.Record_Time}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": address})
 }
 
@@ -159,7 +154,7 @@ func DeleteAddress(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Exec("DELETE FROM addresses WHERE id = ?",address.ID); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM addresses WHERE id = ?", address.ID); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
 		return
 	}
