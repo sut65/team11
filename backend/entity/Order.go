@@ -9,7 +9,7 @@ import (
 type CASE struct {
 	gorm.Model
 	Case_text  string
-	Level_case *uint
+	Level_case string
 	ORDER      []ORDER `gorm:"foreignKey:CASEID"`
 }
 

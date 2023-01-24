@@ -226,6 +226,17 @@ func SetupDatabase() {
 
 	// ====== Mockup Device ========
 
+	// ====== Mockup Order ========
+
+	database.Create(&CASE{Case_text: "จอฟ้า",Level_case: "Software or Hardware"})
+	database.Create(&CASE{Case_text: "ชาร์จไฟไม่เข้า",Level_case: "Hardware"})
+	database.Create(&CASE{Case_text: "จอกระพริย",Level_case: "Software or Hardware"})
+	database.Create(&CASE{Case_text: "คอมมีอาการเฟรมเลทตก",Level_case: "Software or Hardware"})
+
+	// ====== Mockup Order ========
+
+
+
 	// ================== Mockup OrderTech ====================
 	//Status
 	StatusA := Status{
