@@ -95,6 +95,15 @@ func main() {
 	r.GET("/GetOrder/:id", controller.GetOrder)
 	// ========== B6304508 (ฟิวส์) Order ==========
 
+		// ========== Refund ==========
+	r.POST("/CreateCause", controller.CreateCause)
+	r.POST("/CreateContact", controller.CreateContact)
+	r.POST("/CreateRefund", controller.CreateRefund)
+	r.GET("/GetListRefund", controller.GetListRefund)
+	r.GET("/GetRefund/:id", controller.GetRefund)
+	r.GET("/DeleteRefund", controller.DeleteRefund)
+	// ========== Refund ==========
+
 	// =============== Payment =========================================
 	r.GET("/ListBank", controller.ListBank)
 	r.POST("/CreateBank", controller.CreateBank)

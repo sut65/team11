@@ -1,0 +1,119 @@
+package controller
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/sut65/team11/entity"
+)
+
+// POST Cause
+func CreateCause(c *gin.Context) {
+	var caused entity.Cause
+	if err := c.ShouldBindJSON(&caused); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Create(&caused).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": caused})
+}
+
+// POST Contact
+func CreateContact(c *gin.Context) {
+	var contacted entity.Contact
+	if err := c.ShouldBindJSON(&contacted); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Create(&contacted).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": contacted})
+}
+
+// Main Table Refund
+func CreateRefund(c *gin.Context) {
+
+	var order entity.ORDER
+	var cause entity.Cause
+	var contact entity.Contact
+	var refund entity.Refund
+
+	// ผลลัพธ์ที่ได้จะถูก bind เข้าตัวแปร Refund
+	if err := c.ShouldBindJSON(&refund); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// ค้นหา Order ด้วย id
+	if tx := entity.DB().Where("id = ?", refund.OrderID).First(&order); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Order not found"})
+		return
+	}
+
+	// ค้นหา cause  ด้วย id
+	if tx := entity.DB().Where("id = ?", refund.OrderID).First(&cause); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Cause not found"})
+		return
+	}
+
+	// ค้นหา contact ด้วย id
+	if tx := entity.DB().Where("id = ?", refund.ContactID).First(&contact); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Contact not found"})
+		return
+	}
+
+	ad := entity.Refund{
+		OrderID:        refund.OrderID,   // โยงความสัมพันธ์กับ Entity Case
+		CauseID:        refund.CauseID,   // โยงความสัมพันธ์กับ Entity Device
+		ContactID:      refund.ContactID, // โยงความสัมพันธ์กับ Entity Address // ตั้งค่าฟิลด์ date-time
+		Refund_Cause:   refund.Refund_Cause,
+		Refund_Contact: refund.Refund_Contact,
+		Refund_time:    refund.Refund_time,
+	}
+
+	if err := entity.DB().Create(&ad).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": ad})
+}
+
+// GET /Refund
+func GetListRefund(c *gin.Context) {
+	var refunds []entity.Refund
+	if err := entity.DB().Preload("ORDER").Preload("Cause").Preload("Cause.ontact").Preload("Refund_Cause").Preload("Refund_Contact").Preload("Refund_time").Find(&refunds).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": refunds})
+}
+
+// GET /Order:id
+func GetRefund(c *gin.Context) {
+	var refund entity.Refund
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM refund WHERE id = ?", id).Scan(&refund).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": refund})
+}
+
+// DELETE /Address
+func DeleteRefund(c *gin.Context) {
+	var order entity.ORDER
+	if err := c.ShouldBindJSON(&order); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if tx := entity.DB().Exec("DELETE FROM order WHERE id = ?",order.ID); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": "DELETE SUCCEED!!"})
+}
