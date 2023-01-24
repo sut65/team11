@@ -64,7 +64,7 @@ func CreatePayTech(c *gin.Context) {
 
 func ListPayTech(c *gin.Context) {
 	var PayTeches []entity.PayTech
-	if err := entity.DB().Preload("OrderTech").Preload("Hardware").Preload("Technician").Find(&PayTeches).Error; err != nil {
+	if err := entity.DB().Preload("OrderTech.ORDER.Device.Type").Preload("OrderTech.ORDER.Customer").Preload("Hardware").Preload("Technician").Find(&PayTeches).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -96,7 +96,6 @@ func UpdatePayTech(c *gin.Context) {
 
 	newPayTech.Note = PayTech.Note
 	newPayTech.HardwareID = PayTech.HardwareID
-
 
 	if err := entity.DB().Where("id = ?", PayTech.ID).Updates(&newPayTech).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
