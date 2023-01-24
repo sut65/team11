@@ -87,6 +87,14 @@ func main() {
 	r.GET("/GetDevice/:id", controller.GetDevice)
 	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================
 
+	// ========== B6304508 (ฟิวส์) Order ==========
+	r.POST("/CreateCASE", controller.CreateCASE)
+	r.POST("/CreateOrder", controller.CreateOrder)
+	r.PATCH("/UpdateOrder", controller.UpdateOrder)
+	r.GET("/GetListOrder", controller.GetListOrder)
+	r.GET("/GetOrder/:id", controller.GetOrder)
+	// ========== B6304508 (ฟิวส์) Order ==========
+
 	// =============== Payment =========================================
 	r.GET("/ListBank", controller.ListBank)
 	r.POST("/CreateBank", controller.CreateBank)
