@@ -63,7 +63,7 @@ func main() {
 	r.GET("/GetReview/:id", controller.GetReview)
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 
-	// ========== Address ==========
+	//=============== B6321765 (พืชผล) -->> ระบบที่อยู่ผู้แจ้ง (Address) ==========================
 	r.POST("/CreateAddressType", controller.CreateAddressType)
 	r.POST("/CreateProvince", controller.CreateProvince)
 	r.POST("/CreateDistrict", controller.CreateDistrict)
@@ -74,7 +74,18 @@ func main() {
 	r.DELETE("/DeleteAddress", controller.DeleteAddress)
 	r.GET("/GetListAddress", controller.GetListAddress)
 	r.GET("/GetAddress/:id", controller.GetAddress)
-	// ========== Address ==========
+	//=============== B6321765 (พืชผล) -->> ระบบที่อยู่ผู้แจ้ง (Address) ==========================
+
+	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================
+	r.POST("/CreateType", controller.CreateType)
+	r.POST("/CreateWindows", controller.CreateWindows)
+
+	r.POST("/CreateDevice", controller.CreateDevice)
+	r.PATCH("/UpdateDevice", controller.UpdateDevice)
+	r.DELETE("/DeleteDevice", controller.DeleteDevice)
+	r.GET("/GetListDevice", controller.GetListDevice)
+	r.GET("/GetDevice/:id", controller.GetDevice)
+	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================
 
 	// =============== Payment =========================================
 	r.GET("/ListBank", controller.ListBank)
@@ -92,14 +103,14 @@ func main() {
 	r.POST("DeleteChecked_payment/:id", controller.DeleteChecked_payment)
 
 	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
-	r.POST("/CreateUrgency",controller.CreateUrgency)
-	r.POST("/CreatStatusClaim",controller.CreateStatusClaim)
-	r.POST("/CreateClaimOrder",controller.CreateClaimOrder)
+	r.POST("/CreateUrgency", controller.CreateUrgency)
+	r.POST("/CreatStatusClaim", controller.CreateStatusClaim)
+	r.POST("/CreateClaimOrder", controller.CreateClaimOrder)
 
 	r.PATCH("/UpdateClaimOrder", controller.UpdateReview)
 	r.DELETE("/DeleteClaimOrder", controller.DeleteReview)
 
-	r.GET("/GetListClaimOrders",controller.GetListClaimOrders)
+	r.GET("/GetListClaimOrders", controller.GetListClaimOrders)
 	r.GET("/GetClaimOrder/:id", controller.GetClaimOrder)
 	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
 
