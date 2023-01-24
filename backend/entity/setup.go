@@ -455,6 +455,16 @@ func SetupDatabase() {
 
 	// ================== Mockup PayTech ======================
 
+	// ====== Mockup PayTech ========
+	PayTechA := PayTech{
+		Note:       "สายไฟ 4 เมตร",
+		Hardware:   HardwareA,
+		Technician: technician_1,
+		OrderTech:  OrderTechA,
+	}
+	db.Model(&PayTech{}).Create(&PayTechA)
+	// ====== Mockup PayTech ========
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//ตาราง Bank
 	database.Create(&Bank{Bank_name: "ธนาคารกรุงเทพ จำกัด (มหาชน)"})
