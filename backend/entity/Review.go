@@ -34,5 +34,6 @@ type Review struct {
 	Timestamp                 time.Time
 	Statetus                  bool
 	Customer_ID               *uint
-	Customer                  Customer `gorm:"references:id"`
+	Customer                  Customer      `gorm:"references:id"`
+	Claim_Order               []Claim_Order `gorm:"ForeignKey:Review_ID"`
 }
