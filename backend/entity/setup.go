@@ -60,12 +60,16 @@ func SetupDatabase() {
 		&ORDER{},
 		//========== Order ==========
 
+		//========== OrderTech ==========
 		&Status{},
 		&Damage{},
 		&CostDetail{},
 		&OrderTech{},
+		//========== OrderTech ==========
+		//========== PayTech ==========
 		&Hardware{},
 		&PayTech{},
+		//========== PayTech ==========
 
 		//========== ระบบชำระเงิน ==========
 		&Bank{},
@@ -79,6 +83,10 @@ func SetupDatabase() {
 		&Satisfaction_Technician{}, // B6304577-ระบบประเมินความพึงพอใจ
 		&Review{},                  // B6304577-ระบบประเมินความพึงพอใจ
 
+		&Urgency{},     // B6304577-ระบบรายงานปัญหาหลังการซ่อม
+		&StatusClaim{}, // B6304577-ระบบรายงานปัญหาหลังการซ่อม
+		&Claim_Order{}, // B6304577-ระบบรายงานปัญหาหลังการซ่อม
+
 	)
 	db = database
 
@@ -89,7 +97,7 @@ func SetupDatabase() {
 	}
 	db.Model(&Gender{}).Create(&male)
 	female := Gender{
-		GenderName: "ชาย",
+		GenderName: "หญิง",
 	}
 	db.Model(&Gender{}).Create(&female)
 
@@ -149,7 +157,7 @@ func SetupDatabase() {
 	}
 	db.Model(&GenderT{}).Create(&maleT)
 	femaleT := GenderT{
-		GenderName: "ชาย",
+		GenderName: "หญิง",
 	}
 	db.Model(&GenderT{}).Create(&femaleT)
 
@@ -212,6 +220,7 @@ func SetupDatabase() {
 
 	// ====== Mockup Device ========
 
+	// ================== Mockup OrderTech ====================
 	//Status
 	StatusA := Status{
 		StatusName: "ยังไม่ดำเนินการ",
@@ -257,7 +266,9 @@ func SetupDatabase() {
 		Cost: 1000,
 	}
 	db.Model(&CostDetail{}).Create(&CostDetailD)
+	// ================== Mockup OrderTech ====================
 
+	// ================== Mockup PayTech ======================
 	//Hardware
 	HardwareA := Hardware{
 		HardwareName: "หน้าจอ",
@@ -277,6 +288,15 @@ func SetupDatabase() {
 		CostHardware: 730,
 	}
 	db.Model(&Hardware{}).Create(&HardwareC)
+	HardwareD := Hardware{
+		HardwareName: "Software",
+		Amount:       1,
+		CostHardware: 200,
+	}
+	db.Model(&Hardware{}).Create(&HardwareD)
+	
+	// ================== Mockup PayTech ======================
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//ตาราง Bank
 	database.Create(&Bank{Bank_name: "ธนาคารกรุงเทพ จำกัด (มหาชน)"})
