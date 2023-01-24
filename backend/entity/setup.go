@@ -228,14 +228,24 @@ func SetupDatabase() {
 
 	// ====== Mockup Order ========
 
-	database.Create(&CASE{Case_text: "จอฟ้า",Level_case: "Software or Hardware"})
-	database.Create(&CASE{Case_text: "ชาร์จไฟไม่เข้า",Level_case: "Hardware"})
-	database.Create(&CASE{Case_text: "จอกระพริย",Level_case: "Software or Hardware"})
-	database.Create(&CASE{Case_text: "คอมมีอาการเฟรมเลทตก",Level_case: "Software or Hardware"})
+	database.Create(&CASE{Case_text: "จอฟ้า", Level_case: "Software or Hardware"})
+	database.Create(&CASE{Case_text: "ชาร์จไฟไม่เข้า", Level_case: "Hardware"})
+	database.Create(&CASE{Case_text: "จอกระพริย", Level_case: "Software or Hardware"})
+	database.Create(&CASE{Case_text: "คอมมีอาการเฟรมเลทตก", Level_case: "Software or Hardware"})
 
 	// ====== Mockup Order ========
 
+	// ====== Mockup Refund ========
 
+	database.Create(&Cause{Cause_text: "การร้องขอคืนเงินด้วยเหตุผลส่วนตัว ", By_text: "ลูกค้า"})
+	database.Create(&Cause{Cause_text: "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ", By_text: "ช่างซ่อมคอมพิวเตอร์"})
+	database.Create(&Cause{Cause_text: "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ ", By_text: "เว็บไซต์"})
+
+	database.Create(&Contact{Contact: "Promtpay", Times: "7 วัน"})
+	database.Create(&Contact{Contact: "เงินสด ", Times: "14 วัน"})
+	database.Create(&Contact{Contact: "wallet", Times: "10 วัน"})
+
+	// ====== Mockup Refund ========
 
 	// ================== Mockup OrderTech ====================
 	//Status
