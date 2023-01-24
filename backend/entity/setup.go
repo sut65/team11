@@ -262,27 +262,63 @@ func SetupDatabase() {
 	}
 	db.Model(&Tambon{}).Create(&tambon_2)
 
-	db.Model(&Address{}).Create(&Address{
+	address_1 := Address{
 		Customer:    customer_1,
 		AddressType: aType_1,
 		Tambon:      tambon_2,
 		Post_Code:   34190,
 		Detail:      "test Mockup",
 		Record_Time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-	})
+	}
+	db.Model(&Address{}).Create(&address_1)
 
 	// ====== Mockup Address ========
 
 	// ====== Mockup Device ========
 
-	database.Create(&Type{Type_Name: "PC"})
-	database.Create(&Type{Type_Name: "Notebook"})
+	typeD_1 := Type{
+		Type_Name: "PC",
+	}
+	db.Model(&Type{}).Create(&typeD_1)
+	typeD_2 := Type{
+		Type_Name: "Notebook",
+	}
+	db.Model(&Type{}).Create(&typeD_2)
 
-	database.Create(&Windows{Windows_Name: "Window XP"})
-	database.Create(&Windows{Windows_Name: "Window 7"})
-	database.Create(&Windows{Windows_Name: "Window 10"})
-	database.Create(&Windows{Windows_Name: "Window 11"})
-	database.Create(&Windows{Windows_Name: "MacOS"})
+	wind_1 := Windows{
+		Windows_Name: "Window XP",
+	}
+	db.Model(&Windows{}).Create(&wind_1)
+
+	wind_2 := Windows{
+		Windows_Name: "Window 7",
+	}
+	db.Model(&Windows{}).Create(&wind_2)
+	wind_3 := Windows{
+		Windows_Name: "Window 10",
+	}
+	db.Model(&Windows{}).Create(&wind_3)
+	wind_4 := Windows{
+		Windows_Name: "Window 11",
+	}
+	db.Model(&Windows{}).Create(&wind_4)
+	wind_5 := Windows{
+		Windows_Name: "MacOS",
+	}
+	db.Model(&Windows{}).Create(&wind_5)
+
+	device_1 := Device{
+		CPU:      "Intel Core i7 7700K",
+		Monitor:  "Zowie XLSK1994S",
+		GPU:      "Geforce RTX 4050",
+		RAM:      "CORSAIR DOMINATOR PLATINUM RGB 16GB",
+		Harddisk: "WD Blue 1TB",
+		Problem:  "test Problem",
+		Customer: customer_1,
+		Type:     typeD_1,
+		Windows:  wind_1,
+	}
+	db.Model(&Device{}).Create(&device_1)
 
 	// ====== Mockup Device ========
 
