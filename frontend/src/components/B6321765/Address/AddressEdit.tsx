@@ -3,7 +3,7 @@ import ResponsiveAppBar from '../../Bar_01';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { Typography } from "@mui/material";
+import { colors, Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
@@ -20,7 +20,7 @@ import { AddressTypeInterface } from "../../../interfaces/AddressUI";
 
 import dayjs, { Dayjs } from 'dayjs';
 
-function AddressCreate() {
+function AddressEdit() {
 
     const userID = parseInt(localStorage.getItem("uid") + "");
 
@@ -194,7 +194,7 @@ function AddressCreate() {
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
-            <ResponsiveAppBar />
+            <ResponsiveAppBar/>
             <Box>
             <Typography
                 component="h2"
@@ -212,6 +212,10 @@ function AddressCreate() {
             </Box>
             <Box>
                 <Grid container spacing={0}>
+                    <Grid item xs={5.3}/>
+                    <Grid item xs={6.7}>
+                        <p style={{fontSize:25 ,color:"white"}}>เลือกข้อมูลที่จะลบ</p>
+                    </Grid>
                     <Grid item xs={4}/>
                     <Grid item xs={1}>
                         <Typography align="right" fontSize={25} color="white">ชื่อลูกค้า</Typography>
@@ -227,11 +231,7 @@ function AddressCreate() {
                         }}
                         /><p/>
                     </Grid>
-                    <Grid item xs={2}>
-                        <Button sx={{ backgroundColor: "#A75D5D" }} component={RouterLink} to="/AddressEditPage" variant="contained">
-                            แก้ไข/ลบข้อมูล
-                        </Button>
-                    </Grid>
+                    <Grid item xs={5}/>
                     <Grid item xs={4}/>
                     <Grid item xs={1}>
                         <Typography align="right" fontSize={25} color="white">ประเภทที่อยู่</Typography>
@@ -399,8 +399,8 @@ function AddressCreate() {
                 </Grid>
             </Box>
             <br/><br/><br/><br/>
-        </Paper> 
+        </Paper>
     )
 }
 
-export default AddressCreate;
+export default AddressEdit;
