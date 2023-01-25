@@ -130,6 +130,9 @@ func main() {
 	r.POST("/CreatePayment", controller.CreatePayment)
 	r.PATCH("/UpdatePayment", controller.UpdatePayment)
 	r.POST("/DeletePayment/:id", controller.DeletePayment)
+
+	r.GET("/SendmoneyToFrontend/:id", controller.SendmoneyToFrontend)
+
 	// =============== Checked_payment ==================================
 	r.GET("/ListStatus_check", controller.ListStatus_check)
 	r.GET("/ListChecked_payment", controller.ListChecked_payment)

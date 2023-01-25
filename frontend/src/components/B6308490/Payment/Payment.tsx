@@ -19,6 +19,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/payment.css";
 import PAYTECHSHOW from "./PAYTECHSHOW";
 import { PayTechInterface } from "../../../interfaces/IPayTech";
+import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -29,13 +30,7 @@ const convertFloat = (data: string | number | undefined | Float32Array) => {
   let val = typeof data === "string" ? parseFloat(data) : data;
   return val;
 };
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//let Amount_Check:Float32Array ; //ตัวแปรเพื่อเก็บค่าเพื่อแสดง เงินที่ลูกค้าต้องจ่าย
-let Amount_Check = convertFloat(0);
-let strAmout_Check = convertType(Amount_Check) //show at frntend
-let Sent_Amout_Check = '100.99' //for sent to backend and cal again
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //ตกแต่ง Grid 
 const Item = styled(Paper)(({ theme }) => ({
@@ -70,7 +65,8 @@ function Payment() {
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
 
-  const [show_AC, setAC] = useState(strAmout_Check);
+  const [show_AC, setAC] = useState(0);
+  // const [show_Money, setMoney] = useState('');
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -108,20 +104,18 @@ function Payment() {
     setPAYTECH_ID(event.target.value as string);
   };
 
-
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
-  //ฟังก์ชันนี้ สำหรับการกดปุ่ม submit จะทำการสร้างข้อมูลต่าง ๆ เพื่อส่งไปทำการบันทึกที่ backend
   function submit() {
     let data = {
 
-      PAYTECH_ID: convertType(PAYTECH_ID),          //PAYTECH_ID != Payment.PAYTECH_ID บรรทัดนี้ น้ำค่า PAYTECH_ID ที่ประกาศไว้ด้านบนมาใช้เลย
-      Sender_name: Payment.Sender_name ?? "",      //payment.Sentdername คือการดึงค่าจากค่า Name ที่เก็บไว้ข้างใน Payment อีกทีมาใช้
+      PAYTECH_ID: convertType(PAYTECH_ID),  
+      Sender_name: Payment.Sender_name ?? "",
       Bank_ID: convertType(Bank_ID),
       Amount: convertFloat(Payment.Amount),
-      Amount_Check: convertFloat(Sent_Amout_Check),
-      Status_ID: 0,
+      //Amount_Check: convertFloat(Sent_Amout_Check),
+      Status_ID: 1,
       Date_time: Date_time,
       // User_ID: userID,               //ดึงมาจากระบบlogin
       CustomerID: 1,
@@ -153,10 +147,38 @@ function Payment() {
     setPAYTECH_ID("");
     setPayment({});
     setAC(0);
-
-
-
   }
+  //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
+
+  const [amountCheck, setAmountCheck] = useState('ไม่มีข้อมูล');
+  console.log(amountCheck);
+
+  async function submitPayment() {
+
+    // console.log(data);
+    const apiUrl = `http://localhost:8080/SendmoneyToFrontend/${PAYTECH_ID}`;
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res) {
+          // setMoney(res.data);
+          setAmountCheck(res.sent + (parseFloat(res.sent) * 0.25));
+          console.log(res.sum);
+          console.log(res.moneyMan);
+          console.log(res.sent);
+
+        } else {
+          console.log("else");
+          setAmountCheck('ไม่มีข้อมูล');
+        }
+      });
+      // console.log(amountCheck);
+  };
+  //////////////////////////////-_เรียกยอดเงินรวมออกมาแดงให้ลูกค้า_-////////////////////////////////////////////
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
 
   const [Bank, setBank] = React.useState<BankInterface[]>([]);
@@ -177,9 +199,9 @@ function Payment() {
       });
   };
 
-  const [PAYTECH, setPAYTECH] = React.useState<PayTechInterface[]>([]);
+  const [PAYTECH, setPAYTECH] = React.useState<OrderTechInterface[]>([]);
   const getPAYTECH = async () => {
-    const apiUrl = `http://localhost:8080/pay-teches`;
+    const apiUrl = `http://localhost:8080/order-teches`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -189,6 +211,10 @@ function Payment() {
       .then((res) => {
         if (res.data) {
           setPAYTECH(res.data);
+          PAYTECH.map((i: any) => {
+            console.log(i.OrderTech.ORDER.ID);
+          })
+
         } else {
           console.log("else");
         }
@@ -213,6 +239,7 @@ function Payment() {
   useEffect(() => {
     getBank();
     getPAYTECH();
+    //getMoney();
   }, []);
 
 
@@ -282,9 +309,9 @@ function Payment() {
         <Box style={{ backgroundColor: "#e0f2f1" }}>
           {PAYTECHSHOW()}<br />
         </Box>
-        <br/><br/>
+        <br /><br />
         {show_Amout_check()}
-        <br/><br/>
+        <br /><br />
 
 
         <Grid container spacing={3}>
@@ -338,9 +365,9 @@ function Payment() {
         >
           <option aria-label="None" value="">
             กรุณาเลือก หมายเลข Oder ที่ต้องการแก้ไข หรือ ลบรายการ                 </option>
-          {PAYTECH.map((item: PayTechInterface) => (
+          {PAYTECH.map((item: any) => (
             <option value={item.ID} key={item.ID}>
-              {item.OrderTech.OrderID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+              {item.ORDER.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
             </option>
           ))}
         </Select>
@@ -409,13 +436,13 @@ function Payment() {
         </Grid>
 
         <Grid item xs={2}>
-          <Item sx={{ backgroundColor: "#436F77", fontSize: 30 ,color: "#FFFFFF"}}>
-            {show_AC}
+          <Item sx={{ backgroundColor: "#436F77", fontSize: 30, color: "#FFFFFF" }}>
+            {amountCheck}
           </Item>
         </Grid>
 
         <Grid item xs={5}>
-          <h2 style={{ color: "#FFFFFF"}}>บาท</h2>
+          <h2 style={{ color: "#FFFFFF" }}>บาท</h2>
         </Grid>
       </Grid>
     )
@@ -453,21 +480,13 @@ function Payment() {
       </Grid>
     )
   }
-  //สร้างฟังก์ชัน สำหรับคำนวนเงิน
-
-  function Cal_Amount_Check(AC_Input: string) { //ฟังก์ชันสำหรับคำนวณเงิน เพื่อให้ลูกค้าดูก้อนโอนเงิน
-    Amount_Check = (parseFloat(AC_Input) + (parseFloat(AC_Input) * 0.25));
-    console.log(Amount_Check);
-    return (
-      convertType(Amount_Check)
-    )
-  }
 
   function button_pay() {
 
     return (
       <Button style={{ backgroundColor: "#8bc34a", fontSize: 26, }}
-        onClick={() => { setAC(Cal_Amount_Check(Sent_Amout_Check)) }}
+        onClick={submitPayment}
+        //onClick={() => { setAC(Cal_Amount_Check(show_Money)) }}
         variant="contained"
       //size="large"
       >

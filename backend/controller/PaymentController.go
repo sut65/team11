@@ -189,11 +189,23 @@ func DeleteBank(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bank not found"})
 		return
 	}
-	/*
-		if err := entity.DB().Where("id = ?", id).Delete(&entity.User{}).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}*/
-
 	c.JSON(http.StatusOK, gin.H{"data": id})
+}
+
+func SendmoneyToFrontend(c *gin.Context) {
+	id := c.Param("id")
+	var sum float32
+	entity.DB().Table("hardwares").Select("sum(amount * cost_hardware)").
+		Joins("JOIN pay_teches ON hardwares.id = pay_teches.hardware_id").
+		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&sum)
+
+	var moneyMan float32
+	entity.DB().Table("cost_details").Select("cost_details.cost").
+		Joins("JOIN order_teches ON cost_details.id = order_teches.cost_detail_id").
+		Joins("JOIN pay_teches ON order_teches.id = pay_teches.order_tech_id").
+		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&moneyMan)
+
+	var sent = sum + moneyMan
+	c.JSON(http.StatusOK, gin.H{"sum": sum, "moneyMan": moneyMan, "sent": sent})
+
 }
