@@ -20,8 +20,8 @@ type Satisfaction_Technician struct {
 
 type Review struct {
 	gorm.Model
-	// Order_ID                  *uint
-	// Order                     Order `gorm:"references:id"`
+	CheckedPayment_ID      *uint
+	Checked_payment        Checked_payment `gorm:"references:id"`
 	Satisfaction_System_ID *uint
 	Satisfaction_System    Satisfaction_System `gorm:"references:id"`
 
@@ -31,12 +31,10 @@ type Review struct {
 	Satisfaction_Technician    Satisfaction_Technician `gorm:"references:id"`
 
 	Review_Comment_Technician string
-	Timestamp                 time.Time
-	Statetus                  bool
+	TimestampReview           time.Time
+	StatusReview              bool
 	Customer_ID               *uint
 	Customer                  Customer      `gorm:"references:id"`
 	Claim_Order               []Claim_Order `gorm:"ForeignKey:Review_ID"`
-
-	Refund  []Refund `gorm:"foreignKey:ReviewID"`
-
+	Refund                    []Refund      `gorm:"foreignKey:ReviewID"`
 }

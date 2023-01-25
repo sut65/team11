@@ -513,6 +513,20 @@ func SetupDatabase() {
 
 	// ============== Mockup Checked_Payment ==================
 
+	// ============== Mockup ตารางย่อยของระบบประเมินความพึงพอใจ ==================
+	database.Create(&Satisfaction_System{Satisfaction_System_Type: "น้อยมาก"})
+	database.Create(&Satisfaction_System{Satisfaction_System_Type: "น้อย"})
+	database.Create(&Satisfaction_System{Satisfaction_System_Type: "ปานกลาง"})
+	database.Create(&Satisfaction_System{Satisfaction_System_Type: "มาก"})
+	database.Create(&Satisfaction_System{Satisfaction_System_Type: "มากที่สุด"})
+
+	database.Create(&Satisfaction_Technician{Satisfaction_Technician_Type: "น้อยมาก"})
+	database.Create(&Satisfaction_Technician{Satisfaction_Technician_Type: "น้อย"})
+	database.Create(&Satisfaction_Technician{Satisfaction_Technician_Type: "ปานกลาง"})
+	database.Create(&Satisfaction_Technician{Satisfaction_Technician_Type: "มาก"})
+	database.Create(&Satisfaction_Technician{Satisfaction_Technician_Type: "มากที่สุด"})
+	// ============== Mockup ตารางย่อยของระบบประเมินความพึงพอใจ ==================
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

@@ -16,13 +16,11 @@ import { pink } from '@mui/material/colors';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
-
-
+import dayjs from 'dayjs';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-
 import style from "./style.module.css";
-import { FormLabel } from '@mui/material';
+
+
 
 const successAlert = () => {
     Swal.fire({
@@ -40,13 +38,13 @@ const errorAlert = () => {
 }
 
 
-function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps }: any) {
+function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps ,checkedPaymentsAll}: any) {
 
 
     const [hover, setHover] = React.useState(-1);
-    const { data1, commentRating1, data2, commentRating2 } = formDataRating
+    const { checkedPaymentID, data1, commentRating1, data2, commentRating2, customerID } = formDataRating
     const [checked, setChecked] = useState(false);
-    console.log(checked);
+    // console.log(checkedPaymentID);
 
     let [date, updateDate] = useState(new Date());
 
@@ -81,16 +79,16 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
     async function submit() {
         // Data ที่จะนำไปบันทึกลงในตาราง REVIEW
         let data = {
-            // Order_ID: Order_ID ,
+            CheckedPayment_ID: formDataRating.checkedPaymentID,
             Satisfaction_System_ID: formDataRating.data1,
             Review_Comment_System: formDataRating.commentRating1,
             Satisfaction_Technician_ID: formDataRating.data2,
             Review_Comment_Technician: formDataRating.commentRating2,
-            Timestamp: date.toISOString().split("T")[0].concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
-            Statetus: checked,
-            // Customer_ID : 1,
+            TimestampReview: date.toISOString().split("T")[0].concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
+            StatusReview: checked,
+            Customer_ID: formDataRating.customerID,
         };
-        // console.log(data);
+        console.log(data);
         const apiUrl = "http://localhost:8080/CreateReview";
         const requestOptions = {
             method: "POST",
@@ -121,51 +119,51 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container >
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 10 }}>
-                            เลขที่แจ้งซ่อม :
+                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                            รายการที่แจ้งซ่อม : {checkedPaymentsAll.Payment.PayTech.OrderTech.ORDER.Reason}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 10 }}>
-                            วันที่แจ้งซ่อม :
-                        </Typography>
+                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.PayTech.OrderTech.ORDER.Date_time).format('DD/MM/YYYY HH:mm:ss ')}
+                        </Typography> 
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 2 }}>
+                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
                             ผู้ดำเนินการ :
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 2 }}>
-                            วันที่สำเร็จ :
+                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
+                            วันที่รีวิว : {date.toLocaleString()}
                         </Typography>
                     </Grid>
                 </Grid>
             </Box>
 
-            <Accordion sx={{ marginTop: 5, background: "#00556c" }}>
+            <Accordion sx={{ marginTop: 12, background: "#00556c" }}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography className={style.text}>
+                    <Typography className={style.textReview}>
                         การประเมินความพึงพอใจเกี่ยวกับระบบ
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography className={style.text}>
+                    <Typography className={style.textReview}>
                         หัวข้อที่ 1
                     </Typography>
                     <AccordionDetails>
-                        <Rating name="read-only" value={data1} readOnly size="large" />
+                        <Rating name="read-only" value={data1} readOnly size="large" sx={{alignItems:"center"}}/>
                     </AccordionDetails>
 
-                    <Typography className={style.text} sx={{ marginTop: 2 }}>
+                    <Typography className={style.textReview} sx={{ marginTop: 2}}>
                         ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <AccordionDetails>
-                        <Typography className={style.text}>
+                        <Typography className={style.textReview}>
                             : {commentRating1}
                         </Typography>
                         <Button
@@ -186,22 +184,22 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                     aria-controls="panel2a-content"
                     id="panel2a-header"
                 >
-                    <Typography className={style.text}>
+                    <Typography className={style.textReview}>
                         การประเมินความพึงพอใจช่างที่ซ่อม
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography className={style.text}>
+                    <Typography className={style.textReview}>
                         หัวข้อที่ 2
                     </Typography>
                     <AccordionDetails>
                         <Rating name="read-only" value={data2} readOnly size="large" />
                     </AccordionDetails>
-                    <Typography className={style.text} sx={{ marginTop: 2 }}>
+                    <Typography className={style.textReview} sx={{ marginTop: 2 }}>
                         ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <AccordionDetails>
-                        <Typography className={style.text}>
+                        <Typography className={style.textReview}>
                             : {commentRating2}
                         </Typography>
                         <Button
@@ -216,38 +214,10 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                     </AccordionDetails>
                 </AccordionDetails>
             </Accordion>
-            <Box sx={{ flexGrow: 1, marginBottom: 2 }}>
-                <Grid container >
-                    <Grid item xs={6}>
-                        <Button
-                            variant="contained"
-                            className={style.btBack}
-                            fullWidth
-                            color="inherit"
-                            disabled={activeStep === 1}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                        >
-                            กลับ
-                        </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                            className={style.btNext}
-                            variant="contained"
-                            fullWidth
-                            onClick={activeStep === steps.length ? submit : handleNext}
-                            color={activeStep === steps.length ? "success" : "inherit"}
-                        >
-                            {activeStep === steps.length ? 'บันทึก' : 'ถัดไป'}
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Box>
             <Box>
                 <FormGroup>
                     <FormControlLabel
-                        className={style.text}
+                        sx = {{color:"#ffffff",paddingBottom:5}}
                         label="ตรวจสอบความถูกต้องเรียบร้อยแล้ว"
                         labelPlacement="end"
                         control={<Checkbox defaultChecked
@@ -260,10 +230,35 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                                 },
                             }} />}
                     />
-
-
                 </FormGroup>
             </Box>
+            <Box sx={{ flexGrow: 1, marginBottom: 2 }}>
+                <Grid container >
+                    <Grid item xs={6}>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            color="inherit"
+                            disabled={activeStep === 1}
+                            onClick={handleBack}
+                            sx={{ mr: 1 }}
+                        >
+                            กลับ
+                        </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={activeStep === steps.length ? submit : handleNext}
+                            color={activeStep === steps.length ? "success" : "inherit"}
+                        >
+                            {activeStep === steps.length ? 'บันทึก' : 'ถัดไป'}
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
+
             <Box sx={{ width: '100%', marginTop: 5, marginBottom: 1 }}>
                 <Stepper activeStep={activeStep - 1} alternativeLabel>
                     {steps.map((label: any) => (
@@ -293,7 +288,6 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                         </Step>
                     ))}
                 </Stepper>
-
             </Box>
         </Container>
     );

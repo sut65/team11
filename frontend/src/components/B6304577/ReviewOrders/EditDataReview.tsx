@@ -95,13 +95,12 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
         // Data ที่จะนำไปอัพเดทข้อมูลลงในตาราง REVIEW
         let data = {
             ID: reviewsID,
-            // Order_ID: Order_ID ,
             Satisfaction_System_ID: editDataReview_Rating_System,
             Review_Comment_System: editDataReview_Comment_System,
             Satisfaction_Technician_ID: editDataReview_Rating_Technician,
             Review_Comment_Technician: editDataReview_Comment_Technician,
-            Timestamp: date.toISOString().split("T")[0].concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
-            Statetus: true,
+            TimestampReview: date.toISOString().split("T")[0].concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
+            StatusReview: true,
             // Customer_ID : 1,
         };
         console.log(data);
@@ -152,22 +151,20 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
 
 
     return (
-        <Container maxWidth="md">
-            <h1>
-                Edit page
-            </h1>
+        <Container maxWidth="md" sx={{paddingTop:1}}>
             <Box
                 className={style.boxshadow}
             >
-                <Typography className={style.mainToptic} >
+                <Typography className={style.mainToptic}>
                     <h2>
-                        เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง1
+                        เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง
                     </h2>
+                </Typography>
+                <Typography className={style.subToptic}>
                     <h6>
                         รวมแบ่งปันประสบการณ์ การบริการ
                         โดยให้คะแนนความพึงพอใจ
                     </h6>
-
                 </Typography>
 
                 <Rating
@@ -180,13 +177,12 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                     sx={{
                         fontSize: "6rem",
                         alignItems: 'center',
-
                     }}
 
                 />
                 <br />
                 <Container maxWidth="lg" >
-                    <Typography className={style.subToptic}>
+                    <Typography sx={{color:"#ffffff"}}>
                         <h4>
                             ช่วยบอกความพึงพอใจกับเรา
                         </h4>
@@ -211,15 +207,16 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
             <Box
                 className={style.boxshadow}
             >
-                <Typography className={style.mainToptic} >
+                <Typography className={style.mainToptic}>
                     <h2>
-                        เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง2
+                        การให้บริการของช่างเป็นอย่างไร
                     </h2>
+                </Typography>
+                <Typography className={style.subToptic}>
                     <h6>
                         รวมแบ่งปันประสบการณ์ การบริการ
                         โดยให้คะแนนความพึงพอใจ
                     </h6>
-
                 </Typography>
 
                 <Rating
@@ -237,7 +234,7 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                 />
                 <br />
                 <Container maxWidth="lg" >
-                    <Typography className={style.subToptic}>
+                    <Typography sx={{color:"#ffffff"}}>
                         <h4>
                             ช่วยบอกความพึงพอใจกับเรา
                         </h4>
@@ -293,7 +290,7 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                         </Grid>
                     </Grid>
                 </Box>
-                <br/>
+                <br />
             </Container>
         </Container>
 
