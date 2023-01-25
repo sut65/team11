@@ -6,7 +6,7 @@ import RankingForm from './components/B6304577/ReviewOrders/RatingForm';
 import Payment from './components/B6308490/Payment/Payment';
 import EditPayment from './components/B6308490/Payment/EditPayment';
 import PaymentShow from './components/B6308490/Payment/PaymentShow';
-
+import AddressCreateForm from './components/B6321765/Address/AddressCreate';
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
         <Route path="/PaymentShow" element={<PaymentShow />} />
         <Route path="/Payment" element={<Payment />} />
         <Route path="/EditPayment" element={<EditPayment />} />
+        <Route path="/AddressCreate" element={<AddressCreateForm />} />
       </Routes>
     </Router>
   );

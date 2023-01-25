@@ -46,8 +46,18 @@ function renderRating(params: GridRenderCellParams<number>) {
 }
 
 
-function Content({ setActiveStep, activeStep, setReviewsID }: any) {
+function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, setFormDataRating, setCheckedPaymentsAll}: any) {
     const [reviews, setReviews] = useState<any[]>([]);
+    const [checkedPayments, setCheckedPayments] = useState<any[]>([]);
+    const {checkedPaymentID,customerID} = formDataRating
+    // console.log(checkedPayments);
+    
+
+    
+ 
+
+//  checkedPayments.map((item:any)=>{item.Customer.ID})
+
     const handleStart = () => {
         setActiveStep(activeStep + 1);
     };
@@ -65,15 +75,96 @@ function Content({ setActiveStep, activeStep, setReviewsID }: any) {
             .then((res) => {
                 if (res.data) {
                     setReviews(res.data)
+                    console.log(res.data);
+                    
+                }
+            });
+    };
+    const getCheckedPayment = async () => {
+        const apiUrl = "http://localhost:8080/ListChecked_payment";
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        };
+        fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setCheckedPayments(res.data)
                 }
             });
     };
 
     useEffect(() => {
         getReview();
+        getCheckedPayment();
 
     }, []);
-    const columns: GridColDef[] = [
+
+    const columnCheckPayments: GridColDef[] = [
+        {
+            field: 'action',
+            headerName: '',
+            width: 100,
+            editable: false,
+            renderCell: (params: GridRenderCellParams) => {
+                const handleClick = () => {
+                    params.api.setRowMode(params.id, 'edit');
+                    
+                    setActiveStep(activeStep + 1);
+                    setCheckedPaymentsAll(params.row)
+                    setFormDataRating({ ...formDataRating, checkedPaymentID: params.id, customerID: params.row.CustomerID  }) //รอระบบล็อคอินจะสามารถเรียก CustomerID จากหน้าlogin
+                    console.log(params.row.CustomerID);
+                };
+                return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
+            }
+        },
+        {
+            field: 'Product_ID',
+            headerName: 'รายการซ่อม',
+            width: 200,
+            renderCell:params =>{        
+                return <div>{params.row.Payment.PayTech.OrderTech.ORDER.Reason}</div>
+            }
+        },
+        {
+            field: 'OrderTech',
+            headerName: 'วิธีซ่อม',
+            width: 200,
+            renderCell:params =>{                
+                return <div>{params.row.Payment.PayTech.OrderTech.Solving}</div>
+            }
+        },
+        {
+            field: 'Technician',
+            headerName: 'ช่างผู้รับผิดชอบงาน',
+            width: 200,
+            renderCell:params =>{
+                console.log(params.row.Payment.PayTech.OrderTech.Technician.Name);
+                
+                return <div>{params.row.Payment.PayTech.OrderTech.Technician.Name}</div>
+            }
+        },
+        {
+            field: 'CustomerID',
+            headerName: 'ลูกค้า',
+            width: 200,
+            renderCell: params => { 
+                return<div>{params.row.Customer.Name}</div>
+            }
+        },
+        {
+            field: 'Status_ID',
+            headerName: 'สถานะ',
+            width: 180,
+            renderCell: params => { 
+                return<div>{params.row.Status_check.Status_name}</div>
+            }
+            
+        },
+    ];
+
+    const columnReviews: GridColDef[] = [
         {
             field: 'action1',
             headerName: 'แก้ไข',
@@ -85,8 +176,6 @@ function Content({ setActiveStep, activeStep, setReviewsID }: any) {
                     setActiveStep(4);
                     setReviewsID(params.id);
                     // console.log(params.id);
-
-
                 };
                 return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}แก้ไข</Button>;
             }
@@ -130,9 +219,12 @@ function Content({ setActiveStep, activeStep, setReviewsID }: any) {
             }
         },
         {
-            field: 'Product_ID',
-            headerName: 'Product_ID',
-            width: 100
+            field: 'Checked_payment',
+            headerName: 'รายการซ่อม',
+            width: 150,
+            renderCell:params =>{
+                return <div>{params.row.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason}</div>
+            }
         },
         {
             field: 'Satisfaction_System_ID',
@@ -159,17 +251,17 @@ function Content({ setActiveStep, activeStep, setReviewsID }: any) {
         },
         {
             field: 'Timestamp',
-            headerName: 'Timestamp',
+            headerName: 'วันที่',
             width: 200,
             valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
         },
         {
-            field: 'Statetus',
+            field: 'StatusReview',
             headerName: 'สถานะ',
             width: 70,
             renderCell: params => {
 
-                if (params.row.Statetus === true) {
+                if (params.row.StatusReview === true) {
                     return <div>รีวิวสำเร็จ</div>;
                 }
                 return <div>รอการรีวิว</div>;
@@ -178,7 +270,12 @@ function Content({ setActiveStep, activeStep, setReviewsID }: any) {
         {
             field: 'Customer_ID',
             headerName: 'ลูกค้า',
-            width: 70
+            width: 200,
+            renderCell: params => { 
+                console.log(params.row.Checked_payment.Customer.Name);
+                
+                return<div>{params.row.Checked_payment.Customer.Name}</div>
+            }
         },
 
 
@@ -190,12 +287,18 @@ function Content({ setActiveStep, activeStep, setReviewsID }: any) {
             <br />
             <br />
             <br />
-            <Box>
-                <Button
-                    onClick={handleStart}>
-                    test
-                </Button>
-            </Box>
+            <div style={{ height: 400, width: '100%' }} >
+                <DataGrid
+                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
+                    rows={checkedPayments}
+                    columns={columnCheckPayments}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    getRowId={(row: ReviewInterface) => row.ID}
+
+                // checkboxSelection
+                />
+            </div>
             <Typography className={style.text}>
                 <h2>
                     รีวิวสำเร็จ
@@ -206,7 +309,7 @@ function Content({ setActiveStep, activeStep, setReviewsID }: any) {
                 <DataGrid
                     sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
                     rows={reviews}
-                    columns={columns}
+                    columns={columnReviews}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
                     getRowId={(row: ReviewInterface) => row.ID}

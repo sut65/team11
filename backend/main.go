@@ -86,6 +86,10 @@ func main() {
 	r.DELETE("/DeleteAddress", controller.DeleteAddress)
 	r.GET("/GetListAddress", controller.GetListAddress)
 	r.GET("/GetAddress/:id", controller.GetAddress)
+	r.GET("/GetListTambon", controller.GetListTambon)
+	r.GET("/GetListDistrict", controller.GetListDistrict)
+	r.GET("/GetListProvince", controller.GetListProvince)
+	r.GET("/GetListAddressType", controller.GetListAddressType)
 	//=============== B6321765 (พืชผล) -->> ระบบที่อยู่ผู้แจ้ง (Address) ==========================
 
 	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================

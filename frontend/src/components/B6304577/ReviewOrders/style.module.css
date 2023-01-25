@@ -7,14 +7,15 @@
 }
 
 .mainToptic {
-    text-align: center;
+    justify-content: center;
     color: #ffffff;
     text-shadow: #919191;
 }
 
 .subToptic {
+    justify-content: center;
     color: #ffffff;
-    /* text-shadow: #919191; */
+    text-shadow: #919191;
 }
 
 .titlesReturn {
@@ -42,7 +43,7 @@
     background: #006d8b;
 }
 
-.text {
+.textReview {
     color: #ffffff;
 }
 
