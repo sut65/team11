@@ -2,6 +2,9 @@
 // import {TechnicianInterface} from "./Technician" // รอจากของโต้ง
 // import {ORDERInterface} from "./ORDER" // รอจากของฟิว
 
+import { OrderTechInterface } from "./IOrderTech"; //จั๊ดแก้ไข
+
+
 export interface PayTechInterface {
     ID: number,
     TimeStamp: Date | null;
@@ -9,6 +12,11 @@ export interface PayTechInterface {
 
     HardwareID:   number;
     Hardware: HardwareInterface
+
+    OrderTechID: number;
+    OrderTech: OrderTechInterface
+
+    
 
     // TypeID:   number;
     // Type: typeInterface
