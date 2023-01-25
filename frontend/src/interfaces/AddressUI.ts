@@ -1,6 +1,6 @@
 export interface AddressTypeInterface {
     ID: number,
-    Type_name: string,
+    Type_Name: string,
 }
 
 export interface ProvinceInterface {

@@ -21,6 +21,15 @@ func CreateAddressType(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": addressType})
 }
 
+func GetListAddressType(c *gin.Context) {
+	var addressType []entity.AddressType
+	if err := entity.DB().Raw("SELECT * FROM address_types").Scan(&addressType).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": addressType})
+}
+
 // POST Province
 func CreateProvince(c *gin.Context) {
 	var province entity.Province
@@ -61,6 +70,33 @@ func CreateTambon(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": tambon})
+}
+
+func GetListProvince(c *gin.Context) {
+	var provinces []entity.Province
+	if err := entity.DB().Raw("SELECT * FROM provinces").Scan(&provinces).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": provinces})
+}
+
+func GetListDistrict(c *gin.Context) {
+	var districts []entity.District
+	if err := entity.DB().Preload("Province").Find(&districts).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": districts})
+}
+
+func GetListTambon(c *gin.Context) {
+	var tambons []entity.Tambon
+	if err := entity.DB().Preload("District.Province").Find(&tambons).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": tambons})
 }
 
 // Main Table Address
