@@ -12,7 +12,7 @@ import (
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // POST /Payment
 func CreatePayment(c *gin.Context) {
-	var User entity.User
+	var Customer entity.Customer
 	var Payment entity.Payment
 	var Bank entity.Bank
 	var PAYTECH entity.PayTech
@@ -37,7 +37,7 @@ func CreatePayment(c *gin.Context) {
 	}
 
 	// 11: ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", Payment.CustomerID).First(&User); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", Payment.CustomerID).First(&Customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}

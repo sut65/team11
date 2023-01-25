@@ -467,14 +467,16 @@ func SetupDatabase() {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ================== Mockup Payment ======================
-	Bank_1 := Bank{Bank_name: "ธนาคารกรุงเทพ จำกัด (มหาชน)"}
-	Bank_2 := Bank{Bank_name: "ธนาคารกรุงไทย จำกัด (มหาชน)"}
-	Bank_3 := Bank{Bank_name: "ธนาคารกสิกรไทย จำกัด (มหาชน)"}
-	Bank_4 := Bank{Bank_name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)"}
+	Bank_1 := Bank{Bank_name: "ธนาคารไทยพาณิชย์"}
+	Bank_2 := Bank{Bank_name: "ธนาคารกสิกรไทย"}
+	Bank_3 := Bank{Bank_name: "ธนาคารกรุงไทย"}
+	Bank_4 := Bank{Bank_name: "ธนาคารกรุงเทพ"}
+	Bank_5 := Bank{Bank_name: "ธนาคารกรุงศรีอยุธยา"}
 	db.Model(&Bank{}).Create(&Bank_1)
 	db.Model(&Bank{}).Create(&Bank_2)
 	db.Model(&Bank{}).Create(&Bank_3)
 	db.Model(&Bank{}).Create(&Bank_4)
+	db.Model(&Bank{}).Create(&Bank_5)
 
 	Pay_1 := Payment{
 		Sender_Name:  "ภัฒนศักดิ์ อัตตะกุล",
