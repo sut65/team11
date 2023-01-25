@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
@@ -7,20 +7,20 @@ import Grid from '@mui/material/Grid';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-
+import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
-
+import TextField from '@mui/material/TextField';
 import style from "./style.module.css";
 
-import { Paper } from '@mui/material';
-import TextField from '@mui/material/TextField';
 
 
 
 
-
-function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps }: any) {
+function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
     const [hover, setHover] = React.useState(-1);
+    console.log(checkedPaymentsAll);
+
+
     const { data1, commentRating1 } = formDataRating
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -34,6 +34,17 @@ function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
 
     };
 
+    let [date, updateDate] = useState(new Date());
+
+    // เราใช้ useEffect เพื่อจัดการบางอย่างเมื่อ component เราถูก insert หรือ remove ออกจาก UI tree
+    useEffect(() => {
+        // เราสร้าง setInterval เพื่อ udpate date state ค่าใหม่ทุกๆ 1 วินาที
+        let timerID = setInterval(() => updateDate(new Date()), 1000);
+
+        // เราต้อง return function สำหรับ clear interval ด้วยเมื่อ component ถูกเอาออกจาก UI tree
+        return () => clearInterval(timerID);
+    });
+
     return (
 
         <Container
@@ -42,39 +53,43 @@ function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container >
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 10 }}>
-                            เลขที่แจ้งซ่อม :
+                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                            รายการที่แจ้งซ่อม : {checkedPaymentsAll.Payment.PayTech.OrderTech.ORDER.Reason}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 10 }}>
-                            วันที่แจ้งซ่อม :
+                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.PayTech.OrderTech.ORDER.Date_time).format('DD/MM/YYYY HH:mm:ss')}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 2 }}>
+                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
                             ผู้ดำเนินการ :
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography className={style.text} sx={{ marginTop: 2 }}>
-                            วันที่สำเร็จ :
+                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
+                            วันที่รีวิว : {date.toLocaleString()}
                         </Typography>
                     </Grid>
                 </Grid>
             </Box>
             <Box
                 className={style.boxshadow}
+                sx={{ marginTop: 10 }}
+
             >
-                <Typography className={style.mainToptic} >
+                <Typography  className={style.mainToptic}>
                     <h2>
-                        เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง1
+                        เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง
                     </h2>
+                </Typography >
+                <Typography  className={style.subToptic}>
+
                     <h6>
                         รวมแบ่งปันประสบการณ์ การบริการ
                         โดยให้คะแนนความพึงพอใจ
                     </h6>
-
                 </Typography>
 
                 <Rating
@@ -95,11 +110,10 @@ function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
                 />
                 <br />
                 <Container maxWidth="lg" >
-                    <Typography className={style.subToptic}>
+                    <Typography sx={{ color: "#ffffff", textAlign: "left" }}>
                         <h4>
                             ช่วยบอกความพึงพอใจกับเรา
                         </h4>
-
                     </Typography>
                     <TextField
                         id="commentRating1"
@@ -127,7 +141,6 @@ function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
                         <Grid item xs={6}>
                             <Button
                                 variant="contained"
-                                className={style.btBack}
                                 fullWidth
                                 color="inherit"
                                 disabled={activeStep === 1}
@@ -139,7 +152,6 @@ function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
                         </Grid>
                         <Grid item xs={6}>
                             <Button
-                                className={style.btNext}
                                 variant="contained"
                                 fullWidth
                                 onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}

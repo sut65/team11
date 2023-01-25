@@ -8,7 +8,6 @@ import (
 
 // POST Satisfaction_System
 
-
 func CreateSatisfaction_System(c *gin.Context) {
 	var Satisfaction_System entity.Satisfaction_System
 	if err := c.ShouldBindJSON(&Satisfaction_System); err != nil {
@@ -41,7 +40,7 @@ func CreateSatisfaction_Technician(c *gin.Context) {
 // Main Table Review
 
 func CreateReview(c *gin.Context) {
-	// var Order_ID entity.Order
+	var Checked_payment entity.Checked_payment
 	var Customer entity.Customer
 	var Satisfaction_System entity.Satisfaction_System
 	var Satisfaction_Technician entity.Satisfaction_Technician
@@ -53,33 +52,39 @@ func CreateReview(c *gin.Context) {
 		return
 	}
 
-	// 11: ค้นหา Satisfaction_System  ด้วย id
+	// 11: ค้นหา CheckPayment  ด้วย id
+	if tx := entity.DB().Where("id = ?", Review.CheckedPayment_ID).First(&Checked_payment); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Satisfaction System  not found"})
+		return
+	}
+
+	// 12: ค้นหา Satisfaction_System  ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.Satisfaction_System_ID).First(&Satisfaction_System); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Satisfaction System  not found"})
 		return
 	}
 
-	// 12: ค้นหา Satisfaction_Technician ด้วย id
+	// 13: ค้นหา Satisfaction_Technician ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.Satisfaction_Technician_ID).First(&Satisfaction_Technician); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Satisfaction Technician  not found"})
 		return
 	}
 
-	// 13: ค้นหา Customer ด้วย id
+	// 14: ค้นหา Customer ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.Customer_ID).First(&Customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
 
 	reviewData := entity.Review{
-		// Order_ID  :           	Review.Order_ID  , // โยงความสัมพันธ์กับ Entity Order
+		CheckedPayment_ID:          Review.CheckedPayment_ID,      // โยงความสัมพันธ์กับ Entity Order
 		Satisfaction_System_ID:     Review.Satisfaction_System_ID, // โยงความสัมพันธ์กับ Entity Satisfaction_System
 		Review_Comment_System:      Review.Review_Comment_System,
 		Satisfaction_Technician_ID: Review.Satisfaction_Technician_ID, // โยงความสัมพันธ์กับ Entity Satisfaction_Technician
 		Review_Comment_Technician:  Review.Review_Comment_Technician,
-		Timestamp:                  Review.Timestamp, // ตั้งค่าฟิลด์ Timestamp
-		Statetus:                   Review.Statetus,  // ตั้งค่าฟิลด์ Statetus
-		Customer_ID  :           Review.Customer_ID  , // โยงความสัมพันธ์กับ Entity Customer
+		TimestampReview:            Review.TimestampReview, // ตั้งค่าฟิลด์ Timestamp
+		StatusReview:               Review.StatusReview,    // ตั้งค่าฟิลด์ Statetus
+		Customer_ID:                Review.Customer_ID,     // โยงความสัมพันธ์กับ Entity Customer
 	}
 
 	if err := entity.DB().Create(&reviewData).Error; err != nil {
@@ -92,7 +97,7 @@ func CreateReview(c *gin.Context) {
 // GET /Review
 func GetListReviews(c *gin.Context) {
 	var GetReviews []entity.Review
-	if err := entity.DB().Preload("Satisfaction_System").Preload("Satisfaction_Technician").Find(&GetReviews).Error; err != nil {
+	if err := entity.DB().Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.PayTech.OrderTech.ORDER").Find(&GetReviews).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -104,8 +109,8 @@ func GetReview(c *gin.Context) {
 	var review entity.Review
 	id := c.Param("id")
 	if err := entity.DB().Raw("SELECT * FROM reviews WHERE id = ?", id).Scan(&review).Error; err != nil {
-		 c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		 return
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": review})
 }
@@ -113,12 +118,12 @@ func GetReview(c *gin.Context) {
 // PATCH /Review
 func UpdateReview(c *gin.Context) {
 	var Review entity.Review
-	
+
 	if err := c.ShouldBindJSON(&Review); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Model(Review).Where("id = ?", Review.ID).Updates(map[string]interface{}{"Satisfaction_System_ID": Review.Satisfaction_System_ID, "Satisfaction_Technician_ID": Review.Satisfaction_Technician_ID, "Review_Comment_System": Review.Review_Comment_System, "Review_Comment_Technician": Review.Review_Comment_Technician, "Timestamp": Review.Timestamp, "Statetus": Review.Statetus}).Error; err != nil {
+	if err := entity.DB().Model(Review).Where("id = ?", Review.ID).Updates(map[string]interface{}{"Satisfaction_System_ID": Review.Satisfaction_System_ID, "Satisfaction_Technician_ID": Review.Satisfaction_Technician_ID, "Review_Comment_System": Review.Review_Comment_System, "Review_Comment_Technician": Review.Review_Comment_Technician, "TimestampReview": Review.TimestampReview, "StatusReview": Review.StatusReview}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -132,9 +137,11 @@ func DeleteReview(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if tx := entity.DB().Exec("DELETE FROM reviews WHERE id = ?",Review.ID); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM reviews WHERE id = ?", Review.ID); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": "DELETE SUCCEED!!"})
 }
+
+

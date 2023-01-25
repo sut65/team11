@@ -27,4 +27,5 @@ type Checked_payment struct {
 
 	CustomerID *uint
 	Customer   Customer `gorm:"references:id"`
+	Review     []Review `gorm:"foreignKey:CheckedPayment_ID"`
 }
