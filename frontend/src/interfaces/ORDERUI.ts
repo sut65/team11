@@ -1,4 +1,5 @@
 import { AddressInterface } from "./AddressUI";
+import { DeviceInterface } from "./IDevice";
 
 export interface ORDERInterface {
     ID: number,
@@ -6,9 +7,11 @@ export interface ORDERInterface {
     Reason: string;
     Limit: number;
     CASEID: number;
+    CASE: CASEInterface
     DeviceID: number;
-    AddressID: AddressInterface;
-    // CustomerID: number; //ดึงจากinterface โต้ง
+    Device: DeviceInterface
+    AddressID: number;
+    Address: AddressInterface
 }
 
 export interface CASEInterface {

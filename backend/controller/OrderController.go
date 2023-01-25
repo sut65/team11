@@ -21,6 +21,28 @@ func CreateCASE(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": cased})
 }
 
+// List all Case
+func ListCase(c *gin.Context) {
+	var cases []entity.CASE
+	if err := entity.DB().Raw("SELECT * FROM cases").Scan(&cases).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": cases})
+}
+
+// Get Case by id
+func GetCase(c *gin.Context) {
+	var GetCase entity.CASE
+	id := c.Param("id")
+	if tx := entity.DB().Preload("id = ?", id).Find(&GetCase); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Bank not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": GetCase})
+}
+
 // Main Table ORDER
 func CreateOrder(c *gin.Context) {
 

@@ -105,6 +105,8 @@ func main() {
 
 	// ========== B6304508 (ฟิวส์) Order ==========
 	r.POST("/CreateCASE", controller.CreateCASE)
+	r.POST("/GetCase", controller.GetCase)
+	r.GET("/ListCase", controller.ListCase)
 	r.POST("/CreateOrder", controller.CreateOrder)
 	r.PATCH("/UpdateOrder", controller.UpdateOrder)
 	r.GET("/GetListOrder", controller.GetListOrder)
