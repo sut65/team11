@@ -15,7 +15,7 @@ import { bgcolor } from "@mui/system";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Swal from 'sweetalert2';
 
-import { DistrictInterface, ProvinceInterface, TambonInterface } from "../../../interfaces/AddressUI";
+import { AddressInterface, DistrictInterface, ProvinceInterface, TambonInterface } from "../../../interfaces/AddressUI";
 import { AddressTypeInterface } from "../../../interfaces/AddressUI";
 
 import dayjs, { Dayjs } from 'dayjs';
@@ -24,16 +24,30 @@ function AddressEdit() {
 
     const userID = parseInt(localStorage.getItem("uid") + "");
 
-    const successAlert = () => {
+    const update_successAlert = () => {
         Swal.fire({
-            title: 'บันทึกข้อมูลสำเร็จ',
+            title: 'อัพเดทข้อมูลสำเร็จ',
             text: 'Click OK to exit.',
             icon: 'success'
         });
     }
-    const errorAlert = () => {
+    const update_errorAlert = () => {
         Swal.fire({
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
+            title: 'อัพเดทข้อมูลไม่สำเร็จ',
+            text: 'Click OK to exit.',
+            icon: 'error'
+        });
+    }
+    const delete_successAlert = () => {
+        Swal.fire({
+            title: 'ลบข้อมูลสำเร็จ',
+            text: 'Click OK to exit.',
+            icon: 'success'
+        });
+    }
+    const delete_errorAlert = () => {
+        Swal.fire({
+            title: 'ลบข้อมูลไม่สำเร็จ',
             text: 'Click OK to exit.',
             icon: 'error'
         });
@@ -46,6 +60,11 @@ function AddressEdit() {
     const [addressTypeID, setAddressTypeID] = React.useState('');
     const onChangeAddressType = (event: SelectChangeEvent) => {
         setAddressTypeID(event.target.value as string);
+    };
+
+    const [addressID, setAddressID] = React.useState('');
+    const onChangeAddress = (event: SelectChangeEvent) => {
+        setAddressID(event.target.value as string);
     };
 
     const [provinceID, setProvinceID] = React.useState('');
@@ -68,8 +87,9 @@ function AddressEdit() {
         return val;
     };
 
-    const submit = () => {
+    const update_f = () => {
         let data = {
+            ID: convertType(addressID),
             CustomerID: 1,
             AddressTypeID: convertType(addressTypeID),
             TambonID: convertType(tambonID),
@@ -79,8 +99,8 @@ function AddressEdit() {
         }
         console.log(data);
     
-        fetch("http://localhost:8080/CreateAddress", {
-          method: "POST",
+        fetch("http://localhost:8080/UpdateAddress", {
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -89,20 +109,74 @@ function AddressEdit() {
           .then((response) => response.json())
           .then((res) => {
             if (res.data) {
-                successAlert();
+                update_successAlert();
                 console.log("Success");
             } else {
-                errorAlert();
+                update_errorAlert();
                 console.log("Error");
             }
           });
-        // reset All after Submit
+        // reset All after update
+        setAddressID("");
         setAddressTypeID("");
         setTambonID("");
         setPostCode("");
         setDetail("");
         setDate(null);
       }
+
+    const delete_f = () => {
+        let data = {
+            ID: convertType(addressID),
+            CustomerID: 1,
+            AddressTypeID: convertType(addressTypeID),
+            TambonID: convertType(tambonID),
+            Post_Code: typeof postCode == "string" ? parseInt(postCode) : 0,
+            Detail: detail,
+            Record_Time: date,
+        }
+        console.log(data);
+    
+        fetch("http://localhost:8080/DeleteAddress", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((res) => {
+            if (res.data) {
+                delete_successAlert();
+                console.log("Success");
+            } else {
+                delete_errorAlert();
+                console.log("Error");
+            }
+          });
+        // reset All after delete
+        setAddressTypeID("");
+        setTambonID("");
+        setPostCode("");
+        setDetail("");
+        setDate(null);
+      }
+
+        const [address, setAddress] = React.useState<AddressInterface[]>([]);
+        const getAddress = async () => {
+            const apiUrl = "http://localhost:8080/GetListAddress";
+            const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            };
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setAddress(res.data);
+                }
+            });
+        };
 
         const [addressType, setAddressType] = React.useState<AddressTypeInterface[]>([]);
         const getAddressType = async () => {
@@ -190,6 +264,7 @@ function AddressEdit() {
         getTambon();
         getProvince();
         getDistrict();
+        getAddress();
     }, []);
 
     return(
@@ -207,31 +282,41 @@ function AddressEdit() {
                 mb={3}
                 bgcolor="#182e3e"
             >
-                <b>ระบบที่อยู่ผู้แจ้ง</b>
+                <b>แก้ไขข้อมูลที่อยู่</b>
             </Typography>
             </Box>
             <Box>
                 <Grid container spacing={0}>
-                    <Grid item xs={5.3}/>
-                    <Grid item xs={6.7}>
-                        <p style={{fontSize:25 ,color:"white"}}>เลือกข้อมูลที่จะลบ</p>
-                    </Grid>
                     <Grid item xs={4}/>
                     <Grid item xs={1}>
-                        <Typography align="right" fontSize={25} color="white">ชื่อลูกค้า</Typography>
+                        <Typography align="right" fontSize={25} color="white">หมายเลขที่อยู่</Typography>
                     </Grid>
-                    <Grid item xs={2}>
-                        <TextField
-                        style={{backgroundColor:"white"}}
-                        sx={{ width: 300 }}
-                        id="outlined-read-only-input"
-                        value={userName}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        /><p/>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                            <FormControl fullWidth variant="outlined">
+                                <Select
+                                    style={{backgroundColor:"white"}}
+                                    native
+                                    value={addressID}
+                                    onChange={onChangeAddress}
+                                    sx={{ width: 300 }}
+                                    inputProps={{
+                                    name: "addressID",
+                                    }}
+                                >
+                                <option aria-label="None" value="">
+                                    กรุณาเลือกหมายเลขที่อยู่
+                                </option>
+                                {address.map((item: AddressInterface) => (
+                                <option value={item.ID} key={item.ID}>
+                                    {item.ID}
+                                </option>
+                                ))}
+                                </Select>
+                            </FormControl><p />
+                        </Typography>
                     </Grid>
-                    <Grid item xs={5}/>
+                    <p/>
                     <Grid item xs={4}/>
                     <Grid item xs={1}>
                         <Typography align="right" fontSize={25} color="white">ประเภทที่อยู่</Typography>
@@ -378,22 +463,25 @@ function AddressEdit() {
                     </Grid>
                     <Grid item xs={3.8}/>
                     <Grid item xs={1}>
-                        <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/HomePage2" variant="contained">
+                        <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressCreatePage" variant="contained">
                             ย้อนกลับ
                         </Button>
                     </Grid>
-                    <Grid item xs={1.45}/>
-                    <Grid item xs={0.8}>
-                        <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressShow" variant="contained">
-                            แสดงข้อมูล
+                    <Grid item xs={1.55}/>
+                    <Grid item xs={0.7}>
+                        <Button
+                            variant="contained"
+                            sx={{ backgroundColor: "#C70039" }}
+                            onClick={delete_f}>
+                            ลบข้อมูล
                         </Button>
                     </Grid>
                     <Grid item xs={1}>
                         <Button
-                        variant="contained"
-                        color="success"
-                        onClick={submit}>
-                            บันทึกข้อมูล
+                            variant="contained"
+                            color="success"
+                            onClick={update_f}>
+                            อัพเดทข้อมูล
                         </Button><p />
                     </Grid>
                 </Grid>

@@ -18,7 +18,7 @@ import style from "./style.module.css";
 
 function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
     const [hover, setHover] = React.useState(-1);
-    console.log(checkedPaymentsAll);
+    // console.log(checkedPaymentsAll);
 
 
     const { data1, commentRating1 } = formDataRating
