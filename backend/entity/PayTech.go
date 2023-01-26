@@ -7,8 +7,6 @@ import (
 type Hardware struct {
 	gorm.Model
 	HardwareName string
-	Amount       int
-	CostHardware int
 
 	PayTech []PayTech `gorm:"ForeignKey:HardwareID"`
 }
@@ -16,7 +14,9 @@ type Hardware struct {
 type PayTech struct {
 	gorm.Model
 
-	Note string
+	Note         string
+	Amount       int
+	CostHardware int
 
 	HardwareID *uint
 	Hardware   Hardware `gorm:"references:id"`
