@@ -12,8 +12,8 @@ type Urgency struct {
 }
 type StatusClaim struct {
 	gorm.Model
-	Status_Type       string
-	Claim_Orders []Claim_Order `gorm:"ForeignKey:StatusClaim_ID"`
+	StatusClaim_Type string
+	Claim_Order      []Claim_Order `gorm:"ForeignKey:StatusClaim_ID"`
 }
 type Claim_Order struct {
 	gorm.Model
@@ -27,6 +27,7 @@ type Claim_Order struct {
 	Claim_Comment  string
 	StatusClaim_ID *uint
 	StatusClaim    StatusClaim `gorm:"references:id"`
+	
 	// Customer_ID               *uint
 	// Customer                  Customer `gorm:"references:id"`
 }

@@ -20,6 +20,7 @@ import "../CSS/payment.css";
 import PAYTECHSHOW from "./PAYTECHSHOW";
 import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
+import { log } from "console";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -65,9 +66,6 @@ function Payment() {
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
 
-  const [show_AC, setAC] = useState(0);
-  // const [show_Money, setMoney] = useState('');
-
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -110,14 +108,13 @@ function Payment() {
   function submit() {
     let data = {
 
-      PAYTECH_ID: convertType(PAYTECH_ID),  
+      PAYTECH_ID: convertType(PAYTECH_ID),  //จะเก็บค่า Ordertech_ID
       Sender_name: Payment.Sender_name ?? "",
       Bank_ID: convertType(Bank_ID),
       Amount: convertFloat(Payment.Amount),
-      //Amount_Check: convertFloat(Sent_Amout_Check),
-      Status_ID: 1,
+      //Amount_Check: convertFloat(), //ส่ง Order tecth id ไปให้ backend คำนวณเงิน
+      Status_ID: 3,
       Date_time: Date_time,
-      // User_ID: userID,               //ดึงมาจากระบบlogin
       CustomerID: 1,
     };
 
@@ -146,7 +143,7 @@ function Payment() {
     setDate(null);
     setPAYTECH_ID("");
     setPayment({});
-    setAC(0);
+    setAmountCheck("ไม่มีข้อมูล");
   }
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
 
@@ -165,18 +162,19 @@ function Payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res) {
-          // setMoney(res.data);
-          setAmountCheck(res.sent + (parseFloat(res.sent) * 0.25));
-          console.log(res.sum);
-          console.log(res.moneyMan);
-          console.log(res.sent);
+          setAmountCheck(res.sent + (parseFloat(res.sent) * 0.25)); //สำหรับแส้งที่ fron เท่านั้น ไม่ได้บันทึก
+          console.log(res.data);
+          // console.log(res.sum);
+          // console.log(res.moneyMan);
+          // console.log(res.sent);
 
         } else {
           console.log("else");
           setAmountCheck('ไม่มีข้อมูล');
         }
       });
-      // console.log(amountCheck);
+
+    // console.log('Ordertech_id = ',);
   };
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแดงให้ลูกค้า_-////////////////////////////////////////////
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
@@ -234,6 +232,7 @@ function Payment() {
         }
       });
   };
+  console.log('235_PAYTECH_ID -->', PAYTECH_ID)
 
   //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
@@ -307,7 +306,8 @@ function Payment() {
 
         {select_Order()}
         <Box style={{ backgroundColor: "#e0f2f1" }}>
-          {PAYTECHSHOW()}<br />
+          {/* {PAYTECHSHOW(PAYTECH_ID)}<br /> */}
+          {/* {PAYTECHSHOW(1)}<br /> */}
         </Box>
         <br /><br />
         {show_Amout_check()}
@@ -323,16 +323,16 @@ function Payment() {
           </Grid>
           {/*แบ่งกลางให้กับข้อความ*/}
           <Grid item xs={2} >
-            <Item ><p>หมายเลข Oder</p></Item><br />
-            <Item ><p>ชื่อผู้โอนเงิน</p></Item><br />
-            <Item ><p>ธนาคารที่โอนเงินเข้า</p></Item><br />
-            <Item ><p>จำนวนเงินที่โอนเข้า</p></Item><br />
-            <Item ><p>วันเวลาที่ทำการ</p></Item><br />
+            <Item ><center> <h3>หมายเลข Order</h3> </center></Item><br />
+            <Item ><center> <h3>ชื่อผู้โอนเงิน</h3> </center></Item><br />
+            <Item ><center> <h3>ธนาคารที่โอนเงินเข้า</h3> </center></Item><br />
+            <Item ><center> <h3>จำนวนเงินที่โอนเข้า</h3> </center></Item><br />
+            <Item ><center> <h3>วันเวลาที่ทำการ</h3> </center></Item><br />
           </Grid>
           {/*แบ่งขวาให้กับข้อมูล*/}
           <Grid item xs={6}>
 
-            <Item>{Combo_Oder()}</Item><br />
+            <Item>{taxtfield_Order()}</Item><br />
             <Item>{taxtfield_namesender()}</Item><br />
             <Item>{Combo_Bank()}</Item><br />
             <Item>{taxtfield_Amount()}</Item><br />
@@ -340,7 +340,7 @@ function Payment() {
           </Grid>
         </Grid>
         <br /><br />
-        <hr color="Green" />
+        <hr color="#FFFFFF"/>
         {button_submit_back()}
         <br /><br /><br /><br /><br /><br /><br />
 
@@ -364,11 +364,29 @@ function Payment() {
           }}
         >
           <option aria-label="None" value="">
-            กรุณาเลือก หมายเลข Oder ที่ต้องการแก้ไข หรือ ลบรายการ                 </option>
+            กรุณาเลือก หมายเลข Oder                 </option>
           {PAYTECH.map((item: any) => (
             <option value={item.ID} key={item.ID}>
               {item.ORDER.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
             </option>
+          ))}
+        </Select>
+      </FormControl>
+    )
+  }
+  function taxtfield_Order() {
+    return (
+      <FormControl fullWidth variant="outlined">
+        <Select
+          disabled
+          native
+          value={PAYTECH_ID}
+          onChange={onChangePAYTHECH}
+          inputProps={{ name: "PAYTECH_ID", }}
+        >
+          <option aria-label="None" value="">  ท่านยังไม่เลือกรายการ   </option>
+          {PAYTECH.map((item: any) => (<option value={item.ID} key={item.ID}>{item.ORDER.ID}
+          </option>
           ))}
         </Select>
       </FormControl>
