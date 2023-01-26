@@ -146,6 +146,7 @@ func main() {
 	r.POST("/CreateClaimOrder", controller.CreateClaimOrder)
 
 	r.PATCH("/UpdateClaimOrder", controller.UpdateClaimOrder)
+	r.PATCH("/UpdateClaimOrderStatus", controller.UpdateClaimOrderStatus)
 	r.PATCH("/UpdateReviewINClaimOrder", controller.UpdateReviewINClaimOrder)
 	r.DELETE("/DeleteClaimOrder", controller.DeleteClaimOrder)
 

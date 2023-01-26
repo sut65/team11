@@ -129,6 +129,20 @@ func UpdateClaimOrder(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": ClaimOrder})
 }
+// PATCH /UpdateClaimOrderStatus
+func UpdateClaimOrderStatus(c *gin.Context) {
+	var ClaimOrder entity.Claim_Order
+
+	if err := c.ShouldBindJSON(&ClaimOrder); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Model(ClaimOrder).Where("id = ?", ClaimOrder.ID).Updates(map[string]interface{}{"StatusClaim_ID": ClaimOrder.StatusClaim_ID}).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": ClaimOrder})
+}
 
 // PATCH /Review
 func UpdateReviewINClaimOrder(c *gin.Context) {

@@ -29,14 +29,14 @@ import { UrgencyInterface } from '../../../interfaces/ClaimUI';
 
 const yesAlert = () => {
     Swal.fire({
-        title: 'อนุมัติสำเร็จ.',
+        title: 'อนุมัติสำเร็จ',
         text: 'You clicked the button.',
         icon: 'success'
     });
 }
 const errorAlert = () => {
     Swal.fire({
-        title: 'ผิดพลาด.',
+        title: 'ผิดพลาด',
         text: 'You clicked the button.',
         icon: 'error'
     });
