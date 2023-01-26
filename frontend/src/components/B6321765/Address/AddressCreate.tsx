@@ -384,7 +384,7 @@ function AddressCreate() {
                     </Grid>
                     <Grid item xs={1.45}/>
                     <Grid item xs={0.8}>
-                        <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressShow" variant="contained">
+                        <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressShowPage" variant="contained">
                             แสดงข้อมูล
                         </Button>
                     </Grid>

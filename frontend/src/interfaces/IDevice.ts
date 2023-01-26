@@ -1,6 +1,6 @@
 export interface TypeInterface {
     ID: number,
-    Type_name: string,
+    Type_Name: string,
 }
 
 export interface WindowsInterface {
