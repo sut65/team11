@@ -6,6 +6,12 @@ import (
 	"gorm.io/gorm"
 )
 
+type State struct {
+	gorm.Model
+	State string
+	ORDER []ORDER `gorm:"foreignKey:CASEID"`
+}
+
 type CASE struct {
 	gorm.Model
 	Case_text  string
@@ -22,6 +28,9 @@ type ORDER struct {
 
 	CASEID *uint
 	CASE   CASE `gorm:"references:id"`
+
+	StateID *uint
+	State   State `gorm:"references:id"`
 
 	DeviceID *uint
 	Device   Device `gorm:"references:id"`

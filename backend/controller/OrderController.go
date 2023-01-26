@@ -43,10 +43,47 @@ func GetCase(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": GetCase})
 }
 
+// POST CASE
+func CreateState(c *gin.Context) {
+	var stated entity.State
+	if err := c.ShouldBindJSON(&stated); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Create(&stated).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": stated})
+}
+
+// List all Case
+func ListState(c *gin.Context) {
+	var states []entity.State
+	if err := entity.DB().Raw("SELECT * FROM states").Scan(&states).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": states})
+}
+
+// Get Case by id
+func GetState(c *gin.Context) {
+	var GetState entity.State
+	id := c.Param("id")
+	if tx := entity.DB().Preload("id = ?", id).Find(&GetState); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "State not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": GetCase})
+}
+
 // Main Table ORDER
 func CreateOrder(c *gin.Context) {
 
 	var cased entity.CASE
+	var state entity.State
 	var device entity.Device
 	var address entity.Address
 	var customer entity.Customer
@@ -61,6 +98,12 @@ func CreateOrder(c *gin.Context) {
 	// ค้นหา cased  ด้วย id
 	if tx := entity.DB().Where("id = ?", order.CASEID).First(&cased); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Case not found"})
+		return
+	}
+
+	// ค้นหา state  ด้วย id
+	if tx := entity.DB().Where("id = ?", order.StateID).First(&state); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "State not found"})
 		return
 	}
 
@@ -84,6 +127,7 @@ func CreateOrder(c *gin.Context) {
 
 	ad := entity.ORDER{
 		CASEID:     order.CASEID,     // โยงความสัมพันธ์กับ Entity Case
+		StateID:    order.StateID,    // โยงความสัมพันธ์กับ Entity State
 		DeviceID:   order.DeviceID,   // โยงความสัมพันธ์กับ Entity Device
 		AddressID:  order.AddressID,  // โยงความสัมพันธ์กับ Entity Address
 		CustomerID: order.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
@@ -102,7 +146,7 @@ func CreateOrder(c *gin.Context) {
 // GET /ORDER
 func GetListOrder(c *gin.Context) {
 	var orders []entity.ORDER
-	if err := entity.DB().Preload("Customer").Preload("Device").Preload("Address").Preload("CASE").Find(&orders).Error; err != nil {
+	if err := entity.DB().Preload("Customer").Preload("Device").Preload("Address").Preload("CASE").Preload("State").Find(&orders).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -123,20 +167,29 @@ func GetOrder(c *gin.Context) {
 // PATCH /Order
 func UpdateOrder(c *gin.Context) {
 	var order entity.ORDER
+
 	if err := c.ShouldBindJSON(&order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", order.ID).First(&order); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Address not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&order).Error; err != nil {
+	if err := entity.DB().Model(order).Where("id = ?", order.ID).Updates(map[string]interface{}{"CustomerID": order.CustomerID, "CASEID": order.CASEID, "StateID": order.StateID, "DeviceID": order.DeviceID, "AddressID": order.AddressID, "Date_time": order.Date_time, "Reason": order.Reason, "Limit": order.Limit}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{"data": order})
+}
 
+// PATCH /Order /Cancel and Refund
+func UpdateOrderCR(c *gin.Context) {
+	var order entity.ORDER
+
+	if err := c.ShouldBindJSON(&order); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Model(order).Where("id = ?", order.ID).Updates(map[string]interface{}{ "StateID": order.StateID}).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"data": order})
 }
