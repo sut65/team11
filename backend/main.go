@@ -145,10 +145,12 @@ func main() {
 	r.POST("/CreatStatusClaim", controller.CreateStatusClaim)
 	r.POST("/CreateClaimOrder", controller.CreateClaimOrder)
 
-	r.PATCH("/UpdateClaimOrder", controller.UpdateReview)
-	r.DELETE("/DeleteClaimOrder", controller.DeleteReview)
+	r.PATCH("/UpdateClaimOrder", controller.UpdateClaimOrder)
+	r.PATCH("/UpdateReviewINClaimOrder", controller.UpdateReviewINClaimOrder)
+	r.DELETE("/DeleteClaimOrder", controller.DeleteClaimOrder)
 
 	r.GET("/GetListClaimOrders", controller.GetListClaimOrders)
+	r.GET("/GetListUrgency", controller.GetListUrgency)
 	r.GET("/GetClaimOrder/:id", controller.GetClaimOrder)
 	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
 
