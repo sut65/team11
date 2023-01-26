@@ -11,6 +11,7 @@ import AddressShowForm from './components/B6321765/Address/AddressShow';
 import AddressEditForm from './components/B6321765/Address/AddressEdit';
 import OrderCreate from './components/B6304508/Order';
 import ClaimForm from './components/B6304577/ClaimOrders/ClaimForm';
+import ClaimOrderForAdmin from './components/B6304577/ClaimOrders/ClaimOrderForAdmin';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<PaymentShow />} /> 
         {/* ทดสอบหน้า fontent ที่นี่ */}
         <Route path="/ContentClaimOrder" element={<ClaimForm />} />
+        <Route path="/ClaimOrderForAdmin" element={<ClaimOrderForAdmin />} />
         <Route path="/RankingForm" element={<RankingForm />} />
         <Route path="/OrderCreate" element={<OrderCreate />} />
         <Route path="/PaymentShow" element={<PaymentShow />} />
