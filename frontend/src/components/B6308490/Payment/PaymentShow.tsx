@@ -66,7 +66,7 @@ function PaymentShow() {
       }
     },
     { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100 },
-    //{ field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 100 },
+    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 100 },
     {
       field: "Date_time", headerName: "วันที่โอนเงิน", width: 200
       , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
@@ -75,13 +75,13 @@ function PaymentShow() {
       field: "Status_ID", headerName: "สถานะ", width: 300
       , renderCell: params => {
 
-        if (params.row.Status_ID === 0) {
+        if (params.row.Status_ID === 1){
           return <div>ยังไม่ชำระเงิน</div>;
-        } else if (params.row.Status_ID === 1) {
-          return <div>ชำระเงินเรียบร้อย</div>;
         } else if (params.row.Status_ID === 2) {
-          return <div>รอตรวจสอบการชำระเงิน</div>;
+          return <div>ชำระเงินเรียบร้อย</div>;
         } else if (params.row.Status_ID === 3) {
+          return <div>รอตรวจสอบการชำระเงิน</div>;
+        } else if (params.row.Status_ID === 4) {
           return <div>การชำระเงินไม่ถูกต้อง</div>;
         } 
       }

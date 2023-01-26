@@ -215,7 +215,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             ClaimTime: date,
             OrderProblem: orderProblem,
             Claim_Comment: claimComment,
-            StatusClaim_ID: 2,
+            StatusClaim_ID: 1,
         };
         // console.log(data);
         const apiUrl = "http://localhost:8080/CreateClaimOrder";
