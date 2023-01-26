@@ -21,6 +21,15 @@ func CreateType(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": types})
 }
 
+func GetListType(c *gin.Context) {
+	var types []entity.Type
+	if err := entity.DB().Raw("SELECT * FROM types").Scan(&types).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": types})
+}
+
 // POST Windows
 func CreateWindows(c *gin.Context) {
 	var windows entity.Windows
@@ -29,6 +38,15 @@ func CreateWindows(c *gin.Context) {
 		return
 	}
 	if err := entity.DB().Create(&windows).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": windows})
+}
+
+func GetListWindows(c *gin.Context) {
+	var windows []entity.Windows
+	if err := entity.DB().Raw("SELECT * FROM windows").Scan(&windows).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -72,7 +90,8 @@ func CreateDevice(c *gin.Context) {
 		Monitor:    device.Monitor,    // ตั้งค่าฟิลด์ Monitor
 		GPU:        device.GPU,        // ตั้งค่าฟิลด์ GPU
 		RAM:        device.RAM,        // ตั้งค่าฟิลด์ RAM
-		Harddisk:   device.Harddisk,   // ตั้งค่าฟิลด์ Harddisk
+		Harddisk:   device.Harddisk,	// ตั้งค่าฟิลด์ Harddisk
+		Problem:	device.Problem ,	//ตั้งค่าฟิลด์ Problem
 		CustomerID: device.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
 		TypeID:     device.TypeID,     // โยงความสัมพันธ์กับ Entity Type
 		WindowsID:  device.WindowsID,  // โยงความสัมพันธ์กับ Entity Windows

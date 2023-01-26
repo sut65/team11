@@ -94,6 +94,8 @@ func main() {
 
 	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================
 	r.POST("/CreateType", controller.CreateType)
+	r.GET("/GetListType", controller.GetListType)
+	r.GET("/GetListWindows", controller.GetListWindows)
 	r.POST("/CreateWindows", controller.CreateWindows)
 
 	r.POST("/CreateDevice", controller.CreateDevice)

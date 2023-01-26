@@ -12,6 +12,7 @@ import AddressEditForm from './components/B6321765/Address/AddressEdit';
 import OrderCreate from './components/B6304508/Order';
 import ClaimForm from './components/B6304577/ClaimOrders/ClaimForm';
 import ClaimOrderForAdmin from './components/B6304577/ClaimOrders/ClaimOrderForAdmin';
+import DeviceCreateForm from './components/B6321765/Device/DeviceCreate';
 
 
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
         <Route path="/AddressShowPage" element={<AddressShowForm/>} />
         <Route path="/AddressEditPage" element={<AddressEditForm/>} />
+        <Route path="/DeviceCreatePage" element={<DeviceCreateForm/>} />
       </Routes>
     </Router>
   );
