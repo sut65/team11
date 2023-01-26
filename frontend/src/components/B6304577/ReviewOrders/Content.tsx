@@ -26,12 +26,20 @@ import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import style from "./style.module.css";
 
+
+function refreshPage() {
+    window.location.reload();
+}
+
 const successAlert = () => {
     Swal.fire({
         title: 'ลบข้อมูลสำเร็จ',
         text: 'You clicked the button.',
         icon: 'success'
     });
+    setTimeout(() => {
+        refreshPage();
+    }, 1500)
 }
 const errorAlert = () => {
     Swal.fire({
@@ -46,17 +54,17 @@ function renderRating(params: GridRenderCellParams<number>) {
 }
 
 
-function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, setFormDataRating, setCheckedPaymentsAll}: any) {
+function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setFormDataRating, setCheckedPaymentsAll }: any) {
     const [reviews, setReviews] = useState<any[]>([]);
     const [checkedPayments, setCheckedPayments] = useState<any[]>([]);
-    const {checkedPaymentID,customerID} = formDataRating
-    // console.log(checkedPayments);
-    
+    const [checkReviewButton, setCheckReviewButton] = useState<any[]>([]);
 
-    
- 
+   
 
-//  checkedPayments.map((item:any)=>{item.Customer.ID})
+    const { checkedPaymentID, customerID } = formDataRating
+
+    reviews.map((i)=>checkReviewButton.push(i.CheckedPayment_ID))
+    
 
     const handleStart = () => {
         setActiveStep(activeStep + 1);
@@ -75,8 +83,6 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
             .then((res) => {
                 if (res.data) {
                     setReviews(res.data)
-                    console.log(res.data);
-                    
                 }
             });
     };
@@ -98,7 +104,6 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
     useEffect(() => {
         getReview();
         getCheckedPayment();
-
     }, []);
 
     const columnCheckPayments: GridColDef[] = [
@@ -110,20 +115,24 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
             renderCell: (params: GridRenderCellParams) => {
                 const handleClick = () => {
                     params.api.setRowMode(params.id, 'edit');
-                    
+                    console.log(params.row);
                     setActiveStep(activeStep + 1);
                     setCheckedPaymentsAll(params.row)
-                    setFormDataRating({ ...formDataRating, checkedPaymentID: params.id, customerID: params.row.CustomerID  }) //รอระบบล็อคอินจะสามารถเรียก CustomerID จากหน้าlogin
-                    console.log(params.row.CustomerID);
+                    setFormDataRating({ ...formDataRating, checkedPaymentID: params.id, customerID: params.row.CustomerID }) //รอระบบล็อคอินจะสามารถเรียก CustomerID จากหน้าlogin
                 };
-                return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
+                if (params.id in checkReviewButton){
+                    return <Button disabled variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
+                }return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
+                    
             }
+            
+            // reviews.map((i)=>{i.CheckedPayment_ID})
         },
         {
             field: 'Product_ID',
             headerName: 'รายการซ่อม',
             width: 200,
-            renderCell:params =>{        
+            renderCell: params => {
                 return <div>{params.row.Payment.PayTech.OrderTech.ORDER.Reason}</div>
             }
         },
@@ -131,7 +140,7 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
             field: 'OrderTech',
             headerName: 'วิธีซ่อม',
             width: 200,
-            renderCell:params =>{                
+            renderCell: params => {
                 return <div>{params.row.Payment.PayTech.OrderTech.Solving}</div>
             }
         },
@@ -139,9 +148,9 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
             field: 'Technician',
             headerName: 'ช่างผู้รับผิดชอบงาน',
             width: 200,
-            renderCell:params =>{
+            renderCell: params => {
                 console.log(params.row.Payment.PayTech.OrderTech.Technician.Name);
-                
+
                 return <div>{params.row.Payment.PayTech.OrderTech.Technician.Name}</div>
             }
         },
@@ -149,18 +158,18 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
             field: 'CustomerID',
             headerName: 'ลูกค้า',
             width: 200,
-            renderCell: params => { 
-                return<div>{params.row.Customer.Name}</div>
+            renderCell: params => {
+                return <div>{params.row.Customer.Name}</div>
             }
         },
         {
             field: 'Status_ID',
             headerName: 'สถานะ',
             width: 180,
-            renderCell: params => { 
-                return<div>{params.row.Status_check.Status_name}</div>
+            renderCell: params => {
+                return <div>{params.row.Status_check.Status_name}</div>
             }
-            
+
         },
     ];
 
@@ -222,7 +231,7 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
             field: 'Checked_payment',
             headerName: 'รายการซ่อม',
             width: 150,
-            renderCell:params =>{
+            renderCell: params => {
                 return <div>{params.row.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason}</div>
             }
         },
@@ -271,10 +280,10 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
             field: 'Customer_ID',
             headerName: 'ลูกค้า',
             width: 200,
-            renderCell: params => { 
+            renderCell: params => {
                 console.log(params.row.Checked_payment.Customer.Name);
-                
-                return<div>{params.row.Checked_payment.Customer.Name}</div>
+
+                return <div>{params.row.Checked_payment.Customer.Name}</div>
             }
         },
 
@@ -286,6 +295,20 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
         <Container maxWidth="lg" >
             <br />
             <br />
+            <Typography className={style.mainToptic} sx={{ marginTop: 10, color: "#ffffff", alignItems: "center" }}>
+
+                    <h2 >
+                        ระบบประเมินความพึงพอใจ
+                    </h2>
+         
+
+            </Typography>
+            <Typography sx={{ color: "#ffffff" }}>
+
+                <h4>
+                    กรุณากรอกแบบประเมินความพึงพอใจ
+                </h4>
+            </Typography>
             <br />
             <div style={{ height: 400, width: '100%' }} >
                 <DataGrid
@@ -299,9 +322,9 @@ function Content({ setActiveStep, activeStep, setReviewsID , formDataRating, set
                 // checkboxSelection
                 />
             </div>
-            <Typography className={style.text}>
+            <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
                 <h2>
-                    รีวิวสำเร็จ
+                    การรีวิวสำเร็จ
                 </h2>
             </Typography>
 
