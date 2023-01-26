@@ -350,7 +350,8 @@ function DeviceCreate() {
                         <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={12}>
+                    <Grid item xs={4.5}/>
+                    <Grid item xs={3}>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <StaticDatePicker
                             onChange={(newValue) => setSaveTime(newValue)}
@@ -364,6 +365,7 @@ function DeviceCreate() {
                         />
                         </LocalizationProvider>
                     </Grid>
+                    <Grid item xs={4.5}/>
                     <Grid item xs={3.8}/>
                     <Grid item xs={1}>
                         <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/HomePage2" variant="contained">
@@ -386,7 +388,7 @@ function DeviceCreate() {
                     </Grid>
                 </Grid>
             </Box>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <br/><br/><br/>
         </Paper> 
     )
 }
