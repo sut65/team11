@@ -1,14 +1,12 @@
-// import {TypeInterface} from "./Type" // รอจากของพืช
-// import {TechnicianInterface} from "./Technician" // รอจากของโต้ง
-// import {ORDERInterface} from "./ORDER" // รอจากของฟิว
-
-import { OrderTechInterface } from "./IOrderTech"; //จั๊ดแก้ไข
+import {TechnicianInterface} from "./TechnicianUI"
+import { OrderTechInterface } from "./IOrderTech";
 
 
 export interface PayTechInterface {
     ID: number,
-    TimeStamp: Date | null;
     Note: string,
+    Amount: number,
+    CostHardware: number,
 
     HardwareID:   number;
     Hardware: HardwareInterface
@@ -16,21 +14,11 @@ export interface PayTechInterface {
     OrderTechID: number;
     OrderTech: OrderTechInterface
 
-    
-
-    // TypeID:   number;
-    // Type: typeInterface
-
-    // TechnicianID:   number;
-    // Technician  TechnicianInterface
-
-    // OrderID:    number;
-    // ORDER   ORDERInterface
+    TechnicianID:   number;
+    Technician:  TechnicianInterface
 }
 
 export interface HardwareInterface {
     ID: number,
     HardwareName: string,
-    AmountHardware: number,
-    CostHardware:   number;
 }

@@ -6,6 +6,7 @@ import Payment from './components/B6308490/Payment/Payment';
 import EditPayment from './components/B6308490/Payment/EditPayment';
 import PaymentShow from './components/B6308490/Payment/PaymentShow';
 import OrderTech from './components/B6310646/UIOrderTech';
+import PayTech from './components/B6310646/UIPayTech';
 
 import AddressCreateForm from './components/B6321765/Address/AddressCreate';
 import AddressShowForm from './components/B6321765/Address/AddressShow';
@@ -48,6 +49,7 @@ function App() {
         <Route path="/RefundCreate" element={<RefundCreate />} />
         <Route path="/RefundCreate" element={<RefundShow />} />
         <Route path="/OrderTech" element={<OrderTech />} />
+        <Route path="/PayTech" element={<PayTech />} />
       </Routes>
     </Router>
   );
