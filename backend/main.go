@@ -94,6 +94,8 @@ func main() {
 
 	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================
 	r.POST("/CreateType", controller.CreateType)
+	r.GET("/GetListType", controller.GetListType)
+	r.GET("/GetListWindows", controller.GetListWindows)
 	r.POST("/CreateWindows", controller.CreateWindows)
 
 	r.POST("/CreateDevice", controller.CreateDevice)
@@ -107,8 +109,12 @@ func main() {
 	r.POST("/CreateCASE", controller.CreateCASE)
 	r.POST("/GetCase", controller.GetCase)
 	r.GET("/ListCase", controller.ListCase)
+	r.POST("/CreateState", controller.CreateState)
+	r.POST("/GetState", controller.GetState)
+	r.GET("/ListState", controller.ListState)
 	r.POST("/CreateOrder", controller.CreateOrder)
 	r.PATCH("/UpdateOrder", controller.UpdateOrder)
+	r.PATCH("/UpdateOrderCR", controller.UpdateOrderCR)
 	r.GET("/GetListOrder", controller.GetListOrder)
 	r.GET("/GetOrder/:id", controller.GetOrder)
 	// ========== B6304508 (ฟิวส์) Order ==========

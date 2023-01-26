@@ -16,7 +16,6 @@ import (
 func CreatePayTech(c *gin.Context) {
 	var Hardware entity.Hardware
 	var PayTech entity.PayTech
-	// var Type entity.Type
 	var technician entity.Technician
 	var OrderTech entity.OrderTech
 
@@ -50,7 +49,9 @@ func CreatePayTech(c *gin.Context) {
 		Hardware:   Hardware,   // โยงความสัมพันธ์กับ Entity Hardware
 		Technician: technician, // โยงความสัมพันธ์กับ Entity Technician
 
-		Note: PayTech.Note,
+		Note:         PayTech.Note,
+		Amount:       PayTech.Amount,
+		CostHardware: PayTech.CostHardware,
 	}
 
 	// 13: บันทึก

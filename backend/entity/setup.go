@@ -58,6 +58,7 @@ func SetupDatabase() {
 		//========== Order ==========
 		&CASE{},
 		&ORDER{},
+		&State{},
 		//========== Order ==========
 
 		//========== Refund ==========
@@ -340,11 +341,27 @@ func SetupDatabase() {
 	}
 	db.Model(&CASE{}).Create(&Case_3)
 
+	State_1 := State{
+		State:  "Ready",
+	}
+	db.Model(&State{}).Create(&State_1)
+	
+	State_2 := State{
+		State:  "Cancel",
+	}
+	db.Model(&State{}).Create(&State_2)
+	
+	State_3 := State{
+		State:  "Refund",
+	}
+	db.Model(&State{}).Create(&State_3)
+
 	Order_1 := ORDER{
 		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Reason:    "เครื่องคอมเสียงดัง",
 		Limit:     12000,
 		CASE:      Case_1,
+		State: 		State_1,
 		Device:    device_1,
 		Address:   address_1,
 		Customer:  customer_1,
@@ -430,26 +447,18 @@ func SetupDatabase() {
 	//Hardware
 	HardwareA := Hardware{
 		HardwareName: "หน้าจอ",
-		Amount:       1,
-		CostHardware: 1600,
 	}
 	db.Model(&Hardware{}).Create(&HardwareA)
 	HardwareB := Hardware{
 		HardwareName: "สายไฟ",
-		Amount:       1,
-		CostHardware: 150,
 	}
 	db.Model(&Hardware{}).Create(&HardwareB)
 	HardwareC := Hardware{
 		HardwareName: "พัดลม",
-		Amount:       1,
-		CostHardware: 730,
 	}
 	db.Model(&Hardware{}).Create(&HardwareC)
 	HardwareD := Hardware{
 		HardwareName: "Software",
-		Amount:       1,
-		CostHardware: 200,
 	}
 	db.Model(&Hardware{}).Create(&HardwareD)
 
@@ -457,10 +466,12 @@ func SetupDatabase() {
 
 	// ====== Mockup PayTech ========
 	PayTechA := PayTech{
-		Note:       "สายไฟ 4 เมตร",
-		Hardware:   HardwareA,
-		Technician: technician_1,
-		OrderTech:  OrderTechA,
+		Note:         "หน้าจอ 24 นิ้ว",
+		Amount:       1,
+		CostHardware: 200,
+		Hardware:     HardwareA,
+		Technician:   technician_1,
+		OrderTech:    OrderTechA,
 	}
 	db.Model(&PayTech{}).Create(&PayTechA)
 	// ====== Mockup PayTech ========
@@ -531,9 +542,9 @@ func SetupDatabase() {
 	database.Create(&Urgency{Urgency_Type: "ปานกลาง"})
 	database.Create(&Urgency{Urgency_Type: "มาก"})
 
-	database.Create(&StatusClaim{StatusClaim_Type:"รอการอนุมัติ"})
-	database.Create(&StatusClaim{StatusClaim_Type:"อนุมัติ"})
-	database.Create(&StatusClaim{StatusClaim_Type:"ไม่อนุมัติ"})
+	database.Create(&StatusClaim{StatusClaim_Type: "รอการอนุมัติ"})
+	database.Create(&StatusClaim{StatusClaim_Type: "อนุมัติ"})
+	database.Create(&StatusClaim{StatusClaim_Type: "ไม่อนุมัติ"})
 
 	// ============== Mockup ตารางย่อยของระบบรายงานปัญหาหลังการซ่อม ==================
 

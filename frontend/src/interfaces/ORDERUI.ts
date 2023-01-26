@@ -12,11 +12,19 @@ export interface ORDERInterface {
     Device: DeviceInterface
     AddressID: number;
     Address: AddressInterface
+    StateID :number;
+    State: StateInterface
 }
 
 export interface CASEInterface {
     ID: number,
     Case_text: string,
-    Level_case:string;
+    Level_case:string,
 }
+
+export interface StateInterface {
+    ID: number,
+    State: string,
+}
+
 
