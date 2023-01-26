@@ -38,5 +38,5 @@ type Review struct {
 	CheckSucceed              bool
 
 	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
-	Refund      []Refund      `gorm:"foreignKey:ReviewID"`
+
 }
