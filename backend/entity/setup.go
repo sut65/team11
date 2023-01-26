@@ -58,6 +58,7 @@ func SetupDatabase() {
 		//========== Order ==========
 		&CASE{},
 		&ORDER{},
+		&State{},
 		//========== Order ==========
 
 		//========== Refund ==========
@@ -340,11 +341,27 @@ func SetupDatabase() {
 	}
 	db.Model(&CASE{}).Create(&Case_3)
 
+	State_1 := State{
+		State:  "Ready",
+	}
+	db.Model(&State{}).Create(&State_1)
+	
+	State_2 := State{
+		State:  "Cancel",
+	}
+	db.Model(&State{}).Create(&State_2)
+	
+	State_3 := State{
+		State:  "Refund",
+	}
+	db.Model(&State{}).Create(&State_3)
+
 	Order_1 := ORDER{
 		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Reason:    "เครื่องคอมเสียงดัง",
 		Limit:     12000,
 		CASE:      Case_1,
+		State: 		State_1,
 		Device:    device_1,
 		Address:   address_1,
 		Customer:  customer_1,

@@ -51,12 +51,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   });
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
-function OrderCreate() {
+function OrderUpdate() {
 
     //ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox ทั้งหมดเป็นตารางที่ ดึงไปใส่ตารางหลัก
     const [Device_ID, setDevice_ID] = useState('');
     const [Address_ID, setAddress_ID] = useState('');
     const [Case_ID, setCase_ID] = useState('');
+    const [Order_ID, setOrder_ID] = useState('');
     const [Reason, setReason] = useState('');
     const [Limit, setLimit] = useState('');
     const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
@@ -100,7 +101,7 @@ function OrderCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof OrderCreate;
+        const id = event.target.id as keyof typeof OrderUpdate;
         const { value } = event.target;
         setOrder({ ...Order, [id]: value });
     };
@@ -118,6 +119,9 @@ function OrderCreate() {
     const onChangeCase = (event: SelectChangeEvent) => {
         setCase_ID(event.target.value as string);
     };
+    const onChangeOrder = (event: SelectChangeEvent) => {
+        setOrder_ID(event.target.value as string);
+    };
 
     ///////////////////////////////////////////////////////////////
 
@@ -127,9 +131,10 @@ function OrderCreate() {
     };
 
     //ฟังก์ชันนี้ สำหรับการกดปุ่ม submit จะทำการสร้างข้อมูลต่าง ๆ เพื่อส่งไปทำการบันทึกที่ backend
-    function submit() {
+    function update() {
         let data = {
 
+        ID: convertType(Order_ID),
         CASEID: convertType(Case_ID),
         StateID: 1,
         DeviceID: convertType(Device_ID),
@@ -145,9 +150,9 @@ function OrderCreate() {
 
     //check data
 
-    const apiUrl = "http://localhost:8080/CreateOrder";
+    const apiUrl = "http://localhost:8080/UpdateOrder";
     const requestOptions = {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
@@ -157,10 +162,12 @@ function OrderCreate() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
+          console.log('t',res.data);
           
           successAlert();
         } else {
           console.log(data)
+          console.log('F',res.data);
           errorAlert();
           
         }
@@ -168,6 +175,7 @@ function OrderCreate() {
 
     // reset All after Submit
     setOrder({});
+    setOrder_ID("");
     setDate(null);
     setDevice_ID("");
     setAddress_ID("");
@@ -175,8 +183,64 @@ function OrderCreate() {
 
  }
 
- const [Device, setDevice] = React.useState<any[]>([]); //useStateเรียกทุกตัวมาใช้
+ function cancle() {
+  let data = {
 
+  ID: convertType(Order_ID),
+  StateID: 2,
+
+};
+
+console.log(data);
+
+//check data
+
+const apiUrl = "http://localhost:8080/UpdateOrderCR";
+const requestOptions = {
+method: "PATCH",
+headers: {
+  "Content-Type": "application/json"
+},
+body: JSON.stringify(data),
+};
+fetch(apiUrl, requestOptions)
+.then((response) => response.json())
+.then((res) => {
+  if (res.data) {
+    console.log('t',res.data);
+    
+    successAlert();
+  } else {
+    console.log(data)
+    console.log('F',res.data);
+    errorAlert();
+    
+  }
+});
+
+// reset All after Submit
+setOrder({});
+setOrder_ID("");
+
+}
+
+ const [orders, setOrders ] = React.useState<ORDERInterface[]>([]);
+        const getOrder = async () => {
+            const apiUrl = "http://localhost:8080/GetListOrder";
+            const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            };
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setOrders(res.data);
+                }
+            });
+        };
+
+ const [Device, setDevice] = React.useState<any[]>([]); //useStateเรียกทุกตัวมาใช้
  const getDevice = async () => {
   //  GetDevice();
    const apiUrl = "http://localhost:8080/GetListDevice";
@@ -288,6 +352,7 @@ function OrderCreate() {
     getDevice();
     getAddress();
     getCase();
+    getOrder();
     GetDeviceID();
     GetAddressID();
 
@@ -347,7 +412,7 @@ function OrderCreate() {
             fontFamily="Arial"
           >
             <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} ><br />
-              ระบบบันทึกข้อมูลการแจ้งซ่อม
+              แก้ไขข้อมูลการแจ้งซ่อม
             </b><br /><br />
 
           </Typography>
@@ -355,6 +420,37 @@ function OrderCreate() {
       </Box>
 
       <Grid container spacing={3} sx={{ padding: 2 }}>
+            <Grid item xs={1}>
+              {/* <FormControl fullWidth variant="outlined"> */}
+              <p style={{ color: "#FFFFFF", textAlign: "right" }}>ORDER</p>
+            </Grid>
+            <Grid item xs={9} >
+              <Item style={{ background: "#FFFFFF"}}>
+              <FormControl fullWidth variant="outlined">
+                <Select
+                  native
+                  value={Order_ID}
+                  onChange={onChangeOrder}
+                  inputProps={{
+                    name: "Order_ID",
+                  }}
+                >
+                  <option aria-label="None" value="">
+                    กรุณาเลือกออเดอร์
+                  </option>
+                  {orders.map((item) => (
+                    <option value={item.ID} key={item.ID}>
+                       Order-ID : {item.ID}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              </Item>
+            </Grid>
+            
+          </Grid>
+
+          <Grid container spacing={3} sx={{ padding: 2 }}>
             <Grid item xs={1}>
               {/* <FormControl fullWidth variant="outlined"> */}
               <p style={{ color: "#FFFFFF", textAlign: "right" }}>DEVICE</p>
@@ -613,28 +709,37 @@ function OrderCreate() {
           </Grid>
               
         <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/" variant="contained"  >
+        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/OrderCreate" variant="contained"  >
           ย้อนกลับ
         </Button>
         <Button
           style={{ float: "right", fontSize: 20 }}
-          onClick={submit}
+          onClick={update}
           variant="contained"
           color="success"
           size="large"
         >
-          <b>บันทึก</b>
+          <b>แก้ไข</b>
         </Button>
       </Grid>
-      <Grid sx = {{padding : 2}}></Grid>
+
+      <Grid sx={{ padding: 2 }}></Grid>
+      
       <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "#9999FF", fontSize: 20 }} component={RouterLink} to="/ShowOrder" variant="contained"  >
+        <Button size="large" sx={{ backgroundColor: "##9999FF", fontSize: 20 }} component={RouterLink} to="/ShowOrder" variant="contained"  >
           ข้อมูล
         </Button>
-        <Button size="large" sx={{float: "right", backgroundColor: "#FF6600", fontSize: 20 }} component={RouterLink} to="/OrderUpdate" variant="contained"  >
-          แก้ไข
+        <Button
+          style={{ float: "right", fontSize: 20}}
+          onClick={cancle}
+          variant="contained"
+          color="warning"
+          size="large"
+        >
+          <b>Cancle Order</b>
         </Button>
-        </Grid>
+      </Grid>
+
 
     </Container>
   </Paper>
@@ -642,4 +747,4 @@ function OrderCreate() {
 
 }
 
-export default OrderCreate;
+export default OrderUpdate;

@@ -26,6 +26,8 @@ function App() {
         <Route path="/ClaimOrderForAdmin" element={<ClaimOrderForAdmin />} />
         <Route path="/RankingForm" element={<RankingForm />} />
         <Route path="/OrderCreate" element={<OrderCreate />} />
+        <Route path="/OrderUpdate" element={<OrderUpdate />} />
+        <Route path="/ShowOrder" element={<ShowOrder />} />
         <Route path="/PaymentShow" element={<PaymentShow />} />
         <Route path="/Payment" element={<Payment />} />
         <Route path="/EditPayment" element={<EditPayment />} />
