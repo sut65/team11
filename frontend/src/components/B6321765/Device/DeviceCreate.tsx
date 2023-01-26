@@ -195,7 +195,7 @@ function DeviceCreate() {
                         /><p/>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button sx={{ backgroundColor: "#A75D5D" }} component={RouterLink} to="/AddressEditPage" variant="contained">
+                        <Button sx={{ backgroundColor: "#A75D5D" }} component={RouterLink} to="/DeviceEditPage" variant="contained">
                             แก้ไข/ลบข้อมูล
                         </Button>
                     </Grid>
