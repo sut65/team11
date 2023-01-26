@@ -21,6 +21,28 @@ func CreateCause(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": caused})
 }
 
+// List all Cause
+func ListCause(c *gin.Context) {
+	var causes []entity.Cause
+	if err := entity.DB().Raw("SELECT * FROM causes").Scan(&causes).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": causes})
+}
+
+// Get Cause by id
+func GetCause(c *gin.Context) {
+	var GetCause entity.Cause
+	id := c.Param("id")
+	if tx := entity.DB().Preload("id = ?", id).Find(&GetCause); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Cause not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": GetCause})
+}
+
 // POST Contact
 func CreateContact(c *gin.Context) {
 	var contacted entity.Contact
@@ -35,10 +57,32 @@ func CreateContact(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": contacted})
 }
 
+// List all Case
+func ListContact(c *gin.Context) {
+	var contacts []entity.Contact
+	if err := entity.DB().Raw("SELECT * FROM contacts").Scan(&contacts).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": contacts})
+}
+
+// Get Case by id
+func GetContact(c *gin.Context) {
+	var GetContact entity.Contact
+	id := c.Param("id")
+	if tx := entity.DB().Preload("id = ?", id).Find(&GetContact); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Contact not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": GetContact})
+}
+
 // Main Table Refund
 func CreateRefund(c *gin.Context) {
 
-	var review entity.Review
+	var order entity.ORDER
 	var cause entity.Cause
 	var contact entity.Contact
 	var refund entity.Refund
@@ -49,9 +93,9 @@ func CreateRefund(c *gin.Context) {
 		return
 	}
 
-	// ค้นหา Order ด้วย id
-	if tx := entity.DB().Where("id = ?", refund.ReviewID).First(&review); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
+	// ค้นหา order  ด้วย id
+	if tx := entity.DB().Where("id = ?", refund.OrderID).First(&order); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Order not found"})
 		return
 	}
 
@@ -68,7 +112,7 @@ func CreateRefund(c *gin.Context) {
 	}
 
 	ad := entity.Refund{
-		ReviewID:       refund.ReviewID,  // โยงความสัมพันธ์กับ Entity Case
+		OrderID: 		refund.OrderID,		
 		CauseID:        refund.CauseID,   // โยงความสัมพันธ์กับ Entity Device
 		ContactID:      refund.ContactID, // โยงความสัมพันธ์กับ Entity Address // ตั้งค่าฟิลด์ date-time
 		Refund_Cause:   refund.Refund_Cause,
@@ -86,7 +130,7 @@ func CreateRefund(c *gin.Context) {
 // GET /Refund
 func GetListRefund(c *gin.Context) {
 	var refunds []entity.Refund
-	if err := entity.DB().Preload("ORDER").Preload("Cause").Preload("Cause.ontact").Preload("Refund_Cause").Preload("Refund_Contact").Preload("Refund_time").Find(&refunds).Error; err != nil {
+	if err := entity.DB().Preload("ORDER").Preload("ORDER.Customer").Preload("Cause").Preload("Contact").Find(&refunds).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

@@ -26,8 +26,8 @@ type Refund struct {
 	Refund_Contact string
 	Refund_time    time.Time
 
-	ReviewID *uint
-	Review   Review `gorm:"references:id"`
+	OrderID *uint
+	ORDER	ORDER `gorm:"references:id"`
 
 	CauseID *uint
 	Cause   Cause `gorm:"references:id"`

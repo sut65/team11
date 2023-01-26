@@ -107,10 +107,10 @@ func main() {
 
 	// ========== B6304508 (ฟิวส์) Order ==========
 	r.POST("/CreateCASE", controller.CreateCASE)
-	r.POST("/GetCase", controller.GetCase)
+	r.GET("/GetCase", controller.GetCase)
 	r.GET("/ListCase", controller.ListCase)
 	r.POST("/CreateState", controller.CreateState)
-	r.POST("/GetState", controller.GetState)
+	r.GET("/GetState", controller.GetState)
 	r.GET("/ListState", controller.ListState)
 	r.POST("/CreateOrder", controller.CreateOrder)
 	r.PATCH("/UpdateOrder", controller.UpdateOrder)
@@ -121,7 +121,11 @@ func main() {
 
 	// ========== Refund ==========
 	r.POST("/CreateCause", controller.CreateCause)
+	r.GET("/GetCause", controller.GetCause)
+	r.GET("/ListCause", controller.ListCause)
 	r.POST("/CreateContact", controller.CreateContact)
+	r.GET("/GetContact", controller.GetContact)
+	r.GET("/ListContact", controller.ListContact)
 	r.POST("/CreateRefund", controller.CreateRefund)
 	r.GET("/GetListRefund", controller.GetListRefund)
 	r.GET("/GetRefund/:id", controller.GetRefund)

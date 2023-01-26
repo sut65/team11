@@ -548,6 +548,51 @@ func SetupDatabase() {
 
 	// ============== Mockup ตารางย่อยของระบบรายงานปัญหาหลังการซ่อม ==================
 
+	// ============== Mockup ตาราง Refund ของฟิวส์ ===================================
+
+	Cause_1 := Cause{
+		Cause_text:  "การร้องขอคืนเงินด้วยเหตุผลส่วนตัว",
+		By_text: "ลูกค้า",
+	}
+	db.Model(&Cause{}).Create(&Cause_1)
+	Cause_2 := Cause{
+		Cause_text:  "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ",
+		By_text: "ช่างซ่อมคอมพิวเตอร",
+	}
+	db.Model(&Cause{}).Create(&Cause_2)
+	Cause_3 := Cause{
+		Cause_text:  "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ",
+		By_text: "เว็บไซต",
+	}
+	db.Model(&Cause{}).Create(&Cause_3)
+	Contact_1 := Contact{
+		Contact:  "Promtpay ",
+		Times:  "7 วัน",
+	}
+	db.Model(&Contact{}).Create(&Contact_1)
+	Contact_2 := Contact{
+		Contact:  "เงินสด",
+		Times:  "14 วัน",
+	}
+	db.Model(&Contact{}).Create(&Contact_2)
+	Contact_3 := Contact{
+		Contact:  "wallet",
+		Times:  "10 วัน",
+	}
+	db.Model(&Contact{}).Create(&Contact_3)
+
+	Refund_1 := Refund{
+		Refund_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Refund_Cause:    "ช่างทำตัวไม่สุภาพ",
+		Refund_Contact:    "09755555555",
+		ORDER:      Order_1,
+		Cause:    Cause_1,
+		Contact:   Contact_1,
+	}
+	db.Model(&Refund{}).Create(&Refund_1)
+
+	// ============== Mockup ตาราง Refund ของฟิวส์ ===================================
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
