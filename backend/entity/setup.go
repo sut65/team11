@@ -526,6 +526,16 @@ func SetupDatabase() {
 	database.Create(&Satisfaction_Technician{Satisfaction_Technician_Type: "มาก"})
 	database.Create(&Satisfaction_Technician{Satisfaction_Technician_Type: "มากที่สุด"})
 	// ============== Mockup ตารางย่อยของระบบประเมินความพึงพอใจ ==================
+	// ============== Mockup ตารางย่อยของระบบรายงานปัญหาหลังการซ่อม ==================
+	database.Create(&Urgency{Urgency_Type: "น้อย"})
+	database.Create(&Urgency{Urgency_Type: "ปานกลาง"})
+	database.Create(&Urgency{Urgency_Type: "มาก"})
+
+	database.Create(&StatusClaim{StatusClaim_Type:"รอการอนุมัติ"})
+	database.Create(&StatusClaim{StatusClaim_Type:"อนุมัติ"})
+	database.Create(&StatusClaim{StatusClaim_Type:"ไม่อนุมัติ"})
+
+	// ============== Mockup ตารางย่อยของระบบรายงานปัญหาหลังการซ่อม ==================
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 

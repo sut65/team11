@@ -34,7 +34,9 @@ type Review struct {
 	TimestampReview           time.Time
 	StatusReview              bool
 	Customer_ID               *uint
-	Customer                  Customer      `gorm:"references:id"`
-	Claim_Order               []Claim_Order `gorm:"ForeignKey:Review_ID"`
-	Refund                    []Refund      `gorm:"foreignKey:ReviewID"`
+	Customer                  Customer `gorm:"references:id"`
+	CheckSucceed              bool
+
+	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
+	Refund      []Refund      `gorm:"foreignKey:ReviewID"`
 }

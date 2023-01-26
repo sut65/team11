@@ -85,6 +85,7 @@ func CreateReview(c *gin.Context) {
 		TimestampReview:            Review.TimestampReview, // ตั้งค่าฟิลด์ Timestamp
 		StatusReview:               Review.StatusReview,    // ตั้งค่าฟิลด์ Statetus
 		Customer_ID:                Review.Customer_ID,     // โยงความสัมพันธ์กับ Entity Customer
+		CheckSucceed:               Review.CheckSucceed,
 	}
 
 	if err := entity.DB().Create(&reviewData).Error; err != nil {
@@ -108,7 +109,7 @@ func GetListReviews(c *gin.Context) {
 func GetReview(c *gin.Context) {
 	var review entity.Review
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM reviews WHERE id = ?", id).Scan(&review).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM reviews WHERE id = ?", id).Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.PayTech.OrderTech.ORDER").Preload("Checked_payment.Payment.PayTech.OrderTech.Technician").Find(&review).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -123,7 +124,7 @@ func UpdateReview(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Model(Review).Where("id = ?", Review.ID).Updates(map[string]interface{}{"Satisfaction_System_ID": Review.Satisfaction_System_ID, "Satisfaction_Technician_ID": Review.Satisfaction_Technician_ID, "Review_Comment_System": Review.Review_Comment_System, "Review_Comment_Technician": Review.Review_Comment_Technician, "TimestampReview": Review.TimestampReview, "StatusReview": Review.StatusReview}).Error; err != nil {
+	if err := entity.DB().Model(Review).Where("id = ?", Review.ID).Updates(map[string]interface{}{"Satisfaction_System_ID": Review.Satisfaction_System_ID, "Satisfaction_Technician_ID": Review.Satisfaction_Technician_ID, "Review_Comment_System": Review.Review_Comment_System, "Review_Comment_Technician": Review.Review_Comment_Technician, "TimestampReview": Review.TimestampReview, "StatusReview": Review.StatusReview,"CheckSucceed":Review.CheckSucceed}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -143,5 +144,3 @@ func DeleteReview(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": "DELETE SUCCEED!!"})
 }
-
-
