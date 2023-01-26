@@ -1,9 +1,5 @@
-// import {TechnicianInterface} from "./Technician" // รอจากของโต้ง
-// import {ORDERInterface} from "./ORDER" // รอจากของฟิว
-
-import { ORDERInterface } from "./ORDERUI"; //จั๊ดแก้ไข
-
-
+import {TechnicianInterface} from "./TechnicianUI"
+import {ORDERInterface} from "./ORDERUI"
 
 export interface OrderTechInterface {
     ID: number,
@@ -19,22 +15,22 @@ export interface OrderTechInterface {
     CostDetailID:   number;
     CostDetail: CostDetailInterface
 
-    // TechnicianID:   number;
-    // Technician  TechnicianInterface
+    TechnicianID:   number;
+    Technician:  TechnicianInterface
 
-    OrderID:    number; //จั๊ดแก้ไข
-    ORDER:      ORDERInterface; //จั๊ดแก้ไข
+    OrderID:    number;
+    ORDER:      ORDERInterface;
 
 }
 
 export interface StatusInterface {
     ID: number,
-    Statusname: string;
+    StatusName: string;
 }
 
 export interface DamageInterface {
     ID: number,
-    Damagename: string;
+    DamageName: string;
 }
 
 export interface CostDetailInterface {
