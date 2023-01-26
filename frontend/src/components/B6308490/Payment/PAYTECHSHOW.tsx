@@ -2,14 +2,15 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
-import {  } from './Payment'
+import Payment, {  } from './Payment'
 import React from 'react';
 import { PaymentInterface } from '../../../interfaces/PaymentUI';
+import { PayTechInterface } from '../../../interfaces/IPayTech';
 
-function PAYTECHSHOW() {
-const [PAYTECHSHOW,setPAYTECHSHOW] = React.useState<PaymentInterface[]>([]);
+function PAYTECHSHOW({id}:any) {
+const [PAYTECHSHOW,setPAYTECHSHOW] = React.useState<PayTechInterface[]>([]);
   const getPaymentShow = async () => {
-    const apiUrl = `http://localhost:8080/ListPAYTECH/:`; // add ID for search
+    const apiUrl = `http://localhost:8080/pay-tech/${id}`; // add ID for search
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -27,9 +28,10 @@ const [PAYTECHSHOW,setPAYTECHSHOW] = React.useState<PaymentInterface[]>([]);
 
     //ฟังก์ชัน สำหรับ Datagrid
     const columns: GridColDef[] = [
-    { field: "ID", headerName: "ลำดับ", width: 100 },
-    { field: "PAYTECH_ID", headerName: "OrderID", width: 100 },
-    { field: "COSTT", headerName: "ชื่อผู้โอนเงิน", width: 300 },
+    { field: "ID", headerName: "ลำดับ", width: 200 },
+    { field: "Note", headerName: "HardwareName", width: 200 },
+    // { field: "Amount", headerName: "Amount", width: 100 },
+    // { field: "CostHardware", headerName: "CostHardware", width: 300 },
     
     
   ];

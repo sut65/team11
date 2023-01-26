@@ -28,9 +28,9 @@ const convertFloat = (data: string | number | undefined | Float32Array) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////2
 
 //let Amount_Check:Float32Array ; //ตัวแปรเพื่อเก็บค่าเพื่อแสดง เงินที่ลูกค้าต้องจ่าย
-let Amount_Check = convertFloat(0);
-let strAmout_Check = convertType(Amount_Check) //show at frntend
-let Sent_Amout_Check = '100.99' //for sent to backend and cal again
+// let Amount_Check = convertFloat(0);
+// let strAmout_Check = convertType(Amount_Check) //show at frntend
+// let Sent_Amout_Check = '100.99' //for sent to backend and cal again
 
 
 //ตกแต่ง Grid 
@@ -64,8 +64,6 @@ function Payment() {
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
-
-  const [show_AC, setAC] = useState(strAmout_Check);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -147,7 +145,6 @@ function Payment() {
     setDate(null);
     setPAYTECH_ID("");
     setPayment({});
-    setAC(0);
 
 
 
@@ -178,13 +175,45 @@ function Payment() {
     setDate(null);
     setPAYTECH_ID("");
     setPayment({});
-    setAC(0);
 
 
 
   }
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
+
+  //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
+
+  // const [amountCheck, setAmountCheck] = useState('ไม่มีข้อมูล');
+  // console.log(amountCheck);
+
+  // async function submitPayment() {
+
+  //   // console.log(data);
+  //   const apiUrl = `http://localhost:8080/SendmoneyToFrontend/${PAYTECH_ID}`;
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   fetch(apiUrl, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res) {
+  //         // setMoney(res.data);
+  //         setAmountCheck(res.sent + (parseFloat(res.sent) * 0.25));
+  //         console.log(res.sum);
+  //         console.log(res.moneyMan);
+  //         console.log(res.sent);
+
+  //       } else {
+  //         console.log("else");
+  //         setAmountCheck('ไม่มีข้อมูล');
+  //       }
+  //     });
+  //     // console.log(amountCheck);
+  // };
+  
+  //////////////////////////////-_เรียกยอดเงินรวมออกมาแดงให้ลูกค้า_-////////////////////////////////////////////
 
   const [Bank, setBank] = React.useState<BankInterface[]>([]);
   const getBank = async () => {
@@ -271,7 +300,7 @@ function Payment() {
           </Alert>
         </Snackbar>
 
-        <Snackbar
+        {/* <Snackbar
           open={compete_edit}
           style={{ backgroundColor: "#FFFFFF"}}
           autoHideDuration={6000}
@@ -281,7 +310,7 @@ function Payment() {
           <Alert onClose={handleClose} severity="success">
             บันทึกข้อมูลสำเร็จ
           </Alert>
-        </Snackbar>
+        </Snackbar> */}
 
         <Snackbar open={error}
           autoHideDuration={6000}
@@ -322,18 +351,18 @@ function Payment() {
           {PAYTECHSHOW()}<br />
         </Box> */}
         <br/><br/>
-        {show_Amout_check()}
-        <br/><br/>
+        {/* {show_Amout_check()}
+        <br/><br/> */}
 
         <Container>
         <Grid container spacing={3}>
           {/*แบ่งกลางให้กับข้อความ*/}
           <Grid item xs={2} ></Grid>
           <Grid item xs={2} >
-            <Item ><p>ชื่อผู้โอนเงิน</p></Item><br />
-            <Item ><p>ธนาคารที่โอนเงินเข้า</p></Item><br />
-            <Item ><p>จำนวนเงินที่โอนเข้า</p></Item><br />
-            <Item ><p>วันเวลาที่ทำการ</p></Item><br />
+            <Item > <h3>ชื่อผู้โอนเงิน</h3> </Item><br />
+            <Item > <h3>ธนาคารที่โอนเงินเข้า</h3> </Item><br />
+            <Item > <h3>จำนวนเงินที่โอนเข้า</h3> </Item><br />
+            <Item > <h3>วันเวลาที่ทำการ</h3> </Item><br />
           </Grid>
           {/*แบ่งขวาให้กับข้อมูล*/}
           <Grid item xs={6}>
@@ -369,10 +398,10 @@ function Payment() {
           }}
         >
           <option aria-label="None" value="">
-            กรุณาเลือก หมายเลข Oder ที่ต้องการแก้ไข หรือ ลบรายการ                 </option>
+            กรุณาเลือก ลำดับรายการการชำระเงิน</option>
           {PAYTECH.map((item: PaymentInterface) => (
             <option value={item.ID} key={item.ID}>
-              {item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+              {'รายการชำระเงินลำดับที่   '+item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
             </option>
           ))}
         </Select>
@@ -435,25 +464,25 @@ function Payment() {
       </FormControl>
     )
   }
-  function show_Amout_check() {
-    return (
-      <Grid container spacing={3}>
-        <Grid item xs={5}>
-          <h2 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่ต้องชำระ</h2>
-        </Grid>
+  // function show_Amout_check() {
+  //   return (
+  //     <Grid container spacing={3}>
+  //       <Grid item xs={5}>
+  //         <h2 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่ต้องชำระ</h2>
+  //       </Grid>
 
-        <Grid item xs={2}>
-          <Item sx={{ backgroundColor: "#436F77", fontSize: 30 ,color: "#FFFFFF"}}>
-            {show_AC}
-          </Item>
-        </Grid>
+  //       <Grid item xs={2}>
+  //         <Item sx={{ backgroundColor: "#436F77", fontSize: 30 ,color: "#FFFFFF"}}>
+  //           {amountCheck}
+  //         </Item>
+  //       </Grid>
 
-        <Grid item xs={5}>
-          <h2 style={{ color: "#FFFFFF"}}>บาท</h2>
-        </Grid>
-      </Grid>
-    )
-  }
+  //       <Grid item xs={5}>
+  //         <h2 style={{ color: "#FFFFFF"}}>บาท</h2>
+  //       </Grid>
+  //     </Grid>
+  //   )
+  //}
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
@@ -497,41 +526,41 @@ function Payment() {
   }
   //สร้างฟังก์ชัน สำหรับคำนวนเงิน
 
-  function Cal_Amount_Check(AC_Input: string) { //ฟังก์ชันสำหรับคำนวณเงิน เพื่อให้ลูกค้าดูก่อนโอนเงิน
-    Amount_Check = (parseFloat(AC_Input) + (parseFloat(AC_Input) * 0.25));
-    console.log(Amount_Check);
-    return (
-      convertType(Amount_Check)
-    )
-  }
+  // function Cal_Amount_Check(AC_Input: string) { //ฟังก์ชันสำหรับคำนวณเงิน เพื่อให้ลูกค้าดูก่อนโอนเงิน
+  //   Amount_Check = (parseFloat(AC_Input) + (parseFloat(AC_Input) * 0.25));
+  //   console.log(Amount_Check);
+  //   return (
+  //     convertType(Amount_Check)
+  //   )
+  // }
 
-  function button_edit() {
+  // function button_edit() {
 
-    return (
-      <Button style={{ backgroundColor: "#8bc34a", fontSize: 20, }}
-        onClick={() => { setAC(Cal_Amount_Check(Sent_Amout_Check)) }}
-        variant="contained"
-      //size="large"
-      >
-        <b>ต้องการแก้ไขรายการนี้</b>
-      </Button>
-    )
-  }
+  //   return (
+  //     <Button style={{ backgroundColor: "#8bc34a", fontSize: 20, }}
+  //       onClick={submitPayment}
+  //       variant="contained"
+  //     //size="large"
+  //     >
+  //       <b>ต้องการแก้ไขรายการนี้</b>
+  //     </Button>
+  //   )
+  // }
   function select_Order() {
     return (<Container>
       <Grid container spacing={3}>
         <Grid item xs={2}> </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={8}>
           <Item style={{ background: "#f1f8e9" }}>
             {Combo_Oder()}<br />
           </Item>
         </Grid>
-        <Grid item xs={3}>
+        {/* <Grid item xs={3}>
           <Item style={{ backgroundColor: "#182e3e" }}>
             {button_edit()}
 
           </Item>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Container>)
   }

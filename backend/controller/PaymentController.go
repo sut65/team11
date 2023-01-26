@@ -7,6 +7,8 @@ import (
 	"github.com/sut65/team11/entity"
 )
 
+var vat_pay float32 = 0.25
+
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////   		   controller Payment    		////////////////////////////////////////////////////////
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +18,6 @@ func CreatePayment(c *gin.Context) {
 	var Payment entity.Payment
 	var Bank entity.Bank
 	var PAYTECH entity.PayTech
-	var vat_pay float32 = 0.25
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Payment
 	if err := c.ShouldBindJSON(&Payment); err != nil {
@@ -42,17 +43,17 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 	//ค้นหาและคำนวนค่า Amount check
-
 	// 12: สร้าง Payment
 	pm := entity.Payment{
-		PayTech_ID:   Payment.PayTech_ID, // โยงความสัมพันธ์กับ Entity PAYTECH
+
+		PayTech_ID:   Payment.PayTech_ID, // ตัวแปลนี้ จะเก็บค่า Ordertech_ID
 		Sender_Name:  Payment.Sender_Name,
-		Bank_ID:      Payment.Bank_ID, // โยงความสัมพันธ์กับ Entity Bank
+		Bank_ID:      Payment.Bank_ID,
 		Amount:       Payment.Amount,
-		Amount_Check: float32(Payment.Amount_Check + (Payment.Amount_Check * vat_pay)),
+		Amount_Check: calculat_backend(Payment.PayTech_ID), //เอา  ID มาคำนวณทีj
 		Date_time:    Payment.Date_time,
 		Status_ID:    Payment.Status_ID,
-		CustomerID:   Payment.CustomerID, // โยงความสัมพันธ์กับ
+		CustomerID:   Payment.CustomerID,
 	}
 
 	// 13: บันทึก
@@ -207,5 +208,23 @@ func SendmoneyToFrontend(c *gin.Context) {
 
 	var sent = sum + moneyMan
 	c.JSON(http.StatusOK, gin.H{"sum": sum, "moneyMan": moneyMan, "sent": sent})
+
+}
+
+func calculat_backend(id any) float32 {
+	var A float32
+	entity.DB().Table("hardwares").Select("sum(amount * cost_hardware)").
+		Joins("JOIN pay_teches ON hardwares.id = pay_teches.hardware_id").
+		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&A)
+
+	var B float32
+	entity.DB().Table("cost_details").Select("cost_details.cost").
+		Joins("JOIN order_teches ON cost_details.id = order_teches.cost_detail_id").
+		Joins("JOIN pay_teches ON order_teches.id = pay_teches.order_tech_id").
+		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&B)
+
+	var A_B = A + B
+	var sum = A_B + (A_B * vat_pay)
+	return sum
 
 }
