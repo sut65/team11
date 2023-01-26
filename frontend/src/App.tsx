@@ -13,6 +13,8 @@ import OrderCreate from './components/B6304508/Order';
 import ClaimForm from './components/B6304577/ClaimOrders/ClaimForm';
 import ClaimOrderForAdmin from './components/B6304577/ClaimOrders/ClaimOrderForAdmin';
 import DeviceCreateForm from './components/B6321765/Device/DeviceCreate';
+import DeviceEditForm from './components/B6321765/Device/DeviceEdit';
+import DeviceShowForm from './components/B6321765/Device/DeviceShow';
 import OrderUpdate from './components/B6304508/UpdateOrder';
 import ShowOrder from './components/B6304508/ShowOrder';
 import RefundCreate from './components/B6304508/Refund';
@@ -40,6 +42,8 @@ function App() {
         <Route path="/AddressShowPage" element={<AddressShowForm/>} />
         <Route path="/AddressEditPage" element={<AddressEditForm/>} />
         <Route path="/DeviceCreatePage" element={<DeviceCreateForm/>} />
+        <Route path="/DeviceEditPage" element={<DeviceEditForm/>} />
+        <Route path="/DeviceShowPage" element={<DeviceShowForm/>} />
         <Route path="/RefundCreate" element={<RefundCreate />} />
         <Route path="/RefundCreate" element={<RefundShow />} />
       </Routes>
