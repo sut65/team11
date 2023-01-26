@@ -42,4 +42,6 @@ type ORDER struct {
 	Customer   Customer `gorm:"references:id"`
 
 	OrderTech []OrderTech `gorm:"ForeignKey:OrderID"`
+
+	Refund  []Refund `gorm:"foreignKey:OrderID"`
 }

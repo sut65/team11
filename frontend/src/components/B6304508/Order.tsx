@@ -173,6 +173,13 @@ function OrderCreate() {
     setAddress_ID("");
     setCase_ID("");
 
+    setCpu("");
+    setMonitor("");
+    setGpu("");
+    setRam("");
+    setHarddisk("");
+    setProblem(""); 
+
  }
 
  const [Device, setDevice] = React.useState<any[]>([]); //useStateเรียกทุกตัวมาใช้
@@ -292,20 +299,7 @@ function OrderCreate() {
     GetAddressID();
 
   }, [Device_ID,Address_ID]);
-
-  //ฟังก์ชัน สำหรับ Datagrid หัวข้อตารางแสดงข้อมูล Order
-  // const columns: GridColDef[] = [
-  //   { field: "Payment_ID", headerName: "ลำดับ", width: 100 },
-  //   { field: "PAYTECH_ID", headerName: "PAYMENT_ID", width: 300 },
-  //   { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 400 },
-  //   { field: "Bank_ID", headerName: "ธนาคาร", width: 400 },
-  //   { field: "Amount", headerName: "ยอดเงินที่โอน", width: 400 },
-  //   { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 400 },
-  //   { field: "Date_time", headerName: "วันที่โอนเงิน", width: 400 },
-  //   { field: "Status_ID", headerName: "สถานะ", width: 400 },
-  //   { field: "USER_ID", headerName: "ผู้ส่งเรื่อง", width: 400 },
-  // ];
-
+  
  //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
  return (

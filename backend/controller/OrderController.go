@@ -157,7 +157,7 @@ func GetListOrder(c *gin.Context) {
 func GetOrder(c *gin.Context) {
 	var order entity.ORDER
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM order WHERE id = ?", id).Scan(&order).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM orders WHERE id = ?", id).Scan(&order).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
