@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import ResponsiveAppBar from '../../Bar_01';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Typography } from "@mui/material";
@@ -8,22 +7,20 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import FormControl from '@mui/material/FormControl';
-import Snackbar from "@mui/material/Snackbar";
-import Alert from '@mui/material/Alert';
 import { Link as RouterLink } from "react-router-dom";
-import { bgcolor } from "@mui/system";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Swal from 'sweetalert2';
-
 import { DistrictInterface, ProvinceInterface, TambonInterface } from "../../../interfaces/AddressUI";
 import { AddressTypeInterface } from "../../../interfaces/AddressUI";
-
+import { useNavigate } from 'react-router-dom';
 import dayjs, { Dayjs } from 'dayjs';
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 function AddressCreate() {
 
     const userID = parseInt(localStorage.getItem("uid") + "");
-
+    const navigate = useNavigate();
     const successAlert = () => {
         Swal.fire({
             title: 'บันทึกข้อมูลสำเร็จ',
@@ -376,9 +373,26 @@ function AddressCreate() {
                         onChange={(event) => setDetail(event.target.value)}
                         /><p />
                     </Grid>
+                    <Grid item xs={5} paddingLeft={79}>
+                        <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
+                    </Grid>
+                    <Grid item xs={1.8} bgcolor="white">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={date}
+                            onChange={(newValue) => {
+                            setDate(newValue);
+                            }}
+                        />
+                        </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={5}/>
+                    <p/>
                     <Grid item xs={3.8}/>
                     <Grid item xs={1}>
-                        <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/HomePage2" variant="contained">
+                        <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
                             ย้อนกลับ
                         </Button>
                     </Grid>
