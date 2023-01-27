@@ -243,17 +243,17 @@ function Payment() {
 
 
   //ฟังก์ชัน สำหรับ Datagrid
-  const columns: GridColDef[] = [
-    { field: "Payment_ID", headerName: "ลำดับ", width: 100 },
-    { field: "PAYTECH_ID", headerName: "PAYMENT_ID", width: 300 },
-    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 400 },
-    { field: "Bank_ID", headerName: "ธนาคาร", width: 400 },
-    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 400 },
-    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 400 },
-    { field: "Date_time", headerName: "วันที่โอนเงิน", width: 400 },
-    { field: "Status_ID", headerName: "สถานะ", width: 400 },
-    { field: "USER_ID", headerName: "ผู้ส่งเรื่อง", width: 400 },
-  ];
+  // const columns: GridColDef[] = [
+  //   { field: "Payment_ID", headerName: "ลำดับ", width: 100 },
+  //   { field: "PAYTECH_ID", headerName: "PAYMENT_ID", width: 300 },
+  //   { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 400 },
+  //   { field: "Bank_ID", headerName: "ธนาคาร", width: 400 },
+  //   { field: "Amount", headerName: "ยอดเงินที่โอน", width: 400 },
+  //   { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 400 },
+  //   { field: "Date_time", headerName: "วันที่โอนเงิน", width: 400 },
+  //   { field: "Status_ID", headerName: "สถานะ", width: 400 },
+  //   { field: "USER_ID", headerName: "ผู้ส่งเรื่อง", width: 400 },
+  // ];
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
@@ -307,7 +307,6 @@ function Payment() {
         {select_Order()}
         <Box style={{ backgroundColor: "#e0f2f1" }}>
           {/* {PAYTECHSHOW(PAYTECH_ID)}<br /> */}
-          {/* {PAYTECHSHOW(1)}<br /> */}
         </Box>
         <br /><br />
         {show_Amout_check()}
@@ -483,7 +482,7 @@ function Payment() {
   function button_submit_back() {
     return (
       <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/" variant="contained"  >
+        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
           ย้อนกลับ
         </Button>
         <Button

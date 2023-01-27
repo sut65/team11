@@ -23,6 +23,9 @@ import CreateForm from './components/B6311117/Customer/CreateForm';
 import CreateForm2 from './components/B6311117/Customer/CustomerForm2';
 import CreateFormTech from './components/B6311117/Technician/CreateFormTech';
 import CreateTechnician2 from './components/B6311117/Technician/CreateFromeTechnician2';
+import Checked_paymentShow from './components/B6308490/Checked_payment/Checked_paymentShow';
+import Checked_payment from './components/B6308490/Checked_payment/Checked_payment';
+import Edit_Checked_payment from './components/B6308490/Checked_payment/Edit_Checked_payment';
 
 
 function App() {
@@ -41,6 +44,9 @@ function App() {
         <Route path="/PaymentShow" element={<PaymentShow />} />
         <Route path="/Payment" element={<Payment />} />
         <Route path="/EditPayment" element={<EditPayment />} />
+        <Route path="/Checked_paymentShow" element={<Checked_paymentShow />} /> 
+        <Route path="/Checked_payment" element={<Checked_payment />} /> 
+        <Route path="/EditChecked_payment" element={<Edit_Checked_payment />} /> 
         <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
         <Route path="/AddressShowPage" element={<AddressShowForm/>} />
         <Route path="/AddressEditPage" element={<AddressEditForm/>} />
