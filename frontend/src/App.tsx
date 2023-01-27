@@ -49,8 +49,8 @@ function App() {
         <Route path="/DeviceShowPage" element={<DeviceShowForm/>} />
         <Route path="/RefundCreate" element={<RefundCreate />} />
         <Route path="/RefundCreate" element={<RefundShow />} />
-        <Route path="/OrderTech" element={<OrderTech />} />
-        <Route path="/PayTech" element={<PayTech />} />
+        <Route path="/OrderTech" element={<OrderTech />} /> 
+        <Route path="/PayTech" element={<PayTech />} /> 
         <Route path="/CustomerCreate" element={<CreateForm />} /> 
         <Route path="/CustomerShow" element={<CreateForm2 />} /> 
       </Routes>
