@@ -149,7 +149,7 @@ func SetupDatabase() {
 		Name:     "ลูกค้า 1",
 		ID_card:  "1-4000-00000-00-1",
 		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Phone:    0641231231,
+		Phone:    "0641231231",
 		GENDER:   male,
 		CAREER:   gov_o,
 		PREFIX:   mr,
