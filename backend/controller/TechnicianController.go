@@ -72,7 +72,7 @@ func UpdateTechnician(c *gin.Context){
 		return
 	}
 
-	if err := entity.DB().Model(technician).Where("id = ?", technician.ID).Updates(map[string]interface{}{"Name": technician.Name, "Phone": technician.Phone}).Error; err != nil {
+	if err := entity.DB().Model(technician).Where("id = ?", technician.ID).Updates(map[string]interface{}{"Name": technician.Name, "Phone": technician.Phone, "Location": technician.Location}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

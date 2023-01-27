@@ -24,6 +24,9 @@ import RefundShow from './components/B6304508/ShowRefund';
 import CreateForm from './components/B6311117/Customer/CreateForm';
 import CreateForm2 from './components/B6311117/Customer/CustomerForm2';
 
+import CreateFormTech from './components/B6311117/Technician/CreateFormTech';
+import CreateTechnician2 from './components/B6311117/Technician/CreateFromeTechnician2';
+
 
 function App() {
   return (
@@ -53,6 +56,10 @@ function App() {
         <Route path="/PayTech" element={<PayTech />} /> 
         <Route path="/CustomerCreate" element={<CreateForm />} /> 
         <Route path="/CustomerShow" element={<CreateForm2 />} /> 
+
+
+        <Route path="/TechnicianCreate" element={<CreateTechnician2 />} /> 
+        <Route path="/TechnicianShow" element={<CreateFormTech />} /> 
       </Routes>
     </Router>
   );
