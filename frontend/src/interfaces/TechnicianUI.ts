@@ -18,7 +18,7 @@ export interface TechnicianInterface {
     Name: string,
     ID_card: string,
     DOB: Date | null,
-    Phone: number
+    Phone: string
 
     GENDER_ID: number,
     EDUCATE_ID: number,
