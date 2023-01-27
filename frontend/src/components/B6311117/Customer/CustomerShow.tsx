@@ -60,6 +60,7 @@ const handleStart = () => {
   const [Name, setName] = useState("");
   const [ID_card, setID_card] = useState("");
   const [DOB, setDOB] = useState<Dayjs | null>(dayjs());
+  const [Date, setDate] = useState("");
   const [Phone, setPhone] = useState("");
 
   const [GENDER_NAME, setGENDER_NAME] = useState("");
@@ -119,6 +120,7 @@ const handleStart = () => {
             setCAREER_NAME(res.data.CAREER.CareerName)
             setGENDER_NAME(res.data.GENDER.GenderName)
             setDOB(res.data.DOB)
+            setDate(res.data.DOB)
             console.log(Customer)
         }
      else {
@@ -164,10 +166,7 @@ const handleStart = () => {
 
             <Grid container spacing={1} paddingX={5}>
                 {/* 1 */}
-              <Grid item xs={6} md={4}>
-                {/* <center>
-                    <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="128" height="128" />
-                </center> */}
+              <Grid item xs={6} md={4}>   
                 
               </Grid>
               
@@ -188,6 +187,9 @@ const handleStart = () => {
               {/* 2 */}
               <Grid item xs={6} md={4}>
                 {/* <Item>2</Item>     */}
+                 {/* <center>
+                    <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="128" height="128" />
+                </center> */}
               </Grid>
               
               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
@@ -266,8 +268,8 @@ const handleStart = () => {
                         <TextField
                             disabled
                             id="filled-disabled"
-                            label=""     
-                            // defaultValue={Customer.Name}
+                            label={dayjs(Customer.DOB).format('DD/MM/YYYY HH:mm:ss')}    
+                            // defaultValue={Date}
                             variant="filled"
                             size='small'
                         />

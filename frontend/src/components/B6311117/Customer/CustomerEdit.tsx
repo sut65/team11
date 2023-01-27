@@ -76,6 +76,15 @@ function CustomerEdit({ formCreate, setFormCreate, activeStep, setActiveStep , s
 
   const [Email, setEmail] = useState("");
 
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof CustomerEdit;
+    const { value } = event.target;
+    setCustomer({ ...Customer, [id]: value });
+    setNAMEa(value);
+};
+
 
   const convertType = (data: string | number | undefined | Float32Array) => {
     let val = typeof data === "string" ? parseInt(data) : data;
@@ -145,9 +154,7 @@ fetch(apiUrl, requestOptions)
   //API Get Customer/id
   const [NAMEa, setNAMEa] = useState("");
   const [phone, setPhone] = useState("");
-  const [Customer, setCustomer] = React.useState<Partial<CustomerInterface>>(
-    {}
-  );
+  const [Customer, setCustomer] = React.useState<Partial<CustomerInterface>>({});
   const getUser = async () => {
     const apiUrl = `http://localhost:8080/GetCustomer/1`;
     const requestOptions = {
@@ -164,7 +171,7 @@ fetch(apiUrl, requestOptions)
             setGENDER_NAME(res.data.GENDER.GenderName)
 
             setPhone(res.data.Phone)
-            setNAMEa(res.data.Name)
+            // setNAMEa(res.data.Name)
             
             
             // setDOB(res.data.DOB)
@@ -253,16 +260,37 @@ fetch(apiUrl, requestOptions)
               <Grid item xs={6} md={5} marginLeft={2}>
               <TextField
                         required
-                        id="outlined-required"
-                        // label={Customer.Name}      
-                        defaultValue={Name}
-                        variant="filled"
-                        size='small'
-                        onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
-                        inputProps={{
-                            name: "Name",
-                        }}
-                        />
+                            id="outlined-required"
+                            // label={Customer.Phone}
+                            defaultValue={Name} 
+                            variant="filled"
+                            size='small'
+                            onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
+                            inputProps={{
+                                name: "Name",
+                            }}
+                            />
+                        {/* // required
+                        // id="outlined-required"
+                        // // label={Customer.Name}      
+                        // defaultValue={NAMEa.toString}    
+                        // variant="filled"
+                        // size='small'
+                        // onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
+                        // inputProps={{
+                        //     name: "Name",
+                        // }}
+                        // /> */}
+                        {/* <TextField
+                          required
+                          id="outlined-required"
+                          label="Required"
+                          defaultValue={NAMEa}
+                          value={NAMEa}
+                          variant="filled"
+                          size='small'
+                          onChange={handleInputChange}
+                        /> */}
               </Grid>
               {/* 3 */}
               <Grid item xs={6} md={4}>
@@ -317,7 +345,7 @@ fetch(apiUrl, requestOptions)
                         <TextField
                             disabled
                             id="filled-disabled"
-                            label=""     
+                            label={dayjs(Customer.DOB).format('DD/MM/YYYY HH:mm:ss')}    
                             // defaultValue={Customer.Name}
                             variant="filled"
                             size='small'
