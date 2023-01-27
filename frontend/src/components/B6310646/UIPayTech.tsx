@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { ServiceInterface } from "../models/service";
+// import { ServiceInterface } from "../../interfaces/service";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -19,10 +19,10 @@ import { Autocomplete, InputLabel, MenuItem } from "@mui/material";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 // import Swal from "sweetalert2";
-import { HardwareInterface, PayTechInterface } from "../models/IPayTech";
-import { OrderTechInterface } from "../models/IOrderTech";
+import { HardwareInterface, PayTechInterface } from "../../interfaces/IPayTech";
+import { OrderTechInterface } from "../../interfaces/IOrderTech";
 import React, { useEffect } from "react";
-import { TypeInterface } from "../models/IDevice";
+import { TypeInterface } from "../../interfaces/IDevice";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
