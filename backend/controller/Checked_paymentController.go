@@ -13,7 +13,7 @@ import (
 
 // POST /Checked_payment
 func CreateChecked_payment(c *gin.Context) {
-	var User entity.User
+	// var User entity.User
 	var Checked_payment entity.Checked_payment
 	var Status_check entity.Checked_payment
 	var Payment entity.Payment
@@ -24,23 +24,23 @@ func CreateChecked_payment(c *gin.Context) {
 		return
 	}
 
-	// *: ค้นหา Payment ด้วย id
-	if tx := entity.DB().Where("id = ?", Payment.ID).First(&Payment); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
+	// ค้นหา Payment ด้วย id
+	if tx := entity.DB().Where("id = ?", Checked_payment.Payment_ID).First(&Payment); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment not find"})
 		return
 	}
 
 	// *: ค้นหา Status_check ด้วย id
-	if tx := entity.DB().Where("id = ?", Checked_payment.Status_check).First(&Status_check); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", Checked_payment.Status_ID).First(&Status_check); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Status_check not found"})
 		return
 	}
 
 	// *: ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", Checked_payment.CustomerID).First(&User); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
-		return
-	}
+	// if tx := entity.DB().Where("id = ?", Checked_payment.CustomerID).First(&User); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+	// 	return
+	// }
 
 	// *: สร้าง Payment
 	pm := entity.Checked_payment{
@@ -83,25 +83,19 @@ func GetChecked_payment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
 }
 
-// PATCH /Checked_payment
-func UpdateChecked_payment(c *gin.Context) {
-	var Checked_payment entity.Checked_payment
-	if err := c.ShouldBindJSON(&Checked_payment); err != nil {
+// PATCH /UpdatePayment
+func UpdateCheckedPayment(c *gin.Context) {
+	var UpdateCheckedPayment entity.Checked_payment
+
+	if err := c.ShouldBindJSON(&UpdateCheckedPayment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", Checked_payment.ID).First(&Checked_payment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Checked_payment not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&Checked_payment).Error; err != nil {
+	if err := entity.DB().Model(UpdateCheckedPayment).Where("id = ?", UpdateCheckedPayment.ID).Updates(map[string]interface{}{"Other": UpdateCheckedPayment.Other, "Date_time": UpdateCheckedPayment.Date_time, "Status_ID": UpdateCheckedPayment.Status_ID}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
+	c.JSON(http.StatusOK, gin.H{"data": UpdateCheckedPayment})
 }
 
 // DELETE /Checked_payment/:id

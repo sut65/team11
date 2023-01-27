@@ -80,11 +80,10 @@ func ListPayments(c *gin.Context) {
 func GetPayment(c *gin.Context) {
 	var Payment entity.Payment
 	id := c.Param("id")
-	if tx := entity.DB().Preload("id = ?", id).Find(&Payment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment not found"})
+	if err := entity.DB().Raw("SELECT * FROM payments WHERE id = ?", id).Preload("PayTech.Hardware").Preload("PayTech.OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": Payment})
 }
 

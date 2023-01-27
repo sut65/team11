@@ -147,6 +147,7 @@ func main() {
 	r.GET("/ListStatus_check", controller.ListStatus_check)
 	r.GET("/ListChecked_payment", controller.ListChecked_payment)
 	r.GET("/GetChecked_payment/:id", controller.GetChecked_payment)
+	r.PATCH("/UpdateChecked_payment", controller.UpdateCheckedPayment)
 	r.POST("/CreateChecked_payment", controller.CreateChecked_payment)
 	r.POST("DeleteChecked_payment/:id", controller.DeleteChecked_payment)
 
