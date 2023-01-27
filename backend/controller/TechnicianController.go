@@ -72,14 +72,8 @@ func UpdateTechnician(c *gin.Context){
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", technician.ID).First(&technician); tx.RowsAffected == 0{
-		c.JSON(http.StatusBadRequest, gin.H{"error": "technician not found"})
-		return
-	}
-
-
-	if err := entity.DB().Save(&technician).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error":err.Error()})
+	if err := entity.DB().Model(technician).Where("id = ?", technician.ID).Updates(map[string]interface{}{"Name": technician.Name, "Phone": technician.Phone}).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
