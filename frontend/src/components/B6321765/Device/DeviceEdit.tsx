@@ -16,9 +16,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DeviceInterface, TypeInterface, WindowsInterface } from "../../../interfaces/IDevice";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import { useNavigate } from 'react-router-dom';
 
 function DeviceEdit() {
-
+    const navigate = useNavigate();
     const userID = parseInt(localStorage.getItem("uid") + "");
 
     const update_successAlert = () => {
@@ -475,7 +476,7 @@ function DeviceEdit() {
                     <Grid item xs={4.5}/>
                     <Grid item xs={3.8}/>
                     <Grid item xs={1}>
-                        <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/DeviceCreatePage" variant="contained">
+                        <Button sx={{ backgroundColor: "success" }} onClick={() => navigate(-1)} variant="contained">
                             ย้อนกลับ
                         </Button>
                     </Grid>
