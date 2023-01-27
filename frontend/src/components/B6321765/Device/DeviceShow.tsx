@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ResponsiveAppBar from '../../Bar_01';
-import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Button from "@mui/material/Button";
@@ -8,10 +8,13 @@ import { Link as RouterLink } from "react-router-dom";
 import { DeviceInterface } from "../../../interfaces/IDevice";
 import dayjs from 'dayjs';
 import { DataGrid, GridToolbar, GridColDef } from '@mui/x-data-grid';
+import { Typography } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 
 function DeviceShow() {
 
+    const navigate = useNavigate();
     const [DeviceShow, setDeviceShow] = React.useState<DeviceInterface[]>([]);
     const getDeviceShow = async () => {
         const apiUrl = `http://localhost:8080/GetListDevice`;
@@ -31,16 +34,22 @@ function DeviceShow() {
     };
 
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ID", width: 70 },
-        { field: "CPU", headerName: "CPU", width: 70 },
-        { field: "Monitor", headerName: "Monitor", width: 200 },
-        { field: "GPU", headerName: "GPU", width: 140},
-        { field: "RAM", headerName: "RAM", width: 100 },
-        { field: "Harddisk", headerName: "Harddisk", width: 100 },
-        { field: "Problem", headerName: "Problem", width: 100 },
-        { field: "CustomerID", headerName: "CustomerID", width: 100 },
-        { field: "TypeID", headerName: "TypeID", width: 100 },
-        { field: "WindowsID", headerName: "WindowsID", width: 100 },
+        { field: "ID", headerName: "ID", width: 50 },
+        { field: "CPU", headerName: "ซีพียู", width: 200 },
+        { field: "Monitor", headerName: "หน้าจอ", width: 200 },
+        { field: "GPU", headerName: "การ์ดจอ", width: 200},
+        { field: "RAM", headerName: "แรม", width: 200 },
+        { field: "Harddisk", headerName: "ฮาร์ดดิสก์", width: 200 },
+        { field: "CustomerName", headerName: "ชื่อเจ้าของ", width: 200 , renderCell:params =>{        
+            return <div>{params.row.Customer.Name}</div>
+        }},
+        { field: "Type_Name", headerName: "ประเภท", width: 100 , renderCell:params =>{        
+            return <div>{params.row.Type.Type_Name}</div>
+        }},
+        { field: "WindowName", headerName: "ระบบปฎิบัติการ", width: 150 , renderCell:params =>{        
+            return <div>{params.row.Windows.Windows_Name}</div>
+        }},
+        { field: "Problem", headerName: "ปัญหาที่เคยเกิด", width: 200 },
         {
           field: "Save_Time", headerName: "Save_Time", width: 200
           , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
@@ -54,12 +63,47 @@ function DeviceShow() {
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
             <ResponsiveAppBar/>
-            <Box sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#e0f2f1" }}  >
-                {datashow()}
+            <Box>
+                <Typography
+                    component="h2"
+                    variant="h4"
+                    color="#558b2f"
+                    gutterBottom
+                    fontFamily="Arial"
+                    align="center"
+                    mt={3}
+                    mb={3}
+                    bgcolor="#182e3e"
+                >
+                    <b>ข้อมูลอุปกรณ์</b>
+                </Typography>
             </Box>
-            <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/DeviceCreatePage" variant="contained">
-                ย้อนกลับ
-            </Button>
+            <center>
+                <Box sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#e0f2f1" }}  >
+                    {datashow()}
+                </Box>
+            </center>
+            <p/>
+            <Grid container spacing={2}>
+                <Grid item xs={0.1}/>
+                <Grid item xs={1.9}>
+                    <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
+                        ย้อนกลับ
+                    </Button>
+                </Grid>
+                <Grid item xs={2}/>
+                <Grid item xs={4}/>
+                <Grid item xs={3.2} style={{textAlign: 'right'}}>
+                    <Button sx={{ backgroundColor: "success"}}  component={RouterLink} to="/DeviceEditPage" variant="contained">
+                        แก้ไขข้อมูล
+                    </Button>
+                </Grid>
+                <Grid item xs={0.8} style={{textAlign: 'left'}}>
+                    <Button color="success"  component={RouterLink} to="/DeviceCreatePage" variant="contained">
+                        เพิ่มข้อมูล
+                    </Button>
+                </Grid>
+            </Grid>
             <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         </Paper>
     )
