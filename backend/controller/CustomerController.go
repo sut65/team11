@@ -73,14 +73,8 @@ func UpdateCustomer(c *gin.Context){
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", Customer.ID).First(&Customer); tx.RowsAffected == 0{
-		c.JSON(http.StatusBadRequest, gin.H{"error": "customer not found"})
-		return
-	}
-
-
-	if err := entity.DB().Save(&Customer).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error":err.Error()})
+	if err := entity.DB().Model(Customer).Where("id = ?", Customer.ID).Updates(map[string]interface{}{"Name": Customer.Name, "CAREER_ID": Customer.CAREER_ID, "Phone": Customer.Phone}).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
