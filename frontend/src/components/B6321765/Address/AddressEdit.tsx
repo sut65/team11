@@ -1,29 +1,26 @@
 import React, { useEffect } from "react";
 import ResponsiveAppBar from '../../Bar_01';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { colors, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import FormControl from '@mui/material/FormControl';
-import Snackbar from "@mui/material/Snackbar";
-import Alert from '@mui/material/Alert';
-import { Link as RouterLink } from "react-router-dom";
-import { bgcolor } from "@mui/system";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Swal from 'sweetalert2';
-
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AddressInterface, DistrictInterface, ProvinceInterface, TambonInterface } from "../../../interfaces/AddressUI";
 import { AddressTypeInterface } from "../../../interfaces/AddressUI";
-
 import dayjs, { Dayjs } from 'dayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import { useNavigate } from 'react-router-dom';
 
 function AddressEdit() {
 
     const userID = parseInt(localStorage.getItem("uid") + "");
-
+    const navigate = useNavigate();
     const update_successAlert = () => {
         Swal.fire({
             title: 'อัพเดทข้อมูลสำเร็จ',
@@ -319,6 +316,21 @@ function AddressEdit() {
                     <p/>
                     <Grid item xs={4}/>
                     <Grid item xs={1}>
+                        <Typography align="right" fontSize={25} color="white">ชื่อลูกค้า</Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <TextField
+                        style={{backgroundColor:"white"}}
+                        sx={{ width: 300 }}
+                        id="outlined-read-only-input"
+                        value={userName}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        /><p/>
+                    </Grid>
+                    <Grid item xs={4}/>
+                    <Grid item xs={1}>
                         <Typography align="right" fontSize={25} color="white">ประเภทที่อยู่</Typography>
                     </Grid>
                     <Grid item xs={7}>
@@ -461,9 +473,26 @@ function AddressEdit() {
                         onChange={(event) => setDetail(event.target.value)}
                         /><p />
                     </Grid>
+                    <Grid item xs={5} paddingLeft={79}>
+                        <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
+                    </Grid>
+                    <Grid item xs={1.8} bgcolor="white">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
+                            value={date}
+                            onChange={(newValue) => {
+                            setDate(newValue);
+                            }}
+                        />
+                        </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={5}/>
+                    <p/>
                     <Grid item xs={3.8}/>
                     <Grid item xs={1}>
-                        <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressCreatePage" variant="contained">
+                        <Button sx={{ backgroundColor: "success" }} onClick={() => navigate(-1)} variant="contained">
                             ย้อนกลับ
                         </Button>
                     </Grid>
