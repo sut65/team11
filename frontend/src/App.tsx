@@ -21,7 +21,8 @@ import OrderUpdate from './components/B6304508/UpdateOrder';
 import ShowOrder from './components/B6304508/ShowOrder';
 import RefundCreate from './components/B6304508/Refund';
 import RefundShow from './components/B6304508/ShowRefund';
-
+import CreateForm from './components/B6311117/Customer/CreateForm';
+import CreateForm2 from './components/B6311117/Customer/CustomerForm2';
 
 
 function App() {
@@ -50,6 +51,8 @@ function App() {
         <Route path="/RefundCreate" element={<RefundShow />} />
         <Route path="/OrderTech" element={<OrderTech />} />
         <Route path="/PayTech" element={<PayTech />} />
+        <Route path="/CustomerCreate" element={<CreateForm />} /> 
+        <Route path="/CustomerShow" element={<CreateForm2 />} /> 
       </Routes>
     </Router>
   );
