@@ -29,7 +29,7 @@ type Technician struct {
 	Name    string
 	ID_card string
 	DOB     time.Time
-	Phone   int
+	Phone   string
 
 	GENDER_ID *uint
 	GENDER    GenderT `gorm:"references:id"`

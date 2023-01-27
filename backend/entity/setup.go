@@ -206,7 +206,7 @@ func SetupDatabase() {
 		Name:     "ช่าง 1",
 		ID_card:  "1-4000-00000-01-1",
 		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Phone:    0644444444,
+		Phone:    "0644444444",
 		GENDER:   maleT,
 		EDUCATE:  BD,
 		PREFIX:   mrT,
