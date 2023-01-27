@@ -32,11 +32,11 @@ import {
   DamageInterface,
   OrderTechInterface,
   StatusInterface,
-} from "../models/IOrderTech";
-import { ORDERInterface } from "../models/ORDERUI";
+} from "../../interfaces/IOrderTech";
+import { ORDERInterface } from "../../interfaces/ORDERUI";
 import { getStaticWrapperUtilityClass } from "@mui/x-date-pickers/internals/components/PickerStaticWrapper";
 import { getLeadingCommentRanges } from "typescript";
-import { TechnicianInterface } from "../models/TechnicianUI";
+import { TechnicianInterface } from "../../interfaces/TechnicianUI";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
