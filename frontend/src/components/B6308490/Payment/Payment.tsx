@@ -257,7 +257,7 @@ function Payment() {
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      <ResponsiveAppBar />
+      {/* <ResponsiveAppBar /> */}
       <Container maxWidth="xl">
         <Snackbar
           open={success}
