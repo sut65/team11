@@ -26,6 +26,7 @@ import CreateTechnician2 from './components/B6311117/Technician/CreateFromeTechn
 import Checked_paymentShow from './components/B6308490/Checked_payment/Checked_paymentShow';
 import Checked_payment from './components/B6308490/Checked_payment/Checked_payment';
 import Edit_Checked_payment from './components/B6308490/Checked_payment/Edit_Checked_payment';
+import LoginCustomer from './components/LoginCustomer';
 
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
     <Router>
       <Routes>
         {/* ทดสอบหน้า fontent ที่นี่ */}
-        <Route path="/" element={<PaymentShow />} /> 
+        <Route path="/" element={<LoginCustomer />} /> 
+        {/* <Route path="/" element={<PaymentShow />} />  */}
         {/* ทดสอบหน้า fontent ที่นี่ */}
         <Route path="/ContentClaimOrder" element={<ClaimForm />} />
         <Route path="/ClaimOrderForAdmin" element={<ClaimOrderForAdmin />} />
