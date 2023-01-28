@@ -50,7 +50,7 @@ function RefundShow() {
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
-            <ResponsiveAppBar/>
+            {/* <ResponsiveAppBar/> */}
             <Box sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#FFFFFF" }}  >
                 {datashow()}
             </Box>

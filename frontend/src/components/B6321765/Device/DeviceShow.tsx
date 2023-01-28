@@ -62,7 +62,7 @@ function DeviceShow() {
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
-            <ResponsiveAppBar/>
+            {/* <ResponsiveAppBar/> */}
             <Box>
                 <Typography
                     component="h2"

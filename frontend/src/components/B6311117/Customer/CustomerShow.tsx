@@ -137,7 +137,7 @@ const handleStart = () => {
 
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-        <ResponsiveAppBar_01/>
+        {/* <ResponsiveAppBar_01/> */}
         <br />
 
 
