@@ -98,7 +98,7 @@ func CreateReview(c *gin.Context) {
 // GET /Review
 func GetListReviews(c *gin.Context) {
 	var GetReviews []entity.Review
-	if err := entity.DB().Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.PayTech.OrderTech.ORDER").Find(&GetReviews).Error; err != nil {
+	if err := entity.DB().Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.OrderTech.ORDER").Find(&GetReviews).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -109,7 +109,7 @@ func GetListReviews(c *gin.Context) {
 func GetReview(c *gin.Context) {
 	var review entity.Review
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM reviews WHERE id = ?", id).Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.PayTech.OrderTech.ORDER").Preload("Checked_payment.Payment.PayTech.OrderTech.Technician").Find(&review).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM reviews WHERE id = ?", id).Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.OrderTech.ORDER").Preload("Checked_payment.Payment.OrderTech.Technician").Find(&review).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

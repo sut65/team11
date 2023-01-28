@@ -54,12 +54,12 @@ function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
                 <Grid container >
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                            รายการที่แจ้งซ่อม : {checkedPaymentsAll.Payment.PayTech.OrderTech.ORDER.Reason}
+                            รายการที่แจ้งซ่อม : {checkedPaymentsAll.Payment.OrderTech.ORDER.Reason}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.PayTech.OrderTech.ORDER.Date_time).format('DD/MM/YYYY HH:mm:ss')}
+                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.Date_time).format('DD/MM/YYYY HH:mm:ss')}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>

@@ -59,6 +59,9 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
     const [checkedPayments, setCheckedPayments] = useState<any[]>([]);
     const [checkReviewButton, setCheckReviewButton] = useState<any[]>([]);
 
+    console.log(reviews);
+    
+
    
 
     const { checkedPaymentID, customerID } = formDataRating
@@ -133,7 +136,7 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
             headerName: 'รายการซ่อม',
             width: 200,
             renderCell: params => {
-                return <div>{params.row.Payment.PayTech.OrderTech.ORDER.Reason}</div>
+                return <div>{params.row.Payment.OrderTech.ORDER.Reason}</div>
             }
         },
         {
@@ -141,7 +144,7 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
             headerName: 'วิธีซ่อม',
             width: 200,
             renderCell: params => {
-                return <div>{params.row.Payment.PayTech.OrderTech.Solving}</div>
+                return <div>{params.row.Payment.OrderTech.Solving}</div>
             }
         },
         {
@@ -149,9 +152,9 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
             headerName: 'ช่างผู้รับผิดชอบงาน',
             width: 200,
             renderCell: params => {
-                console.log(params.row.Payment.PayTech.OrderTech.Technician.Name);
+                console.log(params.row.Payment.OrderTech.Technician.Name);
 
-                return <div>{params.row.Payment.PayTech.OrderTech.Technician.Name}</div>
+                return <div>{params.row.Payment.OrderTech.Technician.Name}</div>
             }
         },
         {
@@ -232,7 +235,7 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
             headerName: 'รายการซ่อม',
             width: 150,
             renderCell: params => {
-                return <div>{params.row.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason}</div>
+                return <div>{params.row.Checked_payment.Payment.OrderTech.ORDER.Reason}</div>
             }
         },
         {
