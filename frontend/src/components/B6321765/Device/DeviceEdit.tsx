@@ -17,6 +17,7 @@ import { DeviceInterface, TypeInterface, WindowsInterface } from "../../../inter
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { useNavigate } from 'react-router-dom';
+import { DateTimePicker } from "@mui/x-date-pickers";
 
 function DeviceEdit() {
     const navigate = useNavigate();
@@ -262,8 +263,8 @@ function DeviceEdit() {
             </Box>
             <Box>
                 <Grid container spacing={0}>
-
-                <Grid item xs={5} paddingLeft={76}>
+                <Grid item xs={3}/>
+                <Grid item xs={2} >
                     <Typography align="right" fontSize={25} color="white">หมายเลขอุปกรณ์</Typography>
                     </Grid>
                     <Grid item xs={7} >
@@ -292,8 +293,8 @@ function DeviceEdit() {
                         </Typography>
                     </Grid>
                     <p/>
-
-                    <Grid item xs={5} paddingLeft={83}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">ชื่อสมาชิก</Typography>
                     </Grid>
                     <Grid item xs={7} >
@@ -307,8 +308,8 @@ function DeviceEdit() {
                         }}
                         /><p/>
                     </Grid>
-    
-                    <Grid item xs={5} paddingLeft={76}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                     <Typography align="right" fontSize={25} color="white">ประเภทอุปกรณ์</Typography>
                     </Grid>
                     <Grid item xs={7} >
@@ -337,7 +338,8 @@ function DeviceEdit() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5} paddingLeft={76.3}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">ระบบปฎิบัติการ</Typography>
                     </Grid>
                     <Grid item xs={7}>
@@ -366,10 +368,16 @@ function DeviceEdit() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5.5} paddingLeft={56.5}>  
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>  
                         <Typography align="right" fontSize={25} color="white">
-                            ซีพียู&nbsp;&nbsp;&nbsp;
-                            <TextField
+                            ซีพียู
+                            
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="cpu"
                                 label="กรอกชื่อซีพียู"
@@ -380,10 +388,16 @@ function DeviceEdit() {
                             />
                         </Typography>
                     </Grid>
-                    <Grid item xs={6.5} paddingLeft={16.8}>
+                    <p/>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">
-                            จอ&nbsp;&nbsp;&nbsp;
-                            <TextField
+                            จอ
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="monitor"
                                 label="กรอกชื่อจอ"
@@ -395,10 +409,15 @@ function DeviceEdit() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5.5} paddingLeft={53}>  
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >  
                         <Typography align="right" fontSize={25} color="white">
-                            การ์ดจอ&nbsp;&nbsp;
-                            <TextField
+                            การ์ดจอ
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="monitor"
                                 label="กรอกชื่อการ์ดจอ"
@@ -409,10 +428,16 @@ function DeviceEdit() {
                             />
                         </Typography>
                     </Grid>
-                    <Grid item xs={6.5} paddingLeft={16}>
+                    <p/>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">
-                            แรม&nbsp;&nbsp;
-                            <TextField
+                            แรม 
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="ram"
                                 label="กรอกชื่อแรม"
@@ -424,10 +449,15 @@ function DeviceEdit() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5.5} paddingLeft={50}>  
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >  
                         <Typography align="right" fontSize={25} color="white">
-                            ฮาร์ดดิสก์&nbsp;&nbsp;&nbsp; 
-                            <TextField
+                            ฮาร์ดดิสก์
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="harddisk"
                                 label="กรอกชื่อฮาร์ดดิสก์"
@@ -438,10 +468,16 @@ function DeviceEdit() {
                             />
                         </Typography>
                     </Grid>
-                    <Grid item xs={6.5} >
-                        <Typography fontSize={25} color="white">
-                            ปัญหาที่เคยเกิด&nbsp;&nbsp;&nbsp;
-                            <TextField
+                    <p/>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
+                        <Typography fontSize={25} color="white" >
+                            ปัญหาที่เคยเกิด
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="problem"
                                 sx={{ width: 300 }}
@@ -454,34 +490,31 @@ function DeviceEdit() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={12} paddingLeft={110}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
                     </Grid>
-                    <p/>
-                    <Grid item xs={4.5}/>
-                    <Grid item xs={3}>
+                    <Grid item xs={2.5} bgcolor="white">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <StaticDatePicker
-                            onChange={(newValue) => setSaveTime(newValue)}
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
                             value={savetime}
-                            renderInput={(params) => <TextField {...params} />}
-                            componentsProps={{
-                            actionBar: {
-                                actions: ['today'],
-                            },
+                            onChange={(newValue) => {
+                            setSaveTime(newValue);
                             }}
                         />
                         </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={4.5}/>
-                    <Grid item xs={3.8}/>
+                    <p/>
+                    <Grid item xs={3}/>
                     <Grid item xs={1}>
                         <Button sx={{ backgroundColor: "success" }} onClick={() => navigate(-1)} variant="contained">
                             ย้อนกลับ
                         </Button>
                     </Grid>
-                    <Grid item xs={1.45}/>
-                    <Grid item xs={0.8}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={1}>
                         <Button
                             variant="contained"
                             sx={{ backgroundColor: "#C70039" }}
@@ -489,7 +522,7 @@ function DeviceEdit() {
                             ลบข้อมูล
                         </Button>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={2}>
                         <Button
                         variant="contained"
                         color="success"

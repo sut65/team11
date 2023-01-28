@@ -35,20 +35,20 @@ function DeviceShow() {
 
     const columns: GridColDef[] = [
         { field: "ID", headerName: "ID", width: 50 },
+        { field: "CustomerName", headerName: "ชื่อเจ้าของ", width: 150 , renderCell:params =>{        
+            return <div>{params.row.Customer.Name}</div>
+        }},
+        { field: "Type_Name", headerName: "ประเภท", width: 90 , renderCell:params =>{        
+            return <div>{params.row.Type.Type_Name}</div>
+        }},
+        { field: "WindowName", headerName: "ระบบปฎิบัติการ", width: 120 , renderCell:params =>{        
+            return <div>{params.row.Windows.Windows_Name}</div>
+        }},
         { field: "CPU", headerName: "ซีพียู", width: 200 },
         { field: "Monitor", headerName: "หน้าจอ", width: 200 },
         { field: "GPU", headerName: "การ์ดจอ", width: 200},
         { field: "RAM", headerName: "แรม", width: 200 },
         { field: "Harddisk", headerName: "ฮาร์ดดิสก์", width: 200 },
-        { field: "CustomerName", headerName: "ชื่อเจ้าของ", width: 200 , renderCell:params =>{        
-            return <div>{params.row.Customer.Name}</div>
-        }},
-        { field: "Type_Name", headerName: "ประเภท", width: 100 , renderCell:params =>{        
-            return <div>{params.row.Type.Type_Name}</div>
-        }},
-        { field: "WindowName", headerName: "ระบบปฎิบัติการ", width: 150 , renderCell:params =>{        
-            return <div>{params.row.Windows.Windows_Name}</div>
-        }},
         { field: "Problem", headerName: "ปัญหาที่เคยเกิด", width: 200 },
         {
           field: "Save_Time", headerName: "Save_Time", width: 200
@@ -79,26 +79,26 @@ function DeviceShow() {
                 </Typography>
             </Box>
             <center>
-                <Box sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#e0f2f1" }}  >
+                <Box sx={{ width: '98%', height: '50vh' }} style={{ backgroundColor: "#e0f2f1" }}  >
                     {datashow()}
                 </Box>
             </center>
             <p/>
             <Grid container spacing={2}>
-                <Grid item xs={0.1}/>
-                <Grid item xs={1.9}>
+                <Grid item xs={0.5}/>
+                <Grid item xs={1.5}>
                     <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
                         ย้อนกลับ
                     </Button>
                 </Grid>
                 <Grid item xs={2}/>
-                <Grid item xs={4}/>
-                <Grid item xs={3.2} style={{textAlign: 'right'}}>
+                <Grid item xs={4.2}/>
+                <Grid item xs={2} style={{textAlign: 'right'}}>
                     <Button sx={{ backgroundColor: "success"}}  component={RouterLink} to="/DeviceEditPage" variant="contained">
                         แก้ไขข้อมูล
                     </Button>
                 </Grid>
-                <Grid item xs={0.8} style={{textAlign: 'left'}}>
+                <Grid item xs={1.5} style={{textAlign: 'left'}}>
                     <Button color="success"  component={RouterLink} to="/DeviceCreatePage" variant="contained">
                         เพิ่มข้อมูล
                     </Button>
