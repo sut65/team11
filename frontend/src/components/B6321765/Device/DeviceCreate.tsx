@@ -181,10 +181,11 @@ function DeviceCreate() {
             </Box>
             <Box>
                 <Grid container spacing={0}>
-                    <Grid item xs={5} paddingLeft={83}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">ชื่อสมาชิก</Typography>
                     </Grid>
-                    <Grid item xs={2} >
+                    <Grid item xs={3.5} >
                         <TextField
                         style={{backgroundColor:"white"}}
                         sx={{ width: 300 }}
@@ -200,8 +201,8 @@ function DeviceCreate() {
                             แก้ไข/ลบข้อมูล
                         </Button>
                     </Grid>
-    
-                    <Grid item xs={5} paddingLeft={76}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                     <Typography align="right" fontSize={25} color="white">ประเภทอุปกรณ์</Typography>
                     </Grid>
                     <Grid item xs={7} >
@@ -230,7 +231,8 @@ function DeviceCreate() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5} paddingLeft={76.3}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">ระบบปฎิบัติการ</Typography>
                     </Grid>
                     <Grid item xs={7}>
@@ -259,9 +261,15 @@ function DeviceCreate() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5.5} paddingLeft={56.5}>  
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>  
                         <Typography align="right" fontSize={25} color="white">
-                            ซีพียู&nbsp;&nbsp;&nbsp;
+                            ซีพียู
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                            <FormControl fullWidth variant="outlined">
                             <TextField
                                 style={{backgroundColor:"white"}}
                                 id="cpu"
@@ -271,11 +279,18 @@ function DeviceCreate() {
                                 variant="outlined"
                                 onChange={(event) => setCPU(event.target.value)}
                             />
+                            </FormControl><p />
                         </Typography>
                     </Grid>
-                    <Grid item xs={6.5} paddingLeft={16.8}>
+                    <p/>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">
-                            จอ&nbsp;&nbsp;&nbsp;
+                            จอ
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
                             <TextField
                                 style={{backgroundColor:"white"}}
                                 id="monitor"
@@ -288,10 +303,15 @@ function DeviceCreate() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5.5} paddingLeft={53}>  
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >  
                         <Typography align="right" fontSize={25} color="white">
-                            การ์ดจอ&nbsp;&nbsp;
-                            <TextField
+                            การ์ดจอ
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="monitor"
                                 label="กรอกชื่อการ์ดจอ"
@@ -302,10 +322,16 @@ function DeviceCreate() {
                             />
                         </Typography>
                     </Grid>
-                    <Grid item xs={6.5} paddingLeft={16}>
+                    <p/>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">
-                            แรม&nbsp;&nbsp;
-                            <TextField
+                            แรม
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="ram"
                                 label="กรอกชื่อแรม"
@@ -317,10 +343,15 @@ function DeviceCreate() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={5.5} paddingLeft={50}>  
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >  
                         <Typography align="right" fontSize={25} color="white">
-                            ฮาร์ดดิสก์&nbsp;&nbsp;&nbsp; 
-                            <TextField
+                            ฮาร์ดดิสก์
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="harddisk"
                                 label="กรอกชื่อฮาร์ดดิสก์"
@@ -331,10 +362,16 @@ function DeviceCreate() {
                             />
                         </Typography>
                     </Grid>
-                    <Grid item xs={6.5} >
+                    <p/>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography fontSize={25} color="white">
-                            ปัญหาที่เคยเกิด&nbsp;&nbsp;&nbsp;
-                            <TextField
+                            ปัญหาที่เคยเกิด
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={7}>
+                        <Typography align="center" fontSize={50}>
+                        <TextField
                                 style={{backgroundColor:"white"}}
                                 id="problem"
                                 sx={{ width: 300 }}
@@ -347,39 +384,36 @@ function DeviceCreate() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={12} paddingLeft={110}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2} >
                         <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
                     </Grid>
-                    <p/>
-                    <Grid item xs={4.5}/>
-                    <Grid item xs={3}>
+                    <Grid item xs={2.5} bgcolor="white">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <StaticDatePicker
-                            onChange={(newValue) => setSaveTime(newValue)}
+                        <DateTimePicker
+                            renderInput={(props) => <TextField {...props} />}
+                            label="DateTimePicker"
                             value={savetime}
-                            renderInput={(params) => <TextField {...params} />}
-                            componentsProps={{
-                            actionBar: {
-                                actions: ['today'],
-                            },
+                            onChange={(newValue) => {
+                            setSaveTime(newValue);
                             }}
                         />
                         </LocalizationProvider>
                     </Grid>
-                    <Grid item xs={4.5}/>
-                    <Grid item xs={3.8}/>
+                    <p/>
+                    <Grid item xs={3}/>
                     <Grid item xs={1}>
                         <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
                             ย้อนกลับ
                         </Button>
                     </Grid>
-                    <Grid item xs={1.45}/>
-                    <Grid item xs={0.8}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={1.2}>
                         <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/DeviceShowPage" variant="contained">
                             แสดงข้อมูล
                         </Button>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={2}>
                         <Button
                         variant="contained"
                         color="success"
