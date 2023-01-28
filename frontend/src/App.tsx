@@ -139,9 +139,9 @@ function App() {
     }
   }, []);
 
-  if (!token) {
-    return <LoginCustomer />;
-  }
+  // if (!token) {
+  //   return <LoginCustomer />;
+  // }
 
   const signout = () => {
     localStorage.clear();

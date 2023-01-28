@@ -47,14 +47,20 @@ function AddressShow() {
         { field: "Customer_Name", headerName: "ชื่อลูกค้า", width: 150 , renderCell:params =>{        
             return <div>{params.row.Customer.Name}</div>
         }},
-        { field: "Type_Name", headerName: "ประเภทที่อยู่", width: 150 , renderCell:params =>{        
+        { field: "Type_Name", headerName: "ประเภทที่อยู่", width: 100 , renderCell:params =>{        
             return <div>{params.row.AddressType.Type_Name}</div>
         }},
-        { field: "Tambon_Name", headerName: "ตำบล", width: 150 , renderCell:params =>{        
+        { field: "Province_Name", headerName: "จังหวัด", width: 125 , renderCell:params =>{        
+            return <div>{params.row.Tambon.District.Province.Province_Name}</div>
+        }},
+        { field: "District_Name", headerName: "อำเภอ", width: 125 , renderCell:params =>{        
+            return <div>{params.row.Tambon.District.District_Name}</div>
+        }},
+        { field: "Tambon_Name", headerName: "ตำบล", width: 125 , renderCell:params =>{        
             return <div>{params.row.Tambon.Tambon_Name}</div>
         }},
         { field: "Post_Code", headerName: "รหัสไปรษณีย์", width: 100 },
-        { field: "Detail", headerName: "Detail", width: 100 },
+        { field: "Detail", headerName: "รายละเอียดที่อยู่", width: 200 },
         {
           field: "Record_Time", headerName: "Record_Time", width: 200
           , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
@@ -62,6 +68,7 @@ function AddressShow() {
     ];
 
     useEffect(() => {
+        console.log(AddressShow);
         getAddressShow();
     }, []);
 
@@ -84,27 +91,26 @@ function AddressShow() {
                 </Typography>
             </Box>
             <center>
-                <Box sx={{ width: '50%', height: '50vh' }} style={{backgroundColor: "#e0f2f1" }}  >
+                <Box sx={{ width: '90%', height: '50vh' }} style={{backgroundColor: "#e0f2f1" }}  >
                     {datashow()}
                 </Box>
             </center>
             
             <p/>
-            <Grid container spacing={2}>
-                <Grid item xs={0.1}/>
+            <Grid container spacing={1}>
+                <Grid item xs={0.8}/>
                 <Grid item xs={1.9}>
                     <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
                         ย้อนกลับ
                     </Button>
                 </Grid>
-                <Grid item xs={2}/>
-                <Grid item xs={4}/>
-                <Grid item xs={3.2} style={{textAlign: 'right'}}>
+                <Grid item xs={5.2}/>
+                <Grid item xs={2} style={{textAlign: 'right'}}>
                     <Button sx={{ backgroundColor: "success"}}  component={RouterLink} to="/AddressEditPage" variant="contained">
                         แก้ไขข้อมูล
                     </Button>
                 </Grid>
-                <Grid item xs={0.8} style={{textAlign: 'left'}}>
+                <Grid item xs={2} style={{textAlign: 'left'}}>
                     <Button color="success"  component={RouterLink} to="/AddressCreatePage" variant="contained">
                         เพิ่มข้อมูล
                     </Button>
