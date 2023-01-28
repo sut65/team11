@@ -209,11 +209,11 @@ function AddressCreate() {
             </Box>
             <Box>
                 <Grid container spacing={0}>
-                    <Grid item xs={4}/>
-                    <Grid item xs={1}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">ชื่อลูกค้า</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3.5}>
                         <TextField
                         style={{backgroundColor:"white"}}
                         sx={{ width: 300 }}
@@ -229,8 +229,8 @@ function AddressCreate() {
                             แก้ไข/ลบข้อมูล
                         </Button>
                     </Grid>
-                    <Grid item xs={4}/>
-                    <Grid item xs={1}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">ประเภทที่อยู่</Typography>
                     </Grid>
                     <Grid item xs={7}>
@@ -259,8 +259,8 @@ function AddressCreate() {
                         </Typography>
                     </Grid>
                     <p/>
-                    <Grid item xs={4}/>
-                    <Grid item xs={1}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">จังหวัด</Typography>
                     </Grid>
                     <Grid item xs={7} >
@@ -286,8 +286,8 @@ function AddressCreate() {
                             </Select>
                         </FormControl><p/>
                     </Grid>
-                    <Grid item xs={4}/>
-                    <Grid item xs={1}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">อำเภอ</Typography>
                     </Grid>
                     <Grid item xs={7} >
@@ -313,8 +313,8 @@ function AddressCreate() {
                             </Select>
                         </FormControl><p />
                     </Grid>
-                    <Grid item xs={4}/>
-                    <Grid item xs={1}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">ตำบล</Typography>
                     </Grid>
                     <Grid item xs={7} >
@@ -340,8 +340,8 @@ function AddressCreate() {
                             </Select>
                         </FormControl><p />
                     </Grid>
-                    <Grid item xs={4}/>
-                    <Grid item xs={1}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">รหัสไปรษณีย์</Typography>
                     </Grid>
                     <Grid item xs={7}>
@@ -357,8 +357,8 @@ function AddressCreate() {
                         onChange={(event) => setPostCode(event.target.value)}
                         /><p />
                     </Grid>
-                    <Grid item xs={3.8}/>
-                    <Grid item xs={1.2}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">รายละเอียดที่อยู่</Typography>
                     </Grid>
                     <Grid item xs={7}>
@@ -373,10 +373,10 @@ function AddressCreate() {
                         onChange={(event) => setDetail(event.target.value)}
                         /><p />
                     </Grid>
-                    <Grid item xs={5} paddingLeft={79}>
+                    <Grid item xs={5} paddingLeft={36}>
                         <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
                     </Grid>
-                    <Grid item xs={1.8} bgcolor="white">
+                    <Grid item xs={2.5} bgcolor="white">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DateTimePicker
                             renderInput={(props) => <TextField {...props} />}
@@ -390,19 +390,19 @@ function AddressCreate() {
                     </Grid>
                     <Grid item xs={5}/>
                     <p/>
-                    <Grid item xs={3.8}/>
+                    <Grid item xs={3}/>
                     <Grid item xs={1}>
                         <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
                             ย้อนกลับ
                         </Button>
                     </Grid>
-                    <Grid item xs={1.45}/>
-                    <Grid item xs={0.8}>
+                    <Grid item xs={3}/>
+                    <Grid item xs={1.2}>
                         <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressShowPage" variant="contained">
                             แสดงข้อมูล
                         </Button>
                     </Grid>
-                    <Grid item xs={1}>
+                    <Grid item xs={2} paddingRight={1}>
                         <Button
                         variant="contained"
                         color="success"
