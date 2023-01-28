@@ -298,11 +298,11 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                             if (res.data) {
                                 // console.log(res.data);
                                 setReviewID(res.data.ID);
-                                setDataReason(res.data.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason);
-                                setdataDateOrder(res.data.Checked_payment.Payment.PayTech.OrderTech.ORDER.Date_time)
-                                setdataOrderID(res.data.Checked_payment.Payment.PayTech.OrderTech.ORDER.ID)
-                                setDataSolving(res.data.Checked_payment.Payment.PayTech.OrderTech.Solving)
-                                setDataTechnician(res.data.Checked_payment.Payment.PayTech.OrderTech.Technician.Name)
+                                setDataReason(res.data.Checked_payment.Payment.OrderTech.ORDER.Reason);
+                                setdataDateOrder(res.data.Checked_payment.Payment.OrderTech.ORDER.Date_time)
+                                setdataOrderID(res.data.Checked_payment.Payment.OrderTech.ORDER.ID)
+                                setDataSolving(res.data.Checked_payment.Payment.OrderTech.Solving)
+                                setDataTechnician(res.data.Checked_payment.Payment.OrderTech.Technician.Name)
                                 console.log("Success");
                             } else {
                                 console.log("Error");
@@ -318,7 +318,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             headerName: 'รายการซ่อม',
             width: 150,
             renderCell: params => {
-                return <div>{params.row.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason}</div>
+                return <div>{params.row.Checked_payment.Payment.OrderTech.ORDER.Reason}</div>
             }
         },
         {
@@ -434,7 +434,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             headerName: 'รายการซ่อม',
             width: 150,
             renderCell: params => {
-                return <div>{params.row.Review.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason}</div>
+                return <div>{params.row.Review.Checked_payment.Payment.OrderTech.ORDER.Reason}</div>
             }
         },
         {

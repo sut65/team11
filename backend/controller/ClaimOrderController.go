@@ -97,7 +97,7 @@ func CreateClaimOrder(c *gin.Context) {
 // GET /ClaimOrder
 func GetListClaimOrders(c *gin.Context) {
 	var GetClaimOrders []entity.Claim_Order
-	if err := entity.DB().Preload("Urgency").Preload("StatusClaim").Preload("Review.Satisfaction_System").Preload("Review.Satisfaction_Technician").Preload("Review.Checked_payment.Customer").Preload("Review.Checked_payment.Payment.PayTech.OrderTech.ORDER").Preload("Review.Checked_payment.Payment.PayTech.OrderTech.Technician").Find(&GetClaimOrders).Error; err != nil {
+	if err := entity.DB().Preload("Urgency").Preload("StatusClaim").Preload("Review.Satisfaction_System").Preload("Review.Satisfaction_Technician").Preload("Review.Checked_payment.Customer").Preload("Review.Checked_payment.Payment.OrderTech.ORDER").Preload("Review.Checked_payment.Payment.OrderTech.Technician").Find(&GetClaimOrders).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -108,7 +108,7 @@ func GetListClaimOrders(c *gin.Context) {
 func GetClaimOrder(c *gin.Context) {
 	var ClaimOrder entity.Claim_Order
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM claim_orders WHERE id = ?", id).Preload("Urgency").Preload("StatusClaim").Preload("Review.Satisfaction_System").Preload("Review.Satisfaction_Technician").Preload("Review.Checked_payment.Customer").Preload("Review.Checked_payment.Payment.PayTech.OrderTech.ORDER").Preload("Review.Checked_payment.Payment.PayTech.OrderTech.Technician").Find(&ClaimOrder).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM claim_orders WHERE id = ?", id).Preload("Urgency").Preload("StatusClaim").Preload("Review.Satisfaction_System").Preload("Review.Satisfaction_Technician").Preload("Review.Checked_payment.Customer").Preload("Review.Checked_payment.Payment.OrderTech.ORDER").Preload("Review.Checked_payment.Payment.OrderTech.Technician").Find(&ClaimOrder).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
