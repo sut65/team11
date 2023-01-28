@@ -45,4 +45,6 @@ type OrderTech struct {
 	Technician   Technician `gorm:"references:id"`
 
 	PayTech []PayTech `gorm:"foreignKey:OrderTechID"`
+
+	Payment []Payment `gorm:"foreignKey:OrderTech_ID"`
 }

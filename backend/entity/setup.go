@@ -342,17 +342,17 @@ func SetupDatabase() {
 	db.Model(&CASE{}).Create(&Case_3)
 
 	State_1 := State{
-		State:  "Ready",
+		State: "Ready",
 	}
 	db.Model(&State{}).Create(&State_1)
-	
+
 	State_2 := State{
-		State:  "Cancel",
+		State: "Cancel",
 	}
 	db.Model(&State{}).Create(&State_2)
-	
+
 	State_3 := State{
-		State:  "Refund",
+		State: "Refund",
 	}
 	db.Model(&State{}).Create(&State_3)
 
@@ -361,7 +361,7 @@ func SetupDatabase() {
 		Reason:    "เครื่องคอมเสียงดัง",
 		Limit:     12000,
 		CASE:      Case_1,
-		State: 		State_1,
+		State:     State_1,
 		Device:    device_1,
 		Address:   address_1,
 		Customer:  customer_1,
@@ -496,7 +496,7 @@ func SetupDatabase() {
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Status_ID:    1,
 		Bank:         Bank_1,
-		PayTech:      PayTechA,
+		OrderTech:    OrderTechA,
 		Customer:     customer_1,
 	}
 	db.Model(&Payment{}).Create(&Pay_1)
@@ -551,43 +551,43 @@ func SetupDatabase() {
 	// ============== Mockup ตาราง Refund ของฟิวส์ ===================================
 
 	Cause_1 := Cause{
-		Cause_text:  "การร้องขอคืนเงินด้วยเหตุผลส่วนตัว",
-		By_text: "ลูกค้า",
+		Cause_text: "การร้องขอคืนเงินด้วยเหตุผลส่วนตัว",
+		By_text:    "ลูกค้า",
 	}
 	db.Model(&Cause{}).Create(&Cause_1)
 	Cause_2 := Cause{
-		Cause_text:  "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ",
-		By_text: "ช่างซ่อมคอมพิวเตอร",
+		Cause_text: "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ",
+		By_text:    "ช่างซ่อมคอมพิวเตอร",
 	}
 	db.Model(&Cause{}).Create(&Cause_2)
 	Cause_3 := Cause{
-		Cause_text:  "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ",
-		By_text: "เว็บไซต",
+		Cause_text: "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ",
+		By_text:    "เว็บไซต",
 	}
 	db.Model(&Cause{}).Create(&Cause_3)
 	Contact_1 := Contact{
-		Contact:  "Promtpay ",
-		Times:  "7 วัน",
+		Contact: "Promtpay ",
+		Times:   "7 วัน",
 	}
 	db.Model(&Contact{}).Create(&Contact_1)
 	Contact_2 := Contact{
-		Contact:  "เงินสด",
-		Times:  "14 วัน",
+		Contact: "เงินสด",
+		Times:   "14 วัน",
 	}
 	db.Model(&Contact{}).Create(&Contact_2)
 	Contact_3 := Contact{
-		Contact:  "wallet",
-		Times:  "10 วัน",
+		Contact: "wallet",
+		Times:   "10 วัน",
 	}
 	db.Model(&Contact{}).Create(&Contact_3)
 
 	Refund_1 := Refund{
-		Refund_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Refund_Cause:    "ช่างทำตัวไม่สุภาพ",
-		Refund_Contact:    "09755555555",
-		ORDER:      Order_1,
-		Cause:    Cause_1,
-		Contact:   Contact_1,
+		Refund_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Refund_Cause:   "ช่างทำตัวไม่สุภาพ",
+		Refund_Contact: "09755555555",
+		ORDER:          Order_1,
+		Cause:          Cause_1,
+		Contact:        Contact_1,
 	}
 	db.Model(&Refund{}).Create(&Refund_1)
 

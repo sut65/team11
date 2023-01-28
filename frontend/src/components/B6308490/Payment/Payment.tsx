@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { PaymentInterface, BankInterface, PAYTECHInterface, } from "../../../interfaces/PaymentUI";
+import { PaymentInterface, BankInterface, /*PAYTECHInterface,*/ } from "../../../interfaces/PaymentUI";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -17,8 +17,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/payment.css";
-import PAYTECHSHOW from "./PAYTECHSHOW";
-import { PayTechInterface } from "../../../interfaces/IPayTech";
+//import PAYTECHSHOW from "./PAYTECHSHOW";
+//import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 import { log } from "console";
 
@@ -57,7 +57,7 @@ function Payment() {
 
   //ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox ทั้งหมดเป็นตารางที่ ดึงไปใส่ตารางหลัก
   const [Bank_ID, setBank_ID] = useState('');
-  const [PAYTECH_ID, setPAYTECH_ID] = useState('') || 0;//>>>>>>>>>> แก้ตรงนี้ด้วยใช้จริงต้องไม่เกิด กรณี 0
+  const [OrderTech_ID, setOrderTech_ID] = useState('') || 0;//>>>>>>>>>> แก้ตรงนี้ด้วยใช้จริงต้องไม่เกิด กรณี 0
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
   const [success, setSuccess] = React.useState(false);
@@ -99,7 +99,7 @@ function Payment() {
     setBank_ID(event.target.value as string);
   };
   const onChangePAYTHECH = (event: SelectChangeEvent) => {
-    setPAYTECH_ID(event.target.value as string);
+    setOrderTech_ID(event.target.value as string);
   };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ function Payment() {
   function submit() {
     let data = {
 
-      PAYTECH_ID: convertType(PAYTECH_ID),  //จะเก็บค่า Ordertech_ID
+      OrderTech_ID: convertType(OrderTech_ID),  //จะเก็บค่า Ordertech_ID
       Sender_name: Payment.Sender_name ?? "",
       Bank_ID: convertType(Bank_ID),
       Amount: convertFloat(Payment.Amount),
@@ -141,7 +141,7 @@ function Payment() {
     // reset All after Submit
     setBank_ID("");
     setDate(null);
-    setPAYTECH_ID("");
+    setOrderTech_ID("");
     setPayment({});
     setAmountCheck("ไม่มีข้อมูล");
   }
@@ -153,7 +153,7 @@ function Payment() {
   async function submitPayment() {
 
     // console.log(data);
-    const apiUrl = `http://localhost:8080/SendmoneyToFrontend/${PAYTECH_ID}`;
+    const apiUrl = `http://localhost:8080/SendmoneyToFrontend/${OrderTech_ID}`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -197,8 +197,8 @@ function Payment() {
       });
   };
 
-  const [PAYTECH, setPAYTECH] = React.useState<OrderTechInterface[]>([]);
-  const getPAYTECH = async () => {
+  const [OrderTech, setOrderTech] = React.useState<OrderTechInterface[]>([]);
+  const getOrderTech = async () => {
     const apiUrl = `http://localhost:8080/order-teches`;
     const requestOptions = {
       method: "GET",
@@ -208,8 +208,8 @@ function Payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setPAYTECH(res.data);
-          PAYTECH.map((i: any) => {
+          setOrderTech(res.data);
+          OrderTech.map((i: any) => {
             console.log(i.OrderTech.ORDER.ID);
           })
 
@@ -218,26 +218,26 @@ function Payment() {
         }
       });
   };
-  const getUser = async () => {
-    const apiUrl = `http://localhost:8080/user/${userID}`;
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setUserName(res.data.Name);
-        }
-      });
-  };
-  console.log('235_PAYTECH_ID -->', PAYTECH_ID)
+  // const getUser = async () => {
+  //   const apiUrl = `http://localhost:8080/user/${userID}`;
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   fetch(apiUrl, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setUserName(res.data.Name);
+  //       }
+  //     });
+  // };
+  console.log('235_OrderTech_ID -->', OrderTech_ID)
 
   //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
     getBank();
-    getPAYTECH();
+    getOrderTech();
     //getMoney();
   }, []);
 
@@ -245,7 +245,7 @@ function Payment() {
   //ฟังก์ชัน สำหรับ Datagrid
   // const columns: GridColDef[] = [
   //   { field: "Payment_ID", headerName: "ลำดับ", width: 100 },
-  //   { field: "PAYTECH_ID", headerName: "PAYMENT_ID", width: 300 },
+  //   { field: "OrderTech_ID", headerName: "PAYMENT_ID", width: 300 },
   //   { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 400 },
   //   { field: "Bank_ID", headerName: "ธนาคาร", width: 400 },
   //   { field: "Amount", headerName: "ยอดเงินที่โอน", width: 400 },
@@ -257,7 +257,7 @@ function Payment() {
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      {/* <ResponsiveAppBar /> */}
+      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Snackbar
           open={success}
@@ -306,7 +306,7 @@ function Payment() {
 
         {select_Order()}
         <Box style={{ backgroundColor: "#e0f2f1" }}>
-          {/* {PAYTECHSHOW(PAYTECH_ID)}<br /> */}
+          {/* {OrderTechSHOW(OrderTech_ID)}<br /> */}
         </Box>
         <br /><br />
         {show_Amout_check()}
@@ -356,15 +356,15 @@ function Payment() {
       <FormControl fullWidth variant="outlined">
         <Select
           native
-          value={PAYTECH_ID}
+          value={OrderTech_ID}
           onChange={onChangePAYTHECH}
           inputProps={{
-            name: "PAYTECH_ID",
+            name: "OrderTech_ID",
           }}
         >
           <option aria-label="None" value="">
             กรุณาเลือก หมายเลข Oder                 </option>
-          {PAYTECH.map((item: any) => (
+          {OrderTech.map((item: any) => (
             <option value={item.ID} key={item.ID}>
               {item.ORDER.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
             </option>
@@ -379,12 +379,12 @@ function Payment() {
         <Select
           disabled
           native
-          value={PAYTECH_ID}
+          value={OrderTech_ID}
           onChange={onChangePAYTHECH}
-          inputProps={{ name: "PAYTECH_ID", }}
+          inputProps={{ name: "OrderTech_ID", }}
         >
           <option aria-label="None" value="">  ท่านยังไม่เลือกรายการ   </option>
-          {PAYTECH.map((item: any) => (<option value={item.ID} key={item.ID}>{item.ORDER.ID}
+          {OrderTech.map((item: any) => (<option value={item.ID} key={item.ID}>{item.ORDER.ID}
           </option>
           ))}
         </Select>
@@ -492,7 +492,7 @@ function Payment() {
           color="success"
           size="large"
         >
-          <b>บันทึก</b>
+          <b>📋บันทึก</b>
         </Button>
       </Grid>
     )

@@ -240,7 +240,7 @@ function Checked_payment() {
           console.log(' DATA_ID ----->', res.data);
 
           setPayment_ID_show(res.data.ID)
-          setOrder_ID_show(res.data.PayTech.OrderTech.OrderID)
+          setOrder_ID_show(res.data.OrderTech.OrderID)
           setSender_name_show(res.data.Sender_Name)
           setBank_show(res.data.Bank.Bank_name)
           setAmount_show(res.data.Amount)
@@ -276,7 +276,7 @@ function Checked_payment() {
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      {/* <ResponsiveAppBar /> */}
+      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Snackbar
           open={success}
