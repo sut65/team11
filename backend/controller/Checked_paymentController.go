@@ -63,7 +63,7 @@ func CreateChecked_payment(c *gin.Context) {
 // GET /Device
 func ListChecked_payment(c *gin.Context) {
 	var Checked_payment []entity.Checked_payment
-	if err := entity.DB().Preload("Customer").Preload("Status_check").Preload("Payment.PayTech.OrderTech.ORDER").Preload("Payment.PayTech.Hardware").Find(&Checked_payment).Error; err != nil {
+	if err := entity.DB().Preload("Customer").Preload("Status_check").Preload("Payment.OrderTech.ORDER").Find(&Checked_payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

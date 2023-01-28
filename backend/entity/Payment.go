@@ -22,10 +22,10 @@ type Payment struct {
 	Status_ID    uint
 
 	//ส่วนที่ดึงมาจากตารางอื่น
-	PayTech_ID *uint
-	PayTech    PayTech `gorm:"references:id"`
-	Bank_ID    *uint
-	Bank       Bank `gorm:"references:id"`
+	OrderTech_ID *uint
+	OrderTech    OrderTech `gorm:"references:id"`
+	Bank_ID      *uint
+	Bank         Bank `gorm:"references:id"`
 
 	CustomerID *uint
 	Customer   Customer `gorm:"references:id"`

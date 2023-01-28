@@ -26,6 +26,4 @@ type PayTech struct {
 
 	OrderTechID *uint
 	OrderTech   OrderTech `gorm:"references:id"`
-
-	Payments []Payment `gorm:"ForeignKey:PayTech_ID"`
 }

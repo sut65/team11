@@ -17,7 +17,7 @@ func CreatePayment(c *gin.Context) {
 	var Customer entity.Customer
 	var Payment entity.Payment
 	var Bank entity.Bank
-	var PAYTECH entity.PayTech
+	var ORDERTECH entity.OrderTech
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Payment
 	if err := c.ShouldBindJSON(&Payment); err != nil {
@@ -25,9 +25,9 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 
-	// 9: ค้นหา PAYTECH ด้วย id
-	if tx := entity.DB().Where("id = ?", Payment.PayTech_ID).First(&PAYTECH); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
-		c.JSON(http.StatusBadRequest, gin.H{"error": "PAYTECH not found"})
+	// 9: ค้นหา ORDERTECH ด้วย id
+	if tx := entity.DB().Where("id = ?", Payment.OrderTech_ID).First(&ORDERTECH); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ORDERTECH not found"})
 		return
 	}
 
@@ -46,11 +46,11 @@ func CreatePayment(c *gin.Context) {
 	// 12: สร้าง Payment
 	pm := entity.Payment{
 
-		PayTech_ID:   Payment.PayTech_ID, // ตัวแปลนี้ จะเก็บค่า Ordertech_ID
+		OrderTech_ID: Payment.OrderTech_ID, // ตัวแปลนี้ จะเก็บค่า Ordertech_ID
 		Sender_Name:  Payment.Sender_Name,
 		Bank_ID:      Payment.Bank_ID,
 		Amount:       Payment.Amount,
-		Amount_Check: calculat_backend(Payment.PayTech_ID), //เอา  ID มาคำนวณทีj
+		Amount_Check: calculat_backend(Payment.OrderTech_ID), //เอา  ID มาคำนวณทีj
 		Date_time:    Payment.Date_time,
 		Status_ID:    Payment.Status_ID,
 		CustomerID:   Payment.CustomerID,
@@ -66,9 +66,19 @@ func CreatePayment(c *gin.Context) {
 }
 
 // GET /Review
+func List_OrderID_in_Paytech(c *gin.Context) {
+	var Payments []entity.Payment
+	if err := entity.DB().Preload("OrderTech.Hardware").Preload("OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": Payments})
+}
+
+// GET /Review
 func ListPayments(c *gin.Context) {
 	var Payments []entity.Payment
-	if err := entity.DB().Preload("PayTech.Hardware").Preload("PayTech.OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
+	if err := entity.DB().Preload("OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -80,7 +90,7 @@ func ListPayments(c *gin.Context) {
 func GetPayment(c *gin.Context) {
 	var Payment entity.Payment
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM payments WHERE id = ?", id).Preload("PayTech.Hardware").Preload("PayTech.OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payment).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM payments WHERE id = ?", id).Preload("OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

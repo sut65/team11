@@ -284,7 +284,7 @@ function Edit_Checked_payment() {
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      {/* s<ResponsiveAppBar /> */}
+      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Snackbar
           open={success}

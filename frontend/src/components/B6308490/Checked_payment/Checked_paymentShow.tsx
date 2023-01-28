@@ -76,7 +76,7 @@ function Checked_paymentShow() {
 
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      {/* <ResponsiveAppBar /> */}
+      <ResponsiveAppBar />
       <div style={{ height: "auto", width: "100%", marginTop: "20px" }}>
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
