@@ -98,7 +98,6 @@ function PaymentShow() {
 
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      <ResponsiveAppBar />
       <div style={{ height: "auto", width: "100%", marginTop: "20px" }}>
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
@@ -111,6 +110,7 @@ function PaymentShow() {
               fontFamily="Arial"
             >
               <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} >
+                <br/>
                 ระบบชำระเงิน
               </b>
               <br /><br />
@@ -126,20 +126,17 @@ function PaymentShow() {
       <Container  >
         <Box sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#e0f2f1" }}  >
           {datashow()}
-        </Box>
+        </Box><br/>
         {btn_edit()}
-
-
         <br /><br />
 
-
-        <Grid>
-          <Button style={{ backgroundColor: "#8bc34a", fontSize: 26, position: "absolute", left: "50%", transform: "translateX(-50%)" }}
+        <center>
+          <Button style={{ backgroundColor: "#658864", fontSize: 26,}}
             component={RouterLink} to="/Payment" variant="contained">
             เข้าสู่หน้าชำระเงิน
           </Button>
           <br /><br /><br /><br />
-        </Grid>
+        </center>
         <br /><br />
 
 
@@ -171,7 +168,7 @@ function PaymentShow() {
         <Grid item xs={12}>
           <Button
             size="small"
-            sx={{ backgroundColor: "#FB6E52", fontSize: 15, float: "right" }}
+            sx={{ backgroundColor: "#6D67E4", fontSize: 15, float: "right" }}
             component={RouterLink} to="/EditPayment" variant="contained"  >
             แก้ไขรายการการชำระเงิน
           </Button>

@@ -21,6 +21,7 @@ import "../CSS/payment.css";
 //import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 import { log } from "console";
+import { WidthFullOutlined } from "@mui/icons-material";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -241,23 +242,9 @@ function Payment() {
     //getMoney();
   }, []);
 
-
-  //ฟังก์ชัน สำหรับ Datagrid
-  // const columns: GridColDef[] = [
-  //   { field: "Payment_ID", headerName: "ลำดับ", width: 100 },
-  //   { field: "OrderTech_ID", headerName: "PAYMENT_ID", width: 300 },
-  //   { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 400 },
-  //   { field: "Bank_ID", headerName: "ธนาคาร", width: 400 },
-  //   { field: "Amount", headerName: "ยอดเงินที่โอน", width: 400 },
-  //   { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 400 },
-  //   { field: "Date_time", headerName: "วันที่โอนเงิน", width: 400 },
-  //   { field: "Status_ID", headerName: "สถานะ", width: 400 },
-  //   { field: "USER_ID", headerName: "ผู้ส่งเรื่อง", width: 400 },
-  // ];
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Snackbar
           open={success}
@@ -293,7 +280,7 @@ function Payment() {
               //align="center"
               fontFamily="Arial"
             >
-              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} ><br />
+              <b style={{ font: "#FFFFFF", color: "#FFFFFF" ,}} ><br />
                 ระบบชำระเงิน
               </b><br /><br />
 
@@ -482,7 +469,7 @@ function Payment() {
   function button_submit_back() {
     return (
       <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
+        <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
           ย้อนกลับ
         </Button>
         <Button

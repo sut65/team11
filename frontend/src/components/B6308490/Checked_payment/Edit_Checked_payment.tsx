@@ -284,7 +284,6 @@ function Edit_Checked_payment() {
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Snackbar
           open={success}
@@ -457,14 +456,14 @@ function Edit_Checked_payment() {
     return (
       <Grid container>
         <Grid item xs={7}>
-          <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
+          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
             ย้อนกลับ
           </Button>
         </Grid>
 
         <Grid item xs={2.5}>
           <Button
-            style={{ fontSize: 20,  backgroundColor: "#C70039" }}
+            style={{ fontSize: 16,  backgroundColor: "#C70039" }}
             onClick={DeleteChecked_payment}
             variant="contained"
             size="large"
@@ -473,7 +472,7 @@ function Edit_Checked_payment() {
 
         <Grid item xs={2.5}>
           <Button
-            style={{ float: "right", fontSize: 20 }}
+            style={{ float: "right", fontSize: 16 }}
             onClick={Update}
             variant="contained"
             color="success"
@@ -487,16 +486,17 @@ function Edit_Checked_payment() {
   }
 
   function select_Order() {
-    return (<Container>
+    return (
       <Grid container spacing={3}>
-        <Grid item xs={2}> </Grid>
+        <Grid item xs={3}/>
         <Grid item xs={6}>
           <Item style={{ background: "#f1f8e9" }}>
             {Combo_Checked_Payment()}<br />
           </Item>
         </Grid>
+        <Grid item xs={3}/>
       </Grid>
-    </Container>)
+    )
   }
 }
 export default Edit_Checked_payment;

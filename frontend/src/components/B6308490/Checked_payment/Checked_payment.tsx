@@ -276,7 +276,6 @@ function Checked_payment() {
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Snackbar
           open={success}
@@ -352,7 +351,7 @@ function Checked_payment() {
             </Grid>
           </Grid>
           <br /><br />
-          <hr color="Green" />
+          <hr color="#99b9a0" />
           {button_submit_back()}
           <br /><br /><br /><br /><br /><br /><br />
         </Container>
@@ -449,7 +448,7 @@ function Checked_payment() {
     return (
       <Grid container spacing={3}>
         <Grid item xs={8}>
-          <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
+          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
             ย้อนกลับ
           </Button>
         </Grid>
