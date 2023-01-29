@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
-import { Snackbar,Grid,Box,TextField,AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
+import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, PAYTECHInterface, } from "../../../interfaces/PaymentUI";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -109,8 +109,8 @@ function Payment() {
   function UpdatePayment() {
     let data = {
 
-      ID: convertType(PAYTECH_ID),         
-      Sender_name: Payment.Sender_name ?? "",  
+      ID: convertType(PAYTECH_ID),
+      Sender_name: Payment.Sender_name ?? "",
       Bank_ID: convertType(Bank_ID),
       Amount: convertFloat(Payment.Amount),
       // Amount_Check: convertFloat(Sent_Amout_Check),
@@ -212,7 +212,7 @@ function Payment() {
   //     });
   //     // console.log(amountCheck);
   // };
-  
+
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแดงให้ลูกค้า_-////////////////////////////////////////////
 
   const [Bank, setBank] = React.useState<BankInterface[]>([]);
@@ -287,7 +287,6 @@ function Payment() {
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-      <ResponsiveAppBar />
       <Container maxWidth="xl">
         <Snackbar
           open={success}
@@ -350,32 +349,32 @@ function Payment() {
         {/* <Box style={{ backgroundColor: "#e0f2f1" }}>
           {PAYTECHSHOW()}<br />
         </Box> */}
-        <br/><br/>
+        <br /><br />
         {/* {show_Amout_check()}
         <br/><br/> */}
 
         <Container>
-        <Grid container spacing={3}>
-          {/*แบ่งกลางให้กับข้อความ*/}
-          <Grid item xs={2} ></Grid>
-          <Grid item xs={2} >
-            <Item > <h3>ชื่อผู้โอนเงิน</h3> </Item><br />
-            <Item > <h3>ธนาคารที่โอนเงินเข้า</h3> </Item><br />
-            <Item > <h3>จำนวนเงินที่โอนเข้า</h3> </Item><br />
-            <Item > <h3>วันเวลาที่ทำการ</h3> </Item><br />
+          <Grid container spacing={3}>
+            {/*แบ่งกลางให้กับข้อความ*/}
+            <Grid item xs={2} ></Grid>
+            <Grid item xs={2} >
+              <Item > <h3>ชื่อผู้โอนเงิน</h3> </Item><br />
+              <Item > <h3>ธนาคารที่โอนเงินเข้า</h3> </Item><br />
+              <Item > <h3>จำนวนเงินที่โอนเข้า</h3> </Item><br />
+              <Item > <h3>วันเวลาที่ทำการ</h3> </Item><br />
+            </Grid>
+            {/*แบ่งขวาให้กับข้อมูล*/}
+            <Grid item xs={6}>
+              <Item>{taxtfield_namesender()}</Item><br />
+              <Item>{Combo_Bank()}</Item><br />
+              <Item>{taxtfield_Amount()}</Item><br />
+              <Item>{Datetime()}</Item><br />
+            </Grid>
           </Grid>
-          {/*แบ่งขวาให้กับข้อมูล*/}
-          <Grid item xs={6}>
-            <Item>{taxtfield_namesender()}</Item><br />
-            <Item>{Combo_Bank()}</Item><br />
-            <Item>{taxtfield_Amount()}</Item><br />
-            <Item>{Datetime()}</Item><br />
-          </Grid>
-        </Grid>
-        <br /><br />
-        <hr color="Green" />
-        {button_submit_back()}
-        <br /><br /><br /><br /><br /><br /><br />
+          <br /><br />
+          <hr color="Green" />
+          {button_submit_back()}
+          <br /><br /><br /><br /><br /><br /><br />
         </Container>
 
 
@@ -401,15 +400,15 @@ function Payment() {
             กรุณาเลือก ลำดับรายการการชำระเงิน</option>
           {PAYTECH.map((item: PaymentInterface) => (
             <option value={item.ID} key={item.ID}>
-              {'รายการชำระเงินลำดับที่   '+item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+              {'รายการชำระเงินลำดับที่   ' + item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
             </option>
           ))}
         </Select>
       </FormControl>
     )
   }
-  
-  
+
+
   //สำหรับ combobox ธนาคาร
   function Combo_Bank() {
     return (
@@ -500,27 +499,32 @@ function Payment() {
   }
   function button_submit_back() {
     return (
-      <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
-          ย้อนกลับ
-        </Button>
+      <Grid container >
+        <Grid item xs={8}>
+          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
+            ย้อนกลับ
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            style={{ fontSize: 20, float: "right", backgroundColor: "#C70039" }}
+            onClick={DeletePayment}
+            variant="contained"
+            size="large"
+          >ลบ</Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            style={{ float: "right", fontSize: 20 }}
+            onClick={UpdatePayment}
+            variant="contained"
+            color="success"
+            size="large"
+          >
+            <b>แก้ไข</b>
+          </Button>
+        </Grid>
 
-        <Button
-          style={{ fontSize: 20 ,float: "right",backgroundColor: "#C70039"}}
-          onClick={DeletePayment}
-          variant="contained"
-          size="large"
-        >ลบ</Button>
-        
-        <Button
-          style={{ float: "right", fontSize: 20 }}
-          onClick={UpdatePayment}
-          variant="contained"
-          color="success"
-          size="large"
-        >
-          <b>แก้ไข</b>
-        </Button>
       </Grid>
     )
   }
@@ -564,7 +568,7 @@ function Payment() {
       </Grid>
     </Container>)
   }
- 
+
 
 }
 export default Payment;
