@@ -251,6 +251,11 @@ func SetupDatabase() {
 		Province:      province_3,
 	}
 	db.Model(&District{}).Create(&District_2)
+	District_3 := District{
+		District_Name: "อำเภอในอุบลราชธานี",
+		Province:      province_1,
+	}
+	db.Model(&District{}).Create(&District_3)
 
 	tambon_1 := Tambon{
 		Tambon_Name: "ตำบลในศรีสะเกษ",
@@ -262,6 +267,11 @@ func SetupDatabase() {
 		District:    District_1,
 	}
 	db.Model(&Tambon{}).Create(&tambon_2)
+	tambon_3 := Tambon{
+		Tambon_Name: "ตำบลในอุบลราชธานี",
+		District:    District_3,
+	}
+	db.Model(&Tambon{}).Create(&tambon_3)
 
 	address_1 := Address{
 		Customer:    customer_1,
