@@ -87,6 +87,8 @@ func main() {
 	r.GET("/GetListAddress", controller.GetListAddress)
 	r.GET("/GetAddress/:id", controller.GetAddress)
 	r.GET("/GetListTambon", controller.GetListTambon)
+	r.GET("/GetDistrict/:id", controller.GetDistrict)
+	r.GET("/GetTambon/:id", controller.GetTambon)
 	r.GET("/GetListDistrict", controller.GetListDistrict)
 	r.GET("/GetListProvince", controller.GetListProvince)
 	r.GET("/GetListAddressType", controller.GetListAddressType)

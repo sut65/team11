@@ -81,6 +81,26 @@ func GetListProvince(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": provinces})
 }
 
+func GetDistrict(c *gin.Context) {
+	var district entity.District
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM districts WHERE province_id = ?", id).Scan(&district).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": district})
+}
+
+func GetTambon(c *gin.Context) {
+	var tambon entity.Tambon
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM tambons WHERE district_id = ?", id).Scan(&tambon).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": tambon})
+}
+
 func GetListDistrict(c *gin.Context) {
 	var districts []entity.District
 	if err := entity.DB().Preload("Province").Find(&districts).Error; err != nil {
