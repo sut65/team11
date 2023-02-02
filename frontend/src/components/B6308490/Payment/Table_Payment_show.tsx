@@ -1,11 +1,14 @@
 import { Box, Button, Container, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
-import Payment, {  } from './Payment'
+import Payment, { Payment_get_Ordertech_ID } from './Payment'
 import React from 'react';
 import { PaymentInterface } from '../../../interfaces/PaymentUI';
 import dayjs from 'dayjs';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import { Edit } from '@mui/icons-material';
+import { EditPayment_get_Ordertech_ID } from './EditPayment';
 
 function Table_Payment_show() {
 const [Payment,set_All_Payment] = React.useState<PaymentInterface[]>([]);
@@ -28,8 +31,36 @@ const [Payment,set_All_Payment] = React.useState<PaymentInterface[]>([]);
 
     //ฟังก์ชัน สำหรับ Datagrid
     const columns: GridColDef[] = [
+      {
+        field: 'action1',
+        headerName: '',
+        width: 150,
+        editable: false,
+        renderCell: (params: GridRenderCellParams) => {
+
+            // const [OrderTech_ID, setOrderTech_ID] = useState(9999);
+            const handleClick = () => {
+                params.api.setRowMode(params.id, 'edit');
+                // const Test_ID = params.id.toString();
+                // console.log(params.id);
+                EditPayment_get_Ordertech_ID(params.id.toString());
+            };
+            return (
+                <RouterLink to={`/EditPayment`} style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" onClick={handleClick}
+                        sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
+                        {<Edit />}แก้ไข
+                    </Button>
+                </RouterLink>
+            );
+        }
+    },
+    
       { field: "ID", headerName: "ลำดับ", width: 70 },
-      { field: "PayTech_ID", headerName: "OrderID", width: 70 },
+      { field: "PayTech_ID", headerName: "OrderID", width: 70 , renderCell: params => {
+        return <div>{params.row.OrderTech.ID}</div>
+    }
+    },
       { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200 },
       { field: "Bank_ID", headerName: "ธนาคาร", width: 140
         , renderCell: params => {
@@ -87,6 +118,7 @@ const [Payment,set_All_Payment] = React.useState<PaymentInterface[]>([]);
             pageSize={10}
             rowsPerPageOptions={[50]}
             components={{Toolbar: GridToolbar,}}
+            style={{ height: '500px' }}
           />
           </div>
     )

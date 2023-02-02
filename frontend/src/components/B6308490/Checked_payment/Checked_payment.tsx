@@ -14,6 +14,8 @@ import dayjs, { Dayjs } from "dayjs";
 import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Table_Payment_show from "../Payment/Table_Payment_show";
+import Check_Table_Payment_show from "./Table_CheckedPayment_show";
+import Table_Paytech_all_Checked from "./Table_Paytech_all_Checked";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -61,10 +63,18 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 
+//ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
+let P_ID : string;
+function CheckedPayment_get_Payment_ID (id: string){
+  P_ID = id;
+}export {CheckedPayment_get_Payment_ID}
+
+
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Checked_payment() {
   const [Status_check_ID, setStatus_check_ID] = useState('');
-  const [Payment_ID, setPayment_ID] = useState(''); // ตัวแปล ID สำหรับการ Update และ Delete
+  // const [Payment_ID, setPayment_ID] = useState(''); // ตัวแปล ID สำหรับการ Update และ Delete
+  const Payment_ID =P_ID;
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
   const [success, setSuccess] = React.useState(false);
@@ -114,10 +124,10 @@ function Checked_payment() {
   const onChangeStatus_check = (event: SelectChangeEvent) => {
     setStatus_check_ID(event.target.value as string);
   };
-  const onChangePayment = (event: SelectChangeEvent) => {
-    setPayment_ID(event.target.value as string);
+  // const onChangePayment = (event: SelectChangeEvent) => {
+  //   setPayment_ID(event.target.value as string);
 
-  };
+  // };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +143,7 @@ function Checked_payment() {
       CustomerID: 1
 
     };
-    //console.log(data);
+    // console.log(data);
     const apiUrl = "http://localhost:8080/CreateChecked_payment";
     const requestOptions = {
       method: "POST",
@@ -149,6 +159,7 @@ function Checked_payment() {
 
         } else {
           console.log("summit error")
+          console.log('this error--->',res.data)
           setError(true);
 
         }
@@ -270,6 +281,7 @@ function Checked_payment() {
   useEffect(() => {
     getStatus_check();
     getPayment();
+    get_Payment_for_show()
 
   }, []);
 
@@ -322,12 +334,6 @@ function Checked_payment() {
 
 
         <Container>
-          <hr color="#99b9a0" />
-          <Box style={{ backgroundColor: "#f6f5f4" }}>
-            {Table_Payment_show()}
-          </Box><br />
-          <hr color="#99b9a0" /><br />
-          {select_Order()}<br />
           <hr color="#99b9a0" /><br />
           {show_data()}<br />
           <hr color="#99b9a0" /><br />
@@ -370,7 +376,7 @@ function Checked_payment() {
         <Select
           native
           value={Payment_ID}
-          onChange={onChangePayment}
+          // onChange={onChangePayment}
           inputProps={{
             name: "PAYTECH_ID",
           }}
@@ -478,23 +484,23 @@ function Checked_payment() {
     )
   }
 
-  function select_Order() {
-    return (<Container>
-      <Grid container spacing={3}>
-        <Grid item xs={2}> </Grid>
-        <Grid item xs={6}>
-          <Item style={{ background: "#f1f8e9" }}>
-            {Combo_Payment()}<br />
-          </Item>
-        </Grid>
-        <Grid item xs={4}>
-          <Item style={{ backgroundColor: "#182e3e" }}>
-            {button_pay()}
-          </Item>
-        </Grid>
-      </Grid>
-    </Container>)
-  }
+  // function select_Order() {
+  //   return (<Container>
+  //     <Grid container spacing={3}>
+  //       <Grid item xs={2}> </Grid>
+  //       <Grid item xs={6}>
+  //         <Item style={{ background: "#f1f8e9" }}>
+  //           {Combo_Payment()}<br />
+  //         </Item>
+  //       </Grid>
+  //       <Grid item xs={4}>
+  //         <Item style={{ backgroundColor: "#182e3e" }}>
+  //           {button_pay()}
+  //         </Item>
+  //       </Grid>
+  //     </Grid>
+  //   </Container>)
+  // }
   function show_data() {
     return (
       // <Grid container spacing={2} sx={{ backgroundColor: "#646655" }}>
@@ -512,7 +518,9 @@ function Checked_payment() {
         <Grid item xs={3.6}>
           <Item_2>   <P2>{Payment_ID_show}</P2>   </Item_2><br />
           <Item_2>   <P2>{Sender_name_show}</P2>  </Item_2><br />
-          <Item_2>   <P2>{Time_show}</P2>         </Item_2><br />
+          {/* <Item_2>   <P2>{Time_show}</P2>         </Item_2><br /> */}
+          <Item_2>   <P2>{dayjs(Time_show).format('DD/MM/YYYY HH:mm:ss ')}</P2></Item_2><br />
+          
           <Item_2>   <P2>{Amount_show}</P2>       </Item_2><br />
         </Grid>
 
@@ -533,18 +541,18 @@ function Checked_payment() {
       </Grid>
     )
   }
-  function button_pay() {
+  // function button_pay() {
 
-    return (
-      <Button style={{ backgroundColor: "#8bc34a", fontSize: 20, height: "60px" }}
-        onClick={get_Payment_for_show}
-        variant="contained"
-      //size="large"
-      >
-        <b>ตรวจสอบรายการนี้</b>
-      </Button>
-    )
-  }
+  //   return (
+  //     <Button style={{ backgroundColor: "#8bc34a", fontSize: 20, height: "60px" }}
+  //       onClick={get_Payment_for_show}
+  //       variant="contained"
+  //     //size="large"
+  //     >
+  //       <b>ตรวจสอบรายการนี้</b>
+  //     </Button>
+  //   )
+  // }
 
 
 }

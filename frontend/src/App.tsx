@@ -264,7 +264,7 @@ function App() {
             <Toolbar />
             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
               <Routes>
-                <Route path="/" element={<Home />} />
+                {/* <Route path="/" element={<Home />} /> */}
                 <Route path="/CustomerCreate" element={<CreateForm />} /> 
                 <Route path="/CustomerShow" element={< CreateForm2 />} />
                 <Route path="/TechnicianCreate" element={<CreateTechnician2 />} />
