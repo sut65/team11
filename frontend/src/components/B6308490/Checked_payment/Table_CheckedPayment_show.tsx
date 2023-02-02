@@ -16,7 +16,7 @@ import { EditCheck_get_Payment_ID } from './Edit_Checked_payment';
 function Check_Table_Payment_show() {
   const [Payment, set_All_Payment] = React.useState<PaymentInterface[]>([]);
   const get_All_Payment = async () => {
-    const apiUrl = `http://localhost:8080/ListChecked_payment`; // add ID for search
+    const apiUrl = `http://localhost:8080/List_only_checkedPayment`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },

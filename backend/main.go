@@ -143,6 +143,7 @@ func main() {
 	r.PATCH("/UpdatePayment", controller.UpdatePayment)
 	r.POST("/DeletePayment/:id", controller.DeletePayment)
 
+	r.GET("/ListPayment_for_Check", controller.ListPayment_for_Check) //เรียกรายการที่ยังไม่เช็คไปแสดง เพื่อเลือกเช็ค
 	r.GET("/SendmoneyToFrontend/:id", controller.SendmoneyToFrontend)
 
 	// =============== Checked_payment ==================================
@@ -152,6 +153,8 @@ func main() {
 	r.PATCH("/UpdateChecked_payment", controller.UpdateCheckedPayment)
 	r.POST("/CreateChecked_payment", controller.CreateChecked_payment)
 	r.POST("DeleteChecked_payment/:id", controller.DeleteChecked_payment)
+
+	r.GET("/List_only_checkedPayment", controller.List_only_checkedPayment) //เรียกรายการ checkedppayment โดยไม่เอาสถานะ "รอการตรวจสอบการชำระเงิน"
 
 	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
 	r.POST("/CreateUrgency", controller.CreateUrgency)

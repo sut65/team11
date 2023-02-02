@@ -12,10 +12,10 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 
-function Table_Paytech_all_Checked() {
+function Table_Payment_for_Checked() {
     const [Checked_Paytech_all, setChecked_Paytech_all] = React.useState<PaymentInterface[]>([]);
     const get_All_Paytech = async () => {
-        const apiUrl = `http://localhost:8080/ListPayment`; // add ID for search
+        const apiUrl = `http://localhost:8080/ListPayment_for_Check`; // add ID for search
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -128,5 +128,5 @@ function Table_Paytech_all_Checked() {
     )
 }
 
-export default Table_Paytech_all_Checked
+export default Table_Payment_for_Checked
 

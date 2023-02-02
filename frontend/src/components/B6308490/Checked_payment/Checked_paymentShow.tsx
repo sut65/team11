@@ -1,6 +1,7 @@
 import { Box, Button, Container, FormControl, Grid, Paper, styled, Typography } from '@mui/material';
 import Check_Table_Payment_show from './Table_CheckedPayment_show';
-import Table_Paytech_all_Checked from './Table_Paytech_all_Checked';
+import Table_Payment_for_Checked from './Table_Payment_for_Checked';
+
 
 
 
@@ -42,7 +43,7 @@ function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
         <hr />
 
         <Box sx={{ width: '100%', height: '500px' }} style={{ backgroundColor: "#e0f2f1" }}  >
-          {Table_Paytech_all_Checked()}
+          {Table_Payment_for_Checked()}
         </Box>
 
         <hr />

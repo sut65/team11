@@ -15,7 +15,7 @@ import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Table_Payment_show from "../Payment/Table_Payment_show";
 import Check_Table_Payment_show from "./Table_CheckedPayment_show";
-import Table_Paytech_all_Checked from "./Table_Paytech_all_Checked";
+import Table_Paytech_all_Checked from "./Table_Payment_for_Checked";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
