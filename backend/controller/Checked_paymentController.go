@@ -14,6 +14,7 @@ import (
 // POST /Checked_payment
 func CreateChecked_payment(c *gin.Context) {
 	// var User entity.User
+
 	var Checked_payment entity.Checked_payment
 	var Status_check entity.Status_check
 	var Payment entity.Payment
@@ -58,8 +59,12 @@ func CreateChecked_payment(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": pm})
 
+	//สำหรับ การอัพเดต status เมื่อตรวจสอบแล้ว
+	Update_payment_status(Checked_payment.Payment_ID, Checked_payment.Status_ID)
+
 }
 
+// ================================================== function List to frontend =================================================
 // GET /Device
 func ListChecked_payment(c *gin.Context) {
 	var Checked_payment []entity.Checked_payment
@@ -70,6 +75,18 @@ func ListChecked_payment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
 }
 
+// fn สำหรับ List ข้อมูล CheckedPayment ทั้งหมด โดยไม่เาสถานะ "รอตวจสอบ"
+func List_only_checkedPayment(c *gin.Context) {
+	var List_only_checkedPayment []entity.Checked_payment
+	if err := entity.DB().Raw("SELECT * FROM checked_payments WHERE status_id != 3").Preload("Customer").Preload("Status_check").Preload("Payment.OrderTech.ORDER").Find(&List_only_checkedPayment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": List_only_checkedPayment})
+
+}
+
+// ================================================================================================================================
 // GET /Checked_payment/:id
 // Get Checked_payment by id
 func GetChecked_payment(c *gin.Context) {
@@ -96,22 +113,41 @@ func UpdateCheckedPayment(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": UpdateCheckedPayment})
+
+	//สำหรับ การอัพเดต status เมื่อตรวจสอบแล้ว
+	payment_id_update := get_id_payment_for_status(UpdateCheckedPayment.ID)
+	Update_payment_status(payment_id_update, UpdateCheckedPayment.Status_ID)
+	//Update_payment_status(2, 2)
 }
 
 // DELETE /Checked_payment/:id
 func DeleteChecked_payment(c *gin.Context) {
 	id := c.Param("id")
+	payment_id_for_del := get_id_payment_for_status(id)
+	//if st ==0
 	if tx := entity.DB().Exec("DELETE FROM Checked_payments WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Checked_payment not found"})
+		// st =1
 		return
+
 	}
-	/*
-		if err := entity.DB().Where("id = ?", id).Delete(&entity.User{}).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}*/
 
 	c.JSON(http.StatusOK, gin.H{"data": id})
+
+	//if st =1
+	//สำหรับ การอัพเดต status เมื่อตรวจสอบแล้ว
+
+	Update_payment_status(payment_id_for_del, 3)
+	//Update_payment_status(2, 3)
+}
+
+//======================================================================================================================
+
+// fn เพื่อ ดึงค่า payment id จาก ceckedPayment id
+func get_id_payment_for_status(checkedPayment_id any) int {
+	var ID_payment int
+	entity.DB().Table("checked_payments").Select("payment_id").Where("id = ?", checkedPayment_id).Row().Scan(&ID_payment)
+	return ID_payment
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,4 +228,9 @@ func DeleteStatus_check(c *gin.Context) {
 		}*/
 
 	c.JSON(http.StatusOK, gin.H{"data": id})
+}
+
+// ============================================= update status Payment =================================================================
+func Update_payment_status(id, status any) {
+	entity.DB().Table("payments").Where("id = ?", id).Updates(map[string]interface{}{"Status_ID": status})
 }

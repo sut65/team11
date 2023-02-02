@@ -65,7 +65,7 @@ func CreatePayment(c *gin.Context) {
 
 }
 
-// GET /Review
+// ================================================== function List for frontend =================================================
 func List_OrderID_in_Paytech(c *gin.Context) {
 	var Payments []entity.Payment
 	if err := entity.DB().Preload("OrderTech.Hardware").Preload("OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
@@ -75,7 +75,7 @@ func List_OrderID_in_Paytech(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Payments})
 }
 
-// GET /Review
+// List all playmment
 func ListPayments(c *gin.Context) {
 	var Payments []entity.Payment
 	if err := entity.DB().Preload("OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payments).Error; err != nil {
@@ -85,8 +85,19 @@ func ListPayments(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Payments})
 }
 
-// GET /payment/:id
-// Get payment by id
+// fn สำหรับ List ข้อมูล payment สถานะเป็น 'รอการตรวจสอบการชำระเงิน' สำหรับ checked payment
+func ListPayment_for_Check(c *gin.Context) {
+	var Payments_for_check []entity.Payment
+	if err := entity.DB().Raw("SELECT * FROM payments WHERE status_id = 3").Preload("OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&Payments_for_check).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": Payments_for_check})
+
+}
+
+// ===================================================================================================================================
+// GET /payment/:id  // Get payment by id
 func GetPayment(c *gin.Context) {
 	var Payment entity.Payment
 	id := c.Param("id")
@@ -201,6 +212,8 @@ func DeleteBank(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
+
+//=========================================== สำหรับการคำนวณ ============================================================================
 
 func SendmoneyToFrontend(c *gin.Context) {
 	id := c.Param("id")
