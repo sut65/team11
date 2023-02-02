@@ -1,6 +1,6 @@
 //ดึงส่วนต่าง ๆ ที่จะต้องใช้งาน
 import React, { useEffect, useState } from "react";
-import { Link as RouterLink, Route } from "react-router-dom";
+import { Link as RouterLink, Params, Route, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import { AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
@@ -17,11 +17,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/payment.css";
-//import PAYTECHSHOW from "./PAYTECHSHOW";
 //import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
-import { log } from "console";
-import { WidthFullOutlined } from "@mui/icons-material";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -43,6 +40,26 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+
+
+
+
+
+//ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
+let P_ID : string;
+function Payment_get_Ordertech_ID (id: string){
+  P_ID = id;
+}export {Payment_get_Ordertech_ID}
+
+
+
+
+
+
+
+
+
+
 //ฟังค์ชันสำหรับ alert
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -54,11 +71,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Payment() {
-  //const [Amount_Check, setAmount_Check] = useState(0); //คอยรับค่าที่ทำการคิดเงินแล้วเอามาเก็บไว้รอบันทึกลง ฐานข้อมูล
 
+  //const [Amount_Check, setAmount_Check] = useState(0); //คอยรับค่าที่ทำการคิดเงินแล้วเอามาเก็บไว้รอบันทึกลง ฐานข้อมูล
   //ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox ทั้งหมดเป็นตารางที่ ดึงไปใส่ตารางหลัก
   const [Bank_ID, setBank_ID] = useState('');
-  const [OrderTech_ID, setOrderTech_ID] = useState('') || 0;//>>>>>>>>>> แก้ตรงนี้ด้วยใช้จริงต้องไม่เกิด กรณี 0
+  // const [OrderTech_ID, setOrderTech_ID] = useState('') || 0;//>>>>>>>>>> แก้ตรงนี้ด้วยใช้จริงต้องไม่เกิด กรณี 0
+  let OrderTech_ID = P_ID ;
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
   const [success, setSuccess] = React.useState(false);
@@ -66,6 +84,9 @@ function Payment() {
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
+
+  // const { id } = useParams();
+  console.log('ทดสอบ id ที่รับมาจากต่างเพจ --->',P_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -99,9 +120,9 @@ function Payment() {
   const onChangeBank = (event: SelectChangeEvent) => {
     setBank_ID(event.target.value as string);
   };
-  const onChangePAYTHECH = (event: SelectChangeEvent) => {
-    setOrderTech_ID(event.target.value as string);
-  };
+  // const onChangePAYTHECH = (event: SelectChangeEvent) => {
+  //   setOrderTech_ID(event.target.value as string);
+  // };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -142,14 +163,13 @@ function Payment() {
     // reset All after Submit
     setBank_ID("");
     setDate(null);
-    setOrderTech_ID("");
+    // setOrderTech_ID("");
     setPayment({});
     setAmountCheck("ไม่มีข้อมูล");
   }
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
 
   const [amountCheck, setAmountCheck] = useState('ไม่มีข้อมูล');
-  console.log(amountCheck);
 
   async function submitPayment() {
 
@@ -233,12 +253,14 @@ function Payment() {
   //       }
   //     });
   // };
-  console.log('235_OrderTech_ID -->', OrderTech_ID)
+  //console.log('235_OrderTech_ID -->', OrderTech_ID)
 
   //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
     getBank();
     getOrderTech();
+    submitPayment();
+    
     //getMoney();
   }, []);
 
@@ -291,7 +313,7 @@ function Payment() {
 
 
 
-        {select_Order()}
+        {/* {select_Order()} */}
         <Box style={{ backgroundColor: "#e0f2f1" }}>
           {/* {OrderTechSHOW(OrderTech_ID)}<br /> */}
         </Box>
@@ -344,7 +366,7 @@ function Payment() {
         <Select
           native
           value={OrderTech_ID}
-          onChange={onChangePAYTHECH}
+          // onChange={onChangePAYTHECH}
           inputProps={{
             name: "OrderTech_ID",
           }}
@@ -367,7 +389,7 @@ function Payment() {
           disabled
           native
           value={OrderTech_ID}
-          onChange={onChangePAYTHECH}
+          // onChange={onChangePAYTHECH}
           inputProps={{ name: "OrderTech_ID", }}
         >
           <option aria-label="None" value="">  ท่านยังไม่เลือกรายการ   </option>
@@ -442,6 +464,7 @@ function Payment() {
         <Grid item xs={2}>
           <Item sx={{ backgroundColor: "#436F77", fontSize: 30, color: "#FFFFFF" }}>
             {amountCheck}
+            {/* {Test_Payment_ID} */}
           </Item>
         </Grid>
 
@@ -478,6 +501,7 @@ function Payment() {
           variant="contained"
           color="success"
           size="large"
+          component={RouterLink} to="/PaymentShow"
         >
           <b>📋บันทึก</b>
         </Button>

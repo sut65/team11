@@ -15,7 +15,7 @@ import (
 func CreateChecked_payment(c *gin.Context) {
 	// var User entity.User
 	var Checked_payment entity.Checked_payment
-	var Status_check entity.Checked_payment
+	var Status_check entity.Status_check
 	var Payment entity.Payment
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ * จะถูก bind เข้าตัวแปร Checked_payment

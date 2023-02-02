@@ -25,14 +25,7 @@ const convertFloat = (data: string | number | undefined | Float32Array) => {
   let val = typeof data === "string" ? parseFloat(data) : data;
   return val;
 };
-///////////////////////////////////////////////////////////////////////////////////////////////////////2
-
-//let Amount_Check:Float32Array ; //ตัวแปรเพื่อเก็บค่าเพื่อแสดง เงินที่ลูกค้าต้องจ่าย
-// let Amount_Check = convertFloat(0);
-// let strAmout_Check = convertType(Amount_Check) //show at frntend
-// let Sent_Amout_Check = '100.99' //for sent to backend and cal again
-
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 //ตกแต่ง Grid 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -41,6 +34,17 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
+
+
+
+let P_ID : string;
+function EditPayment_get_Ordertech_ID (id: string){
+  P_ID = id;
+}export {EditPayment_get_Ordertech_ID}
+
+
+
+
 
 //ฟังค์ชันสำหรับ alert
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -54,8 +58,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Payment() {
   const [Bank_ID, setBank_ID] = useState('');
-  const [Payment_ID, setPaymentH_ID] = useState('') || 0;// ตัวแปล ID สำหรับการ Update และ Delete
-  const [PAYTECH_ID, setPAYTECH_ID] = useState('') || 0;// ตัวแปล ID สำหรับการ Update และ Delete
+  // const [Payment_ID, setPaymentH_ID] = useState('') || 0;// ตัวแปล ID สำหรับการ Update และ Delete
+  // const [PAYTECH_ID, setPAYTECH_ID] = useState('') || 0;// ตัวแปล ID สำหรับการ Update และ Delete
+  let PAYTECH_ID = P_ID;
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
   const [success, setSuccess] = React.useState(false);
@@ -64,6 +69,8 @@ function Payment() {
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
+  console.log('-------> ',P_ID);
+ console.log(PAYTECH_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -97,9 +104,9 @@ function Payment() {
   const onChangeBank = (event: SelectChangeEvent) => {
     setBank_ID(event.target.value as string);
   };
-  const onChangePAYTHECH = (event: SelectChangeEvent) => {
-    setPAYTECH_ID(event.target.value as string);
-  };
+  // const onChangePAYTHECH = (event: SelectChangeEvent) => {
+  //   setPAYTECH_ID(event.target.value as string);
+  // };
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +150,7 @@ function Payment() {
     // reset All after Submit
     setBank_ID("");
     setDate(null);
-    setPAYTECH_ID("");
+    // setPAYTECH_ID("");
     setPayment({});
 
 
@@ -173,7 +180,7 @@ function Payment() {
     // reset All after Submit
     setBank_ID("");
     setDate(null);
-    setPAYTECH_ID("");
+    // setPAYTECH_ID("");
     setPayment({});
 
 
@@ -272,18 +279,7 @@ function Payment() {
   }, []);
 
 
-  //ฟังก์ชัน สำหรับ Datagrid
-  const columns: GridColDef[] = [
-    { field: "Payment_ID", headerName: "ลำดับ", width: 100 },
-    { field: "PAYTECH_ID", headerName: "PAYMENT_ID", width: 300 },
-    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 400 },
-    { field: "Bank_ID", headerName: "ธนาคาร", width: 400 },
-    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 400 },
-    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 400 },
-    { field: "Date_time", headerName: "วันที่โอนเงิน", width: 400 },
-    { field: "Status_ID", headerName: "สถานะ", width: 400 },
-    { field: "USER_ID", headerName: "ผู้ส่งเรื่อง", width: 400 },
-  ];
+  
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
@@ -299,17 +295,7 @@ function Payment() {
           </Alert>
         </Snackbar>
 
-        {/* <Snackbar
-          open={compete_edit}
-          style={{ backgroundColor: "#FFFFFF"}}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar> */}
+
 
         <Snackbar open={error}
           autoHideDuration={6000}
@@ -390,8 +376,9 @@ function Payment() {
       <FormControl fullWidth variant="outlined">
         <Select
           native
+          disabled
           value={PAYTECH_ID}
-          onChange={onChangePAYTHECH}
+          // onChange={onChangePAYTHECH}
           inputProps={{
             name: "PAYTECH_ID",
           }}
@@ -520,6 +507,7 @@ function Payment() {
             variant="contained"
             color="success"
             size="large"
+            component={RouterLink} to="/PaymentShow"
           >
             <b>แก้ไข</b>
           </Button>
@@ -559,12 +547,6 @@ function Payment() {
             {Combo_Oder()}<br />
           </Item>
         </Grid>
-        {/* <Grid item xs={3}>
-          <Item style={{ backgroundColor: "#182e3e" }}>
-            {button_edit()}
-
-          </Item>
-        </Grid> */}
       </Grid>
     </Container>)
   }

@@ -50,6 +50,21 @@ const P2 = styled(Paper)(({ theme }) => ({
   height: 50,
   color: theme.palette.text.secondary,
 }));
+
+
+
+
+
+//ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
+let P_ID: string;
+function EditCheck_get_Payment_ID(id: string) {
+  P_ID = id;
+} export { EditCheck_get_Payment_ID }
+
+
+
+
+
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 
 //ฟังค์ชันสำหรับ alert
@@ -67,7 +82,8 @@ function Edit_Checked_payment() {
   const [Payment_ID, setPayment_ID] = useState(''); // ตัวแปล ID สำหรับการ Update และ Delete
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
-  const [Check_payment_ID, setCheck_payment_ID] = useState('')
+  // const [Check_payment_ID, setCheck_payment_ID] = useState('')
+  let Check_payment_ID = P_ID;
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
 
@@ -115,10 +131,10 @@ function Edit_Checked_payment() {
   const onChangeStatus_check = (event: SelectChangeEvent) => {
     setStatus_check_ID(event.target.value as string);
   };
-  const onChangePayment = (event: SelectChangeEvent) => {
-    setCheck_payment_ID(event.target.value as string);
+  // const onChangePayment = (event: SelectChangeEvent) => {
+  //   setCheck_payment_ID(event.target.value as string);
 
-  };
+  // };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +143,7 @@ function Edit_Checked_payment() {
   async function Update() {
     let data = {
 
-      ID:convertType(Check_payment_ID),
+      ID: convertType(Check_payment_ID),
       Payment_ID: convertType(Check_payment_ID),
       Other: Checked_payment.Other ?? "",
       Date_time: Date_time,
@@ -148,12 +164,12 @@ function Edit_Checked_payment() {
 
         if (res.data) {
           setSuccess(true);
-          console.log('can update ',res.data);
-          
+          console.log('can update ', res.data);
+
         } else {
           // console.log("summit error")
           setError(true);
-          console.log('can update ',res.data);
+          console.log('can update ', res.data);
           console.log(res.data);
 
         }
@@ -330,10 +346,6 @@ function Edit_Checked_payment() {
 
 
         <Container>
-          <hr color="#99b9a0" />
-          <Box style={{ backgroundColor: "#f6f5f4" }}>
-            {Table_Payment_show()}
-          </Box><br />
           <hr color="#99b9a0" /><br />
           {select_Order()}<br />
           <hr color="#99b9a0" /><br />
@@ -376,9 +388,10 @@ function Edit_Checked_payment() {
     return (
       <FormControl fullWidth variant="outlined">
         <Select
+          disabled
           native
           value={Check_payment_ID}
-          onChange={onChangePayment}
+          // onChange={onChangePayment}
           inputProps={{
             name: "Combo_Checked_Payment",
           }}
@@ -463,7 +476,7 @@ function Edit_Checked_payment() {
 
         <Grid item xs={2.5}>
           <Button
-            style={{ fontSize: 16,  backgroundColor: "#C70039" }}
+            style={{ fontSize: 16, backgroundColor: "#C70039" }}
             onClick={DeleteChecked_payment}
             variant="contained"
             size="large"
@@ -488,13 +501,13 @@ function Edit_Checked_payment() {
   function select_Order() {
     return (
       <Grid container spacing={3}>
-        <Grid item xs={3}/>
+        <Grid item xs={3} />
         <Grid item xs={6}>
           <Item style={{ background: "#f1f8e9" }}>
             {Combo_Checked_Payment()}<br />
           </Item>
         </Grid>
-        <Grid item xs={3}/>
+        <Grid item xs={3} />
       </Grid>
     )
   }
