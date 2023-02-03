@@ -26,6 +26,8 @@ type Status struct {
 type OrderTech struct {
 	gorm.Model
 
+	ForPaymentStatus bool //จั๊ดเป็นคนเพิ่ม ใช้ในระบบจั๊ด
+
 	Solving string
 	TimeOut time.Time
 
@@ -45,6 +47,5 @@ type OrderTech struct {
 	Technician   Technician `gorm:"references:id"`
 
 	PayTech []PayTech `gorm:"foreignKey:OrderTechID"`
-
 	Payment []Payment `gorm:"foreignKey:OrderTech_ID"`
 }
