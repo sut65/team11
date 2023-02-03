@@ -16,6 +16,7 @@ import { Checked_paymentInterface, Status_checkInterface } from "../../../interf
 import Table_Payment_show from "../Payment/Table_Payment_show";
 import Check_Table_Payment_show from "./Table_CheckedPayment_show";
 import Table_Paytech_all_Checked from "./Table_Payment_for_Checked";
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -55,30 +56,30 @@ const P2 = styled(Paper)(({ theme }) => ({
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 
 //ฟังค์ชันสำหรับ alert
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+// const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+//   props,
+//   ref
+// ) {
+//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+// });
 
 
 //ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
-let P_ID : string;
-function CheckedPayment_get_Payment_ID (id: string){
+let P_ID: string;
+function CheckedPayment_get_Payment_ID(id: string) {
   P_ID = id;
-}export {CheckedPayment_get_Payment_ID}
+} export { CheckedPayment_get_Payment_ID }
 
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Checked_payment() {
   const [Status_check_ID, setStatus_check_ID] = useState('');
   // const [Payment_ID, setPayment_ID] = useState(''); // ตัวแปล ID สำหรับการ Update และ Delete
-  const Payment_ID =P_ID;
+  const Payment_ID = P_ID;
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  //const [success, setSuccess] = React.useState(false);
+  //const [error, setError] = React.useState(false);
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
@@ -100,8 +101,8 @@ function Checked_payment() {
     if (reason === "clickaway") {
       return;
     }
-    setSuccess(false);
-    setError(false);
+    //setSuccess(false);
+    //setError(false);
   };
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
@@ -155,12 +156,21 @@ function Checked_payment() {
       .then((res) => {
 
         if (res.data) {
-          setSuccess(true);
+          // Alert การบันทึกสำเส็จ
+          Swal.fire({
+            title: 'บันทึกสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
 
         } else {
-          console.log("summit error")
-          console.log('this error--->',res.data)
-          setError(true);
+          //setAlertMessage(res.error)
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'บันทึกไม่สำเร็จ',
+            text: res.error.split(";")[0],
+            icon: 'error'
+          });
 
         }
       });
@@ -174,28 +184,28 @@ function Checked_payment() {
     setUser_show('')
   };
 
-  function DeleteChecked_payment() {
-    const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Payment_ID}`;
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(''),
-    };
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          console.log("DELETE error occurred")
-          console.log(error)
-          setError(true);
-        }
-      });
-  }
-  
+  // function DeleteChecked_payment() {
+  //   const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Payment_ID}`;
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(''),
+  //   };
+  //   fetch(apiUrl, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setSuccess(true);
+  //       } else {
+  //         console.log("DELETE error occurred")
+  //         console.log(error)
+  //         setError(true);
+  //       }
+  //     });
+  // }
+
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
 
@@ -289,26 +299,6 @@ function Checked_payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar>
-        <Snackbar open={error}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
-          </Alert>
-        </Snackbar>
-
 
         {/* เริ่มส่วนของหน้าเว็ป */}
 
@@ -458,7 +448,7 @@ function Checked_payment() {
             ย้อนกลับ
           </Button>
         </Grid>
-{/* 
+        {/* 
         <Grid item xs={4}>
           <Button
             style={{ fontSize: 20, float: "right", backgroundColor: "#C70039" }}
@@ -520,7 +510,7 @@ function Checked_payment() {
           <Item_2>   <P2>{Sender_name_show}</P2>  </Item_2><br />
           {/* <Item_2>   <P2>{Time_show}</P2>         </Item_2><br /> */}
           <Item_2>   <P2>{dayjs(Time_show).format('DD/MM/YYYY HH:mm:ss ')}</P2></Item_2><br />
-          
+
           <Item_2>   <P2>{Amount_show}</P2>       </Item_2><br />
         </Grid>
 
