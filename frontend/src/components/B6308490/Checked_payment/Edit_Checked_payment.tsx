@@ -190,35 +190,35 @@ function Edit_Checked_payment() {
     setUser_show('')
   };
 
-  function DeleteChecked_payment() {
-    const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Check_payment_ID}`;
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(''),
-    };
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          // Alert ลบทึกสำเส็จ
-          Swal.fire({
-            title: 'ลบสำเร็จ',
-            //text: '',
-            icon: 'success'
-          });
-        } else {
-          Swal.fire({
-            // Display Back-end text response 
-            title: 'บันทึกไม่สำเร็จ',
-            text: res.error.split(";")[0],
-            icon: 'error'
-          });
-        }
-      });
-  }
+  // function DeleteChecked_payment() {
+  //   const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Check_payment_ID}`;
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(''),
+  //   };
+  //   fetch(apiUrl, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         // Alert ลบทึกสำเส็จ
+  //         Swal.fire({
+  //           title: 'ลบสำเร็จ',
+  //           //text: '',
+  //           icon: 'success'
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           // Display Back-end text response 
+  //           title: 'บันทึกไม่สำเร็จ',
+  //           text: res.error.split(";")[0],
+  //           icon: 'error'
+  //         });
+  //       }
+  //     });
+  // }
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
 
@@ -262,30 +262,6 @@ function Edit_Checked_payment() {
       });
   };
 
-  // const get_Payment_for_show = async () => {
-  //   const apiUrl = `http://localhost:8080/GetPayment/${Payment_ID}`;
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         console.log(' DATA_ID ----->', res.data);
-
-  //         setPayment_ID_show(res.data.ID)
-  //         setOrder_ID_show(res.data.PayTech.OrderTech.OrderID)
-  //         setSender_name_show(res.data.Sender_Name)
-  //         setBank_show(res.data.Bank.Bank_name)
-  //         setAmount_show(res.data.Amount)
-  //         setAmount_check_show(res.data.Amount_Check)
-  //         setTime_show(res.data.Date_time)
-  //         setUser_show(res.data.Customer.Name)
-  //       }
-  //     });
-  // };
-
   // const getUser = async () => {
   //   const apiUrl = `http://localhost:8080/user/${userID}`;
   //   const requestOptions = {
@@ -314,10 +290,7 @@ function Edit_Checked_payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-        
-        {/* เริ่มส่วนของหน้าเว็ป */}
-
-        <Box sx={{ maginX: 0, maginY: 0 }}>
+      <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
             <Typography component="h2" variant="h4" 
              //color="#182E3E"
@@ -332,15 +305,12 @@ function Edit_Checked_payment() {
           </center>
         </Box>
 
-
-
         <Container>
           <hr color="#99b9a0" /><br />
           {select_Order()}<br />
           <hr color="#99b9a0" /><br />
           {/* {show_data()}<br />
           <hr color="#99b9a0" /><br /> */}
-
         </Container>
 
         <Container>
@@ -360,18 +330,15 @@ function Edit_Checked_payment() {
             </Grid>
           </Grid>
           <br /><br />
-          <hr color="Green" />
+          <hr color="#99b9a0" />
           {button_submit_back()}
           <br /><br /><br /><br /><br /><br /><br />
         </Container>
 
-
-
-
-
       </Container>
     </Paper>
   );
+
   //สำหรับ combobox หมายเลขรายการ
   function Combo_Checked_Payment() {
     return (
@@ -457,28 +424,19 @@ function Edit_Checked_payment() {
   function button_submit_back() {
     return (
       <Grid container>
-        <Grid item xs={7}>
-          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
+        <Grid item xs={9.5}>
+          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{fontSize: 17 }} >
             ย้อนกลับ
           </Button>
         </Grid>
-
         <Grid item xs={2.5}>
           <Button
-            style={{ fontSize: 16, backgroundColor: "#C70039" }}
-            onClick={DeleteChecked_payment}
-            variant="contained"
-            size="large"
-          >ลบผลการตรวจสอบ</Button>
-        </Grid>
-
-        <Grid item xs={2.5}>
-          <Button
-            style={{ float: "right", fontSize: 16 }}
+            style={{ float: "right", fontSize: 17 }}
             onClick={Update}
             variant="contained"
             color="success"
             size="large"
+            sx={{backgroundColor: '#F99417'}}
           >
             <b>แก้ไขการตรวจสอบ</b>
           </Button>
@@ -486,7 +444,6 @@ function Edit_Checked_payment() {
       </Grid>
     )
   }
-
   function select_Order() {
     return (
       <Grid container spacing={3}>

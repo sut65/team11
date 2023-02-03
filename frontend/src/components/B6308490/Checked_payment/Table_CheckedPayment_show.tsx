@@ -7,11 +7,12 @@ import React from 'react';
 import { PaymentInterface } from '../../../interfaces/PaymentUI';
 import dayjs from 'dayjs';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import { Check, Edit } from '@mui/icons-material';
+import { Check, Delete, Edit } from '@mui/icons-material';
 // import { EditPayment_get_Ordertech_ID } from './EditPayment';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import { EditCheck_get_Payment_ID } from './Edit_Checked_payment';
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 function Check_Table_Payment_show() {
   const [Payment, set_All_Payment] = React.useState<PaymentInterface[]>([]);
@@ -37,7 +38,7 @@ function Check_Table_Payment_show() {
     {
       field: 'action1',
       headerName: '',
-      width: 150,
+      width: 100,
       editable: false,
       renderCell: (params: GridRenderCellParams) => {
 
@@ -56,6 +57,53 @@ function Check_Table_Payment_show() {
               {<Edit />}แก้ไข
             </Button>
           </RouterLink>
+        );
+      }
+    },
+    {
+      field: 'action2',
+      headerName: '',
+      width: 100,
+      editable: false,
+      renderCell: (params: GridRenderCellParams) => {
+
+        const handleClick = () => {
+          params.api.setRowMode(params.id, 'edit');
+          const apiUrl = `http://localhost:8080/DeleteChecked_payment/${params.id}`;
+          const requestOptions = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(''),
+          };
+          fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+              if (res.data) {
+                // Alert สำเส็จ
+                Swal.fire({
+                  title: 'ลบสำเร็จ',
+                  //text: '',
+                  icon: 'success'
+                });
+              } else {
+                //setAlertMessage(res.error)
+                Swal.fire({
+                  // Display Back-end text response 
+                  title: 'ลบไม่สำเร็จ',
+                  //text: res.error.split(";")[0],
+                  icon: 'error'
+                });
+              }
+              window.location.reload();
+            });
+        };
+        return (
+          <Button variant="contained" onClick={handleClick}
+            sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
+            {<Delete />}ลบ
+          </Button>
         );
       }
     },
