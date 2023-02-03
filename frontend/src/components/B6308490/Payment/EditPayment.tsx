@@ -15,6 +15,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/payment.css";
 import PAYTECHSHOW from "./PAYTECHSHOW";
 import { PayTechInterface } from "../../../interfaces/IPayTech";
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -69,8 +70,8 @@ function Payment() {
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
-  console.log('-------> ',P_ID);
- console.log(PAYTECH_ID);
+  //console.log('-------> ',P_ID);
+ //console.log(PAYTECH_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -139,11 +140,20 @@ function Payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setcompete_edit(true);
+          // Alert การบันทึกสำเส็จ
+          Swal.fire({
+            title: 'บันทึกการแก้ไขสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
         } else {
-          console.log("Update error occurred")
-          console.log(error)
-          setError(true);
+          //setAlertMessage(res.error)
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'การแก้ไขบันทึกไม่สำเร็จ',
+            //text: res.error.split(";")[0],
+            icon: 'error'
+          });
         }
         console.log(data);
       });
@@ -170,11 +180,20 @@ function Payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSuccess(true);
+          // Alert สำเส็จ
+          Swal.fire({
+            title: 'ลบสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
         } else {
-          console.log("DELETE error occurred")
-          console.log(error)
-          setError(true);
+          //setAlertMessage(res.error)
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'ลบไม่สำเร็จ',
+            //text: res.error.split(";")[0],
+            icon: 'error'
+          });
         }
       });
     // reset All after Submit
@@ -284,29 +303,6 @@ function Payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar>
-
-
-
-        <Snackbar open={error}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
-          </Alert>
-        </Snackbar>
-
 
         {/* เริ่มส่วนของหน้าเว็ป */}
 
