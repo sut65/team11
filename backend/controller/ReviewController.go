@@ -76,7 +76,8 @@ func CreateReview(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
-	// แทรกการ validate ไว้ช่วงนี้ของ controller
+
+	// 15: แทรกการ validate ไว้ช่วงนี้ของ controller
 	if _, err := govalidator.ValidateStruct(Review); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

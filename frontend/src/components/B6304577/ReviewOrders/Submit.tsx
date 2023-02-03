@@ -35,7 +35,7 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
     
     const [message, setAlertMessage] = useState("");
     
-    // console.log(checkedPaymentID);
+    // console.log(message.split(";")[0]);
    
     let [date, updateDate] = useState(new Date());
 
@@ -106,7 +106,7 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                     Swal.fire({
                         // Display Back-end text response 
                         title: 'บันทึกไม่สำเร็จ', 
-                        text: res.error,
+                        text: res.error.split(";")[0],
                         icon: 'error'
                     });
                 }
