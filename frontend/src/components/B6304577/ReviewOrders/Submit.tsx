@@ -22,30 +22,21 @@ import style from "./style.module.css";
 
 
 
-const successAlert = () => {
-    Swal.fire({
-        title: 'บันทึกสำเร็จ',
-        text: 'You clicked the button.',
-        icon: 'success'
-    });
-}
-const errorAlert = () => {
-    Swal.fire({
-        title: 'บันทึกไม่สำเร็จ',
-        text: 'You clicked the button.',
-        icon: 'error'
-    });
-}
+
+
 
 
 function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps ,checkedPaymentsAll}: any) {
 
 
-    const [hover, setHover] = React.useState(-1);
+    const [hover, setHover] = useState(-1);
     const { checkedPaymentID, data1, commentRating1, data2, commentRating2, customerID } = formDataRating
     const [checked, setChecked] = useState(false);
+    
+    const [message, setAlertMessage] = useState("");
+    
     // console.log(checkedPaymentID);
-
+   
     let [date, updateDate] = useState(new Date());
 
     // เราใช้ useEffect เพื่อจัดการบางอย่างเมื่อ component เราถูก insert หรือ remove ออกจาก UI tree
@@ -98,15 +89,26 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
+                console.log(res);
                 if (res.data) {
-                    successAlert();
+                    // Alert การบันทึกสำเส็จ
+                    Swal.fire({
+                        title: 'บันทึกสำเร็จ',
+                        text: 'ขอบคุณสำหรับการรีวิวครั้งนี้',
+                        icon: 'success'
+                    });
                     setTimeout(() => {
                         setActiveStep(0)
                     }, 1500)
-                    console.log("Success");
                 } else {
-                    errorAlert();
-                    console.log("Error");
+                    setAlertMessage(res.error)
+                    // Alert การบันทึกไม่สำเส็จ
+                    Swal.fire({
+                        // Display Back-end text response 
+                        title: 'บันทึกไม่สำเร็จ', 
+                        text: res.error,
+                        icon: 'error'
+                    });
                 }
             });
     };

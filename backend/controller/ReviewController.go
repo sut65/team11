@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
 	"net/http"
+	"github.com/asaskevich/govalidator"
 )
 
 // POST Satisfaction_System
@@ -73,6 +74,11 @@ func CreateReview(c *gin.Context) {
 	// 14: ค้นหา Customer ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.Customer_ID).First(&Customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
+		return
+	}
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(Review); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

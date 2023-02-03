@@ -20,23 +20,22 @@ type Satisfaction_Technician struct {
 
 type Review struct {
 	gorm.Model
-	CheckedPayment_ID      *uint
+	CheckedPayment_ID      uint
 	Checked_payment        Checked_payment `gorm:"references:id"`
-	Satisfaction_System_ID *uint
+	Satisfaction_System_ID uint
 	Satisfaction_System    Satisfaction_System `gorm:"references:id"`
 
 	Review_Comment_System string
 
-	Satisfaction_Technician_ID *uint
+	Satisfaction_Technician_ID uint
 	Satisfaction_Technician    Satisfaction_Technician `gorm:"references:id"`
 
 	Review_Comment_Technician string
 	TimestampReview           time.Time
-	StatusReview              bool
-	Customer_ID               *uint
+	StatusReview              bool `valid:"required~!! โอ๊ะโอวววว เหมือนคุณจะลืมกด check box !!"`
+	Customer_ID               uint
 	Customer                  Customer `gorm:"references:id"`
 	CheckSucceed              bool
 
 	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
-
 }
