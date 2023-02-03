@@ -3,17 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, PAYTECHInterface, } from "../../../interfaces/PaymentUI";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import ResponsiveAppBar from '../../Bar_01';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Table_Payment_show from "../Payment/Table_Payment_show";
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -68,12 +67,12 @@ function EditCheck_get_Payment_ID(id: string) {
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 
 //ฟังค์ชันสำหรับ alert
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+// const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+//   props,
+//   ref
+// ) {
+//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+// });
 
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
@@ -84,8 +83,8 @@ function Edit_Checked_payment() {
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
   // const [Check_payment_ID, setCheck_payment_ID] = useState('')
   let Check_payment_ID = P_ID;
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  // const [success, setSuccess] = React.useState(false);
+  // const [error, setError] = React.useState(false);
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
@@ -107,8 +106,8 @@ function Edit_Checked_payment() {
     if (reason === "clickaway") {
       return;
     }
-    setSuccess(false);
-    setError(false);
+    // setSuccess(false);
+    // setError(false);
   };
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
@@ -163,14 +162,20 @@ function Edit_Checked_payment() {
       .then((res) => {
 
         if (res.data) {
-          setSuccess(true);
-          console.log('can update ', res.data);
+          // Alert การบันทึกสำเส็จ
+          Swal.fire({
+            title: 'บันทึกการแก้ไขสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
 
         } else {
-          // console.log("summit error")
-          setError(true);
-          console.log('can update ', res.data);
-          console.log(res.data);
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'บันทึกการแก้ไขไม่สำเร็จ',
+            text: res.error.split(";")[0],
+            icon: 'error'
+          });
 
         }
 
@@ -198,11 +203,19 @@ function Edit_Checked_payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSuccess(true);
+          // Alert ลบทึกสำเส็จ
+          Swal.fire({
+            title: 'ลบสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
         } else {
-          console.log("DELETE error occurred")
-          console.log(error)
-          setError(true);
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'บันทึกไม่สำเร็จ',
+            text: res.error.split(";")[0],
+            icon: 'error'
+          });
         }
       });
   }
@@ -301,35 +314,13 @@ function Edit_Checked_payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar>
-        <Snackbar open={error}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
-          </Alert>
-        </Snackbar>
-
-
+        
         {/* เริ่มส่วนของหน้าเว็ป */}
 
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
-            <Typography
-              component="h2"
-              variant="h4"
-              //color="#182E3E"
+            <Typography component="h2" variant="h4" 
+             //color="#182E3E"
               gutterBottom
               //align="center"
               fontFamily="Arial"
@@ -337,11 +328,9 @@ function Edit_Checked_payment() {
               <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} ><br />
                 ระบบตรวจสอบการชำระเงิน
               </b><br /><br />
-
             </Typography>
           </center>
         </Box>
-
 
 
 
