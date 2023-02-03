@@ -32,7 +32,7 @@ const convertFloat = (data: string | number | undefined | Float32Array) => {
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//ตกแต่ง Grid 
+//============================ Css Internal ============================================================
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -40,6 +40,24 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
+const Item2 = styled(Paper)(({ theme }) => ({
+  backgroundColor: '#93BFCF',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  //color: theme.palette.text.secondary,
+  elevation: 0,
+}));
+const P2 = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 55,
+  fill: '#FFFFFF',
+  fontSize: 17,
+  color: theme.palette.text.secondary,
+}));
+//============================ชชชชชชชชชชชช============================================================
 
 
 
@@ -87,7 +105,7 @@ function Payment() {
   const [userName, setUserName] = useState('');
 
   // const { id } = useParams();
-  console.log('ทดสอบ id ที่รับมาจากต่างเพจ --->', P_ID);
+  //console.log('ทดสอบ id ที่รับมาจากต่างเพจ --->', P_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -305,9 +323,6 @@ function Payment() {
           </center>
         </Box>
 
-
-
-
         {/* {select_Order()} */}
         <Box style={{ backgroundColor: "#e0f2f1" }}>
           {/* {OrderTechSHOW(OrderTech_ID)}<br /> */}
@@ -326,11 +341,11 @@ function Payment() {
           </Grid>
           {/*แบ่งกลางให้กับข้อความ*/}
           <Grid item xs={2} >
-            <Item ><center> <h3>หมายเลข Order</h3> </center></Item><br />
-            <Item ><center> <h3>ชื่อผู้โอนเงิน</h3> </center></Item><br />
-            <Item ><center> <h3>ธนาคารที่โอนเงินเข้า</h3> </center></Item><br />
-            <Item ><center> <h3>จำนวนเงินที่โอนเข้า</h3> </center></Item><br />
-            <Item ><center> <h3>วันเวลาที่ทำการ</h3> </center></Item><br />
+            <Item2 ><center> <P2>หมายเลข Order</P2> </center></Item2><br />
+            <Item2 ><center> <P2>ชื่อผู้โอนเงิน</P2> </center></Item2><br />
+            <Item2 ><center> <P2>ธนาคาร</P2> </center></Item2><br />
+            <Item2 ><center> <P2>ยอดเงินที่โอนเข้า</P2> </center></Item2><br />
+            <Item2 ><center> <P2>วันเวลาที่ทำการ</P2> </center></Item2><br />
           </Grid>
           {/*แบ่งขวาให้กับข้อมูล*/}
           <Grid item xs={6}>
@@ -342,6 +357,7 @@ function Payment() {
             <Item>{Datetime()}</Item><br />
           </Grid>
         </Grid>
+
         <br /><br />
         <hr color="#FFFFFF" />
         {button_submit_back()}
@@ -503,37 +519,6 @@ function Payment() {
       </Grid>
     )
   }
-
-  // function button_pay() {
-
-  //   return (
-  //     <Button style={{ backgroundColor: "#8bc34a", fontSize: 26, }}
-  //       onClick={submitPayment}
-  //       //onClick={() => { setAC(Cal_Amount_Check(show_Money)) }}
-  //       variant="contained"
-  //     //size="large"
-  //     >
-  //       <b>ชำระรายการนี้</b>
-  //     </Button>
-  //   )
-  // }
-  // function select_Order() {
-  //   return (<Container>
-  //     <Grid container spacing={3}>
-  //       <Grid item xs={9}>
-  //         <Item style={{ background: "#f1f8e9" }}>
-  //           {Combo_Oder()}<br />
-  //         </Item>
-  //       </Grid>
-  //       <Grid item xs={3}>
-  //         <Item style={{ backgroundColor: "#182e3e" }}>
-  //           {button_pay()}
-
-  //         </Item>
-  //       </Grid>
-  //     </Grid>
-  //   </Container>)
-  // }
 
 }
 export default Payment;

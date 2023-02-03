@@ -38,10 +38,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-let P_ID : string;
-function EditPayment_get_Ordertech_ID (id: string){
+let P_ID: string;
+function EditPayment_get_Ordertech_ID(id: string) {
   P_ID = id;
-}export {EditPayment_get_Ordertech_ID}
+} export { EditPayment_get_Ordertech_ID }
 
 
 
@@ -71,7 +71,7 @@ function Payment() {
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
   //console.log('-------> ',P_ID);
- //console.log(PAYTECH_ID);
+  //console.log(PAYTECH_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -143,15 +143,13 @@ function Payment() {
           // Alert การบันทึกสำเส็จ
           Swal.fire({
             title: 'บันทึกการแก้ไขสำเร็จ',
-            //text: '',
             icon: 'success'
           });
         } else {
-          //setAlertMessage(res.error)
           Swal.fire({
             // Display Back-end text response 
             title: 'การแก้ไขบันทึกไม่สำเร็จ',
-            //text: res.error.split(";")[0],
+            text: res.error.split(";")[0],
             icon: 'error'
           });
         }
@@ -166,46 +164,6 @@ function Payment() {
 
 
   }
-  function DeletePayment() {
-
-    const apiUrl = `http://localhost:8080/DeletePayment/${PAYTECH_ID}`;
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(''),
-    };
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          // Alert สำเส็จ
-          Swal.fire({
-            title: 'ลบสำเร็จ',
-            //text: '',
-            icon: 'success'
-          });
-        } else {
-          //setAlertMessage(res.error)
-          Swal.fire({
-            // Display Back-end text response 
-            title: 'ลบไม่สำเร็จ',
-            //text: res.error.split(";")[0],
-            icon: 'error'
-          });
-        }
-      });
-    // reset All after Submit
-    setBank_ID("");
-    setDate(null);
-    // setPAYTECH_ID("");
-    setPayment({});
-
-
-
-  }
-
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
 
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
@@ -298,7 +256,7 @@ function Payment() {
   }, []);
 
 
-  
+
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
@@ -483,26 +441,19 @@ function Payment() {
   function button_submit_back() {
     return (
       <Grid container >
-        <Grid item xs={8}>
-          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
+        <Grid item xs={10}>
+          <Button size="large" sx={{ backgroundColor: "#434242"}} component={RouterLink} to="/PaymentShow" variant="contained" style={{fontSize: 17 }} >
             ย้อนกลับ
           </Button>
         </Grid>
         <Grid item xs={2}>
           <Button
-            style={{ fontSize: 20, float: "right", backgroundColor: "#C70039" }}
-            onClick={DeletePayment}
-            variant="contained"
-            size="large"
-          >ลบ</Button>
-        </Grid>
-        <Grid item xs={2}>
-          <Button
-            style={{ float: "right", fontSize: 20 }}
+            style={{ float: "right", fontSize: 17 }}
             onClick={UpdatePayment}
             variant="contained"
             color="success"
             size="large"
+            sx={{backgroundColor: '#F99417'}}
             component={RouterLink} to="/PaymentShow"
           >
             <b>แก้ไข</b>
@@ -512,28 +463,6 @@ function Payment() {
       </Grid>
     )
   }
-  //สร้างฟังก์ชัน สำหรับคำนวนเงิน
-
-  // function Cal_Amount_Check(AC_Input: string) { //ฟังก์ชันสำหรับคำนวณเงิน เพื่อให้ลูกค้าดูก่อนโอนเงิน
-  //   Amount_Check = (parseFloat(AC_Input) + (parseFloat(AC_Input) * 0.25));
-  //   console.log(Amount_Check);
-  //   return (
-  //     convertType(Amount_Check)
-  //   )
-  // }
-
-  // function button_edit() {
-
-  //   return (
-  //     <Button style={{ backgroundColor: "#8bc34a", fontSize: 20, }}
-  //       onClick={submitPayment}
-  //       variant="contained"
-  //     //size="large"
-  //     >
-  //       <b>ต้องการแก้ไขรายการนี้</b>
-  //     </Button>
-  //   )
-  // }
   function select_Order() {
     return (<Container>
       <Grid container spacing={3}>

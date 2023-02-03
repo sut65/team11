@@ -13,9 +13,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
-import Table_Payment_show from "../Payment/Table_Payment_show";
-import Check_Table_Payment_show from "./Table_CheckedPayment_show";
-import Table_Paytech_all_Checked from "./Table_Payment_for_Checked";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
@@ -25,6 +22,15 @@ const convertType = (data: string | number | undefined | Float32Array) => {
 };
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 //ตกแต่ง Grid 
+const Item0 = styled(Paper)(({ theme }) => ({
+  backgroundColor: 'transparent',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  //color: theme.palette.text.secondary,
+  elevation: 0,
+}));
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -39,30 +45,20 @@ const Item_2 = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   fontSize: 20,
-  height: 50,
+  height: 70,
   color: theme.palette.text.secondary,
 }));
 
 const P2 = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#FFFFFF',
-  ...theme.typography.body2,
-  //padding: theme.spacing(1),
-  textAlign: 'center',
-  fill: '#FFFFFF',
-  fontSize: 20,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   height: 50,
+  fill: '#FFFFFF',
+  fontSize: 17,
   color: theme.palette.text.secondary,
 }));
-///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
-
-//ฟังค์ชันสำหรับ alert
-// const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-//   props,
-//   ref
-// ) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
 let P_ID: string;
@@ -184,31 +180,7 @@ function Checked_payment() {
     setUser_show('')
   };
 
-  // function DeleteChecked_payment() {
-  //   const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Payment_ID}`;
-  //   const requestOptions = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(''),
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setSuccess(true);
-  //       } else {
-  //         console.log("DELETE error occurred")
-  //         console.log(error)
-  //         setError(true);
-  //       }
-  //     });
-  // }
-
-
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
-
   const [Status_check, setStatus_check] = React.useState<Status_checkInterface[]>([]);
   const getStatus_check = async () => {
     const apiUrl = `http://localhost:8080/ListStatus_check`;
@@ -299,9 +271,6 @@ function Checked_payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-
-        {/* เริ่มส่วนของหน้าเว็ป */}
-
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
             <Typography
@@ -320,14 +289,15 @@ function Checked_payment() {
           </center>
         </Box>
 
-
-
-
         <Container>
+          {/* <hr color="#99b9a0" /> */}
+          {/* <Grid container>
+            <Grid item xs={3}/>
+            <Grid sx={{ backgroundColor: "#f1f8e9" }}>   {Combo_Payment()}   </Grid>
+          </Grid> */}
           <hr color="#99b9a0" /><br />
           {show_data()}<br />
           <hr color="#99b9a0" /><br />
-
         </Container>
 
         <Container>
@@ -352,38 +322,30 @@ function Checked_payment() {
           <br /><br /><br /><br /><br /><br /><br />
         </Container>
 
-
-
-
-
       </Container>
     </Paper>
   );
+
   //สำหรับ combobox หมายเลขรายการ
   function Combo_Payment() {
     return (
       <FormControl fullWidth variant="outlined">
         <Select
+          disabled
           native
           value={Payment_ID}
-          // onChange={onChangePayment}
-          inputProps={{
-            name: "PAYTECH_ID",
-          }}
+          inputProps={{ name: "PAYTECH_ID", }}
         >
-          <option aria-label="None" value="">
-            กรุณาเลือก ลำดับรายการการชำระเงิน</option>
+          <option aria-label="None" > ท่านยังไม่เลือกรายการชำระเงิน โปรดเลือกรายการชำระเงินใหม่อีกครั้ง </option>
           {Payment.map((item: PaymentInterface) => (
             <option value={item.ID} key={item.ID}>
-              {'รายการชำระเงินลำดับที่   ' + item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+              {'รายการชำระเงินลำดับที่(payment ID) :  ' + item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
             </option>
           ))}
         </Select>
       </FormControl>
     )
   }
-
-
   //สำหรับ combobox Status_check
   function Combo_Status_check() {
     return (
@@ -448,16 +410,6 @@ function Checked_payment() {
             ย้อนกลับ
           </Button>
         </Grid>
-        {/* 
-        <Grid item xs={4}>
-          <Button
-            style={{ fontSize: 20, float: "right", backgroundColor: "#C70039" }}
-            onClick={DeleteChecked_payment}
-            variant="contained"
-            size="large"
-          >ลบผลการตรวจสอบ</Button>
-        </Grid> */}
-
         <Grid item xs={4}>
           <Button
             style={{ float: "right", fontSize: 20 }}
@@ -493,57 +445,33 @@ function Checked_payment() {
   // }
   function show_data() {
     return (
-      // <Grid container spacing={2} sx={{ backgroundColor: "#646655" }}>
       <Grid container spacing={1} sx={{ backgroundColor: "#646655" }}>
 
         <Grid item xs={12}> <br /> </Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>Paymment ID: </h4></Item0></Grid>
+        <Grid item xs={3.6}><Item_2>   <P2>{Payment_ID_show}</P2>   </Item_2></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>Order ID: </h4></Item0></Grid>
+        <Grid item xs={3.4}><Item_2>   <P2>{Order_ID_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={2} >
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>Paymment ID: </h3> </center><br />
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>ชื่อผู้โอนเงิน: </h3> </center><br />
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>วันที่โอนเงินเข้าระบบ: </h3> </center><br />
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>จำนวนเงินที่โอนเข้า: </h3> </center><br />
-        </Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ชื่อผู้โอนเงิน: </h4></Item0></Grid>
+        <Grid item xs={3.6}><Item_2>   <P2>{Sender_name_show}</P2>   </Item_2></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ชื่อของลูกค้า: </h4></Item0></Grid>
+        <Grid item xs={3.4}><Item_2>   <P2>{User_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={3.6}>
-          <Item_2>   <P2>{Payment_ID_show}</P2>   </Item_2><br />
-          <Item_2>   <P2>{Sender_name_show}</P2>  </Item_2><br />
-          {/* <Item_2>   <P2>{Time_show}</P2>         </Item_2><br /> */}
-          <Item_2>   <P2>{dayjs(Time_show).format('DD/MM/YYYY HH:mm:ss ')}</P2></Item_2><br />
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>วันที่โอนเงินเข้าระบบ: </h4></Item0></Grid>
+        <Grid item xs={3.6}><Item_2>   <P2>{dayjs(Time_show).format('DD/MM/YYYY HH:mm:ss ')}</P2>   </Item_2></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ธนาคาร: </h4></Item0></Grid>
+        <Grid item xs={3.4}><Item_2>   <P2>{Bank_show}</P2>   </Item_2></Grid>
 
-          <Item_2>   <P2>{Amount_show}</P2>       </Item_2><br />
-        </Grid>
-
-        <Grid item xs={2} >
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>หมายเลข Order: </h3> </center><br />
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>ธนาคาร: </h3> </center><br />
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>ชื่อของลูกค้า: </h3> </center><br />
-          <center style={{ color: "#FFFFFF", textAlign: "right" }}> <h3>จำนวนที่ต้องโอน: </h3> </center><br />
-        </Grid>
-
-        <Grid item xs={3.4}>
-          <Item_2>  <P2>{Order_ID_show}</P2>     </Item_2><br />
-          <Item_2>  <P2>{Bank_show}</P2>         </Item_2><br />
-          <Item_2>  <P2>{User_show}</P2>         </Item_2><br />
-          <Item_2>  <P2>{Amount_check_show}</P2> </Item_2><br />
-        </Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่โอนเข้า(บาท): </h4></Item0></Grid>
+        <Grid item xs={3.6}><Item_2>   <P2>{Amount_show}</P2>   </Item_2></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดที่ต้องโอน(บาท): </h4></Item0></Grid>
+        <Grid item xs={3.4}><Item_2>   <P2>{Amount_check_show}</P2>   </Item_2></Grid>
+        <Grid item xs={12}> <br /> </Grid>
 
       </Grid>
     )
   }
-  // function button_pay() {
-
-  //   return (
-  //     <Button style={{ backgroundColor: "#8bc34a", fontSize: 20, height: "60px" }}
-  //       onClick={get_Payment_for_show}
-  //       variant="contained"
-  //     //size="large"
-  //     >
-  //       <b>ตรวจสอบรายการนี้</b>
-  //     </Button>
-  //   )
-  // }
-
-
 }
 export default Checked_payment;
+
