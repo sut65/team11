@@ -25,17 +25,18 @@ type Review struct {
 	Satisfaction_System_ID uint
 	Satisfaction_System    Satisfaction_System `gorm:"references:id"`
 
-	Review_Comment_System string
+	Review_Comment_System string `valid:"maxstringlength(200)~!! โอ๊ะโอวว แสดงความคิดเห็นต่อระบบได้ไม่เกิน 200 อักษร !!"`
 
 	Satisfaction_Technician_ID uint
 	Satisfaction_Technician    Satisfaction_Technician `gorm:"references:id"`
 
-	Review_Comment_Technician string
-	TimestampReview           time.Time
-	StatusReview              bool `valid:"required~!! โอ๊ะโอวววว เหมือนคุณจะลืมกด check box !!"`
-	Customer_ID               uint
-	Customer                  Customer `gorm:"references:id"`
-	CheckSucceed              bool
+	Review_Comment_Technician string `valid:"maxstringlength(200)~!! โอ๊ะโอวว แสดงความคิดเห็นต่อช่างได้ไม่เกิน 200 อักษร !!"`
+
+	TimestampReview time.Time
+	StatusReview    bool `valid:"required~!! โอ๊ะโอวววว เหมือนคุณจะลืมกด check box !!"`
+	Customer_ID     uint
+	Customer        Customer `gorm:"references:id"`
+	CheckSucceed    bool
 
 	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
 }

@@ -126,7 +126,6 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
                 if (params.id in checkReviewButton){
                     return <Button disabled variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
                 }return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
-                    
             }
             
             // reviews.map((i)=>{i.CheckedPayment_ID})
