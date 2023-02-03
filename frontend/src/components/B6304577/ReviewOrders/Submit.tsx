@@ -16,28 +16,36 @@ import { pink } from '@mui/material/colors';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import style from "./style.module.css";
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { TextField } from '@mui/material';
+import { StaticDatePicker } from '@mui/x-date-pickers';
 
 
 
 
 
 
-function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps ,checkedPaymentsAll}: any) {
+
+function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
 
 
     const [hover, setHover] = useState(-1);
     const { checkedPaymentID, data1, commentRating1, data2, commentRating2, customerID } = formDataRating
     const [checked, setChecked] = useState(false);
-    
+
     const [message, setAlertMessage] = useState("");
-    
-    // console.log(message.split(";")[0]);
-   
+    const [value, setValue] = useState<Dayjs | null>(dayjs);
+
+
     let [date, updateDate] = useState(new Date());
+
+
 
     // เราใช้ useEffect เพื่อจัดการบางอย่างเมื่อ component เราถูก insert หรือ remove ออกจาก UI tree
     useEffect(() => {
@@ -67,6 +75,11 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
 
     };
 
+    const handleChangeSetDate = (newValue: Dayjs | null) => {
+        setValue(newValue);
+    };
+
+    // console.log(value?.format("YYYY-MM-DD"));
     async function submit() {
         // Data ที่จะนำไปบันทึกลงในตาราง REVIEW
         let data = {
@@ -75,7 +88,9 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
             Review_Comment_System: formDataRating.commentRating1,
             Satisfaction_Technician_ID: formDataRating.data2,
             Review_Comment_Technician: formDataRating.commentRating2,
-            TimestampReview: date.toISOString().split("T")[0].concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
+            TimestampReview: value?.format("YYYY-MM-DD").concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
+            // TimestampReview: date.toISOString().split("T")[0],
+            //.concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
             StatusReview: checked,
             Customer_ID: formDataRating.customerID,
         };
@@ -105,7 +120,7 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                     // Alert การบันทึกไม่สำเส็จ
                     Swal.fire({
                         // Display Back-end text response 
-                        title: 'บันทึกไม่สำเร็จ', 
+                        title: 'บันทึกไม่สำเร็จ',
                         text: res.error.split(";")[0],
                         icon: 'error'
                     });
@@ -128,7 +143,7 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
                             วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.Date_time).format('DD/MM/YYYY HH:mm:ss ')}
-                        </Typography> 
+                        </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
@@ -158,10 +173,10 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                         หัวข้อที่ 1
                     </Typography>
                     <AccordionDetails>
-                        <Rating name="read-only" value={data1} readOnly size="large" sx={{alignItems:"center"}}/>
+                        <Rating name="read-only" value={data1} readOnly size="large" sx={{ alignItems: "center" }} />
                     </AccordionDetails>
 
-                    <Typography className={style.textReview} sx={{ marginTop: 2}}>
+                    <Typography className={style.textReview} sx={{ marginTop: 2 }}>
                         ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <AccordionDetails>
@@ -217,9 +232,27 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                 </AccordionDetails>
             </Accordion>
             <Box>
+            <Typography sx={{color:"#ffffff",marginBottom:2}}>
+                วันที่รีวิว
+            </Typography>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <StaticDatePicker
+                            showToolbar={false}
+                            onChange={(newValue) => setValue(newValue)}
+                            value={value}
+                            renderInput={(params) => <TextField {...params} />}
+                            componentsProps={{
+                                actionBar: {
+                                    actions:['today'],
+                                },
+                            }}
+                        />
+                </LocalizationProvider>
+            </Box>
+            <Box>
                 <FormGroup>
                     <FormControlLabel
-                        sx = {{color:"#ffffff",paddingBottom:5}}
+                        sx={{ color: "#ffffff", paddingBottom: 5 }}
                         label="ตรวจสอบความถูกต้องเรียบร้อยแล้ว"
                         labelPlacement="end"
                         control={<Checkbox defaultChecked
@@ -234,6 +267,7 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                     />
                 </FormGroup>
             </Box>
+            
             <Box sx={{ flexGrow: 1, marginBottom: 2 }}>
                 <Grid container >
                     <Grid item xs={6}>
