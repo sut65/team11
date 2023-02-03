@@ -13,7 +13,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 function Table_Paytech_show() {
     const [Paytech_all, set_All_Payment] = React.useState<OrderTechInterface[]>([]);
     const get_All_Paytech = async () => {
-        const apiUrl = `http://localhost:8080/order-teches`; // add ID for search
+        const apiUrl = `http://localhost:8080/ListOrderTechForPaymment`; // add ID for search
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
