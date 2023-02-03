@@ -145,6 +145,7 @@ func main() {
 
 	r.GET("/ListPayment_for_Check", controller.ListPayment_for_Check) //เรียกรายการที่ยังไม่เช็คไปแสดง เพื่อเลือกเช็ค
 	r.GET("/SendmoneyToFrontend/:id", controller.SendmoneyToFrontend)
+	r.GET("/ListOrderTechForPaymment", controller.ListOrderTechForPaymment)
 
 	// =============== Checked_payment ==================================
 	r.GET("/ListStatus_check", controller.ListStatus_check)

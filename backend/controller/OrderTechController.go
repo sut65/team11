@@ -66,6 +66,8 @@ func CreateOrderTech(c *gin.Context) {
 		Solving: OrderTech.Solving,
 		// Date_time:  ORDER.Date_time,
 		TimeOut: OrderTech.TimeOut,
+
+		ForPaymentStatus: OrderTech.ForPaymentStatus,  //จั๊ดเป็นคนเพิ่ม ใช้ในระบบจั๊ด
 	}
 
 	// 13: บันทึก

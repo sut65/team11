@@ -63,6 +63,8 @@ func CreatePayment(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": pm})
 
+	Update_odertech_status(Payment.OrderTech_ID, 0) //เพื่อไม่ให้โชว์ หน้าสำหรับกดชำระ เพราะชำระแล้ว
+
 }
 
 // ================================================== function List for frontend =================================================
@@ -121,11 +123,16 @@ func UpdatePayment(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": UpdatePayment})
+
+	// ถ้า อัพเดตสถานะแปลว่าเคย ตรวจสอบไปแล้ว ดังนั้น จะไม่เปลียนค่า เพื่อโชว์
+	// ordertech_id :=  get_id_Ordertech_for_status(UpdatePayment.ID)
+	// Update_odertech_status(ordertech_id,0)
 }
 
 // DELETE /payment/:id
 func DeletePayment(c *gin.Context) {
 	id := c.Param("id")
+	ordertech_id := get_id_Ordertech_for_status(id)
 	if tx := entity.DB().Exec("DELETE FROM Payments WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment not found"})
 		return
@@ -137,6 +144,7 @@ func DeletePayment(c *gin.Context) {
 		}*/
 
 	c.JSON(http.StatusOK, gin.H{"data": id})
+	Update_odertech_status(ordertech_id, 1)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -213,6 +221,17 @@ func DeleteBank(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
+// =========================================== สำหหรับ ดึงตารางเหมียวไปโขว์ เฉพาะ ที่มีสถานะ เสร็จแล้ว ============================================
+func ListOrderTechForPaymment(c *gin.Context) {
+	var ListOrderTechForPaymment []entity.OrderTech
+	query := "SELECT * FROM order_teches WHERE for_Payment_status = 1"
+	if err := entity.DB().Raw(query).Preload("ORDER.CASE").Preload("ORDER.Address.AddressType").Preload("ORDER.Device.Windows").Preload("ORDER.Device.Type").Preload("ORDER.Device.Customer.GENDER").Preload("ORDER.Device.Customer.CAREER").Preload("ORDER.Device.Customer.PREFIX").Preload("Technician.EDUCATE").Preload("Technician.PREFIX").Preload("ORDER.Address.Tambon.District.Province").Preload("ORDER.Device.Windows").Preload("ORDER.Device.Type").Preload("ORDER.Device.Customer.GENDER").Preload("ORDER.Device.Customer.CAREER").Preload("ORDER.Device.Customer.PREFIX").Preload("Technician.GENDER").Preload("CostDetail").Preload("Damage").Preload("Status").Find(&ListOrderTechForPaymment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": ListOrderTechForPaymment})
+}
+
 //=========================================== สำหรับการคำนวณ ============================================================================
 
 func SendmoneyToFrontend(c *gin.Context) {
@@ -250,3 +269,17 @@ func calculat_backend(id any) float32 {
 	return sum
 
 }
+
+// ============================================= update status Payment =================================================================
+func Update_odertech_status(id, status any) {
+	entity.DB().Table("order_teches").Where("id = ?", id).Updates(map[string]interface{}{"for_Payment_status": status})
+}
+
+// fn เพื่อ ดึงค่า ordertech id จาก payment id
+func get_id_Ordertech_for_status(PaymentID any) int {
+	var ID_Ordertech int
+	entity.DB().Table("payments").Select("order_tech_id").Where("id = ?", PaymentID).Row().Scan(&ID_Ordertech)
+	return ID_Ordertech
+}
+
+// ============================================= update status Payment =================================================================

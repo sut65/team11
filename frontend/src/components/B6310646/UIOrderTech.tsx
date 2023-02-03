@@ -109,6 +109,8 @@ function OrderTechCreate() {
       CostDetailID: convertType(CostDetailID),
       TechnicianID: convertType(TechnicianID),
       OrderID: convertType(OrderID),
+
+      ForPaymentStatus: true,//จั๊ดเป็นคนเพิ่ม ใช้ในระบบจั๊ด
     };
 
     const apiUrl = "http://localhost:8080/order-tech";
@@ -141,6 +143,15 @@ function OrderTechCreate() {
 
   // Update post orderTech
   function Update() {
+    //==============จั๊ดเขียน==============================
+    var For_Status;
+    if (convertType(StatusID) != 3) {
+      For_Status = false;
+    } else {
+      For_Status = true;
+    }
+    //==============จั๊ดเขียน==============================
+
     let data = {
       // ID: OrderTechID,
       ID: 1,
@@ -151,7 +162,11 @@ function OrderTechCreate() {
       CostDetailID: convertType(CostDetailID),
       TechnicianID: convertType(TechnicianID),
       OrderID: convertType(OrderID),
+
+      ForPaymentStatus: For_Status,//จั๊ดเป็นคนเพิ่ม ใช้ในระบบ Payment
+
     };
+
 
     const apiUrl = "http://localhost:8080/update-order-tech/1";
     const requestOptions = {
@@ -166,7 +181,7 @@ function OrderTechCreate() {
         if (res.data) {
           // successAlert();
           console.log("Success");
-          
+
           console.log(res.data);
         } else {
           // errorAlert();
@@ -661,11 +676,11 @@ function OrderTechCreate() {
           {/* box solving */}
           <Grid item xs={6}>
             <TextField
-              style={{ backgroundColor: "white",float: "left" }}
+              style={{ backgroundColor: "white", float: "left" }}
               id="Solving"
               label="solving"
               type="string"
-              value={Solving  || ""}
+              value={Solving || ""}
               // onChange=(handleInputChange)
               sx={{ width: 300 }}
               variant="outlined"
