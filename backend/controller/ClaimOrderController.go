@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
 	"net/http"
+	"github.com/asaskevich/govalidator"
 )
 
 //POST Urgency
@@ -74,6 +75,12 @@ func CreateClaimOrder(c *gin.Context) {
 	// 13: ค้นหา Status ด้วย id
 	if tx := entity.DB().Where("id = ?", ClaimOrder.StatusClaim_ID).First(&StatusClaim); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Status not found"})
+		return
+	}
+
+	// 14: แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(ClaimOrder); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

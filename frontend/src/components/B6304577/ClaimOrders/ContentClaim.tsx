@@ -23,7 +23,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import {UrgencyInterface } from '../../../interfaces/ClaimUI';
+import { UrgencyInterface } from '../../../interfaces/ClaimUI';
 
 const successAlert = () => {
     Swal.fire({
@@ -112,7 +112,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
     const [dataTechnician, setDataTechnician] = useState('');
     const [Claims, setClaims] = useState<any[]>([]);
     const [urgencys, setUrgencys] = useState<any[]>([]);
-    console.log(dataDateOrder);
+    // console.log(dataDateOrder);
 
     // console.log(reviews);
 
@@ -194,7 +194,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             .then((res) => {
                 if (res.data) {
                     setClaims(res.data);
-                    console.log(res.data);
+                    // console.log(res.data);
 
                     // setReviews(res.data)
                 }
@@ -227,51 +227,58 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
+                console.log(res);
                 if (res.data) {
-                    successAlert();
-                    getListClaimOrders();
+                    // Alert การบันทึกสำเส็จ
+                    Swal.fire({
+                        title: 'บันทึกสำเร็จ',
+                        text: 'เรารับการรายงานของคุณไว้แล้ว',
+                        icon: 'success'
+                    });
                     setTimeout(() => {
-                        refreshPage();
-                    }, 2000)
+                        setActiveStep(0)
+                    }, 1500)
+                    let dataCheckSucceed = {
+                        ID: reviewID,
+                        CheckSucceed: true,
+                    };
 
-                    console.log("Success");
+                    const apiUrlCheckSucceed = "http://localhost:8080/UpdateReviewINClaimOrder";
+                    const requestOptionsCheckSucceed = {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dataCheckSucceed),
+                    };
+                    fetch(apiUrlCheckSucceed, requestOptionsCheckSucceed)
+                        .then((response) => response.json())
+                        .then((res) => {
+                            if (res.data) {
+                                console.log("Success");
+                            } else {
+                                console.log("Error");
+                            }
+                        });
+                        setReviewID('');
+                        setUrgencyID('');
+                        setDate(null);
+                        setOrderProblem('');
+                        setClaimComment('');
+                        setdataOrderID('');
+                        setDataReason('');
+                        setdataDateOrder('');
+                        setDataSolving('');
+                        setDataTechnician('');
                 } else {
-                    errorAlert();
-                    console.log("Error");
+                    Swal.fire({
+                        // Display Back-end text response 
+                        title: 'บันทึกไม่สำเร็จ',
+                        text: res.error.split(";")[0],
+                        icon: 'error'
+                    });
                 }
             });
-        let dataCheckSucceed = {
-            ID: reviewID,
-            CheckSucceed: true,
-        };
-        console.log(dataCheckSucceed);
 
-        const apiUrlCheckSucceed = "http://localhost:8080/UpdateReviewINClaimOrder";
-        const requestOptionsCheckSucceed = {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dataCheckSucceed),
-        };
-        fetch(apiUrlCheckSucceed, requestOptionsCheckSucceed)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log("Success");
-                } else {
-                    console.log("Error");
-                }
-            });
-        setReviewID('');
-        setUrgencyID('');
-        setDate(null);
-        setOrderProblem('');
-        setClaimComment('');
-
-        setdataOrderID('');
-        setDataReason('');
-        setdataDateOrder('');
-        setDataSolving('');
-        setDataTechnician('');
+       
     };
     const columnReviews: GridColDef[] = [
         {
@@ -441,7 +448,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             field: 'OrderProblem',
             headerName: 'สาเหตุการเคลม',
             width: 220,
-            
+
         },
         {
             field: 'Urgency_ID',
