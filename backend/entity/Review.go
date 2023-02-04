@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 	"time"
 )
@@ -32,11 +33,33 @@ type Review struct {
 
 	Review_Comment_Technician string `valid:"maxstringlength(200)~!! โอ๊ะโอวว แสดงความคิดเห็นต่อช่างได้ไม่เกิน 200 อักษร !!"`
 
-	TimestampReview time.Time
+	TimestampReview time.Time `valid:"required,IsNotInFuture~โอ๊ะโอวว กรุณาตรวจสอบวันเวลาให้ถูกต้อง,IsNotInPast~โอ๊ะโอวว กรุณาตรวจสอบวันเวลาให้ถูกต้อง"`
+
 	StatusReview    bool `valid:"required~!! โอ๊ะโอวววว เหมือนคุณจะลืมกด check box !!"`
 	Customer_ID     uint
 	Customer        Customer `gorm:"references:id"`
 	CheckSucceed    bool
 
 	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
+}
+
+func init()  {
+	govalidator.CustomTypeTagMap.Set("IsNotInFuture", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		if t.Before(time.Now()){
+			return true
+			
+		}else {
+			return false
+		}
+	})
+	govalidator.CustomTypeTagMap.Set("IsNotInPast", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		if t.After(time.Now().Add(-time.Hour * 24)){
+			return true
+			
+		}else {
+			return false
+		}
+	})
 }
