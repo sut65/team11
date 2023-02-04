@@ -31,7 +31,6 @@ import {
   CustomerInterface,
 } from "../../../interfaces/CustomerUI";
 import TextField from "@mui/material/TextField";
-import ResponsiveAppBar_01 from "../../Bar_01";
 import PersonIcon from '@mui/icons-material/Person';
 
 
@@ -190,7 +189,6 @@ fetch(apiUrl, requestOptions)
 
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-        <ResponsiveAppBar_01/>
         <br />
 
       <Box sx={{ bgcolor: "#182E3E", height: "104vh" }}>

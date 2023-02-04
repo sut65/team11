@@ -128,6 +128,8 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
       };
 
       console.log(data);
+      // POST Customer
+
         const apiUrl = "http://localhost:8080/CreateCustomer";
         const requestOptions = {
             method: "POST",
@@ -139,9 +141,10 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
             .then((res) => {
                 if (res.data) {
                     // successAlert();
+                    console.log(res.data)
                     setTimeout(() => {
                         setActiveStep(0)
-                    }, 1500)
+                    }, 3500)
                     console.log("Success");
                 } else {
                     // errorAlert();

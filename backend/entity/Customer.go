@@ -41,7 +41,7 @@ type Customer struct {
 	PREFIX    Prefix `gorm:"references:id"`
 
 	Email    string `gorm:"uniqueIndex"`
-	Password string `json:"-"`
+	Password string 
 
 	Address         []Address         `gorm:"ForeignKey:CustomerID"`
 	Device          []Device          `gorm:"ForeignKey:CustomerID"`
