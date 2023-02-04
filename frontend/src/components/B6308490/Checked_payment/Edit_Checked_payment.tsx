@@ -13,6 +13,7 @@ import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Table_Payment_show from "../Payment/Table_Payment_show";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
+import Stack from '@mui/material/Stack';
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -290,10 +291,10 @@ function Edit_Checked_payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-      <Box sx={{ maginX: 0, maginY: 0 }}>
+        <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
-            <Typography component="h2" variant="h4" 
-             //color="#182E3E"
+            <Typography component="h2" variant="h4"
+              //color="#182E3E"
               gutterBottom
               //align="center"
               fontFamily="Arial"
@@ -406,26 +407,66 @@ function Edit_Checked_payment() {
       </FormControl>
     )
   }
+  // function Datetime() {
+  //   return (
+  //     <FormControl fullWidth variant="outlined">
+
+  //       <LocalizationProvider dateAdapter={AdapterDayjs}>
+  //         <DesktopDateTimePicker
+  //           renderInput={(params) => <TextField {...params} />}
+  //           value={Date_time}
+  //           onChange={(newValue) => {
+  //             setDate(newValue);
+  //           }}
+  //         />
+  //       </LocalizationProvider>
+
+
+  //       <Stack component="form" noValidate spacing={3}>
+  //         <TextField
+  //           id="datetime-local"
+  //           //label="Next appointment"
+  //           type="datetime-local"
+  //           defaultValue="2017-05-24T10:30"
+  //           sx={{ width: 250 }}
+  //           InputLabelProps={{
+  //             shrink: true,
+  //           }}
+  //         />
+  //       </Stack>
+
+
+
+  //     </FormControl>
+  //   )
+  // }
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDateTimePicker
-            renderInput={(params) => <TextField {...params} />}
-            value={Date_time}
-            onChange={(newValue) => {
-              setDate(newValue);
+        <Stack component="form" noValidate spacing={3}>
+          <TextField
+            id="datetime-local"
+            type="datetime-local"
+            value={Date_time ? dayjs(Date_time).format('YYYY-MM-DDTHH:mm') : ''}
+            onChange={(e) => {
+              setDate(dayjs(e.target.value));
+            }}
+            sx={{ width: '100%' }}
+            InputLabelProps={{
+              shrink: true,
             }}
           />
-        </LocalizationProvider>
+        </Stack>
       </FormControl>
-    )
+    );
   }
+  
+
   function button_submit_back() {
     return (
       <Grid container>
         <Grid item xs={9.5}>
-          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{fontSize: 17 }} >
+          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{ fontSize: 17 }} >
             ย้อนกลับ
           </Button>
         </Grid>
@@ -436,7 +477,7 @@ function Edit_Checked_payment() {
             variant="contained"
             color="success"
             size="large"
-            sx={{backgroundColor: '#F99417'}}
+            sx={{ backgroundColor: '#F99417' }}
             component={RouterLink} to="/Checked_paymentShow"
           >
             <b>แก้ไขการตรวจสอบ</b>

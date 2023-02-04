@@ -21,44 +21,44 @@ type Satisfaction_Technician struct {
 
 type Review struct {
 	gorm.Model
-	CheckedPayment_ID      uint
+	CheckedPayment_ID      *uint
 	Checked_payment        Checked_payment `gorm:"references:id"`
-	Satisfaction_System_ID uint
+	Satisfaction_System_ID *uint
 	Satisfaction_System    Satisfaction_System `gorm:"references:id"`
 
-	Review_Comment_System string `valid:"maxstringlength(200)~!! โอ๊ะโอวว แสดงความคิดเห็นต่อระบบได้ไม่เกิน 200 อักษร !!"`
+	Review_Comment_System string `valid:"maxstringlength(200)~แสดงความคิดเห็นต่อระบบได้ไม่เกิน 200 อักษร"`
 
-	Satisfaction_Technician_ID uint
+	Satisfaction_Technician_ID *uint
 	Satisfaction_Technician    Satisfaction_Technician `gorm:"references:id"`
 
-	Review_Comment_Technician string `valid:"maxstringlength(200)~!! โอ๊ะโอวว แสดงความคิดเห็นต่อช่างได้ไม่เกิน 200 อักษร !!"`
+	Review_Comment_Technician string `valid:"maxstringlength(200)~แสดงความคิดเห็นต่อช่างได้ไม่เกิน 200 อักษร"`
 
-	TimestampReview time.Time `valid:"required,IsNotInFuture~โอ๊ะโอวว กรุณาตรวจสอบวันเวลาให้ถูกต้อง,IsNotInPast~โอ๊ะโอวว กรุณาตรวจสอบวันเวลาให้ถูกต้อง"`
+	TimestampReview time.Time `valid:"required,IsNotInFuture~กรุณาตรวจสอบวันที่ให้ถูกต้อง,IsNotInPast~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
 
-	StatusReview    bool `valid:"required~!! โอ๊ะโอวววว เหมือนคุณจะลืมกด check box !!"`
-	Customer_ID     uint
-	Customer        Customer `gorm:"references:id"`
-	CheckSucceed    bool
+	StatusReview bool `valid:"required~เหมือนคุณจะลืมกด check box"`
+	Customer_ID  *uint
+	Customer     Customer `gorm:"references:id"`
+	CheckSucceed bool
 
 	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
 }
 
-func init()  {
-	govalidator.CustomTypeTagMap.Set("IsNotInFuture", func(i interface{}, context interface{}) bool {
+func init() {
+	govalidator.CustomTypeTagMap.Set("IsNotInFuture", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		if t.Before(time.Now()){
+		if t.Before(time.Now()) {
 			return true
-			
-		}else {
+
+		} else {
 			return false
 		}
 	})
-	govalidator.CustomTypeTagMap.Set("IsNotInPast", func(i interface{}, context interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("IsNotInPast", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		if t.After(time.Now().Add(-time.Hour * 24)){
+		if t.After(time.Now().Add(-time.Hour * 24)) {
 			return true
-			
-		}else {
+
+		} else {
 			return false
 		}
 	})
