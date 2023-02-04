@@ -24,8 +24,8 @@ type Claim_Order struct {
 	Urgency_ID     *uint
 	Urgency        Urgency   `gorm:"references:id" valid:"-"`
 	ClaimTime      time.Time `valid:"required,IsNotInFuture~กรุณาตรวจสอบวันที่ให้ถูกต้อง,IsNotInPast~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
-	OrderProblem   string
-	Claim_Comment  string
+	OrderProblem   string    `valid:"required~กรุณาแจ้งปัญหาที่พบ"`
+	Claim_Comment  string    `valid:"required~กรุณาแจ้งรายละเอียดเพิ่มเติมแก่เรา"`
 	StatusClaim_ID *uint
 	StatusClaim    StatusClaim `gorm:"references:id" valid:"-"`
 
