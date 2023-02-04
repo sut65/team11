@@ -343,7 +343,7 @@ fetch(apiUrl, requestOptions)
                         <TextField
                             disabled
                             id="filled-disabled"
-                            label={dayjs(Customer.DOB).format('DD/MM/YYYY HH:mm:ss')}    
+                            label={dayjs(Customer.DOB).format('DD/MM/YYYY')}    
                             // defaultValue={Customer.Name}
                             variant="filled"
                             size='small'
