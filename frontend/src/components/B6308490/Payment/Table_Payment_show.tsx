@@ -168,7 +168,7 @@ function Table_Payment_show() {
     { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 100 },
     {
       field: "Date_time", headerName: "วันที่โอนเงิน", width: 200
-      , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
+      , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
     },
     {
       field: "Status_ID", headerName: "สถานะ", width: 200

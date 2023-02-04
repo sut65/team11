@@ -163,7 +163,7 @@ function Check_Table_Payment_show() {
     { field: "Other", headerName: "Comment", width: 300 },
     {
       field: "Date_time", headerName: "วันที่โอนเงิน", width: 200
-      , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
+      , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
     }
     //{ field: "CustomerID", headerName: "ผู้ส่งเรื่อง", width: 300 },
 

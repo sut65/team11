@@ -14,6 +14,7 @@ import dayjs, { Dayjs } from "dayjs";
 import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
+import Stack from '@mui/material/Stack';
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -390,17 +391,22 @@ function Checked_payment() {
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDateTimePicker
-            renderInput={(params) => <TextField {...params} />}
-            value={Date_time}
-            onChange={(newValue) => {
-              setDate(newValue);
+        <Stack component="form" noValidate spacing={3}>
+          <TextField
+            id="datetime-local"
+            type="datetime-local"
+            value={Date_time ? dayjs(Date_time).format('YYYY-MM-DDTHH:mm') : ''}
+            onChange={(e) => {
+              setDate(dayjs(e.target.value));
+            }}
+            sx={{ width: '100%' }}
+            InputLabelProps={{
+              shrink: true,
             }}
           />
-        </LocalizationProvider>
+        </Stack>
       </FormControl>
-    )
+    );
   }
   function button_submit_back() {
     return (
