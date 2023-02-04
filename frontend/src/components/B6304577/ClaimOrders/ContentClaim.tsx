@@ -235,9 +235,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                         text: 'เรารับการรายงานของคุณไว้แล้ว',
                         icon: 'success'
                     });
-                    setTimeout(() => {
-                        setActiveStep(0)
-                    }, 1500)
+
                     let dataCheckSucceed = {
                         ID: reviewID,
                         CheckSucceed: true,
@@ -258,16 +256,19 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                                 console.log("Error");
                             }
                         });
-                        setReviewID('');
-                        setUrgencyID('');
-                        setDate(null);
-                        setOrderProblem('');
-                        setClaimComment('');
-                        setdataOrderID('');
-                        setDataReason('');
-                        setdataDateOrder('');
-                        setDataSolving('');
-                        setDataTechnician('');
+                    setReviewID('');
+                    setUrgencyID('');
+                    setDate(null);
+                    setOrderProblem('');
+                    setClaimComment('');
+                    setdataOrderID('');
+                    setDataReason('');
+                    setdataDateOrder('');
+                    setDataSolving('');
+                    setDataTechnician('');
+                    setTimeout(() => {
+                        setActiveStep(0)
+                    }, 1500)
                 } else {
                     Swal.fire({
                         // Display Back-end text response 
@@ -278,7 +279,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                 }
             });
 
-       
+
     };
     const columnReviews: GridColDef[] = [
         {

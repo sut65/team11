@@ -94,3 +94,47 @@ func TestClaim_CommentNotBlank(t *testing.T) {
 	// err.Error ต้องมี error message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("กรุณาแจ้งรายละเอียดเพิ่มเติมแก่เรา"))
 }
+
+func TestMaxcharector200_OrderProblem(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	claim_order := Claim_Order{
+		ClaimTime:     time.Now(),
+		OrderProblem:  "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", // ผิด -->เช็คตรงนี้
+		Claim_Comment: "AAAA", 
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(claim_order)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).NotTo(BeNil())
+
+	// err.Error() ต้องมี message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("ได้ไม่เกิน 200 อักษร"))
+}
+
+func TestMaxcharector200_Claim_Comment(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	claim_order := Claim_Order{
+		ClaimTime:     time.Now(),
+		OrderProblem:  "AAAA", 
+		Claim_Comment: "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", // ผิด -->เช็คตรงนี้
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(claim_order)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).NotTo(BeNil())
+
+	// err.Error() ต้องมี message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("ได้ไม่เกิน 200 อักษร"))
+}
