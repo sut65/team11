@@ -417,6 +417,7 @@ function Checked_payment() {
             variant="contained"
             color="success"
             size="large"
+            component={RouterLink} to="/Checked_paymentShow"
           >
             <b>บันทึกการตรวจสอบ</b>
           </Button>

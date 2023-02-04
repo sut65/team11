@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, colors, Container, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
@@ -10,12 +10,23 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Delete, Edit } from '@mui/icons-material';
 import { EditPayment_get_Ordertech_ID } from './EditPayment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
+import "../CSS/payment.css";
+
+//====================สำหรับปุ่มลบ============================
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success' ,
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: true
+})
+//====================สำหรับปุ่มลบ============================
 
 function Table_Payment_show() {
   //===============list payment details =================
   const [Payment, set_All_Payment] = React.useState<PaymentInterface[]>([]);
   const get_All_Payment = async () => {
-    const apiUrl = `http://localhost:8080/ListPayment`; // add ID for search
+    const apiUrl = `http://localhost:8080/ListPayment`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -30,7 +41,7 @@ function Table_Payment_show() {
         }
       });
   };
-  //====================================================
+//====================================================
 
   //ฟังก์ชัน สำหรับ Datagrid
   const columns: GridColDef[] = [
@@ -61,39 +72,62 @@ function Table_Payment_show() {
       headerName: '',
       width: 100,
       editable: false,
+      
       renderCell: (params: GridRenderCellParams) => {
 
         const handleClick = () => {
-          params.api.setRowMode(params.id, 'edit');
-          const apiUrl = `http://localhost:8080/DeletePayment/${params.id}`;
-          const requestOptions = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(''),
-          };
-          fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-              if (res.data) {
-                // Alert สำเส็จ
-                Swal.fire({
-                  title: 'ลบสำเร็จ',
-                  //text: '',
-                  icon: 'success'
+          swalWithBootstrapButtons.fire({
+            title: 'คุณกำลังลบรายการชำระเงิน',
+            text: "การลบรายการชำระเงินนี้ คุณจะต้องบันทึกรายการชำระเงินใหม่เท่านั้น",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ฉันต้องการลบ',
+            cancelButtonText: 'ยกเลิกการลบ',
+            reverseButtons: true,
+            
+          }).then((result) => {
+            if (result.isConfirmed) {
+              params.api.setRowMode(params.id, 'edit');
+              const apiUrl = `http://localhost:8080/DeletePayment/${params.id}`;
+              const requestOptions = {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(''),
+              };
+              fetch(apiUrl, requestOptions)
+                .then((response) => response.json())
+                .then((res) => {
+                  if (res.data) {
+                    // Alert สำเส็จ
+                    swalWithBootstrapButtons.fire(
+                      'ลบสำเร็จ',
+                      'ลบรายการชำระเงิน สำเร็จ',
+                      'success'
+                    );
+                  } else {
+                    //setAlertMessage(res.error)
+                    swalWithBootstrapButtons.fire(
+                      // Display Back-end text response 
+                      'การลบล้มเหลว',
+                      res.error.split(";")[0],
+                      'error'
+                    );
+                  }
+                  window.location.reload();
                 });
-              } else {
-                //setAlertMessage(res.error)
-                Swal.fire({
-                  // Display Back-end text response 
-                  title: 'ลบไม่สำเร็จ',
-                  //text: res.error.split(";")[0],
-                  icon: 'error'
-                });
-              }
-              window.location.reload();
-            });
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'ยกเลิก',
+                'การลบรายการชำระเงิน',
+                'error'
+              )
+            }
+          });
         };
         return (
           <Button variant="contained" onClick={handleClick}
@@ -102,6 +136,7 @@ function Table_Payment_show() {
           </Button>
         );
       }
+
     },
 
 

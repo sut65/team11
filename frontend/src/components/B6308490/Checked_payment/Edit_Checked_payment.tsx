@@ -437,6 +437,7 @@ function Edit_Checked_payment() {
             color="success"
             size="large"
             sx={{backgroundColor: '#F99417'}}
+            component={RouterLink} to="/Checked_paymentShow"
           >
             <b>แก้ไขการตรวจสอบ</b>
           </Button>
