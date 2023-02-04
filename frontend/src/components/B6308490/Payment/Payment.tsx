@@ -19,6 +19,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/payment.css";
 //import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -31,7 +32,7 @@ const convertFloat = (data: string | number | undefined | Float32Array) => {
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//ตกแต่ง Grid 
+//============================ Css Internal ============================================================
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -39,6 +40,24 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
+const Item2 = styled(Paper)(({ theme }) => ({
+  backgroundColor: '#93BFCF',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  //color: theme.palette.text.secondary,
+  elevation: 0,
+}));
+const P2 = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 55,
+  fill: '#FFFFFF',
+  fontSize: 17,
+  color: theme.palette.text.secondary,
+}));
+//============================ชชชชชชชชชชชช============================================================
 
 
 
@@ -46,10 +65,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 //ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
-let P_ID : string;
-function Payment_get_Ordertech_ID (id: string){
+let P_ID: string;
+function Payment_get_Ordertech_ID(id: string) {
   P_ID = id;
-}export {Payment_get_Ordertech_ID}
+} export { Payment_get_Ordertech_ID }
 
 
 
@@ -76,7 +95,7 @@ function Payment() {
   //ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox ทั้งหมดเป็นตารางที่ ดึงไปใส่ตารางหลัก
   const [Bank_ID, setBank_ID] = useState('');
   // const [OrderTech_ID, setOrderTech_ID] = useState('') || 0;//>>>>>>>>>> แก้ตรงนี้ด้วยใช้จริงต้องไม่เกิด กรณี 0
-  let OrderTech_ID = P_ID ;
+  let OrderTech_ID = P_ID;
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
   const [success, setSuccess] = React.useState(false);
@@ -86,7 +105,7 @@ function Payment() {
   const [userName, setUserName] = useState('');
 
   // const { id } = useParams();
-  console.log('ทดสอบ id ที่รับมาจากต่างเพจ --->',P_ID);
+  //console.log('ทดสอบ id ที่รับมาจากต่างเพจ --->', P_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -152,11 +171,26 @@ function Payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSuccess(true);
+          // setSuccess(true);
+          // Alert การบันทึกสำเส็จ
+          Swal.fire({
+            title: 'บันทึกสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
+
         } else {
-          console.log("this error occurred")
-          console.log(error)
-          setError(true);
+          //console.log("this error occurred")
+          //console.log(error)
+          //setError(true);
+          //setAlertMessage(res.error)
+          //// Alert การบันทึกไม่สำเส็จ
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'บันทึกไม่สำเร็จ',
+            //text: res.error.split(";")[0],
+            icon: 'error'
+          });
         }
         console.log(data);
       });
@@ -170,7 +204,6 @@ function Payment() {
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
 
   const [amountCheck, setAmountCheck] = useState('ไม่มีข้อมูล');
-
   async function submitPayment() {
 
     // console.log(data);
@@ -184,11 +217,10 @@ function Payment() {
       .then((res) => {
         if (res) {
           setAmountCheck(res.sent + (parseFloat(res.sent) * 0.25)); //สำหรับแส้งที่ fron เท่านั้น ไม่ได้บันทึก
-          console.log(res.data);
+          //console.log(res.data);
           // console.log(res.sum);
           // console.log(res.moneyMan);
           // console.log(res.sent);
-
         } else {
           console.log("else");
           setAmountCheck('ไม่มีข้อมูล');
@@ -239,6 +271,8 @@ function Payment() {
         }
       });
   };
+
+  
   // const getUser = async () => {
   //   const apiUrl = `http://localhost:8080/user/${userID}`;
   //   const requestOptions = {
@@ -260,7 +294,7 @@ function Payment() {
     getBank();
     getOrderTech();
     submitPayment();
-    
+
     //getMoney();
   }, []);
 
@@ -268,28 +302,7 @@ function Payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar>
-
-        <Snackbar open={error}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
-          </Alert>
-        </Snackbar>
-
-
+        
         {/* เริ่มส่วนของหน้าเว็ป */}
 
         <Box sx={{ maginX: 0, maginY: 0 }}>
@@ -302,16 +315,13 @@ function Payment() {
               //align="center"
               fontFamily="Arial"
             >
-              <b style={{ font: "#FFFFFF", color: "#FFFFFF" ,}} ><br />
+              <b style={{ font: "#FFFFFF", color: "#FFFFFF", }} ><br />
                 ระบบชำระเงิน
               </b><br /><br />
 
             </Typography>
           </center>
         </Box>
-
-
-
 
         {/* {select_Order()} */}
         <Box style={{ backgroundColor: "#e0f2f1" }}>
@@ -331,11 +341,11 @@ function Payment() {
           </Grid>
           {/*แบ่งกลางให้กับข้อความ*/}
           <Grid item xs={2} >
-            <Item ><center> <h3>หมายเลข Order</h3> </center></Item><br />
-            <Item ><center> <h3>ชื่อผู้โอนเงิน</h3> </center></Item><br />
-            <Item ><center> <h3>ธนาคารที่โอนเงินเข้า</h3> </center></Item><br />
-            <Item ><center> <h3>จำนวนเงินที่โอนเข้า</h3> </center></Item><br />
-            <Item ><center> <h3>วันเวลาที่ทำการ</h3> </center></Item><br />
+            <Item2 ><center> <P2>หมายเลข Order</P2> </center></Item2><br />
+            <Item2 ><center> <P2>ชื่อผู้โอนเงิน</P2> </center></Item2><br />
+            <Item2 ><center> <P2>ธนาคาร</P2> </center></Item2><br />
+            <Item2 ><center> <P2>ยอดเงินที่โอนเข้า</P2> </center></Item2><br />
+            <Item2 ><center> <P2>วันเวลาที่ทำการ</P2> </center></Item2><br />
           </Grid>
           {/*แบ่งขวาให้กับข้อมูล*/}
           <Grid item xs={6}>
@@ -347,8 +357,9 @@ function Payment() {
             <Item>{Datetime()}</Item><br />
           </Grid>
         </Grid>
+
         <br /><br />
-        <hr color="#FFFFFF"/>
+        <hr color="#FFFFFF" />
         {button_submit_back()}
         <br /><br /><br /><br /><br /><br /><br />
 
@@ -360,28 +371,28 @@ function Payment() {
     </Paper>
   );
   //สำหรับ combobox หมายเลขรายการ
-  function Combo_Oder() {
-    return (
-      <FormControl fullWidth variant="outlined">
-        <Select
-          native
-          value={OrderTech_ID}
-          // onChange={onChangePAYTHECH}
-          inputProps={{
-            name: "OrderTech_ID",
-          }}
-        >
-          <option aria-label="None" value="">
-            กรุณาเลือก หมายเลข Oder                 </option>
-          {OrderTech.map((item: any) => (
-            <option value={item.ID} key={item.ID}>
-              {item.ORDER.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-    )
-  }
+  // function Combo_Oder() {
+  //   return (
+  //     <FormControl fullWidth variant="outlined">
+  //       <Select
+  //         native
+  //         value={OrderTech_ID}
+  //         // onChange={onChangePAYTHECH}
+  //         inputProps={{
+  //           name: "OrderTech_ID",
+  //         }}
+  //       >
+  //         <option aria-label="None" value="">
+  //           กรุณาเลือก หมายเลข Oder                 </option>
+  //         {OrderTech.map((item: any) => (
+  //           <option value={item.ID} key={item.ID}>
+  //             {item.ORDER.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+  //           </option>
+  //         ))}
+  //       </Select>
+  //     </FormControl>
+  //   )
+  // }
   function taxtfield_Order() {
     return (
       <FormControl fullWidth variant="outlined">
@@ -507,37 +518,6 @@ function Payment() {
         </Button>
       </Grid>
     )
-  }
-
-  function button_pay() {
-
-    return (
-      <Button style={{ backgroundColor: "#8bc34a", fontSize: 26, }}
-        onClick={submitPayment}
-        //onClick={() => { setAC(Cal_Amount_Check(show_Money)) }}
-        variant="contained"
-      //size="large"
-      >
-        <b>ชำระรายการนี้</b>
-      </Button>
-    )
-  }
-  function select_Order() {
-    return (<Container>
-      <Grid container spacing={3}>
-        <Grid item xs={9}>
-          <Item style={{ background: "#f1f8e9" }}>
-            {Combo_Oder()}<br />
-          </Item>
-        </Grid>
-        <Grid item xs={3}>
-          <Item style={{ backgroundColor: "#182e3e" }}>
-            {button_pay()}
-
-          </Item>
-        </Grid>
-      </Grid>
-    </Container>)
   }
 
 }

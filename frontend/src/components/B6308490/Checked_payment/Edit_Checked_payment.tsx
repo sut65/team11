@@ -3,17 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, PAYTECHInterface, } from "../../../interfaces/PaymentUI";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import ResponsiveAppBar from '../../Bar_01';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Table_Payment_show from "../Payment/Table_Payment_show";
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -68,12 +67,12 @@ function EditCheck_get_Payment_ID(id: string) {
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 
 //ฟังค์ชันสำหรับ alert
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+// const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+//   props,
+//   ref
+// ) {
+//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+// });
 
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
@@ -84,8 +83,8 @@ function Edit_Checked_payment() {
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
   // const [Check_payment_ID, setCheck_payment_ID] = useState('')
   let Check_payment_ID = P_ID;
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(false);
+  // const [success, setSuccess] = React.useState(false);
+  // const [error, setError] = React.useState(false);
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
@@ -107,8 +106,8 @@ function Edit_Checked_payment() {
     if (reason === "clickaway") {
       return;
     }
-    setSuccess(false);
-    setError(false);
+    // setSuccess(false);
+    // setError(false);
   };
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
@@ -163,14 +162,20 @@ function Edit_Checked_payment() {
       .then((res) => {
 
         if (res.data) {
-          setSuccess(true);
-          console.log('can update ', res.data);
+          // Alert การบันทึกสำเส็จ
+          Swal.fire({
+            title: 'บันทึกการแก้ไขสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
 
         } else {
-          // console.log("summit error")
-          setError(true);
-          console.log('can update ', res.data);
-          console.log(res.data);
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'บันทึกการแก้ไขไม่สำเร็จ',
+            text: res.error.split(";")[0],
+            icon: 'error'
+          });
 
         }
 
@@ -185,27 +190,35 @@ function Edit_Checked_payment() {
     setUser_show('')
   };
 
-  function DeleteChecked_payment() {
-    const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Check_payment_ID}`;
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(''),
-    };
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setSuccess(true);
-        } else {
-          console.log("DELETE error occurred")
-          console.log(error)
-          setError(true);
-        }
-      });
-  }
+  // function DeleteChecked_payment() {
+  //   const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Check_payment_ID}`;
+  //   const requestOptions = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify(''),
+  //   };
+  //   fetch(apiUrl, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         // Alert ลบทึกสำเส็จ
+  //         Swal.fire({
+  //           title: 'ลบสำเร็จ',
+  //           //text: '',
+  //           icon: 'success'
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           // Display Back-end text response 
+  //           title: 'บันทึกไม่สำเร็จ',
+  //           text: res.error.split(";")[0],
+  //           icon: 'error'
+  //         });
+  //       }
+  //     });
+  // }
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
 
@@ -249,30 +262,6 @@ function Edit_Checked_payment() {
       });
   };
 
-  // const get_Payment_for_show = async () => {
-  //   const apiUrl = `http://localhost:8080/GetPayment/${Payment_ID}`;
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         console.log(' DATA_ID ----->', res.data);
-
-  //         setPayment_ID_show(res.data.ID)
-  //         setOrder_ID_show(res.data.PayTech.OrderTech.OrderID)
-  //         setSender_name_show(res.data.Sender_Name)
-  //         setBank_show(res.data.Bank.Bank_name)
-  //         setAmount_show(res.data.Amount)
-  //         setAmount_check_show(res.data.Amount_Check)
-  //         setTime_show(res.data.Date_time)
-  //         setUser_show(res.data.Customer.Name)
-  //       }
-  //     });
-  // };
-
   // const getUser = async () => {
   //   const apiUrl = `http://localhost:8080/user/${userID}`;
   //   const requestOptions = {
@@ -301,35 +290,10 @@ function Edit_Checked_payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-        <Snackbar
-          open={success}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
-          </Alert>
-        </Snackbar>
-        <Snackbar open={error}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
-          </Alert>
-        </Snackbar>
-
-
-        {/* เริ่มส่วนของหน้าเว็ป */}
-
-        <Box sx={{ maginX: 0, maginY: 0 }}>
+      <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
-            <Typography
-              component="h2"
-              variant="h4"
-              //color="#182E3E"
+            <Typography component="h2" variant="h4" 
+             //color="#182E3E"
               gutterBottom
               //align="center"
               fontFamily="Arial"
@@ -337,13 +301,9 @@ function Edit_Checked_payment() {
               <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} ><br />
                 ระบบตรวจสอบการชำระเงิน
               </b><br /><br />
-
             </Typography>
           </center>
         </Box>
-
-
-
 
         <Container>
           <hr color="#99b9a0" /><br />
@@ -351,7 +311,6 @@ function Edit_Checked_payment() {
           <hr color="#99b9a0" /><br />
           {/* {show_data()}<br />
           <hr color="#99b9a0" /><br /> */}
-
         </Container>
 
         <Container>
@@ -371,18 +330,15 @@ function Edit_Checked_payment() {
             </Grid>
           </Grid>
           <br /><br />
-          <hr color="Green" />
+          <hr color="#99b9a0" />
           {button_submit_back()}
           <br /><br /><br /><br /><br /><br /><br />
         </Container>
 
-
-
-
-
       </Container>
     </Paper>
   );
+
   //สำหรับ combobox หมายเลขรายการ
   function Combo_Checked_Payment() {
     return (
@@ -468,28 +424,19 @@ function Edit_Checked_payment() {
   function button_submit_back() {
     return (
       <Grid container>
-        <Grid item xs={7}>
-          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
+        <Grid item xs={9.5}>
+          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{fontSize: 17 }} >
             ย้อนกลับ
           </Button>
         </Grid>
-
         <Grid item xs={2.5}>
           <Button
-            style={{ fontSize: 16, backgroundColor: "#C70039" }}
-            onClick={DeleteChecked_payment}
-            variant="contained"
-            size="large"
-          >ลบผลการตรวจสอบ</Button>
-        </Grid>
-
-        <Grid item xs={2.5}>
-          <Button
-            style={{ float: "right", fontSize: 16 }}
+            style={{ float: "right", fontSize: 17 }}
             onClick={Update}
             variant="contained"
             color="success"
             size="large"
+            sx={{backgroundColor: '#F99417'}}
           >
             <b>แก้ไขการตรวจสอบ</b>
           </Button>
@@ -497,7 +444,6 @@ function Edit_Checked_payment() {
       </Grid>
     )
   }
-
   function select_Order() {
     return (
       <Grid container spacing={3}>
