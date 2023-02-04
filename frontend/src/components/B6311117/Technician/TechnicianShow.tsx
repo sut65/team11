@@ -29,7 +29,6 @@ import {GenderTInterface,
     PrefixTInterface,
     TechnicianInterface} from "../../../interfaces/TechnicianUI"
 import TextField from "@mui/material/TextField";
-import ResponsiveAppBar_01 from "../../Bar_01";
 import PersonIcon from '@mui/icons-material/Person';
 
 
@@ -133,7 +132,6 @@ const handleStart = () => {
 
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
-        <ResponsiveAppBar_01/>
         <br />
 
 
@@ -264,7 +262,7 @@ const handleStart = () => {
                         <TextField
                             disabled
                             id="filled-disabled"
-                            label=""     
+                            label={dayjs(Technician.DOB).format('DD/MM/YYYY')}   
                             // defaultValue={Customer.Name}
                             variant="filled"
                             size='small'

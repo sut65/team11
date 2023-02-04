@@ -108,8 +108,8 @@ const menu = [
 
   { name: "ระบบสมาชิกแจ้งซ่อม", path: "/CustomerCreate" },
   { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow" },
-  { name: "ระบบช่าง", path: "/TechnicianCreate" },
-  { name: "ระบบshowช่าง", path: "/TechnicianShow" },
+  { name: "ระบบช่าง", path: "/TechnicianShow" },
+  { name: "ระบบshowช่าง", path: "/TechnicianCreate" },
   { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage" },
   { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage" },
   { name: "ระบบการจัดการข้อมูลการแจ้งซ่อม", path: "/OrderCreate" },

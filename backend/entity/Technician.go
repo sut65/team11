@@ -42,7 +42,7 @@ type Technician struct {
 
 	Location string
 	Username string `gorm:"uniqueIndex"`
-	Password string `json:"-"`
+	Password string 
 
 	OrderTech []OrderTech `gorm:"foreignKey:TechnicianID"`
 	PayTech   []PayTech   `gorm:"foreignKey:TechnicianID"`

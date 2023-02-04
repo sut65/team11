@@ -31,7 +31,7 @@ import {
   CustomerInterface,
 } from "../../../interfaces/CustomerUI";
 import TextField from "@mui/material/TextField";
-import ResponsiveAppBar_01 from "../../Bar_01";
+// import ResponsiveAppBar_01 from "../../Bar_01";
 import PersonIcon from '@mui/icons-material/Person';
 
 
@@ -268,7 +268,8 @@ const handleStart = () => {
                         <TextField
                             disabled
                             id="filled-disabled"
-                            label={dayjs(Customer.DOB).format('DD/MM/YYYY HH:mm:ss')}    
+                            label={dayjs(Customer.DOB).format('DD/MM/YYYY')}    
+                            // label={dayjs(Customer.DOB).format('DD/MM/YYYY HH:mm:ss')}    
                             // defaultValue={Date}
                             variant="filled"
                             size='small'
