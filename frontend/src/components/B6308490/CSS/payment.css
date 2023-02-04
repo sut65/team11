@@ -8,3 +8,10 @@ p {
     font-size: 16px;
     color: #000;
   }
+  .swal2-confirm {
+    background-color: #008b1e !important;
+  }
+  
+  .swal2-cancel {
+    background-color: #dc0707 !important;
+  }

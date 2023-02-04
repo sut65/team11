@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import { AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, /*PAYTECHInterface,*/ } from "../../../interfaces/PaymentUI";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";

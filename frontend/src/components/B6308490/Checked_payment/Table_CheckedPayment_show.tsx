@@ -13,6 +13,19 @@ import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import { EditCheck_get_Payment_ID } from './Edit_Checked_payment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
+import "../CSS/payment.css";
+
+
+//====================สำหรับปุ่มลบ============================
+const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: true
+})
+//====================สำหรับปุ่มลบ============================
+
 
 function Check_Table_Payment_show() {
   const [Payment, set_All_Payment] = React.useState<PaymentInterface[]>([]);
@@ -66,39 +79,61 @@ function Check_Table_Payment_show() {
       width: 100,
       editable: false,
       renderCell: (params: GridRenderCellParams) => {
-
         const handleClick = () => {
-          params.api.setRowMode(params.id, 'edit');
-          const apiUrl = `http://localhost:8080/DeleteChecked_payment/${params.id}`;
-          const requestOptions = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(''),
-          };
-          fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-              if (res.data) {
-                // Alert สำเส็จ
-                Swal.fire({
-                  title: 'ลบสำเร็จ',
-                  //text: '',
-                  icon: 'success'
+          swalWithBootstrapButtons.fire({
+            title: 'คุณกำลังลบรายการตรวจสอบ',
+            text: "การลบรายการนี้ คุณจะต้องบันทึกรายการตรวจสอบการชำระเงินใหม่เท่านั้น",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ฉันต้องการลบ',
+            cancelButtonText: 'ยกเลิกการลบ',
+            reverseButtons: true,
+
+          }).then((result) => {
+            if (result.isConfirmed) {
+              params.api.setRowMode(params.id, 'edit');
+              const apiUrl = `http://localhost:8080/DeleteChecked_payment/${params.id}`;
+              const requestOptions = {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(''),
+              };
+              fetch(apiUrl, requestOptions)
+                .then((response) => response.json())
+                .then((res) => {
+                  if (res.data) {
+                    // Alert สำเส็จ
+                    swalWithBootstrapButtons.fire(
+                      'ลบสำเร็จ',
+                      'ลบรายการตรวจสอบ สำเร็จ',
+                      'success'
+                    );
+                  } else {
+                    //setAlertMessage(res.error)
+                    swalWithBootstrapButtons.fire(
+                      // Display Back-end text response 
+                      'การลบล้มเหลว',
+                      res.error.split(";")[0],
+                      'error'
+                    );
+                  }
+                  window.location.reload();
                 });
-              } else {
-                //setAlertMessage(res.error)
-                Swal.fire({
-                  // Display Back-end text response 
-                  title: 'ลบไม่สำเร็จ',
-                  //text: res.error.split(";")[0],
-                  icon: 'error'
-                });
-              }
-              window.location.reload();
-            });
+            } else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              swalWithBootstrapButtons.fire(
+                'ยกเลิก',
+                'การลบรายการตวจสอบการชำระเงิน',
+                'error'
+              )
+            }
+          });
         };
+
         return (
           <Button variant="contained" onClick={handleClick}
             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
