@@ -15,6 +15,7 @@ import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
+import { Blockbutton_Payment } from "../Payment/Table_Payment_show";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -60,12 +61,12 @@ const P2 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 //ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
 let P_ID: string;
 function CheckedPayment_get_Payment_ID(id: string) {
   P_ID = id;
 } export { CheckedPayment_get_Payment_ID }
+
 
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
@@ -179,6 +180,7 @@ function Checked_payment() {
     setAmount_check_show('')
     setTime_show('')
     setUser_show('')
+    Blockbutton_Payment(true)  //ตรวจสอบแล้วจะไม่ให้ลูกค้าลบหรือแก้ไข
   };
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
