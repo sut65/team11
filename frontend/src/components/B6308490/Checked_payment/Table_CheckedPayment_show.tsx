@@ -1,5 +1,6 @@
 import { Box, Button, Container, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRenderCellParams, GridToolbar, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
+import Pagination from '@mui/material/Pagination';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
 // import Payment, { Payment_get_Ordertech_ID } from './Payment'
@@ -26,6 +27,22 @@ const swalWithBootstrapButtons = Swal.mixin({
 })
 //====================สำหรับปุ่มลบ============================
 
+//====================สำหรับ แถบเลื่อนหน้า footer dataGrid==============
+function CustomPagination() {
+  const apiRef = useGridApiContext();
+  const page = useGridSelector(apiRef, gridPageSelector);
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+  return (
+    <Pagination
+      color="primary"
+      count={pageCount}
+      page={page + 1}
+      onChange={(event, value) => apiRef.current.setPage(value - 1)}
+    />
+  );
+}
+//====================สำหรับ แถบเลื่อนหน้า footer dataGrid==============
 
 function Check_Table_Payment_show() {
   const [Payment, set_All_Payment] = React.useState<PaymentInterface[]>([]);
@@ -53,6 +70,7 @@ function Check_Table_Payment_show() {
       headerName: '',
       width: 100,
       editable: false,
+      headerClassName: 'super-app-theme--header',
       renderCell: (params: GridRenderCellParams) => {
 
         // const [OrderTech_ID, setOrderTech_ID] = useState(9999);
@@ -78,6 +96,7 @@ function Check_Table_Payment_show() {
       headerName: '',
       width: 100,
       editable: false,
+      headerClassName: 'super-app-theme--header',
       renderCell: (params: GridRenderCellParams) => {
         const handleClick = () => {
           swalWithBootstrapButtons.fire({
@@ -143,10 +162,10 @@ function Check_Table_Payment_show() {
       }
     },
 
-    { field: "ID", headerName: "ลำดับ", width: 70 },
-    { field: "Payment_ID", headerName: "Payment ID", width: 200 },
+    { field: "ID", headerName: "ลำดับ", width: 70,headerClassName: 'super-app-theme--header', },
+    { field: "Payment_ID", headerName: "Payment ID", width: 200,headerClassName: 'super-app-theme--header', },
     {
-      field: "Status_ID", headerName: "สถานะ", width: 300
+      field: "Status_ID", headerName: "สถานะ", width: 300,headerClassName: 'super-app-theme--header'
       , renderCell: params => {
 
         if (params.row.Status_ID === 1) {
@@ -160,9 +179,9 @@ function Check_Table_Payment_show() {
         }
       }
     },
-    { field: "Other", headerName: "Comment", width: 300 },
+    { field: "Other", headerName: "Comment", width: 300,headerClassName: 'super-app-theme--header', },
     {
-      field: "Date_time", headerName: "วันที่โอนเงิน", width: 200
+      field: "Date_time", headerName: "วันที่โอนเงิน", width: 200,headerClassName: 'super-app-theme--header'
       , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
     }
     //{ field: "CustomerID", headerName: "ผู้ส่งเรื่อง", width: 300 },
@@ -184,8 +203,8 @@ function Check_Table_Payment_show() {
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[50]}
-        components={{ Toolbar: GridToolbar, }}
-        style={{ height: '500px' }}
+        components={{ Toolbar: GridToolbar, Pagination: CustomPagination,}}
+        style={{ height: '500px', borderRadius: '35px' }}
       />
     </div>
   )

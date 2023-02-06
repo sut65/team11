@@ -1,5 +1,5 @@
 import { Box, Button, colors, Container, Typography } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRenderCellParams, GridToolbar, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
 import Payment, { Payment_get_Ordertech_ID } from './Payment'
@@ -11,6 +11,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { EditPayment_get_Ordertech_ID } from './EditPayment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "../CSS/payment.css";
+import Pagination from '@mui/material/Pagination';
 
 //====================สำหรับปุ่มลบ============================
 const swalWithBootstrapButtons = Swal.mixin({
@@ -20,7 +21,23 @@ const swalWithBootstrapButtons = Swal.mixin({
   },
   buttonsStyling: true
 })
-//====================สำหรับปุ่มลบ============================
+//====================สำหรับ แถบเลื่อนหน้า footer dataGrid============================
+function CustomPagination() {
+  const apiRef = useGridApiContext();
+  const page = useGridSelector(apiRef, gridPageSelector);
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+  return (
+    <Pagination
+      color="primary"
+      count={pageCount}
+      page={page + 1}
+      onChange={(event, value) => apiRef.current.setPage(value - 1)}
+    />
+  );
+}
+
+
 
 function Table_Payment_show() {
   //===============list payment details =================
@@ -50,6 +67,7 @@ function Table_Payment_show() {
       headerName: '',
       width: 100,
       editable: false,
+      headerClassName: 'super-app-theme--header',
       renderCell: (params: GridRenderCellParams) => {
 
         const handleClick = () => {
@@ -72,7 +90,7 @@ function Table_Payment_show() {
       headerName: '',
       width: 100,
       editable: false,
-      
+      headerClassName: 'super-app-theme--header',      
       renderCell: (params: GridRenderCellParams) => {
 
         const handleClick = () => {
@@ -140,15 +158,15 @@ function Table_Payment_show() {
     },
 
 
-    { field: "ID", headerName: "ลำดับ", width: 70 },
+    { field: "ID", headerName: "ลำดับ", width: 70 ,headerClassName: 'super-app-theme--header'},
     {
-      field: "PayTech_ID", headerName: "OrderID", width: 70, renderCell: params => {
+      field: "PayTech_ID", headerName: "OrderID", width: 70,headerClassName: 'super-app-theme--header', renderCell: params => {
         return <div>{params.row.OrderTech.ID}</div>
       }
     },
-    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200 },
+    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200,headerClassName: 'super-app-theme--header', },
     {
-      field: "Bank_ID", headerName: "ธนาคาร", width: 140
+      field: "Bank_ID", headerName: "ธนาคาร", width: 140 ,headerClassName: 'super-app-theme--header'
       , renderCell: params => {
 
         if (params.row.Bank_ID === 1) {
@@ -164,14 +182,14 @@ function Table_Payment_show() {
         }
       }
     },
-    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100 },
-    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 100 },
+    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100 ,headerClassName: 'super-app-theme--header',},
+    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120 ,headerClassName: 'super-app-theme--header',},
     {
-      field: "Date_time", headerName: "วันที่โอนเงิน", width: 200
+      field: "Date_time", headerName: "วันที่โอนเงิน", width: 180,headerClassName: 'super-app-theme--header'
       , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
     },
     {
-      field: "Status_ID", headerName: "สถานะ", width: 200
+      field: "Status_ID", headerName: "สถานะ", width: 200,headerClassName: 'super-app-theme--header'
       , renderCell: params => {
 
         if (params.row.Status_ID === 1) {
@@ -202,9 +220,9 @@ function Table_Payment_show() {
         getRowId={(row) => row.ID}
         columns={columns}
         pageSize={10}
-        rowsPerPageOptions={[50]}
-        components={{ Toolbar: GridToolbar, }}
-        style={{ height: '500px' }}
+        rowsPerPageOptions={[10,15]}
+        components={{ Toolbar: GridToolbar, Pagination: CustomPagination,}}
+        style={{ height: '500px', borderRadius: '35px' }}
       />
     </div>
   )

@@ -8,11 +8,8 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, /*PAYTECHInterface,*/ } from "../../../interfaces/PaymentUI";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ResponsiveAppBar from '../../Bar_01';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/payment.css";
@@ -317,7 +314,7 @@ function Payment() {
             >
               <b style={{ font: "#FFFFFF", color: "#FFFFFF", }} ><br />
                 ระบบชำระเงิน
-              </b><br /><br />
+              </b><br/>
 
             </Typography>
           </center>
@@ -358,8 +355,8 @@ function Payment() {
           </Grid>
         </Grid>
 
-        <br /><br />
-        <hr color="#FFFFFF" />
+        
+        <hr style={{ height: '20px', backgroundColor: '#132430' ,border:0}}/>
         {button_submit_back()}
         <br /><br /><br /><br /><br /><br /><br />
 
@@ -467,7 +464,8 @@ function Payment() {
   }
   function show_Amout_check() {
     return (
-      <Grid container spacing={3}>
+      <Grid container spacing={1} style={{backgroundColor:'#132430'}}>
+        <Grid item xs={12}></Grid>
         <Grid item xs={5}>
           <h2 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่ต้องชำระ</h2>
         </Grid>

@@ -34,26 +34,28 @@ function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
 
       <Container  >
 
-        <hr />
-        <center>
-          <Typography component="h3" variant="h6" gutterBottom fontFamily="Arial" >
-            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} > ------------ รายการที่ยังไม่ตรวจสอบ ------------ </b>
-          </Typography>
-        </center>
-        <hr />
+        <Grid item xs={12} style={{ backgroundColor: '#091926' }}>
+          <center>
+            <Typography component="h3" variant="h6" gutterBottom fontFamily="Arial" >
+              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} > ------------ รายการที่ยังไม่ตรวจสอบ ------------ </b>
+            </Typography>
+          </center>
+        </Grid>
 
-        <Box sx={{ width: '100%', height: '500px' }} style={{ backgroundColor: "#e0f2f1" }}  >
+        <Box sx={{ width: '100%', height: '500px', '& .super-app-theme--header': { backgroundColor: '#d4e3a9' } }}
+          style={{ backgroundColor: "#fbfcf6", borderRadius: '35px' }}  >
           {Table_Payment_for_Checked()}
         </Box>
-
-        <hr />
+        <br/>
+        <Grid item xs={12} style={{ backgroundColor: '#091926' }}>
         <center>
           <Typography component="h3" variant="h6" gutterBottom fontFamily="Arial" >
             <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} > ------------ รายการตรวจสอบทั้งหมด ------------ </b>
           </Typography>
         </center>
-        <hr />
-        <Box sx={{ width: '100%', height: '500px' }} style={{ backgroundColor: "#e0f2f1" }}  >
+        </Grid>
+        <Box sx={{ width: '100%', height: '500px', '& .super-app-theme--header': { backgroundColor: '#d4e3a9' } }}
+          style={{ backgroundColor: "#fbfcf6", borderRadius: '35px' }}  >
           {Check_Table_Payment_show()}
         </Box>
 
