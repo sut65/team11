@@ -236,33 +236,32 @@ func ListOrderTechForPaymment(c *gin.Context) {
 
 func SendmoneyToFrontend(c *gin.Context) {
 	id := c.Param("id")
-	var sum float32
-	entity.DB().Table("hardwares").Select("sum(amount * cost_hardware)").
-		Joins("JOIN pay_teches ON hardwares.id = pay_teches.hardware_id").
-		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&sum)
+	//เงินค่าช่าง
+	var A float32
+	entity.DB().Table("cost_details").Select("cost").
+		Where("id = (SELECT cost_detail_id FROM order_teches where id = ?);", id).Row().Scan(&A)
+	//เงินจากรายการอุปกรณ์ทั้งหมดที่ใช้ซ่อม
+	var B float32
+	entity.DB().Table("pay_teches").Select("sum(amount * cost_hardware)").
+		Where("order_tech_id = ?", id).Row().Scan(&B)
 
-	var moneyMan float32
-	entity.DB().Table("cost_details").Select("cost_details.cost").
-		Joins("JOIN order_teches ON cost_details.id = order_teches.cost_detail_id").
-		Joins("JOIN pay_teches ON order_teches.id = pay_teches.order_tech_id").
-		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&moneyMan)
+	var A_B = A + B
+	var sent = A_B + (A_B * vat_pay)
 
-	var sent = sum + moneyMan
-	c.JSON(http.StatusOK, gin.H{"sum": sum, "moneyMan": moneyMan, "sent": sent})
+
+	c.JSON(http.StatusOK, gin.H{"sent": sent})
 
 }
 
 func calculat_backend(id any) float32 {
+	//เงินค่าช่าง
 	var A float32
-	entity.DB().Table("hardwares").Select("sum(amount * cost_hardware)").
-		Joins("JOIN pay_teches ON hardwares.id = pay_teches.hardware_id").
-		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&A)
-
+	entity.DB().Table("cost_details").Select("cost").
+		Where("id = (SELECT cost_detail_id FROM order_teches where id = ?);", id).Row().Scan(&A)
+	//เงินจากรายการอุปกรณ์ทั้งหมดที่ใช้ซ่อม
 	var B float32
-	entity.DB().Table("cost_details").Select("cost_details.cost").
-		Joins("JOIN order_teches ON cost_details.id = order_teches.cost_detail_id").
-		Joins("JOIN pay_teches ON order_teches.id = pay_teches.order_tech_id").
-		Where("pay_teches.order_tech_id = ?", id).Row().Scan(&B)
+	entity.DB().Table("pay_teches").Select("sum(amount * cost_hardware)").
+		Where("order_tech_id = ?", id).Row().Scan(&B)
 
 	var A_B = A + B
 	var sum = A_B + (A_B * vat_pay)

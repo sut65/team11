@@ -213,10 +213,7 @@ function Payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res) {
-          setAmountCheck(res.sent + (parseFloat(res.sent) * 0.25)); //สำหรับแส้งที่ fron เท่านั้น ไม่ได้บันทึก
-          //console.log(res.data);
-          // console.log(res.sum);
-          // console.log(res.moneyMan);
+          setAmountCheck(res.sent); //สำหรับแส้งที่ fron เท่านั้น ไม่ได้บันทึก
           // console.log(res.sent);
         } else {
           console.log("else");
