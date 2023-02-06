@@ -5,16 +5,10 @@ import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, PAYTECHInterface, } from "../../../interfaces/PaymentUI";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import ResponsiveAppBar from '../../Bar_01';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/payment.css";
-import PAYTECHSHOW from "./PAYTECHSHOW";
-import { PayTechInterface } from "../../../interfaces/IPayTech";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 
@@ -36,6 +30,23 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
+const Item2 = styled(Paper)(({ theme }) => ({
+  backgroundColor: '#93BFCF',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  //color: theme.palette.text.secondary,
+  elevation: 0,
+}));
+const P2 = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 55,
+  fill: '#FFFFFF',
+  fontSize: 15,
+  color: theme.palette.text.secondary,
+}));
 
 
 
@@ -43,18 +54,6 @@ let P_ID: string;
 function EditPayment_get_Ordertech_ID(id: string) {
   P_ID = id;
 } export { EditPayment_get_Ordertech_ID }
-
-
-
-
-
-//ฟังค์ชันสำหรับ alert
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
@@ -262,9 +261,6 @@ function Payment() {
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       <Container maxWidth="xl">
-
-        {/* เริ่มส่วนของหน้าเว็ป */}
-
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
             <Typography
@@ -281,11 +277,7 @@ function Payment() {
 
             </Typography>
           </center>
-        </Box>
-
-
-
-
+        </Box>        
         {select_Order()}
         {/* <Box style={{ backgroundColor: "#e0f2f1" }}>
           {PAYTECHSHOW()}<br />
@@ -299,10 +291,10 @@ function Payment() {
             {/*แบ่งกลางให้กับข้อความ*/}
             <Grid item xs={2} ></Grid>
             <Grid item xs={2} >
-              <Item > <h3>ชื่อผู้โอนเงิน</h3> </Item><br />
-              <Item > <h3>ธนาคารที่โอนเงินเข้า</h3> </Item><br />
-              <Item > <h3>จำนวนเงินที่โอนเข้า</h3> </Item><br />
-              <Item > <h3>วันเวลาที่ทำการ</h3> </Item><br />
+              <Item2 > <P2 >ชื่อผู้โอนเงิน</P2> </Item2><br />
+              <Item2 > <P2>ธนาคารที่โอนเงินเข้า</P2> </Item2><br />
+              <Item2 > <P2>จำนวนเงินที่โอนเข้า</P2> </Item2><br />
+              <Item2 > <P2>วันเวลาที่ทำการ</P2> </Item2><br />
             </Grid>
             {/*แบ่งขวาให้กับข้อมูล*/}
             <Grid item xs={6}>
@@ -312,16 +304,11 @@ function Payment() {
               <Item>{Datetime()}</Item><br />
             </Grid>
           </Grid>
-          <br /><br />
-          <hr color="Green" />
+          
+          <hr style={{ height: '20px', backgroundColor: '#132430' ,border:0}}/>
           {button_submit_back()}
           <br /><br /><br /><br /><br /><br /><br />
         </Container>
-
-
-
-
-
       </Container>
     </Paper>
   );
@@ -349,8 +336,6 @@ function Payment() {
       </FormControl>
     )
   }
-
-
   //สำหรับ combobox ธนาคาร
   function Combo_Bank() {
     return (
@@ -481,7 +466,5 @@ function Payment() {
       </Grid>
     </Container>)
   }
-
-
 }
 export default Payment;

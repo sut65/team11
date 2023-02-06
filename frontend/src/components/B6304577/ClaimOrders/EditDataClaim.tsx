@@ -455,7 +455,7 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
                             </Typography>
                             <FormControl fullWidth>
                                 <Select
-                                    id="demo-select-small"
+                                    id="Urgencys"
                                     value={urgencyID}
                                     displayEmpty
                                     inputProps={{ 'aria-label': 'Without label' }}

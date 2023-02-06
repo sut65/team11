@@ -4,8 +4,6 @@ import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import { PaymentInterface, BankInterface, PAYTECHInterface, } from "../../../interfaces/PaymentUI";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
@@ -50,31 +48,13 @@ const P2 = styled(Paper)(({ theme }) => ({
   height: 50,
   color: theme.palette.text.secondary,
 }));
-
-
-
-
+///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 
 //ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
 let P_ID: string;
 function EditCheck_get_Payment_ID(id: string) {
   P_ID = id;
 } export { EditCheck_get_Payment_ID }
-
-
-
-
-
-///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
-
-//ฟังค์ชันสำหรับ alert
-// const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-//   props,
-//   ref
-// ) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
-
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Edit_Checked_payment() {
@@ -131,14 +111,9 @@ function Edit_Checked_payment() {
   const onChangeStatus_check = (event: SelectChangeEvent) => {
     setStatus_check_ID(event.target.value as string);
   };
-  // const onChangePayment = (event: SelectChangeEvent) => {
-  //   setCheck_payment_ID(event.target.value as string);
-
-  // };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
-  //ฟังก์ชันนี้ สำหรับการกดปุ่ม submit จะทำการสร้างข้อมูลต่าง ๆ เพื่อส่งไปทำการบันทึกที่ backend
 
   async function Update() {
     let data = {
@@ -190,36 +165,6 @@ function Edit_Checked_payment() {
     setTime_show('')
     setUser_show('')
   };
-
-  // function DeleteChecked_payment() {
-  //   const apiUrl = `http://localhost:8080/DeleteChecked_payment/${Check_payment_ID}`;
-  //   const requestOptions = {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify(''),
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         // Alert ลบทึกสำเส็จ
-  //         Swal.fire({
-  //           title: 'ลบสำเร็จ',
-  //           //text: '',
-  //           icon: 'success'
-  //         });
-  //       } else {
-  //         Swal.fire({
-  //           // Display Back-end text response 
-  //           title: 'บันทึกไม่สำเร็จ',
-  //           text: res.error.split(";")[0],
-  //           icon: 'error'
-  //         });
-  //       }
-  //     });
-  // }
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
 
@@ -331,7 +276,7 @@ function Edit_Checked_payment() {
             </Grid>
           </Grid>
           <br /><br />
-          <hr color="#99b9a0" />
+          <hr style={{ height: '20px', backgroundColor: '#132430' ,border:0}}/>
           {button_submit_back()}
           <br /><br /><br /><br /><br /><br /><br />
         </Container>
@@ -354,7 +299,7 @@ function Edit_Checked_payment() {
           }}
         >
           <option aria-label="None" value="">
-            กรุณาเลือก ลำดับรายการการชำระเงิน</option>
+            คุณยังไม่ได้เลือกรายการ โปรดเรือกรายการอีกครั้ง</option>
           {Data_Checked.map((item: Checked_paymentInterface) => (
             <option value={item.ID} key={item.ID}>
               {'รายการชำระเงินลำดับที่   ' + item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
@@ -407,39 +352,7 @@ function Edit_Checked_payment() {
       </FormControl>
     )
   }
-  // function Datetime() {
-  //   return (
-  //     <FormControl fullWidth variant="outlined">
 
-  //       <LocalizationProvider dateAdapter={AdapterDayjs}>
-  //         <DesktopDateTimePicker
-  //           renderInput={(params) => <TextField {...params} />}
-  //           value={Date_time}
-  //           onChange={(newValue) => {
-  //             setDate(newValue);
-  //           }}
-  //         />
-  //       </LocalizationProvider>
-
-
-  //       <Stack component="form" noValidate spacing={3}>
-  //         <TextField
-  //           id="datetime-local"
-  //           //label="Next appointment"
-  //           type="datetime-local"
-  //           defaultValue="2017-05-24T10:30"
-  //           sx={{ width: 250 }}
-  //           InputLabelProps={{
-  //             shrink: true,
-  //           }}
-  //         />
-  //       </Stack>
-
-
-
-  //     </FormControl>
-  //   )
-  // }
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">

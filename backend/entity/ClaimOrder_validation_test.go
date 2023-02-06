@@ -114,7 +114,7 @@ func TestMaxcharector200_OrderProblem(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 
 	// err.Error() ต้องมี message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("ได้ไม่เกิน 200 อักษร"))
+	g.Expect(err.Error()).To(Equal("รายงานปัญหาได้ไม่เกิน 200 อักษร"))
 }
 
 func TestMaxcharector200_Claim_Comment(t *testing.T) {
@@ -136,5 +136,5 @@ func TestMaxcharector200_Claim_Comment(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 
 	// err.Error() ต้องมี message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("ได้ไม่เกิน 200 อักษร"))
+	g.Expect(err.Error()).To(Equal("แสดงความคิดเห็นได้ไม่เกิน 200 อักษร"))
 }

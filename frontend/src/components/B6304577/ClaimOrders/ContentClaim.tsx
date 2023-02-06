@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import { DataGrid } from '@mui/x-data-grid';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Delete, Edit, Report } from '@mui/icons-material';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { ReviewInterface } from '../../../interfaces/ReviewUI';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -100,7 +100,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
 
     const [reviewID, setReviewID] = useState('');
     const [urgencyID, setUrgencyID] = useState('');
-    const [date, setDate] = useState<Date | null>(null);
+    const [date, setDate] = useState<Dayjs | null>(dayjs);
     const [orderProblem, setOrderProblem] = useState('');
     const [claimComment, setClaimComment] = useState('');
     // const [statusClaimID, setStatusClaimID] = React.useState<any[]>([]);
@@ -588,7 +588,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                                     </Typography>
                                     <FormControl fullWidth>
                                         <Select
-                                            id="demo-select-small"
+                                            id="Urgencys"
                                             value={urgencyID}
                                             displayEmpty
                                             inputProps={{ 'aria-label': 'Without label' }}

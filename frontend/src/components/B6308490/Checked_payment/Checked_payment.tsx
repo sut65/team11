@@ -326,27 +326,6 @@ function Checked_payment() {
       </Container>
     </Paper>
   );
-
-  //สำหรับ combobox หมายเลขรายการ
-  function Combo_Payment() {
-    return (
-      <FormControl fullWidth variant="outlined">
-        <Select
-          disabled
-          native
-          value={Payment_ID}
-          inputProps={{ name: "PAYTECH_ID", }}
-        >
-          <option aria-label="None" > ท่านยังไม่เลือกรายการชำระเงิน โปรดเลือกรายการชำระเงินใหม่อีกครั้ง </option>
-          {Payment.map((item: PaymentInterface) => (
-            <option value={item.ID} key={item.ID}>
-              {'รายการชำระเงินลำดับที่(payment ID) :  ' + item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-    )
-  }
   //สำหรับ combobox Status_check
   function Combo_Status_check() {
     return (
@@ -452,27 +431,28 @@ function Checked_payment() {
   // }
   function show_data() {
     return (
-      <Grid container spacing={1} sx={{ backgroundColor: "#646655" }}>
+      <Grid container style={{borderRadius: '35px'}} spacing={1} sx={{ backgroundColor: "#132430" }} >
+        <Grid item xs={12}><center> <h2 style={{ color:"#FFFFFF"}}>ข้อมูลสำหรับตรวจสอบ</h2> </center> </Grid>
 
         <Grid item xs={12}> <br /> </Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>Paymment ID: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>Paymment ID: </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2>{Payment_ID_show}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>Order ID: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>Order ID: </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{Order_ID_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ชื่อผู้โอนเงิน: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ชื่อผู้โอนเงิน: </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2>{Sender_name_show}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ชื่อของลูกค้า: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ชื่อของลูกค้า: </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{User_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>วันที่โอนเงินเข้าระบบ: </h4></Item0></Grid>
-        <Grid item xs={3.6}><Item_2>   <P2>{dayjs(Time_show).format('DD/MM/YYYY HH:mm:ss ')}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ธนาคาร: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>วันที่โอนเงินเข้าระบบ: </h4></Item0></Grid>
+        <Grid item xs={3.6}><Item_2>   <P2>{dayjs(Time_show).format('DD/MM/YYYY HH:mm ')}</P2>   </Item_2></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ธนาคาร: </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{Bank_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่โอนเข้า(บาท): </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ยอดเงินที่โอนเข้า(บาท): </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2>{Amount_show}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดที่ต้องโอน(บาท): </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ยอดที่ต้องโอน(บาท): </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{Amount_check_show}</P2>   </Item_2></Grid>
         <Grid item xs={12}> <br /> </Grid>
 
