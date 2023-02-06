@@ -21,21 +21,26 @@ const swalWithBootstrapButtons = Swal.mixin({
   },
   buttonsStyling: true
 })
-//====================สำหรับ แถบเลื่อนหน้า footer dataGrid============================
+//====================สำหรับ แถบเลื่อนหน้า footer dataGrid=====================
 function CustomPagination() {
   const apiRef = useGridApiContext();
   const page = useGridSelector(apiRef, gridPageSelector);
   const pageCount = useGridSelector(apiRef, gridPageCountSelector);
-
   return (
     <Pagination
-      color="primary"
-      count={pageCount}
-      page={page + 1}
-      onChange={(event, value) => apiRef.current.setPage(value - 1)}
+    color="primary"
+    count={pageCount}
+    page={page + 1}
+    onChange={(event, value) => apiRef.current.setPage(value - 1)}
     />
-  );
-}
+    );
+  }
+//====================block edit&delete button============================
+let check: boolean;
+check = false;
+function Blockbutton_Payment(check_input: boolean) {
+    check = check_input;
+} export { Blockbutton_Payment }
 
 
 
@@ -61,6 +66,7 @@ function Table_Payment_show() {
 //====================================================
 
   //ฟังก์ชัน สำหรับ Datagrid
+  console.log('----> ',check);
   const columns: GridColDef[] = [
     {
       field: 'action1',
@@ -75,16 +81,14 @@ function Table_Payment_show() {
           EditPayment_get_Ordertech_ID(params.id.toString());
         };
         return (
-          <RouterLink to={`/EditPayment`} style={{ textDecoration: 'none' }}>
-            <Button variant="contained" onClick={handleClick}
+            <Button variant="contained" onClick={handleClick} component={RouterLink} to="/EditPayment"
+              disabled={check }
               sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#F99417' }} >
               {<Edit />}แก้ไข
             </Button>
-          </RouterLink>
         );
       }
     },
-
     {
       field: 'action2',
       headerName: '',
@@ -149,6 +153,7 @@ function Table_Payment_show() {
         };
         return (
           <Button variant="contained" onClick={handleClick}
+          disabled={check }
             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
             {<Delete />}ลบ
           </Button>

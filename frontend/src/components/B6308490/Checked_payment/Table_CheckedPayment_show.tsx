@@ -15,6 +15,7 @@ import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import { EditCheck_get_Payment_ID } from './Edit_Checked_payment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "../CSS/payment.css";
+import { Blockbutton_Payment } from '../Payment/Table_Payment_show';
 
 
 //====================สำหรับปุ่มลบ============================
@@ -129,6 +130,7 @@ function Check_Table_Payment_show() {
                       'ลบรายการตรวจสอบ สำเร็จ',
                       'success'
                     );
+                    Blockbutton_Payment(false); //ถ้าลบสำเร็จ ลูกค้าจะแก้ไขได้
                   } else {
                     //setAlertMessage(res.error)
                     swalWithBootstrapButtons.fire(

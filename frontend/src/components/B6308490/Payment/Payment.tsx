@@ -185,7 +185,7 @@ function Payment() {
           Swal.fire({
             // Display Back-end text response 
             title: 'บันทึกไม่สำเร็จ',
-            //text: res.error.split(";")[0],
+            text: res.error.split(";")[0],
             icon: 'error'
           });
         }

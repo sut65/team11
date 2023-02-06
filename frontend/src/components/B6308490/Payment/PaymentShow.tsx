@@ -2,8 +2,6 @@ import { Box, Button, Container, FormControl, Grid, Paper, styled, Typography } 
 import Table_Payment_show from './Table_Payment_show';
 import Table_Paytech_show from './Table_Ordertech_show';
 
-
-
 function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
     return (
         <Paper style={{ backgroundColor: "#182E3E" }}>
