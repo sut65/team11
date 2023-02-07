@@ -83,7 +83,7 @@ func main() {
 
 	r.POST("/CreateAddress", controller.CreateAddress)
 	r.PATCH("/UpdateAddress", controller.UpdateAddress)
-	r.DELETE("/DeleteAddress", controller.DeleteAddress)
+	r.DELETE("/DeleteAddress/:id", controller.DeleteAddress)
 	r.GET("/GetListAddress", controller.GetListAddress)
 	r.GET("/GetAddress/:id", controller.GetAddress)
 	r.GET("/GetListTambon", controller.GetListTambon)

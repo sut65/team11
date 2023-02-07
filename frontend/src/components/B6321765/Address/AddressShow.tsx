@@ -9,10 +9,21 @@ import { Link as RouterLink } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import { AddressInterface } from "../../../interfaces/AddressUI";
 import dayjs from 'dayjs';
+import { Delete, Edit } from '@mui/icons-material';
+import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
-import { DataGrid, GridToolbar, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridColDef , GridRenderCellParams} from '@mui/x-data-grid';
+import { getsetAddressID } from './AddressEdit';
 
 function AddressShow() {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success' ,
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: true
+      })
 
     const navigate = useNavigate();
 
@@ -43,6 +54,91 @@ function AddressShow() {
     };
 
     const columns: GridColDef[] = [
+        {
+            field: 'action1',
+            headerName: '',
+            width: 100,
+            editable: false,
+            headerClassName: 'super-app-theme--header',
+            renderCell: (params: GridRenderCellParams) => {
+      
+              const handleClick = () => {
+                params.api.setRowMode(params.id, 'edit');
+                getsetAddressID(params.id.toString());
+              };
+              return (
+                  <Button variant="contained" onClick={handleClick} component={RouterLink} to="/AddressEditPage"
+                    sx={{ cursor: 'pointer', backgroundColor: 'success' }} >
+                    {<Edit />}แก้ไข
+                  </Button>
+              );
+            }
+        },
+        {
+            field: 'action2',
+            headerName: '',
+            width: 100,
+            editable: false,
+            headerClassName: 'super-app-theme--header',      
+            renderCell: (params: GridRenderCellParams) => {
+      
+              const handleClick = () => {
+                swalWithBootstrapButtons.fire({
+                  title: 'คุณกำลังลบรายการที่อยู่',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'ฉันต้องการลบ',
+                  cancelButtonText: 'ยกเลิกการลบ',
+                  reverseButtons: true,
+                  
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    params.api.setRowMode(params.id, 'edit');
+                    const apiUrl = `http://localhost:8080/DeleteAddress/${params.id}`;
+                    const requestOptions = {
+                      method: "DELETE",
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                      body: JSON.stringify(''),
+                    };
+                    fetch(apiUrl, requestOptions)
+                      .then((response) => response.json())
+                      .then((res) => {
+                        if (res.data) {
+                          swalWithBootstrapButtons.fire(
+                            'ลบสำเร็จ',
+                            'ลบรายการที่อยู่ สำเร็จ',
+                            'success'
+                          );
+                        } else {
+                          swalWithBootstrapButtons.fire(
+                            'การลบล้มเหลว',
+                            res.error.split(";")[0],
+                            'error'
+                          );
+                        }
+                        window.location.reload();
+                      });
+                  } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                  ) {
+                    swalWithBootstrapButtons.fire(
+                      'ยกเลิก',
+                      'การลบรายการที่อยู่',
+                      'error'
+                    )
+                  }
+                });
+              };
+              return (
+                <Button variant="contained" onClick={handleClick}
+                  sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
+                  {<Delete />}ลบ
+                </Button>
+              );
+            }
+          },
         { field: "ID", headerName: "ID", width: 70 },
         { field: "Customer_Name", headerName: "ชื่อลูกค้า", width: 150 , renderCell:params =>{        
             return <div>{params.row.Customer.Name}</div>
@@ -98,19 +194,14 @@ function AddressShow() {
             
             <p/>
             <Grid container spacing={1}>
-                <Grid item xs={0.8}/>
-                <Grid item xs={1.9}>
+                <Grid item xs={0.6}/>
+                <Grid item xs={2}>
                     <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
                         ย้อนกลับ
                     </Button>
                 </Grid>
                 <Grid item xs={5.2}/>
-                <Grid item xs={2} style={{textAlign: 'right'}}>
-                    <Button sx={{ backgroundColor: "success"}}  component={RouterLink} to="/AddressEditPage" variant="contained">
-                        แก้ไขข้อมูล
-                    </Button>
-                </Grid>
-                <Grid item xs={2} style={{textAlign: 'left'}}>
+                <Grid item xs={3.6} style={{textAlign: 'right'}}>
                     <Button color="success"  component={RouterLink} to="/AddressCreatePage" variant="contained">
                         เพิ่มข้อมูล
                     </Button>
