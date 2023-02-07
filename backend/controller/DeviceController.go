@@ -90,8 +90,8 @@ func CreateDevice(c *gin.Context) {
 		Monitor:    device.Monitor,    // ตั้งค่าฟิลด์ Monitor
 		GPU:        device.GPU,        // ตั้งค่าฟิลด์ GPU
 		RAM:        device.RAM,        // ตั้งค่าฟิลด์ RAM
-		Harddisk:   device.Harddisk,	// ตั้งค่าฟิลด์ Harddisk
-		Problem:	device.Problem ,	//ตั้งค่าฟิลด์ Problem
+		Harddisk:   device.Harddisk,   // ตั้งค่าฟิลด์ Harddisk
+		Problem:    device.Problem,    //ตั้งค่าฟิลด์ Problem
 		CustomerID: device.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
 		TypeID:     device.TypeID,     // โยงความสัมพันธ์กับ Entity Type
 		WindowsID:  device.WindowsID,  // โยงความสัมพันธ์กับ Entity Windows
@@ -143,14 +143,10 @@ func UpdateDevice(c *gin.Context) {
 
 // DELETE /Device
 func DeleteDevice(c *gin.Context) {
-	var device entity.Device
-	if err := c.ShouldBindJSON(&device); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if tx := entity.DB().Exec("DELETE FROM devices WHERE id = ?", device.ID); tx.RowsAffected == 0 {
+	id := c.Param("id")
+	if tx := entity.DB().Exec("DELETE FROM devices WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Device not found"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": "DELETE SUCCEED!!"})
+	c.JSON(http.StatusOK, gin.H{"data": "ID	" + id + "	DELETE SUCCEED!!"})
 }

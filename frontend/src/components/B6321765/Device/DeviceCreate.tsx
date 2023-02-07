@@ -103,7 +103,6 @@ function DeviceCreate() {
         setProblem("");
         setTypeID("");
         setWindowsID("");
-        setSaveTime(null);
       }
 
         const [type, setType] = React.useState<TypeInterface[]>([]);
