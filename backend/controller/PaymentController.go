@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
+	"github.com/asaskevich/govalidator"
 )
 
 var vat_pay float32 = 0.25
@@ -33,7 +34,7 @@ func CreatePayment(c *gin.Context) {
 
 	// 10: ค้นหา Bank ด้วย id
 	if tx := entity.DB().Where("id = ?", Payment.Bank_ID).First(&Bank); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Bank not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "โปรดตรวจสอบคุณอาจลืม เลือกธนาคาร"})
 		return
 	}
 
@@ -42,7 +43,11 @@ func CreatePayment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
-	//ค้นหาและคำนวนค่า Amount check
+	// : แทรกการ validate
+	if _, err := govalidator.ValidateStruct(Payment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	// 12: สร้าง Payment
 	pm := entity.Payment{
 
