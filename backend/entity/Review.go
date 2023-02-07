@@ -22,14 +22,14 @@ type Satisfaction_Technician struct {
 type Review struct {
 	gorm.Model
 	CheckedPayment_ID      *uint
-	Checked_payment        Checked_payment `gorm:"references:id"`
+	Checked_payment        Checked_payment `gorm:"references:id" valid:"-"`
 	Satisfaction_System_ID *uint
-	Satisfaction_System    Satisfaction_System `gorm:"references:id"`
+	Satisfaction_System    Satisfaction_System `gorm:"references:id" valid:"-"`
 
 	Review_Comment_System string `valid:"maxstringlength(200)~แสดงความคิดเห็นต่อระบบได้ไม่เกิน 200 อักษร"`
 
 	Satisfaction_Technician_ID *uint
-	Satisfaction_Technician    Satisfaction_Technician `gorm:"references:id"`
+	Satisfaction_Technician    Satisfaction_Technician `gorm:"references:id" valid:"-"`
 
 	Review_Comment_Technician string `valid:"maxstringlength(200)~แสดงความคิดเห็นต่อช่างได้ไม่เกิน 200 อักษร"`
 
@@ -37,7 +37,7 @@ type Review struct {
 
 	StatusReview bool `valid:"required~เหมือนคุณจะลืมกด check box"`
 	Customer_ID  *uint
-	Customer     Customer `gorm:"references:id"`
+	Customer     Customer `gorm:"references:id" valid:"-"`
 	CheckSucceed bool
 
 	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
