@@ -98,7 +98,6 @@ function AddressCreate() {
         setTambonID("");
         setPostCode("");
         setDetail("");
-        setDate(null);
       }
 
         const [addressType, setAddressType] = React.useState<AddressTypeInterface[]>([]);

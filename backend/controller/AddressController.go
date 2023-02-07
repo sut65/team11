@@ -205,14 +205,10 @@ func UpdateAddress(c *gin.Context) {
 
 // DELETE /Address
 func DeleteAddress(c *gin.Context) {
-	var address entity.Address
-	if err := c.ShouldBindJSON(&address); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	id := c.Param("id")
+	if tx := entity.DB().Exec("DELETE FROM addresses WHERE id = ?", id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Address not found"})
 		return
 	}
-	if tx := entity.DB().Exec("DELETE FROM addresses WHERE id = ?", address.ID); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": "DELETE SUCCEED!!"})
+	c.JSON(http.StatusOK, gin.H{"data": "ID	" + id + "	DELETE SUCCEED!!"})
 }

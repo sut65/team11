@@ -17,8 +17,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { useNavigate } from 'react-router-dom';
 
+let Address_ID: string;
+function getsetAddressID(id: string) {
+  Address_ID = id;
+} export { getsetAddressID }
+
 function AddressEdit() {
 
+    let add_id = Address_ID;
     const userID = parseInt(localStorage.getItem("uid") + "");
     const navigate = useNavigate();
     const update_successAlert = () => {
@@ -119,27 +125,15 @@ function AddressEdit() {
         setTambonID("");
         setPostCode("");
         setDetail("");
-        setDate(null);
       }
 
     const delete_f = () => {
-        let data = {
-            ID: convertType(addressID),
-            CustomerID: 1,
-            AddressTypeID: convertType(addressTypeID),
-            TambonID: convertType(tambonID),
-            Post_Code: typeof postCode == "string" ? parseInt(postCode) : 0,
-            Detail: detail,
-            Record_Time: date,
-        }
-        console.log(data);
-    
-        fetch("http://localhost:8080/DeleteAddress", {
+        fetch(`http://localhost:8080/DeleteAddress/${add_id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(''),
         })
           .then((response) => response.json())
           .then((res) => {
@@ -151,12 +145,6 @@ function AddressEdit() {
                 console.log("Error");
             }
           });
-        // reset All after delete
-        setAddressTypeID("");
-        setTambonID("");
-        setPostCode("");
-        setDetail("");
-        setDate(null);
       }
 
         const [address, setAddress] = React.useState<AddressInterface[]>([]);
@@ -294,19 +282,17 @@ function AddressEdit() {
                                 <Select
                                     style={{backgroundColor:"white"}}
                                     native
-                                    value={addressID}
+                                    disabled
+                                    value={add_id}
                                     onChange={onChangeAddress}
                                     sx={{ width: 300 }}
                                     inputProps={{
                                     name: "addressID",
                                     }}
                                 >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกหมายเลขที่อยู่
-                                </option>
                                 {address.map((item: AddressInterface) => (
                                 <option value={item.ID} key={item.ID}>
-                                    {item.ID}
+                                    {'หมายเลขที่อยู่ที่   ' + item.ID}
                                 </option>
                                 ))}
                                 </Select>
