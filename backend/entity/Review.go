@@ -33,7 +33,7 @@ type Review struct {
 
 	Review_Comment_Technician string `valid:"maxstringlength(200)~แสดงความคิดเห็นต่อช่างได้ไม่เกิน 200 อักษร"`
 
-	TimestampReview time.Time `valid:"required,IsNotInFuture~กรุณาตรวจสอบวันที่ให้ถูกต้อง,IsNotInPast~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
+	TimestampReview time.Time `valid:"required,CheckDateTime_TimestampReview~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
 
 	StatusReview bool `valid:"required~เหมือนคุณจะลืมกด check box"`
 	Customer_ID  *uint
@@ -44,22 +44,13 @@ type Review struct {
 }
 
 func init() {
-	govalidator.CustomTypeTagMap.Set("IsNotInFuture", func(i interface{}, _ interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("CheckDateTime_TimestampReview", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		if t.Before(time.Now()) {
-			return true
+		if t.Before(time.Now().Add(-2 * time.Minute)) || t.After(time.Now().Add(2 * time.Minute)) {
+			return false
 
 		} else {
-			return false
-		}
-	})
-	govalidator.CustomTypeTagMap.Set("IsNotInPast", func(i interface{}, _ interface{}) bool {
-		t := i.(time.Time)
-		if t.After(time.Now().Add(-time.Hour * 24)) {
 			return true
-
-		} else {
-			return false
 		}
 	})
 }
