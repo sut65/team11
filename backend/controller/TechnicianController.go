@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
+	"golang.org/x/crypto/bcrypt"
 )
 
 //GET /Gender
@@ -124,6 +125,18 @@ func CreateTechnician(c *gin.Context){
     	c.JSON(http.StatusBadRequest, gin.H{"error": "prefix not found"})
     	return
     }
+
+	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(technician.Password), 14)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
+		return
+	}
+
+	//กำหนด Role ตอนสร้าง
+	role := uint(2)
+
+
     //  สร้าง Technician
     viewTC := entity.Technician{
     	Name:      		technician.Name,            // ตั้งค่าฟิลด์ Name
@@ -135,7 +148,8 @@ func CreateTechnician(c *gin.Context){
 		PREFIX_ID: 		technician.PREFIX_ID, // โยงความสัมพันธ์กับ Entity Prefix
 		Location:		technician.Location,// ตั้งค่าฟิลด์ Location
 		Username: 		technician.Username,    // ตั้งค่าฟิลด์ Username
-		Password: 		technician.Password,// ตั้งค่าฟิลด์ Password
+		Password: 		string(hashPassword) ,// ตั้งค่าฟิลด์ Password
+		ROLE_ID: 		&role,
     }
 
     //  บันทึก

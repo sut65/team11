@@ -229,6 +229,7 @@ func SetupDatabase() {
 		Location: "กรุงเทพ....",
 		Username: "T6500001",
 		Password: "1400000000011",
+		ROLE:	techni,
 	}
 	db.Model(&Technician{}).Create(&technician_1)
 
