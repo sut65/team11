@@ -24,12 +24,12 @@ type Payment struct {
 
 	//ส่วนที่ดึงมาจากตารางอื่น
 	OrderTech_ID uint
-	OrderTech    OrderTech `gorm:"ForeignKey:Review_ID"`
+	OrderTech    OrderTech `gorm:"references:id" valid:"-"`
 	Bank_ID      uint
-	Bank         Bank `gorm:"ForeignKey:Review_ID"`
+	Bank         Bank `gorm:"references:id" valid:"-"`
 
 	CustomerID uint
-	Customer   Customer `gorm:"ForeignKey:Review_ID"`
+	Customer   Customer `gorm:"references:id" valid:"-"`
 
 	//ส่ง คีย์ไปยัง Checked_payment
 	Checked_payment []Checked_payment `gorm:"foreignKey:Payment_ID"`
