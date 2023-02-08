@@ -28,6 +28,7 @@ type Role struct {
 	gorm.Model
 	RoleName string
 	Customer []Customer `gorm:"foreignKey:ROLE_ID"`
+	Technician []Technician `gorm:"foreignKey:ROLE_ID"`
 }
 
 type Customer struct {
