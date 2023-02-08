@@ -19,7 +19,14 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { useNavigate } from 'react-router-dom';
 import { DateTimePicker } from "@mui/x-date-pickers";
 
+let Device_ID: string;
+function getsetDeviceID(id: string) {
+  Device_ID = id;
+} export { getsetDeviceID }
+
 function DeviceEdit() {
+
+    let dev_id = Device_ID;
     const navigate = useNavigate();
     const userID = parseInt(localStorage.getItem("uid") + "");
 
@@ -139,31 +146,15 @@ function DeviceEdit() {
         setProblem("");
         setTypeID("");
         setWindowsID("");
-        setSaveTime(null);
       }
 
       const delete_f = () => {
-        let data = {
-            ID: convertType(deviceID),
-            CPU: cpu,
-            Monitor: monitor,
-            GPU: gpu,
-            RAM: ram,
-            Harddisk: harddisk,
-            Problem: problem,
-            CustomerID: 1,
-            TypeID: convertType(typeID),
-            WindowsID: convertType(windowsID),
-            Save_Time: savetime,
-        }
-        console.log(data);
-    
-        fetch("http://localhost:8080/DeleteDevice", {
+        fetch(`http://localhost:8080/DeleteDevice/${dev_id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(''),
         })
           .then((response) => response.json())
           .then((res) => {
@@ -175,17 +166,6 @@ function DeviceEdit() {
                 console.log("Error");
             }
           });
-        // reset All after update
-        setDeviceID("");
-        setCPU("");
-        setMonitor("");
-        setGPU("");
-        setRAM("");
-        setHarddisk("");
-        setProblem("");
-        setTypeID("");
-        setWindowsID("");
-        setSaveTime(null);
       }
 
         const [type, setType] = React.useState<TypeInterface[]>([]);
@@ -273,19 +253,17 @@ function DeviceEdit() {
                                 <Select
                                     style={{backgroundColor:"white"}}
                                     native
-                                    value={deviceID}
+                                    disabled
+                                    value={dev_id}
                                     onChange={onChangeDevice}
                                     sx={{ width: 300 }}
                                     inputProps={{
                                     name: "deviceID",
                                     }}
                                 >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกหมายเลขอุปกรณ์
-                                </option>
                                 {device.map((item: DeviceInterface) => (
                                 <option value={item.ID} key={item.ID}>
-                                    {item.ID}
+                                    {'หมายเลขอุปกรณ์ที่   ' + item.ID}
                                 </option>
                                 ))}
                                 </Select>

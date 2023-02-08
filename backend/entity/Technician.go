@@ -44,6 +44,9 @@ type Technician struct {
 	Username string `gorm:"uniqueIndex"`
 	Password string 
 
+	ROLE_ID	*uint
+	ROLE	Role	`gorm:"references:id"`
+
 	OrderTech []OrderTech `gorm:"foreignKey:TechnicianID"`
 	PayTech   []PayTech   `gorm:"foreignKey:TechnicianID"`
 }

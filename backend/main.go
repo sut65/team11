@@ -102,7 +102,7 @@ func main() {
 
 	r.POST("/CreateDevice", controller.CreateDevice)
 	r.PATCH("/UpdateDevice", controller.UpdateDevice)
-	r.DELETE("/DeleteDevice", controller.DeleteDevice)
+	r.DELETE("/DeleteDevice/:id", controller.DeleteDevice)
 	r.GET("/GetListDevice", controller.GetListDevice)
 	r.GET("/GetDevice/:id", controller.GetDevice)
 	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================

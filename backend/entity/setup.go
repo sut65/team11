@@ -144,6 +144,21 @@ func SetupDatabase() {
 	}
 	db.Model(&Prefix{}).Create(&mrs)
 
+	//Role
+	cust := Role{
+		RoleName: "Customer",
+	}
+	db.Model(&Role{}).Create(&cust)
+	techni := Role{
+		RoleName: "Technician",
+	}
+	db.Model(&Role{}).Create(&techni)
+	admin := Role{
+		RoleName: "Admin",
+	}
+	db.Model(&Role{}).Create(&admin)
+
+
 	//Customer
 	customer_1 := Customer{
 		Name:     "ลูกค้า 1",
@@ -155,6 +170,7 @@ func SetupDatabase() {
 		PREFIX:   mr,
 		Email:    "customer01@example.com",
 		Password: "123456789",
+		ROLE:	cust,
 	}
 	db.Model(&Customer{}).Create(&customer_1)
 
@@ -213,6 +229,7 @@ func SetupDatabase() {
 		Location: "กรุงเทพ....",
 		Username: "T6500001",
 		Password: "1400000000011",
+		ROLE:	techni,
 	}
 	db.Model(&Technician{}).Create(&technician_1)
 
