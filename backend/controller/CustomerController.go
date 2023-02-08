@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
+	"golang.org/x/crypto/bcrypt"
 )
 
 //GET /Gender
@@ -57,7 +58,7 @@ func ListCustomer(c *gin.Context){
 func GetCustomer(c *gin.Context){
 	var customer entity.Customer
 	id := c.Param("id")
-	if tx := entity.DB().Preload("GENDER").Preload("CAREER").Preload("PREFIX").Where("id = ?", id).First(&customer); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("GENDER").Preload("CAREER").Preload("PREFIX").Preload("ROLE").Where("id = ?", id).First(&customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "customer not found"})
 		return
 	}
@@ -96,7 +97,7 @@ func DeleteCustomer(c *gin.Context) {
 }
 
 
-//POST /customer
+//POST /create customer
 func CreateCustomer(c *gin.Context){
 	var gender entity.Gender
 	var career entity.Career
@@ -126,6 +127,17 @@ func CreateCustomer(c *gin.Context){
     	c.JSON(http.StatusBadRequest, gin.H{"error": "prefix not found"})
     	return
     }
+
+	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(customer.Password), 14)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
+		return
+	}
+
+	//กำหนด Role ตอนสร้าง
+	role := uint(1)
+
     //  สร้าง Customer
     viewCS := entity.Customer{
     	Name:      		customer.Name,            // ตั้งค่าฟิลด์ Name
@@ -136,7 +148,8 @@ func CreateCustomer(c *gin.Context){
 		CAREER_ID: 		customer.CAREER_ID,  // โยงความสัมพันธ์กับ Entity Career
 		PREFIX_ID: 		customer.PREFIX_ID, // โยงความสัมพันธ์กับ Entity Prefix
 		Email: 			customer.Email,    // ตั้งค่าฟิลด์ Email
-		Password: 		customer.Password,// ตั้งค่าฟิลด์ Password
+		Password: 		string(hashPassword) ,// ตั้งค่าฟิลด์ Password
+		ROLE_ID: 		&role,
     }
 
     //  บันทึก
