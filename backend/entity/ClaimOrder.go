@@ -23,7 +23,7 @@ type Claim_Order struct {
 	Review         Review `gorm:"references:id" valid:"-"`
 	Urgency_ID     *uint
 	Urgency        Urgency   `gorm:"references:id" valid:"-"`
-	ClaimTime      time.Time `valid:"required,IsNotInFuture~กรุณาตรวจสอบวันที่ให้ถูกต้อง,IsNotInPast~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
+	ClaimTime      time.Time `valid:"required,CheckDateTime_ClaimTime~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
 	OrderProblem   string    `valid:"required~กรุณาแจ้งปัญหาที่พบ,maxstringlength(200)~รายงานปัญหาได้ไม่เกิน 200 อักษร"`
 	Claim_Comment  string    `valid:"required~กรุณาแจ้งรายละเอียดเพิ่มเติมแก่เรา,maxstringlength(200)~แสดงความคิดเห็นได้ไม่เกิน 200 อักษร"`
 	StatusClaim_ID *uint
@@ -34,13 +34,12 @@ type Claim_Order struct {
 }
 
 func init() {
-	govalidator.CustomTypeTagMap.Set("IsNotInFuture", func(i interface{}, _ interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("CheckDateTime_ClaimTime", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		return t.Before(time.Now())
-	})
-
-	govalidator.CustomTypeTagMap.Set("IsNotInPast", func(i interface{}, _ interface{}) bool {
-		t := i.(time.Time)
-		return t.After(time.Now().Add(-time.Hour * 24))
+		if t.Before(time.Now().Add(-2*time.Minute)) || t.After(time.Now().Add(2*time.Minute)) {
+			return false
+		} else {
+			return true
+		}
 	})
 }
