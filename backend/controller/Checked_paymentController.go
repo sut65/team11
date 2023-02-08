@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
+	"github.com/asaskevich/govalidator"
 )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +43,11 @@ func CreateChecked_payment(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 	// 	return
 	// }
+	// : แทรกการ validate
+	if _, err := govalidator.ValidateStruct(Checked_payment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// *: สร้าง Payment
 	pm := entity.Checked_payment{
