@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import ResponsiveAppBar from '../../Bar_01';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Typography } from "@mui/material";
@@ -8,16 +6,15 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import FormControl from '@mui/material/FormControl';
-import { Link as RouterLink } from "react-router-dom";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Swal from 'sweetalert2';
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DeviceInterface, TypeInterface, WindowsInterface } from "../../../interfaces/IDevice";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { useNavigate } from 'react-router-dom';
 import { DateTimePicker } from "@mui/x-date-pickers";
+import { Link } from "react-router-dom";
 
 let Device_ID: string;
 function getsetDeviceID(id: string) {
@@ -88,6 +85,28 @@ function DeviceEdit() {
             });
     };
 
+    const getDevice_data = async () => {
+        const apiUrl = `http://localhost:8080/GetDevice/${dev_id}`;
+        const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        };
+        fetch(apiUrl, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                setTypeID(res.data.TypeID);
+                setWindowsID(res.data.WindowsID);
+                setCPU(res.data.CPU);
+                setGPU(res.data.GPU);
+                setMonitor(res.data.Monitor);
+                setRAM(res.data.RAM);
+                setHarddisk(res.data.Harddisk);
+                setProblem(res.data.Problem);
+            }
+        });
+    };
+
     const [typeID, setTypeID] = React.useState('');
     const onChangeType = (event: SelectChangeEvent) => {
         setTypeID(event.target.value as string);
@@ -105,14 +124,14 @@ function DeviceEdit() {
 
     const update_f = () => {
         let data = {
-            ID: convertType(deviceID),
+            ID: convertType(dev_id),
             CPU: cpu,
             Monitor: monitor,
             GPU: gpu,
             RAM: ram,
             Harddisk: harddisk,
             Problem: problem,
-            CustomerID: 1,
+            CustomerID: convertType(userID),
             TypeID: convertType(typeID),
             WindowsID: convertType(windowsID),
             Save_Time: savetime,
@@ -136,16 +155,6 @@ function DeviceEdit() {
                 console.log("Error");
             }
           });
-        // reset All after update
-        setDeviceID("");
-        setCPU("");
-        setMonitor("");
-        setGPU("");
-        setRAM("");
-        setHarddisk("");
-        setProblem("");
-        setTypeID("");
-        setWindowsID("");
       }
 
       const delete_f = () => {
@@ -202,7 +211,7 @@ function DeviceEdit() {
 
         const [userName, setUserName] = React.useState('');
         const getUser = async () => {
-            const apiUrl = `http://localhost:8080/GetCustomer/1`;
+            const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -221,6 +230,7 @@ function DeviceEdit() {
         getWindow();
         getType();
         getDevice();
+        getDevice_data();
     }, []);
 
     return(
