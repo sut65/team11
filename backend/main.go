@@ -172,6 +172,13 @@ func main() {
 	r.GET("/GetClaimOrder/:id", controller.GetClaimOrder)
 	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
 
+	// login Customer Route
+	r.POST("/SignInCustomer", controller.SignInCustomer)
+	// login Technician Route
+	r.POST("/SignInTechnician", controller.SignInTechnician)
+	// login Admin Route
+	r.POST("/SignInAdmin", controller.SignInAdmin)
+
 	r.Run()
 }
 

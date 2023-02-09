@@ -25,3 +25,22 @@ B6304508 นภัสกร กันทะ
 B6304577 ภานุพงศ์ แคนอินทร์
 ```
 
+
+## Test Sign In 
+
+### Customer
+```
+Email : customer01@example.com
+Password : 123456
+```
+### Technician
+
+```
+Username : T6500001
+Password : 1400000000011
+```
+### Admin
+```
+Email : admin1@example.com
+Password : 123456
+```

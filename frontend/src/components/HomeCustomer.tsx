@@ -3,7 +3,7 @@ import { Container } from '@mui/system';
 import Typography from "@mui/material/Typography";
 import "./home.css"
 
-function Home() {
+function HomeCustomer() {
   return (
 
     <Container
@@ -16,4 +16,4 @@ function Home() {
   )
 }
 
-export default Home
+export default HomeCustomer
