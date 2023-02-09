@@ -82,9 +82,9 @@ func GetListProvince(c *gin.Context) {
 }
 
 func GetDistrict(c *gin.Context) {
-	var district entity.District
+	var district []entity.District
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM districts WHERE province_id = ?", id).Scan(&district).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM districts WHERE province_id = ?", id).Find(&district).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -92,9 +92,9 @@ func GetDistrict(c *gin.Context) {
 }
 
 func GetTambon(c *gin.Context) {
-	var tambon entity.Tambon
+	var tambon []entity.Tambon
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM tambons WHERE district_id = ?", id).Scan(&tambon).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM tambons WHERE district_id = ?", id).Find(&tambon).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -181,7 +181,7 @@ func GetListAddress(c *gin.Context) {
 func GetAddress(c *gin.Context) {
 	var address entity.Address
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM addresses WHERE id = ?", id).Scan(&address).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM addresses WHERE id = ?", id).Preload("Customer.GENDER").Preload("Customer.CAREER").Preload("Customer.PREFIX").Preload("AddressType").Preload("Tambon").Preload("Tambon.District").Preload("Tambon.District.Province").Find(&address).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

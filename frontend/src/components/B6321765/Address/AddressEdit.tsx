@@ -65,11 +65,6 @@ function AddressEdit() {
         setAddressTypeID(event.target.value as string);
     };
 
-    const [addressID, setAddressID] = React.useState('');
-    const onChangeAddress = (event: SelectChangeEvent) => {
-        setAddressID(event.target.value as string);
-    };
-
     const [provinceID, setProvinceID] = React.useState('');
     const onChangeProvince = (event: SelectChangeEvent) => {
         setProvinceID(event.target.value as string);
@@ -92,16 +87,14 @@ function AddressEdit() {
 
     const update_f = () => {
         let data = {
-            ID: convertType(addressID),
+            ID: convertType(add_id),
             CustomerID: 1,
             AddressTypeID: convertType(addressTypeID),
             TambonID: convertType(tambonID),
-            Post_Code: typeof postCode == "string" ? parseInt(postCode) : 0,
+            Post_Code: typeof postCode == "string" ? parseInt(postCode) : postCode,
             Detail: detail,
             Record_Time: date,
         }
-        console.log(data);
-    
         fetch("http://localhost:8080/UpdateAddress", {
           method: "PATCH",
           headers: {
@@ -119,12 +112,6 @@ function AddressEdit() {
                 console.log("Error");
             }
           });
-        // reset All after update
-        setAddressID("");
-        setAddressTypeID("");
-        setTambonID("");
-        setPostCode("");
-        setDetail("");
       }
 
     const delete_f = () => {
@@ -146,6 +133,26 @@ function AddressEdit() {
             }
           });
       }
+
+        const getAddress_data = async () => {
+            const apiUrl = `http://localhost:8080/GetAddress/${add_id}`;
+            const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            };
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setAddressTypeID(res.data.AddressTypeID);
+                    setProvinceID(res.data.Tambon.District.ProvinceID);
+                    setDistrictID(res.data.Tambon.DistrictID);
+                    setTambonID(res.data.TambonID);
+                    setPostCode(res.data.Post_Code);
+                    setDetail(res.data.Detail);
+                }
+            });
+        };
 
         const [address, setAddress] = React.useState<AddressInterface[]>([]);
         const getAddress = async () => {
@@ -210,10 +217,38 @@ function AddressEdit() {
                 }
             });
         };
+        const getDistrictByID = async () => {
+            const apiUrl = `http://localhost:8080/GetDistrict/${provinceID}`;
+            const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            };
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                setDistrict(res.data);
+                }
+            });
+        };
 
         const [tambon, setTambon] = React.useState<TambonInterface[]>([]);
         const getTambon = async () => {
             const apiUrl = "http://localhost:8080/GetListTambon";
+            const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            };
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                setTambon(res.data);
+                }
+            });
+        };
+        const getTambonByID = async () => {
+            const apiUrl = `http://localhost:8080/GetTambon/${districtID}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -250,7 +285,17 @@ function AddressEdit() {
         getProvince();
         getDistrict();
         getAddress();
+        getAddress_data();
     }, []);
+
+    useEffect(() => {
+        if (provinceID) {
+            getDistrictByID();
+        }
+        if (districtID) {
+            getTambonByID();
+        }
+    }, [provinceID,districtID]);
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
@@ -284,11 +329,10 @@ function AddressEdit() {
                                     native
                                     disabled
                                     value={add_id}
-                                    onChange={onChangeAddress}
                                     sx={{ width: 300 }}
                                     inputProps={{
-                                    name: "addressID",
-                                    }}
+                                        name: "addressID",
+                                        }}
                                 >
                                 {address.map((item: AddressInterface) => (
                                 <option value={item.ID} key={item.ID}>
