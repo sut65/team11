@@ -164,7 +164,6 @@ function AddressShow() {
     ];
 
     useEffect(() => {
-        console.log(AddressShow);
         getAddressShow();
     }, []);
 

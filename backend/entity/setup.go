@@ -6,6 +6,8 @@ import (
 	"gorm.io/gorm"
 
 	"gorm.io/driver/sqlite"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 var db *gorm.DB
@@ -94,6 +96,9 @@ func SetupDatabase() {
 		&StatusClaim{}, // B6304577-ระบบรายงานปัญหาหลังการซ่อม
 		&Claim_Order{}, // B6304577-ระบบรายงานปัญหาหลังการซ่อม
 
+		&Role{},  //TODO ADD ROLE TABLE
+		&Admin{}, //TODO ADD ADMIN TABLE
+
 	)
 	db = database
 
@@ -158,6 +163,7 @@ func SetupDatabase() {
 	}
 	db.Model(&Role{}).Create(&admin)
 
+	passwordCus, err := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 
 	//Customer
 	customer_1 := Customer{
@@ -169,8 +175,8 @@ func SetupDatabase() {
 		CAREER:   gov_o,
 		PREFIX:   mr,
 		Email:    "customer01@example.com",
-		Password: "123456789",
-		ROLE:	cust,
+		Password: string(passwordCus),
+		ROLE:     cust,
 	}
 	db.Model(&Customer{}).Create(&customer_1)
 
@@ -217,6 +223,7 @@ func SetupDatabase() {
 	}
 	db.Model(&Educate{}).Create(&DD)
 
+	passwordTech, err := bcrypt.GenerateFromPassword([]byte("1400000000011"), 14)
 	//Technician
 	technician_1 := Technician{
 		Name:     "ช่าง 1",
@@ -228,8 +235,8 @@ func SetupDatabase() {
 		PREFIX:   mrT,
 		Location: "กรุงเทพ....",
 		Username: "T6500001",
-		Password: "1400000000011",
-		ROLE:	techni,
+		Password: string(passwordTech),
+		ROLE:     techni,
 	}
 	db.Model(&Technician{}).Create(&technician_1)
 
@@ -619,6 +626,19 @@ func SetupDatabase() {
 	db.Model(&Refund{}).Create(&Refund_1)
 
 	// ============== Mockup ตาราง Refund ของฟิวส์ ===================================
+
+	//Admin
+	passwordAdmin, err := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	admin1 := Admin{
+		Name:     "Admin 1",
+		ID_card:  "1-1111-11111-11-1",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    "0444444444",
+		Email:    "admin1@example.com",
+		Password: string(passwordAdmin),
+		ROLE:     admin,
+	}
+	db.Model(&Admin{}).Create(&admin1)
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 

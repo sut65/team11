@@ -147,10 +147,38 @@ function AddressCreate() {
                 }
             });
         };
+        const getDistrictByID = async () => {
+            const apiUrl = `http://localhost:8080/GetDistrict/${provinceID}`;
+            const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            };
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                setDistrict(res.data);
+                }
+            });
+        };
 
         const [tambon, setTambon] = React.useState<TambonInterface[]>([]);
         const getTambon = async () => {
             const apiUrl = "http://localhost:8080/GetListTambon";
+            const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            };
+            fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                setTambon(res.data);
+                }
+            });
+        };
+        const getTambonByID = async () => {
+            const apiUrl = `http://localhost:8080/GetTambon/${districtID}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -186,11 +214,16 @@ function AddressCreate() {
         getTambon();
         getProvince();
         getDistrict();
-    }, []);
+        if (provinceID) {
+            getDistrictByID();
+        }
+        if (districtID) {
+            getTambonByID();
+        }
+    }, [provinceID,districtID]);
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
-            {/* <ResponsiveAppBar /> */}
             <Box>
             <Typography
                 component="h2"

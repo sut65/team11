@@ -46,10 +46,18 @@ import CreateTechnician2 from './components/B6311117/Technician/CreateFromeTechn
 import Checked_paymentShow from './components/B6308490/Checked_payment/Checked_paymentShow';
 import Checked_payment from './components/B6308490/Checked_payment/Checked_payment';
 import Edit_Checked_payment from './components/B6308490/Checked_payment/Edit_Checked_payment';
-import LoginCustomer from './components/LoginCustomer';
-import Home from './components/Home';
-import { Button } from '@mui/material';
-import ContentClaimOrder from './components/B6304577/ClaimOrders/ContentClaim';
+
+
+import { Button, Drawer } from '@mui/material';
+
+import SignInCustomer from './components/SignInCustomer';
+import ProtectedRoutes from './components/ProtectedRoutes';
+import { Public } from '@mui/icons-material';
+import PublicRoutes from './components/PublicRoutes';
+import SignInTech from './components/SignInTech';
+import PermissionDenied from './components/PermissionDenied';
+import HomeCustomer from './components/HomeCustomer';
+import SignInAdmin from './components/SignInAdmin';
 
 const drawerWidth = 240;
 
@@ -75,59 +83,44 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  "& .MuiDrawer-paper": {
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: "border-box",
-    ...(!open && {
-      overflowX: "hidden",
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
-      },
-    }),
-  },
-}));
 
 const mdTheme = createTheme();
 
 const menu = [
-  { name: "หน้าแรก", path: "/" },
+  // { name: "ระบบสมาชิกแจ้งซ่อม", path: "/CustomerCreate" },
 
-  { name: "ระบบสมาชิกแจ้งซ่อม", path: "/CustomerCreate" },
-  { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow" },
-  { name: "ระบบช่าง", path: "/TechnicianShow" },
-  { name: "ระบบshowช่าง", path: "/TechnicianCreate" },
-  { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage" },
-  { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage" },
-  { name: "ระบบการจัดการข้อมูลการแจ้งซ่อม", path: "/OrderCreate" },
-  { name: "ระบบยกเลิกการแจ้งซ่อม", path: "/RefundCreate" },
-  { name: "ระบบ show ยกเลิกการแจ้งซ่อม", path: "/RefundShow" },
-  { name: "ระบบรับออเดอร์ช่าง", path: "/OrderTech" },
-  { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech" },
-  { name: "ระบบชำระเงิน", path: "/PaymentShow" },
-  { name: "ระบบตรวจสอบการชำระเงิน", path: "/Checked_paymentShow" },
-  { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm" },
-  { name: "ระบบรายงานปัญหาหลังการซ่อม", path: "/ContentClaimOrder" },
-  // { name: "สมาชิก" />, path: "/users" },
-  // { name: "การเข้าชมวีดีโอ", path: "/watch_videos" },
+  // ========== For Technician ========== //
+  { name: "ระบบshowช่าง", path: "/TechnicianShow", role: "Technician" },
+  { name: "ระบบรับออเดอร์ช่าง", path: "/OrderTech", role: "Technician" },
+  { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech", role: "Technician" },
+
+
+
+  // ========== For Admin ========== //
+  { name: "ระบบช่าง", path: "/TechnicianCreate", role: "Admin" },
+  { name: "ระบบตรวจสอบการชำระเงิน", path: "/Checked_paymentShow", role: "Admin" },
+  { name: "รับเรื่องการรายงานปัญหาหลังการซ่อม", path: "/ClaimOrderForAdmin", role: "Admin" },
+
+
+  // ========== For Customer ========== //
+  { name: "หน้าแรก", path: "/", role: "Customer" },
+  { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow", role: "Customer" },
+  { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage", role: "Customer" },
+  { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage", role: "Customer" },
+  { name: "ระบบการจัดการข้อมูลการแจ้งซ่อม", path: "/OrderCreate", role: "Customer" },
+  { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer" },
+  { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer" },
+  { name: "ระบบรายงานปัญหาหลังการซ่อม", path: "/ContentClaimOrder", role: "Customer" },
+  { name: "ระบบยกเลิกการแจ้งซ่อม", path: "/RefundCreate", role: "Customer" },
+  { name: "ระบบ show ยกเลิกการแจ้งซ่อม", path: "/RefundShow", role: "Customer" },
+
 ];
 
 function App() {
   const [token, setToken] = useState<String>("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+  const _user = localStorage.getItem("role")
+  console.log(_user)
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -140,12 +133,20 @@ function App() {
   }, []);
 
   // if (!token) {
-  //   return <LoginCustomer />;
+  //   return <SignInCustomer />;
   // }
 
   const signout = () => {
     localStorage.clear();
     window.location.href = "/";
+  };
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
   return (
     // <Router>
@@ -163,15 +164,15 @@ function App() {
     //     <Route path="/PaymentShow" element={<PaymentShow />} />
     //     <Route path="/Payment" element={<Payment />} />
     //     <Route path="/EditPayment" element={<EditPayment />} />
-    //     <Route path="/Checked_paymentShow" element={<Checked_paymentShow />} /> 
-    //     <Route path="/Checked_payment" element={<Checked_payment />} /> 
-    //     <Route path="/EditChecked_payment" element={<Edit_Checked_payment />} /> 
-    //     <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
-    //     <Route path="/AddressShowPage" element={<AddressShowForm/>} />
-    //     <Route path="/AddressEditPage" element={<AddressEditForm/>} />
-    //     <Route path="/DeviceCreatePage" element={<DeviceCreateForm/>} />
-    //     <Route path="/DeviceEditPage" element={<DeviceEditForm/>} />
-    //     <Route path="/DeviceShowPage" element={<DeviceShowForm/>} />
+    // <Route path="/Checked_paymentShow" element={<Checked_paymentShow />} /> 
+    // <Route path="/Checked_payment" element={<Checked_payment />} /> 
+    // <Route path="/EditChecked_payment" element={<Edit_Checked_payment />} /> 
+    // <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
+    // <Route path="/AddressShowPage" element={<AddressShowForm/>} />
+    // <Route path="/AddressEditPage" element={<AddressEditForm/>} />
+    // <Route path="/DeviceCreatePage" element={<DeviceCreateForm/>} />
+    // <Route path="/DeviceEditPage" element={<DeviceEditForm/>} />
+    // <Route path="/DeviceShowPage" element={<DeviceShowForm/>} />
     //     <Route path="/RefundCreate" element={<RefundCreate />} />
     //     <Route path="/RefundCreate" element={<RefundShow />} />
     //     <Route path="/OrderTech" element={<OrderTech />} /> 
@@ -185,116 +186,164 @@ function App() {
     //   </Routes>
     // </Router>
     <Router>
-      <ThemeProvider theme={mdTheme}>
-        <Box sx={{ display: "flex" }}>
-          <CssBaseline />
-          <AppBar position="absolute" open={open}>
-            <Toolbar
-              sx={{
-                pr: "24px", // keep right padding when drawer closed
-              }}
-            >
+      <Box sx={{ flexGrow: 1 }}>
+        {token ?
+          <AppBar id="appbar" position="static">
+            <Toolbar>
               <IconButton
+                size="large"
                 edge="start"
                 color="inherit"
-                aria-label="open drawer"
-                onClick={toggleDrawer}
-                sx={{
-                  marginRight: "36px",
-                  ...(open && { display: "none" }),
-                }}
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={handleOpen}
               >
                 <MenuIcon />
               </IconButton>
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                sx={{ flexGrow: 1 }}
-              >
+              <Typography id='textAppBar' variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 ระบบแจ้งซ่อมคอมพิวเตอร์
               </Typography>
-              <Button color="inherit" onClick={signout}>
-                ออกจากระบบ
-              </Button>
+              <Button id="buttonSignOutInAppBar" onClick={signout}>Sign Out</Button>
             </Toolbar>
           </AppBar>
-          <Drawer variant="permanent" open={open}>
-            <Toolbar
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                px: [1],
-              }}
+          : ""}
+      </Box>
+      <Drawer anchor="left" open={open} onClose={handleClose}>
+        <Toolbar
+          sx={{
+            // backgroundColor: "#182e3e",
+            display: "flex",
+            alignItems: "center",
+            // justifyContent: "flex-end",
+            // px: [1],
+          }}
+        >
+          <IconButton onClick={toggleDrawer} >
+            <ChevronLeftIcon />
+          </IconButton>
+        </Toolbar>
+        <Divider />
+
+        <List id="textDrawer">
+          {menu.map((item, index) => (
+
+            <Link
+              to={item.path}
+              key={item.name}
+              style={{ textDecoration: "none", color: "inherit" }}
             >
-              <IconButton onClick={toggleDrawer}>
-                <ChevronLeftIcon />
-              </IconButton>
-            </Toolbar>
-            <Divider />
-            <List>
-              {menu.map((item, index) => (
-                <Link
-                  to={item.path}
-                  key={item.name}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <ListItem button>
-                    {/* <ListItemIcon>{item.icon}</ListItemIcon> */}
-                    <ListItemText primary={item.name} />
-                  </ListItem>
-                </Link>
-              ))}
-            </List>
-          </Drawer>
-          <Box
-            component="main"
-            sx={{
-              backgroundColor: (theme) =>
-                theme.palette.mode === "light"
-                  ? theme.palette.grey[100]
-                  : theme.palette.grey[900],
-              flexGrow: 1,
-              height: "100vh",
-              overflow: "auto",
-            }}
-          >
-            <Toolbar />
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-              <Routes>
-                {/* <Route path="/" element={<Home />} /> */}
-                <Route path="/CustomerCreate" element={<CreateForm />} /> 
-                <Route path="/CustomerShow" element={< CreateForm2 />} />
-                <Route path="/TechnicianCreate" element={<CreateTechnician2 />} />
-                <Route path="/TechnicianShow" element={<CreateFormTech />} />
-                <Route path="/AddressShowPage" element={<AddressShowForm />} />
-                <Route path="/AddressEditPage" element={<AddressEditForm />} />
-                <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
-                <Route path="/DeviceShowPage" element={<DeviceShowForm />} />
-                <Route path="/DeviceEditPage" element={<DeviceEditForm />} />
-                <Route path="/DeviceCreatePage" element={<DeviceCreateForm />} />
-                <Route path="/OrderCreate" element={<OrderCreate />} />
-                <Route path="/OrderUpdate" element={<OrderUpdate />} />
-                <Route path="/ShowOrder" element={<ShowOrder />} />
-                <Route path="/RefundCreate" element={<RefundCreate />} />
-                <Route path="/RefundShow" element={<RefundShow />} />
-                <Route path="/OrderTech" element={<OrderTech />} />
-                <Route path="/PayTech" element={<PayTech />} />
-                <Route path="/PaymentShow" element={<PaymentShow />} />
-                <Route path="/EditPayment" element={<EditPayment />} />
-                <Route path="/Payment" element={<Payment />} />
-                <Route path="/Checked_paymentShow" element={<Checked_paymentShow />} />
-                <Route path="/EditChecked_payment" element={<Edit_Checked_payment />} />
-                <Route path="/Checked_payment" element={<Checked_payment />} />
-                <Route path="/RankingForm" element={<RankingForm />} />
-                <Route path="/ContentClaimOrder" element={<ContentClaimOrder />} />
-              </Routes>
-            </Container>
-          </Box>
-        </Box>
-      </ThemeProvider>
+              {_user === item.role ?
+                <ListItem button >
+                  <ListItemIcon >{item.role}</ListItemIcon>
+                  <ListItemIcon >{item.name}</ListItemIcon>
+                </ListItem> : ''}
+
+            </Link>
+          ))}
+        </List>
+      </Drawer>
+      <Container >
+
+
+        <Routes>
+
+
+
+
+
+          // Public Routes
+          // Wrap all Route under PublicRoutes element //
+
+          // Sign In Customer
+          <Route path="SignInCustomer" element={<PublicRoutes />}>
+            <Route path="/SignInCustomer" element={<SignInCustomer />} />
+          </Route>
+          // Sign In Tech
+          <Route path="SignInTech" element={<PublicRoutes />}>
+            <Route path="/SignInTech" element={<SignInTech />} />
+          </Route>
+          // Sign In Admin
+          <Route path="SignInAdmin" element={<PublicRoutes />}>
+            <Route path="/SignInAdmin" element={<SignInAdmin />} />
+          </Route>
+
+          // ========== Sign Up Customer ========== //
+          <Route path="CreateForm" element={<PublicRoutes />}>
+            <Route path="/CreateForm" element={<CreateForm />} />
+          </Route>
+
+          // Protected Routes
+          // Wrap all Route under ProtectedRoutes element
+          
+          // ========== For Customer ========== //
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/Home" element={<HomeCustomer />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/CustomerShow" element={<CreateForm2 />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/AddressShowPage" element={<AddressShowForm />} />
+            <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
+            <Route path="/AddressEditPage" element={<AddressEditForm />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/DeviceShowPage" element={<DeviceShowForm />} />
+            <Route path="/DeviceCreatePage" element={<DeviceCreateForm />} />
+            <Route path="/DeviceEditPage" element={<DeviceEditForm />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/ShowOrder" element={<ShowOrder />} />
+            <Route path="/OrderCreate" element={<OrderCreate />} />
+            <Route path="/OrderUpdate" element={<OrderUpdate />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/PaymentShow" element={<PaymentShow />} />
+            <Route path="/Payment" element={<Payment />} />
+            <Route path="/EditPayment" element={<EditPayment />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/RankingForm" element={<RankingForm />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/ContentClaimOrder" element={<ClaimForm />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/RefundCreate" element={<RefundCreate />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired='Customer' />} >
+            <Route path="/RefundShow" element={<RefundShow />} />
+          </Route >
+          // ========== For Customer ========== //
+
+
+          // ========== For Technician ========== //
+          <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />} >
+            <Route path="/TechnicianShow" element={<CreateTechnician2 />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />} >
+            <Route path="/OrderTech" element={<OrderTech />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />} >
+            <Route path="/PayTech" element={<PayTech />} />
+          </Route >
+          // ========== For Technician ========== //
+
+          // ========== For Admin ========== //
+          <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />} >
+            <Route path="/TechnicianCreate" element={<CreateFormTech />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />} >
+            <Route path="/Checked_payment" element={<Checked_payment />} />
+            <Route path="/Checked_paymentShow" element={<Checked_paymentShow />} />
+            <Route path="/EditChecked_payment" element={<Edit_Checked_payment />} />
+          </Route >
+          <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />} >
+            <Route path="/ClaimOrderForAdmin" element={<ClaimOrderForAdmin />} />
+          </Route >
+          // ========== For Admin ========== //
+        </Routes>
+      </Container>
     </Router>
   );
 }
