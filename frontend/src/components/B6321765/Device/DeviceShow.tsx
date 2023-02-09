@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ResponsiveAppBar from '../../Bar_01';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
