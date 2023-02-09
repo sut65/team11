@@ -60,14 +60,14 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
     const [checkReviewButton, setCheckReviewButton] = useState<any[]>([]);
 
     console.log(reviews);
-    
 
-   
+
+
 
     const { checkedPaymentID, customerID } = formDataRating
 
-    reviews.map((i)=>checkReviewButton.push(i.CheckedPayment_ID))
-    
+    reviews.map((i) => checkReviewButton.push(i.CheckedPayment_ID))
+
 
     const handleStart = () => {
         setActiveStep(activeStep + 1);
@@ -123,11 +123,11 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
                     setCheckedPaymentsAll(params.row)
                     setFormDataRating({ ...formDataRating, checkedPaymentID: params.id, customerID: params.row.CustomerID }) //รอระบบล็อคอินจะสามารถเรียก CustomerID จากหน้าlogin
                 };
-                if (params.id in checkReviewButton){
+                if (params.id in checkReviewButton) {
                     return <Button disabled variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
-                }return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
+                } return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
             }
-            
+
             // reviews.map((i)=>{i.CheckedPayment_ID})
         },
         {
@@ -294,56 +294,58 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
 
 
     return (
-        <Container maxWidth="lg" >
-            <br />
-            <br />
-            <Typography className={style.mainToptic} sx={{ marginTop: 10, color: "#ffffff", alignItems: "center" }}>
+        
+            <Container maxWidth="lg" >
+                <br />
+                <br />
+                <Typography className={style.mainToptic} sx={{ marginTop: 10, color: "#ffffff", alignItems: "center" }}>
 
                     <h2 >
                         ระบบประเมินความพึงพอใจ
                     </h2>
-         
 
-            </Typography>
-            <Typography sx={{ color: "#ffffff" }}>
 
-                <h4>
-                    กรุณากรอกแบบประเมินความพึงพอใจ
-                </h4>
-            </Typography>
-            <br />
-            <div style={{ height: 400, width: '100%' }} >
-                <DataGrid
-                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
-                    rows={checkedPayments}
-                    columns={columnCheckPayments}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    getRowId={(row: ReviewInterface) => row.ID}
+                </Typography>
+                <Typography sx={{ color: "#ffffff" }}>
 
-                // checkboxSelection
-                />
-            </div>
-            <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                <h2>
-                    การรีวิวสำเร็จ
-                </h2>
-            </Typography>
+                    <h4>
+                        กรุณากรอกแบบประเมินความพึงพอใจ
+                    </h4>
+                </Typography>
+                <br />
+                <div style={{ height: 400, width: '100%' }} >
+                    <DataGrid
+                        sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
+                        rows={checkedPayments}
+                        columns={columnCheckPayments}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        getRowId={(row: ReviewInterface) => row.ID}
 
-            <div style={{ height: 400, width: '100%' }} >
-                <DataGrid
-                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
-                    rows={reviews}
-                    columns={columnReviews}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    getRowId={(row: ReviewInterface) => row.ID}
+                    // checkboxSelection
+                    />
+                </div>
+                <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                    <h2>
+                        การรีวิวสำเร็จ
+                    </h2>
+                </Typography>
 
-                // checkboxSelection
-                />
-            </div>
+                <div style={{ height: 400, width: '100%' }} >
+                    <DataGrid
+                        sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
+                        rows={reviews}
+                        columns={columnReviews}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        getRowId={(row: ReviewInterface) => row.ID}
 
-        </Container>
+                    // checkboxSelection
+                    />
+                </div>
+
+            </Container>
+
 
 
 

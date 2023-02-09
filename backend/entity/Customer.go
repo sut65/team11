@@ -26,9 +26,10 @@ type Prefix struct {
 
 type Role struct {
 	gorm.Model
-	RoleName string
-	Customer []Customer `gorm:"foreignKey:ROLE_ID"`
+	RoleName   string
+	Customer   []Customer   `gorm:"foreignKey:ROLE_ID"`
 	Technician []Technician `gorm:"foreignKey:ROLE_ID"`
+	ADMIN      []Admin      `gorm:"foreignKey:ROLE_ID"`
 }
 
 type Customer struct {
@@ -48,10 +49,10 @@ type Customer struct {
 	PREFIX    Prefix `gorm:"references:id"`
 
 	Email    string `gorm:"uniqueIndex"`
-	Password string 
+	Password string
 
-	ROLE_ID	*uint
-	ROLE	Role	`gorm:"references:id"`
+	ROLE_ID *uint
+	ROLE    Role `gorm:"references:id"`
 
 	Address         []Address         `gorm:"ForeignKey:CustomerID"`
 	Device          []Device          `gorm:"ForeignKey:CustomerID"`
