@@ -68,7 +68,7 @@ function Table_Payment_show() {
   const columns: GridColDef[] = [
     
 
-    { field: "ID", headerName: "ลำดับ", width: 70, headerClassName: 'super-app-theme--header' },
+    { field: "ID", headerName: "Payment ID", width: 100, headerClassName: 'super-app-theme--header' },
     {
       field: "PayTech_ID", headerName: "OrderID", width: 70, headerClassName: 'super-app-theme--header', renderCell: params => {
         return <div>{params.row.OrderTech.ID}</div>
