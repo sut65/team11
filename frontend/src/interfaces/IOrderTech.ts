@@ -4,21 +4,27 @@ import {ORDERInterface} from "./ORDERUI"
 export interface OrderTechInterface {
     ID: number,
     Solving: string,
-    TimeOut: Date | null;
+    TimeOut: Date;
 
     StatusID:   number;
+    StatusName: string;
     Status: StatusInterface
 
     DamageID:   number;
+    DamageName: string;
     Damage: DamageInterface
 
     CostDetailID:   number;
+    Cost: number;
     CostDetail: CostDetailInterface
 
     TechnicianID:   number;
+    Name: string;
     Technician:  TechnicianInterface
 
     OrderID:    number;
+    Reason: string;
+    Date_time: Date | null;
     ORDER:      ORDERInterface;
 
 }
