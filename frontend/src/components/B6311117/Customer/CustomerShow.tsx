@@ -54,8 +54,8 @@ const handleStart = () => {
 };
 
   //ระบุว่าใคร login เข้ามา
-  // const customerID = parseInt(localStorage.getItem("uid") + "");
-  const customerID = useState(1);
+  const customerID = parseInt(localStorage.getItem("uid") + "");
+  // const customerID = useState(1);
 
   const [Name, setName] = useState("");
   const [ID_card, setID_card] = useState("");
@@ -73,9 +73,10 @@ const handleStart = () => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
+
   function Delete() {
     let data = {
-        ID: Customer.ID,
+        ID: customerID,
     }
 
     const apiUrl = "http://localhost:8080/DeleteCustomer";
@@ -106,7 +107,7 @@ const handleStart = () => {
   );
 
   const getUser = async () => {
-    const apiUrl = `http://localhost:8080/GetCustomer/1`;
+    const apiUrl = `http://localhost:8080/GetCustomer/${customerID}`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -141,7 +142,7 @@ const handleStart = () => {
         <br />
 
 
-      <Box sx={{ bgcolor: "#182E3E", height: "104vh" }}>
+      <Box sx={{ bgcolor: "#182E3E", height: "94vh" }}>
         <Container maxWidth="lg">
           <br />
           <br />

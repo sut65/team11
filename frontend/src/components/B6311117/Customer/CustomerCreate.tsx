@@ -176,7 +176,7 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
   return (
     <Paper style={{ backgroundColor: "#182E3E" }}>
       {/* <Bar /> */}
-      <Box sx={{ bgcolor: "#182E3E", height: "120vh" }} >
+      <Box sx={{ bgcolor: "#182E3E", height: "111vh" }} >
 
       <div style={{ height: "auto", width: "100%", marginTop: "0px", paddingTop: "30px" }}>
         <Box sx={{ maginX: 0, maginY: 0, height: "10px" }}>
