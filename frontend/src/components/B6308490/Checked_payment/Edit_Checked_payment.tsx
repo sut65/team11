@@ -121,6 +121,7 @@ function Edit_Checked_payment() {
       ID: convertType(Check_payment_ID),
       Payment_ID: convertType(Check_payment_ID),
       Other: Checked_payment.Other ?? "",
+      Message: Checked_payment.Message ?? "",
       Date_time: Date_time,
       Status_ID: convertType(Status_check_ID),
       CustomerID: 1
@@ -260,23 +261,21 @@ function Edit_Checked_payment() {
         </Container>
 
         <Container>
-          <Grid container spacing={3}>
-            {/*แบ่งกลางให้กับข้อความ*/}
-            <Grid item xs={2} ></Grid>
-            <Grid item xs={2} >
-              <Item > <h3>กำหนดสถานะ</h3> </Item><br />
-              <Item > <h3>วันเวลาที่ทำการ</h3> </Item><br />
-              <Item > <h3>หมายเหตุ</h3> </Item><br />
+          <Container>
+            <Grid container spacing={3}>
+              <Grid item xs={12} ></Grid>
+              <Grid item xs={3}> <Item > <h3>กำหนดสถานะ</h3> </Item></Grid>
+              <Grid item xs={9}> <Item>{Combo_Status_check()}</Item> </Grid>
+              <Grid item xs={3}> <Item > <h3>วันเวลาที่ทำการ</h3> </Item> </Grid>
+              <Grid item xs={9}> <Item>{Datetime()}</Item> </Grid>
+              <Grid item xs={3}> <Item > <h3>หมายเหตุ(admin)</h3> </Item> </Grid>
+              <Grid item xs={9}> <Item>{taxtfield_Other()}</Item> </Grid>
+              <Grid item xs={3}> <Item > <h3>ข้อความถึงลูกค้า</h3> </Item> </Grid>
+              <Grid item xs={9}> <Item>{taxtfield_Message()}</Item> </Grid>
             </Grid>
-            {/*แบ่งขวาให้กับข้อมูล*/}
-            <Grid item xs={6}>
-              <Item>{Combo_Status_check()}</Item><br />
-              <Item>{Datetime()}</Item><br />
-              <Item>{taxtfield_Other()}</Item><br />
-            </Grid>
-          </Grid>
+          </Container>
           <br /><br />
-          <hr style={{ height: '20px', backgroundColor: '#132430' ,border:0}}/>
+          <hr style={{ height: '20px', backgroundColor: '#132430', border: 0 }} />
           {button_submit_back()}
           <br /><br /><br /><br /><br /><br /><br />
         </Container>
@@ -352,7 +351,23 @@ function Edit_Checked_payment() {
       </FormControl>
     )
   }
-
+  function taxtfield_Message() {
+    return (
+      <FormControl fullWidth variant="outlined">
+        <TextField
+          id="Message"
+          variant="outlined"
+          type="string"
+          size="medium"
+          multiline={true}
+          rows={4}
+          value={Checked_payment.Message || ""}
+          onChange={handleInputChange}
+        //inputProps={{ MaxLength: 200 }}
+        />
+      </FormControl>
+    )
+  }
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
@@ -373,7 +388,7 @@ function Edit_Checked_payment() {
       </FormControl>
     );
   }
-  
+
 
   function button_submit_back() {
     return (

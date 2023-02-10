@@ -15,7 +15,6 @@ import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
-import { Blockbutton_Payment } from "../Payment/Table_Payment_show";
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array) => {
@@ -137,6 +136,7 @@ function Checked_payment() {
 
       Payment_ID: convertType(Payment_ID),
       Other: Checked_payment.Other ?? "",
+      Message: Checked_payment.Message ?? "",
       Date_time: Date_time,
       Status_ID: convertType(Status_check_ID),
       CustomerID: 1
@@ -180,7 +180,6 @@ function Checked_payment() {
     setAmount_check_show('')
     setTime_show('')
     setUser_show('')
-    Blockbutton_Payment(true)  //ตรวจสอบแล้วจะไม่ให้ลูกค้าลบหรือแก้ไข
   };
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
@@ -233,8 +232,6 @@ function Checked_payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          console.log(' DATA_ID ----->', res.data);
-
           setPayment_ID_show(res.data.ID)
           setOrder_ID_show(res.data.OrderTech.OrderID)
           setSender_name_show(res.data.Sender_Name)
@@ -304,21 +301,19 @@ function Checked_payment() {
         </Container>
 
         <Container>
-          <Grid container spacing={3}>
-            {/*แบ่งกลางให้กับข้อความ*/}
-            <Grid item xs={2} ></Grid>
-            <Grid item xs={2} >
-              <Item > <h3>กำหนดสถานะ</h3> </Item><br />
-              <Item > <h3>วันเวลาที่ทำการ</h3> </Item><br />
-              <Item > <h3>หมายเหตุ</h3> </Item><br />
+          <Container>
+            <Grid container spacing={3}>
+              <Grid item xs={12} ></Grid>
+              <Grid item xs={3}> <Item > <h3>กำหนดสถานะ</h3> </Item></Grid>
+              <Grid item xs={9}> <Item>{Combo_Status_check()}</Item> </Grid>
+              <Grid item xs={3}> <Item > <h3>วันเวลาที่ทำการ</h3> </Item> </Grid>
+              <Grid item xs={9}> <Item>{Datetime()}</Item> </Grid>
+              <Grid item xs={3}> <Item > <h3>หมายเหตุ(admin)</h3> </Item> </Grid>
+              <Grid item xs={9}> <Item>{taxtfield_Other()}</Item> </Grid>
+              <Grid item xs={3}> <Item > <h3>ข้อความถึงลูกค้า</h3> </Item> </Grid>
+              <Grid item xs={9}> <Item>{taxtfield_Message()}</Item> </Grid>
             </Grid>
-            {/*แบ่งขวาให้กับข้อมูล*/}
-            <Grid item xs={6}>
-              <Item>{Combo_Status_check()}</Item><br />
-              <Item>{Datetime()}</Item><br />
-              <Item>{taxtfield_Other()}</Item><br />
-            </Grid>
-          </Grid>
+          </Container>
           <br /><br />
           <hr color="#99b9a0" />
           {button_submit_back()}
@@ -363,6 +358,23 @@ function Checked_payment() {
           multiline={true}
           rows={4}
           value={Checked_payment.Other || ""}
+          onChange={handleInputChange}
+        //inputProps={{ MaxLength: 200 }}
+        />
+      </FormControl>
+    )
+  }
+  function taxtfield_Message() {
+    return (
+      <FormControl fullWidth variant="outlined">
+        <TextField
+          id="Message"
+          variant="outlined"
+          type="string"
+          size="medium"
+          multiline={true}
+          rows={4}
+          value={Checked_payment.Message || ""}
           onChange={handleInputChange}
         //inputProps={{ MaxLength: 200 }}
         />
@@ -433,8 +445,8 @@ function Checked_payment() {
   // }
   function show_data() {
     return (
-      <Grid container style={{borderRadius: '35px'}} spacing={1} sx={{ backgroundColor: "#132430" }} >
-        <Grid item xs={12}><center> <h2 style={{ color:"#FFFFFF"}}>ข้อมูลสำหรับตรวจสอบ</h2> </center> </Grid>
+      <Grid container style={{ borderRadius: '35px' }} spacing={1} sx={{ backgroundColor: "#132430" }} >
+        <Grid item xs={12}><center> <h2 style={{ color: "#FFFFFF" }}>ข้อมูลสำหรับตรวจสอบ</h2> </center> </Grid>
 
         <Grid item xs={12}> <br /> </Grid>
         <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>Paymment ID: </h4></Item0></Grid>

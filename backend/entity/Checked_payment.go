@@ -17,6 +17,7 @@ type Checked_payment struct {
 	gorm.Model
 	Date_time time.Time `valid:"required,CheckDateTime_Time_checkpayment~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
 	Other     string	`valid:"maxstringlength(100)~แสดงความคิดเห็นได้ไม่เกิน 100 อักษร"`
+	Message   string	//เพิ่มเข้ามมาใหม่
 
 	//ส่วนที่ดึงมาจากตาราง se	อื่น
 	Status_ID    uint

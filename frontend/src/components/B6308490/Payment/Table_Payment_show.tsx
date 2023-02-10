@@ -1,4 +1,4 @@
-import { Box, Button, colors, Container, Typography } from '@mui/material';
+import { Box, Button, colors, Container, IconButton, Typography } from '@mui/material';
 import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRenderCellParams, GridToolbar, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
@@ -12,11 +12,15 @@ import { EditPayment_get_Ordertech_ID } from './EditPayment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "../CSS/payment.css";
 import Pagination from '@mui/material/Pagination';
+import { Checked_paymentInterface } from '../../../interfaces/Checked_paymentUI';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { bool } from 'prop-types';
+import MarkunreadIcon from '@mui/icons-material/Markunread';
 
 //====================สำหรับปุ่มลบ============================
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
-    confirmButton: 'btn btn-success' ,
+    confirmButton: 'btn btn-success',
     cancelButton: 'btn btn-danger'
   },
   buttonsStyling: true
@@ -28,19 +32,13 @@ function CustomPagination() {
   const pageCount = useGridSelector(apiRef, gridPageCountSelector);
   return (
     <Pagination
-    color="primary"
-    count={pageCount}
-    page={page + 1}
-    onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      color="primary"
+      count={pageCount}
+      page={page + 1}
+      onChange={(event, value) => apiRef.current.setPage(value - 1)}
     />
-    );
-  }
-//====================block edit&delete button============================
-let check: boolean;
-check = false;
-function Blockbutton_Payment(check_input: boolean) {
-    check = check_input;
-} export { Blockbutton_Payment }
+  );
+}
 
 
 
@@ -63,11 +61,59 @@ function Table_Payment_show() {
         }
       });
   };
-//====================================================
+  //====================================================
+
 
   //ฟังก์ชัน สำหรับ Datagrid
-  console.log('----> ',check);
   const columns: GridColDef[] = [
+    
+
+    { field: "ID", headerName: "ลำดับ", width: 70, headerClassName: 'super-app-theme--header' },
+    {
+      field: "PayTech_ID", headerName: "OrderID", width: 70, headerClassName: 'super-app-theme--header', renderCell: params => {
+        return <div>{params.row.OrderTech.ID}</div>
+      }
+    },
+    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200, headerClassName: 'super-app-theme--header', },
+    {
+      field: "Bank_ID", headerName: "ธนาคาร", width: 140, headerClassName: 'super-app-theme--header'
+      , renderCell: params => {
+
+        if (params.row.Bank_ID === 1) {
+          return <div>ธนาคารไทยพาณิชย์</div>;
+        } else if (params.row.Bank_ID === 2) {
+          return <div>ธนาคารกสิกรไทย</div>;
+        } else if (params.row.Bank_ID === 3) {
+          return <div>ธนาคารกรุงไทย</div>;
+        } else if (params.row.Bank_ID === 4) {
+          return <div>ธนาคารกรุงเทพ</div>;
+        } else if (params.row.Bank_ID === 5) {
+          return <div>ธนาคารกรุงศรีอยุธยา</div>;
+        }
+      }
+    },
+    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100, headerClassName: 'super-app-theme--header', },
+    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120, headerClassName: 'super-app-theme--header', },
+    {
+      field: "Date_time", headerName: "วันที่โอนเงิน", width: 180, headerClassName: 'super-app-theme--header'
+      , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
+    },
+    {
+      field: "Status_ID", headerName: "สถานะ", width: 200, headerClassName: 'super-app-theme--header'
+      , renderCell: params => {
+
+        if (params.row.Status_ID === 1) {
+          return <div>ยังไม่ชำระเงิน</div>;
+        } else if (params.row.Status_ID === 2) {
+          return <div>ชำระเงินเรียบร้อย</div>;
+        } else if (params.row.Status_ID === 3) {
+          return <div>รอตรวจสอบการชำระเงิน</div>;
+        } else if (params.row.Status_ID === 4) {
+          return <div>การชำระเงินไม่ถูกต้อง</div>;
+        }
+      }
+    },
+    //{ field: "CustomerID", headerName: "ผู้ส่งเรื่อง", width: 300 },
     {
       field: 'action1',
       headerName: '',
@@ -81,11 +127,11 @@ function Table_Payment_show() {
           EditPayment_get_Ordertech_ID(params.id.toString());
         };
         return (
-            <Button variant="contained" onClick={handleClick} component={RouterLink} to="/EditPayment"
-              disabled={check }
-              sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#F99417' }} >
-              {<Edit />}แก้ไข
-            </Button>
+          <Button variant="contained" onClick={handleClick} component={RouterLink} to="/EditPayment"
+            disabled={params.row.Status_ID  != 3  && params.row.Status_ID !=1 }
+            sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#F99417' }} >
+            {<Edit />}แก้ไข
+          </Button>
         );
       }
     },
@@ -94,7 +140,7 @@ function Table_Payment_show() {
       headerName: '',
       width: 100,
       editable: false,
-      headerClassName: 'super-app-theme--header',      
+      headerClassName: 'super-app-theme--header',
       renderCell: (params: GridRenderCellParams) => {
 
         const handleClick = () => {
@@ -106,7 +152,7 @@ function Table_Payment_show() {
             confirmButtonText: 'ฉันต้องการลบ',
             cancelButtonText: 'ยกเลิกการลบ',
             reverseButtons: true,
-            
+
           }).then((result) => {
             if (result.isConfirmed) {
               params.api.setRowMode(params.id, 'edit');
@@ -153,7 +199,7 @@ function Table_Payment_show() {
         };
         return (
           <Button variant="contained" onClick={handleClick}
-          disabled={check }
+          disabled={params.row.Status_ID  != 3  && params.row.Status_ID !=1 }
             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
             {<Delete />}ลบ
           </Button>
@@ -163,52 +209,51 @@ function Table_Payment_show() {
     },
 
 
-    { field: "ID", headerName: "ลำดับ", width: 70 ,headerClassName: 'super-app-theme--header'},
     {
-      field: "PayTech_ID", headerName: "OrderID", width: 70,headerClassName: 'super-app-theme--header', renderCell: params => {
-        return <div>{params.row.OrderTech.ID}</div>
-      }
-    },
-    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200,headerClassName: 'super-app-theme--header', },
-    {
-      field: "Bank_ID", headerName: "ธนาคาร", width: 140 ,headerClassName: 'super-app-theme--header'
-      , renderCell: params => {
+      field: 'action3',
+      headerName: 'ข้อความ',
+      width: 100,
+      editable: false,
+      headerClassName: 'super-app-theme--header',
+      align:'center',
+      renderCell: (params: GridRenderCellParams) => {
 
-        if (params.row.Bank_ID === 1) {
-          return <div>ธนาคารไทยพาณิชย์</div>;
-        } else if (params.row.Bank_ID === 2) {
-          return <div>ธนาคารกสิกรไทย</div>;
-        } else if (params.row.Bank_ID === 3) {
-          return <div>ธนาคารกรุงไทย</div>;
-        } else if (params.row.Bank_ID === 4) {
-          return <div>ธนาคารกรุงเทพ</div>;
-        } else if (params.row.Bank_ID === 5) {
-          return <div>ธนาคารกรุงศรีอยุธยา</div>;
+        const handleClick = () => { 
+        params.api.setRowMode(params.id, 'edit');
+        const apiUrl = `http://localhost:8080/GetCheckedpayment_by_PaymentID/${params.id}`;
+        const requestOptions = {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        };
+        fetch(apiUrl, requestOptions)
+          .then((response) => response.json())
+          .then((res) => {
+            if (res.data) {
+              console.log('Message -->',res.data);
+              swalWithBootstrapButtons.fire(
+                'Message',
+                // 'ลบรายการชำระเงิน สำเร็จ',
+                res.data.Message,
+                //'info'
+              )
+            }else {
+              swalWithBootstrapButtons.fire(
+                'Message',
+                 'ไม่มีข้อความจากระบบถึงท่าน',
+              )
+            }
+          })
         }
+        return (
+          <IconButton  onClick={handleClick} >
+            < MarkunreadIcon sx={{fontSize:'40px',color:'#362FD9'}} />
+          </IconButton >
+        );
       }
     },
-    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100 ,headerClassName: 'super-app-theme--header',},
-    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120 ,headerClassName: 'super-app-theme--header',},
-    {
-      field: "Date_time", headerName: "วันที่โอนเงิน", width: 180,headerClassName: 'super-app-theme--header'
-      , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
-    },
-    {
-      field: "Status_ID", headerName: "สถานะ", width: 200,headerClassName: 'super-app-theme--header'
-      , renderCell: params => {
 
-        if (params.row.Status_ID === 1) {
-          return <div>ยังไม่ชำระเงิน</div>;
-        } else if (params.row.Status_ID === 2) {
-          return <div>ชำระเงินเรียบร้อย</div>;
-        } else if (params.row.Status_ID === 3) {
-          return <div>รอตรวจสอบการชำระเงิน</div>;
-        } else if (params.row.Status_ID === 4) {
-          return <div>การชำระเงินไม่ถูกต้อง</div>;
-        }
-      }
-    },
-    //{ field: "CustomerID", headerName: "ผู้ส่งเรื่อง", width: 300 },
+
+    ///
 
   ];
 
@@ -225,13 +270,38 @@ function Table_Payment_show() {
         getRowId={(row) => row.ID}
         columns={columns}
         pageSize={10}
-        rowsPerPageOptions={[10,15]}
-        components={{ Toolbar: GridToolbar, Pagination: CustomPagination,}}
+        rowsPerPageOptions={[10, 15]}
+        components={{ Toolbar: GridToolbar, Pagination: CustomPagination, }}
         style={{ height: '500px', borderRadius: '35px' }}
       />
+      <br />
     </div>
+
   )
 }
 
 export default Table_Payment_show
 
+//===============list payment details =================
+// function Get_Message_for_Customer(id: any) {
+//   const [Message, setMessage] = React.useState("")
+//   const getMessage = async () => {
+//     const apiUrl = `http://localhost:8080/GetChecked_payment/${id}`;
+//     const requestOptions = {
+//       method: "GET",
+//       headers: { "Content-Type": "application/json" },
+//     };
+//     fetch(apiUrl, requestOptions)
+//       .then((response) => response.json())
+//       .then((res) => {
+//         if (res.data) {
+//           setMessage(res.data.Message);
+//         } else {
+//           console.log("Table_Payment_show error");
+//         }
+//       });
+//   };
+//   getMessage
+//   return Message
+// }
+//====================================================

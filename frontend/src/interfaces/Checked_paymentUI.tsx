@@ -5,6 +5,7 @@ export interface Checked_paymentInterface {
     Date_time: Date | null;
     Status_ID: number;
     Other: string;
+    Message: string;
     
     Payment_ID: number;
     Payment: PaymentInterface;

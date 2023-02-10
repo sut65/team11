@@ -15,7 +15,6 @@ import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import { EditCheck_get_Payment_ID } from './Edit_Checked_payment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "../CSS/payment.css";
-import { Blockbutton_Payment } from '../Payment/Table_Payment_show';
 
 
 //====================สำหรับปุ่มลบ============================
@@ -26,7 +25,6 @@ const swalWithBootstrapButtons = Swal.mixin({
   },
   buttonsStyling: true
 })
-//====================สำหรับปุ่มลบ============================
 
 //====================สำหรับ แถบเลื่อนหน้า footer dataGrid==============
 function CustomPagination() {
@@ -130,7 +128,6 @@ function Check_Table_Payment_show() {
                       'ลบรายการตรวจสอบ สำเร็จ',
                       'success'
                     );
-                    Blockbutton_Payment(false); //ถ้าลบสำเร็จ ลูกค้าจะแก้ไขได้
                   } else {
                     //setAlertMessage(res.error)
                     swalWithBootstrapButtons.fire(
@@ -182,6 +179,7 @@ function Check_Table_Payment_show() {
       }
     },
     { field: "Other", headerName: "Comment", width: 300,headerClassName: 'super-app-theme--header', },
+    { field: "Message", headerName: "ข้อความถึงลูกค้า", width: 300,headerClassName: 'super-app-theme--header', },
     {
       field: "Date_time", headerName: "วันที่โอนเงิน", width: 200,headerClassName: 'super-app-theme--header'
       , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
