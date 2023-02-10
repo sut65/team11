@@ -24,9 +24,9 @@ type Device struct {
 	gorm.Model
 	CPU      string `valid:"required~กรุณากรอกข้อมูล CPU,isAlpha~กรอกข้อมูล CPU ไม่ถูกต้อง"`
 	Monitor  string `valid:"required~กรุณากรอกข้อมูล Monitor,isAlpha~กรอกข้อมูล Monitor ไม่ถูกต้อง"`
-	GPU      string
-	RAM      string
-	Harddisk string
+	GPU      string `valid:"required~กรุณากรอกข้อมูล GPU,isAlpha~กรอกข้อมูล GPU ไม่ถูกต้อง"`
+	RAM      string `valid:"required~กรุณากรอกข้อมูล RAM,isAlpha~กรอกข้อมูล RAM ไม่ถูกต้อง"`
+	Harddisk string `valid:"required~กรุณากรอกข้อมูล Harddisk,isAlpha~กรอกข้อมูล Harddisk ไม่ถูกต้อง"`
 	Problem  string
 
 	CustomerID *uint

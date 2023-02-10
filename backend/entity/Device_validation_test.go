@@ -115,3 +115,165 @@ func Test_Monitor_not_specialCharacter(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(Equal("กรอกข้อมูล Monitor ไม่ถูกต้อง"))
 }
+
+func Test_GPU_not_blank(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "",
+		RAM:        "test",
+		Harddisk:   "test",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรุณากรอกข้อมูล GPU"))
+}
+
+func Test_GPU_not_specialCharacter(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "@#@#  999--",
+		RAM:        "test",
+		Harddisk:   "test",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรอกข้อมูล GPU ไม่ถูกต้อง"))
+}
+
+func Test_RAM_not_blank(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "test",
+		RAM:        "",
+		Harddisk:   "test",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรุณากรอกข้อมูล RAM"))
+}
+
+func Test_RAM_not_specialCharacter(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "test",
+		RAM:        "--//---",
+		Harddisk:   "test",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรอกข้อมูล RAM ไม่ถูกต้อง"))
+}
+
+func Test_Harddisk_not_blank(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "test",
+		RAM:        "test",
+		Harddisk:   "",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรุณากรอกข้อมูล Harddisk"))
+}
+
+func Test_Harddisk_not_specialCharacter(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "test",
+		RAM:        "test",
+		Harddisk:   "****",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรอกข้อมูล Harddisk ไม่ถูกต้อง"))
+}
