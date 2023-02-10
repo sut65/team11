@@ -1,24 +1,27 @@
-import {TechnicianInterface} from "./TechnicianUI"
+import { TechnicianInterface } from "./TechnicianUI";
 import { OrderTechInterface } from "./IOrderTech";
 
-
 export interface PayTechInterface {
-    ID: number,
-    Note: string,
-    Amount: number,
-    CostHardware: number,
+  ID: number;
+  Note: string;
+  Amount: number;
+  CostHardware: number;
 
-    HardwareID:   number;
-    Hardware: HardwareInterface
+  HardwareID: number;
+  HardwareName: string;
+  Hardware: HardwareInterface;
 
-    OrderTechID: number;
-    OrderTech: OrderTechInterface
+  OrderTechID: number;
+  Solving: string,
+  TimeOut: Date;
+  OrderTech: OrderTechInterface;
 
-    TechnicianID:   number;
-    Technician:  TechnicianInterface
+  TechnicianID: number;
+  Name: string;
+  Technician: TechnicianInterface;
 }
 
 export interface HardwareInterface {
-    ID: number,
-    HardwareName: string,
+  ID: number;
+  HardwareName: string;
 }

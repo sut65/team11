@@ -1,0 +1,198 @@
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import {
+  Button,
+  ButtonGroup,
+  Grid,
+  IconButton,
+  Paper,
+  Popover,
+  SwipeableDrawer,
+  Typography,
+} from "@mui/material";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+
+import Table2PayTech from "./TablePopupPay";
+import { PayTechInterface } from "../../../interfaces/IPayTech";
+import { grey, red, yellow } from "@mui/material/colors";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
+export default function TablePayTech() {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [PayTech, setPayTech] = React.useState<PayTechInterface[]>([]);
+
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const width = 200;
+  const style = {
+    maxWidth : width,
+    borderStyle: "border-box"
+  }
+
+  const apiUrl = "http://localhost:8080";
+
+  const getPayTech = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(`${apiUrl}/pay-teches`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setPayTech(res.data);
+          console.log(res.data);
+          console.log(res.data.Note)
+        }
+      });
+  };
+
+  const PayTechDelete = async (ID: number) => {
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(`${apiUrl}/delete-pay-tech/${ID}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          window.location.reload();
+        }
+      });
+  };
+
+  useEffect(() => {
+    getPayTech();
+  }, []);
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="lg" sx={{ p: 2 }}>
+        <Paper sx = {{ p: 4, color: "indigo", textAlign: "left" }}>
+          <Box display="flex">
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography variant="h4" gutterBottom component="div">
+                บันทึกค่าใช้จ่าย
+              </Typography>
+            </Box>
+          </Box>
+          {/* public */}
+          <Grid item xs={5}>
+            <Button
+              aria-describedby={id}
+              variant="contained"
+              onClick={handleClick}
+              size="large"
+              color="warning"
+              sx={{ color: grey["A200"] }}
+            >
+              ORDER TECHNICIAN
+            </Button>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+            >
+              <Table2PayTech/>
+            </Popover>
+          </Grid>
+
+          <TableContainer component={Paper}>
+            <Table  sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="right">PayTechID</TableCell>
+                  <TableCell align="right">OrderTechID</TableCell>
+                  <TableCell align="center">HardwareName</TableCell>
+                  <TableCell align="right">Amount</TableCell>
+                  <TableCell align="right">Cost</TableCell>
+                  <TableCell align="right">Note</TableCell>
+                  <TableCell align="right">Technician</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {PayTech.map((row) => (
+                  <TableRow
+                    key={row.ID}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.ID}
+                    </TableCell>
+                    <TableCell align="right">{row.OrderTechID}</TableCell>
+                    <TableCell align="right">{row.Hardware.HardwareName}</TableCell>
+                    <TableCell align="right">{row.Amount}</TableCell>
+                    <TableCell align="right">{row.CostHardware}</TableCell>
+                    <TableCell align="right">{row.Note}</TableCell>
+                    <TableCell align="right">{row.Technician.Name}</TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        size="large"
+                        aria-label="Edit"
+                        onClick={() => {
+                          navigate({ pathname: `/PayTechUpdate/${row.ID}` });
+                        }}                        
+                        sx={{ color: yellow[800] }}
+                      >
+                        <EditIcon fontSize="inherit" />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        size="large"
+                        aria-label="delete"
+                        onClick={() => PayTechDelete(row.ID)}
+                        sx={{ color: red[600] }}
+                      >
+                        <DeleteIcon fontSize="inherit" />
+                      </IconButton>
+                    </TableCell>
+
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Container>
+    </React.Fragment>
+  );
+}
