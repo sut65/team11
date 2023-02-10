@@ -18,20 +18,20 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CASEInterface, ORDERInterface } from "../../interfaces/ORDERUI";
 import Swal from 'sweetalert2'
 
-const successAlert = () => {
-  Swal.fire({
-      title: 'บันทึกข้อมูลสำเร็จ',
-      text: 'You success to save Order.',
-      icon: 'success'
-  });
-}
-const errorAlert = () => {
-  Swal.fire({
-      title: 'บันทึกข้อมูลไม่สำเร็จ',
-      text: 'You fail to save Order.',
-      icon: 'error'
-  });
-}
+// const successAlert = () => {
+//   Swal.fire({
+//       title: 'บันทึกข้อมูลสำเร็จ',
+//       text: 'You success to save Order.',
+//       icon: 'success'
+//   });
+// }
+// const errorAlert = () => {
+//   Swal.fire({
+//       title: 'บันทึกข้อมูลไม่สำเร็จ',
+//       text: 'You fail to save Order.',
+//       icon: 'error'
+//   });
+// }
 
 //ตกแต่ง Grid 
 const Item = styled(Paper)(({ theme }) => ({
@@ -164,11 +164,18 @@ function OrderUpdate() {
         if (res.data) {
           console.log('t',res.data);
           
-          successAlert();
+          Swal.fire({
+            title: 'บันทึกสำเร็จ',
+            //text: '',
+            icon: 'success'
+          });
         } else {
-          console.log(data)
-          console.log('F',res.data);
-          errorAlert();
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'บันทึกไม่สำเร็จ',
+            text: res.error.split(";")[0],
+            icon: 'error'
+          });
           
         }
       });
@@ -209,11 +216,18 @@ fetch(apiUrl, requestOptions)
   if (res.data) {
     console.log('t',res.data);
     
-    successAlert();
+    Swal.fire({
+      title: 'บันทึกสำเร็จ',
+      //text: '',
+      icon: 'success'
+    });
   } else {
-    console.log(data)
-    console.log('F',res.data);
-    errorAlert();
+    Swal.fire({
+      // Display Back-end text response 
+      title: 'บันทึกไม่สำเร็จ',
+      text: res.error.split(";")[0],
+      icon: 'error'
+    });
     
   }
 });

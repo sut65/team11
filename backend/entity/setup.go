@@ -393,7 +393,7 @@ func SetupDatabase() {
 	Order_1 := ORDER{
 		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Reason:    "เครื่องคอมเสียงดัง",
-		Limit:     12000,
+		Limits:     12000,
 		CASE:      Case_1,
 		State:     State_1,
 		Device:    device_1,
