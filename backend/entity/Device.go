@@ -23,7 +23,7 @@ type Windows struct {
 type Device struct {
 	gorm.Model
 	CPU      string `valid:"required~กรุณากรอกข้อมูล CPU,isAlpha~กรอกข้อมูล CPU ไม่ถูกต้อง"`
-	Monitor  string
+	Monitor  string `valid:"required~กรุณากรอกข้อมูล Monitor,isAlpha~กรอกข้อมูล Monitor ไม่ถูกต้อง"`
 	GPU      string
 	RAM      string
 	Harddisk string
