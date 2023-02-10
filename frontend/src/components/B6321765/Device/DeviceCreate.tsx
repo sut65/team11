@@ -90,7 +90,11 @@ function DeviceCreate() {
                 successAlert();
                 console.log("Success");
             } else {
-                errorAlert();
+                Swal.fire({
+                    title: 'บันทึกไม่สำเร็จ',
+                    text: res.error.split(";")[0],
+                    icon: 'error'
+                });
                 console.log("Error");
             }
           });
