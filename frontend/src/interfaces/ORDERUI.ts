@@ -5,7 +5,7 @@ export interface ORDERInterface {
     ID: number,
     Date_time: Date | null;
     Reason: string;
-    Limit: number;
+    Limits: number;
     CASEID: number;
     CASE: CASEInterface
     DeviceID: number;

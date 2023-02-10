@@ -5,7 +5,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
+	"github.com/asaskevich/govalidator"
 )
+
+type extendedCustomer struct {
+	entity.ORDER
+	Name string
+}
 
 // POST CASE
 func CreateCASE(c *gin.Context) {
@@ -125,6 +131,12 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 
+	// : แทรกการ validate
+	if _, err := govalidator.ValidateStruct(order); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	ad := entity.ORDER{
 		CASEID:     order.CASEID,     // โยงความสัมพันธ์กับ Entity Case
 		StateID:    order.StateID,    // โยงความสัมพันธ์กับ Entity State
@@ -133,7 +145,7 @@ func CreateOrder(c *gin.Context) {
 		CustomerID: order.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
 		Date_time:  order.Date_time,  // ตั้งค่าฟิลด์ date-time
 		Reason:     order.Reason,
-		Limit:      order.Limit,
+		Limits:      order.Limits,
 	}
 
 	if err := entity.DB().Create(&ad).Error; err != nil {
@@ -157,7 +169,7 @@ func GetListOrder(c *gin.Context) {
 func GetOrder(c *gin.Context) {
 	var order entity.ORDER
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM orders WHERE id = ?", id).Scan(&order).Error; err != nil {
+	if err := entity.DB().Raw("SELECT o.*, c.name FROM orders o JOIN customers c ON o.customer_id = c.id WHERE o.id = ?", id).Scan(&order).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -168,11 +180,17 @@ func GetOrder(c *gin.Context) {
 func UpdateOrder(c *gin.Context) {
 	var order entity.ORDER
 
+	// : แทรกการ validate
+	if _, err := govalidator.ValidateStruct(order); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if err := c.ShouldBindJSON(&order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Model(order).Where("id = ?", order.ID).Updates(map[string]interface{}{"CustomerID": order.CustomerID, "CASEID": order.CASEID, "StateID": order.StateID, "DeviceID": order.DeviceID, "AddressID": order.AddressID, "Date_time": order.Date_time, "Reason": order.Reason, "Limit": order.Limit}).Error; err != nil {
+	if err := entity.DB().Model(order).Where("id = ?", order.ID).Updates(map[string]interface{}{"CustomerID": order.CustomerID, "CASEID": order.CASEID, "StateID": order.StateID, "DeviceID": order.DeviceID, "AddressID": order.AddressID, "Date_time": order.Date_time, "Reason": order.Reason, "Limits": order.Limits}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
