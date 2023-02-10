@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
 )
@@ -69,19 +70,24 @@ func CreateDevice(c *gin.Context) {
 
 	// ค้นหา Type  ด้วย id
 	if tx := entity.DB().Where("id = ?", device.TypeID).First(&types); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Type  not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทอุปกรณ์"})
 		return
 	}
 
 	// ค้นหา Windows ด้วย id
 	if tx := entity.DB().Where("id = ?", device.WindowsID).First(&windows); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Windows  not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกระบบปฎิบัติการ"})
 		return
 	}
 
 	// 13: ค้นหา Customer ด้วย id
 	if tx := entity.DB().Where("id = ?", device.CustomerID).First(&customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(device); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
