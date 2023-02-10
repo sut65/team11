@@ -55,6 +55,7 @@ func CreateChecked_payment(c *gin.Context) {
 		Status_ID:  Checked_payment.Status_ID,  // โยงความสัมพันธ์กับ Entity Status Check
 		Date_time:  Checked_payment.Date_time,
 		Other:      Checked_payment.Other,
+		Message:    Checked_payment.Message, //เพิ่มเข้ามาใหม่
 		CustomerID: Checked_payment.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
 	}
 
@@ -105,6 +106,19 @@ func GetChecked_payment(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
 }
+// Get Checked_payment by Payment_id
+func GetCheckedpayment_by_PaymentID(c *gin.Context) {
+	var Checked_payment entity.Checked_payment
+	PaymentID := c.Param("id")
+	var id = get_id_checkedpayment_for_payment(PaymentID)
+	if tx := entity.DB().Preload("id = ?", id).Find(&Checked_payment); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Checked_payment not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
+}
+
 
 // PATCH /UpdatePayment
 func UpdateCheckedPayment(c *gin.Context) {
@@ -114,7 +128,7 @@ func UpdateCheckedPayment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Model(UpdateCheckedPayment).Where("id = ?", UpdateCheckedPayment.ID).Updates(map[string]interface{}{"Other": UpdateCheckedPayment.Other, "Date_time": UpdateCheckedPayment.Date_time, "Status_ID": UpdateCheckedPayment.Status_ID}).Error; err != nil {
+	if err := entity.DB().Model(UpdateCheckedPayment).Where("id = ?", UpdateCheckedPayment.ID).Updates(map[string]interface{}{"Other": UpdateCheckedPayment.Other,"Message": UpdateCheckedPayment.Message, "Date_time": UpdateCheckedPayment.Date_time, "Status_ID": UpdateCheckedPayment.Status_ID}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -155,9 +169,14 @@ func get_id_payment_for_status(checkedPayment_id any) int {
 	entity.DB().Table("checked_payments").Select("payment_id").Where("id = ?", checkedPayment_id).Row().Scan(&ID_payment)
 	return ID_payment
 }
-
+// fn เพื่อ ดึงค่า ceckedPayment id จาก Payment id
+func get_id_checkedpayment_for_payment(Payment_id any) int {
+	var ID_payment int
+	entity.DB().Table("checked_payments").Select("ID").Where("payment_id = ?", Payment_id).Row().Scan(&ID_payment)
+	return ID_payment
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////   		   controller Status_check    		  //////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////   		   controller Status_check    		  //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // POST/Bank  สำหรับ สร้างข้อมูล

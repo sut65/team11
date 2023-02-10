@@ -549,6 +549,7 @@ func SetupDatabase() {
 
 	Checked_Pay_1 := Checked_payment{
 		Other:        "นี่คือการทดสอบ comment",
+		Message:	  "ข้อความถึงลูกค้า",
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Status_check: status_3,
 		Payment:      Pay_1,

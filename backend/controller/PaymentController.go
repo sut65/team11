@@ -285,5 +285,10 @@ func get_id_Ordertech_for_status(PaymentID any) int {
 	entity.DB().Table("payments").Select("order_tech_id").Where("id = ?", PaymentID).Row().Scan(&ID_Ordertech)
 	return ID_Ordertech
 }
-
-// ============================================= update status Payment =================================================================
+// ============================================= สำหรับตรวจสอบข้อความถึงลูกค้า =================================================================
+// func Message_in_CheckedPayment(c *gin.Context) {
+// 	var message_to_customer entity.Checked_payment
+// 	id := c.Param("id")
+// 	entity.DB().Table("checked_payments").Select("message").Where("payment_id = ?", id)
+// 	c.JSON(http.StatusOK, gin.H{"data": message_to_customer})
+// }
