@@ -2,6 +2,8 @@ package entity
 
 import (
 	"time"
+	"unicode"
+
 	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
@@ -17,7 +19,7 @@ type Checked_payment struct {
 	gorm.Model
 	Date_time time.Time `valid:"required,CheckDateTime_Time_checkpayment~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
 	Other     string	`valid:"maxstringlength(100)~แสดงความคิดเห็นได้ไม่เกิน 100 อักษร"`
-	Message   string	//เพิ่มเข้ามมาใหม่
+	Message   string	`valid:"maxstringlength(100)~ส่งข้อความถึงลูกค้าได้ไม่เกิน 100 อักษร,Check_letter_number_only~โปรดใส่เฉพาะข้อความ ตัวเลข และ @ / _ และ เว้นวรรค เท่านั้น"`
 
 	//ส่วนที่ดึงมาจากตาราง se	อื่น
 	Status_ID    uint
@@ -41,4 +43,19 @@ func init() {
 			return true
 		}
 	})
+
+	govalidator.CustomTypeTagMap.Set("Check_letter_number_only", func(i interface{}, _ interface{}) bool {
+		field, ok := i.(string)
+		if !ok {
+			return false
+		}
+	
+		for _, char := range field {
+			if !unicode.IsLetter(char) && !unicode.IsNumber(char) && char != '@' && char != '/' && char != '_' && !unicode.IsSpace(char) {
+				return false
+			}
+		}
+		return true
+	})
+	
 }

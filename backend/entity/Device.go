@@ -38,7 +38,7 @@ type Device struct {
 	WindowsID *uint
 	Windows   Windows `gorm:"references:id" valid:"-"`
 
-	Save_Time time.Time
+	Save_Time time.Time `valid:"required~กรุณาใส่วันที่ และ เวลา,CheckDatetimeNotPast~วันที่ และ เวลา ไม่ถูกต้อง"`
 
 	ORDER []ORDER `gorm:"ForeignKey:DeviceID"`
 }
@@ -56,5 +56,13 @@ func init() {
 			}
 		}
 		return true
+	})
+	govalidator.CustomTypeTagMap.Set("CheckDatetimeNotPast", func(i interface{}, _ interface{}) bool {
+		t := i.(time.Time)
+		if t.After(time.Now()) {
+			return false
+		} else {
+			return true
+		}
 	})
 }
