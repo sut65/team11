@@ -39,7 +39,7 @@ func Test_CPU_not_specialCharacter(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	Device := Device{
-		CPU:        "asdsa# 123456",
+		CPU:        "##",
 		Monitor:    "test",
 		GPU:        "test",
 		RAM:        "test",
@@ -94,7 +94,7 @@ func Test_Monitor_not_specialCharacter(t *testing.T) {
 
 	Device := Device{
 		CPU:        "test",
-		Monitor:    "#@ 123aabbcc",
+		Monitor:    "#@",
 		GPU:        "test",
 		RAM:        "test",
 		Harddisk:   "test",
@@ -149,7 +149,7 @@ func Test_GPU_not_specialCharacter(t *testing.T) {
 	Device := Device{
 		CPU:        "test",
 		Monitor:    "test",
-		GPU:        "@#@#  999--",
+		GPU:        "@#@#",
 		RAM:        "test",
 		Harddisk:   "test",
 		Problem:    "test",
@@ -204,7 +204,7 @@ func Test_RAM_not_specialCharacter(t *testing.T) {
 		CPU:        "test",
 		Monitor:    "test",
 		GPU:        "test",
-		RAM:        "--//---",
+		RAM:        "@@",
 		Harddisk:   "test",
 		Problem:    "test",
 		Customer:   Customer{},
@@ -276,4 +276,58 @@ func Test_Harddisk_not_specialCharacter(t *testing.T) {
 	g.Expect(ok).NotTo(BeTrue())
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(Equal("กรอกข้อมูล Harddisk ไม่ถูกต้อง"))
+}
+
+func Test_Datetime_not_blank(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "test",
+		RAM:        "test",
+		Harddisk:   "test",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Time{},
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรุณาใส่วันที่ และ เวลา"))
+}
+
+func Test_Datetime_notPast(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "test",
+		RAM:        "test",
+		Harddisk:   "test",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now().Add(1 * time.Second),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("วันที่ และ เวลา ไม่ถูกต้อง"))
 }

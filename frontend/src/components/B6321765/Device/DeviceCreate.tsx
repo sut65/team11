@@ -107,6 +107,7 @@ function DeviceCreate() {
         setProblem("");
         setTypeID("");
         setWindowsID("");
+        setSaveTime(null);
       }
 
         const [type, setType] = React.useState<TypeInterface[]>([]);
@@ -166,7 +167,6 @@ function DeviceCreate() {
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
-            {/* <ResponsiveAppBar /> */}
             <Box>
             <Typography
                 component="h2"
