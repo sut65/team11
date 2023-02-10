@@ -50,8 +50,8 @@ function CreateFormTech (){
     return (
         <Paper
             sx={{
-                backgroundColor: "#182e3e",
-                height: '1500px'
+                // backgroundColor: "#182e3e",
+                // height: '1500px'
             }}>
             <form className='form-container'>
                 <div className='text-start'>{PageDisplay()}</div>

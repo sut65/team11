@@ -59,8 +59,8 @@ function CustomerEdit({ formCreate, setFormCreate, activeStep, setActiveStep , s
 //   const { CAREER_ID} = formCreate
 //   const {Name, CAREER_ID, Phone} = formCreate
   //ระบุว่าใคร login เข้ามา
-//   const customerID = parseInt(localStorage.getItem("uid") + "");
-  const customerID = useState(1);
+  const customerID = parseInt(localStorage.getItem("uid") + "");
+  // const customerID = useState(1);
 //   setFormCreate(({...formCreate,ID:customerID}))
 
 //   const [Name, setName] = useState("");
@@ -93,7 +93,7 @@ function CustomerEdit({ formCreate, setFormCreate, activeStep, setActiveStep , s
 
     let data = {
     //   ID: convertType(formCreate.ID as number),
-      ID: Customer.ID,
+      ID: customerID,
       Name: formCreate.Name,          
       CAREER_ID: convertType(formCreate.CAREER_ID as number),
       Phone: formCreate.Phone,
@@ -155,7 +155,7 @@ fetch(apiUrl, requestOptions)
   const [phone, setPhone] = useState("");
   const [Customer, setCustomer] = React.useState<Partial<CustomerInterface>>({});
   const getUser = async () => {
-    const apiUrl = `http://localhost:8080/GetCustomer/1`;
+    const apiUrl = `http://localhost:8080/GetCustomer/${customerID}`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -191,7 +191,7 @@ fetch(apiUrl, requestOptions)
     <Paper style={{ backgroundColor: "#182E3E" }}>
         <br />
 
-      <Box sx={{ bgcolor: "#182E3E", height: "104vh" }}>
+      <Box sx={{ bgcolor: "#182E3E", height: "94vh" }}>
         <Container maxWidth="lg">
           <br />
           <br />

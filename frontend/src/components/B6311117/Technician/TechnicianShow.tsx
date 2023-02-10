@@ -51,8 +51,8 @@ const handleStart = () => {
 };
 
   //ระบุว่าใคร login เข้ามา
-  // const customerID = parseInt(localStorage.getItem("uid") + "");
-  const technicianID = useState(1);
+  const TechnicianID = parseInt(localStorage.getItem("uid") + "");
+  // const technicianID = useState(1);
 
   const [Name, setName] = useState("");
   const [ID_card, setID_card] = useState("");
@@ -71,7 +71,7 @@ const handleStart = () => {
   };
   function Delete() {
     let data = {
-        ID: Technician.ID,
+        ID: TechnicianID,
     }
 
     const apiUrl = "http://localhost:8080/DeleteTechnician";
@@ -102,7 +102,7 @@ const handleStart = () => {
   );
 
   const getUser = async () => {
-    const apiUrl = `http://localhost:8080/GetTechnician/1`;
+    const apiUrl = `http://localhost:8080/GetTechnician/${TechnicianID}`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -135,12 +135,12 @@ const handleStart = () => {
         <br />
 
 
-      <Box sx={{ bgcolor: "#182E3E", height: "104vh" }}>
+      <Box sx={{ bgcolor: "#182E3E", height: "101vh" }}>
         <Container maxWidth="lg">
           <br />
           <br />
 
-          <Box sx={{ bgcolor: "#f1f8e9", height: "100vh", paddingY: 0 }}>
+          <Box sx={{ bgcolor: "#f1f8e9", height: "93vh", paddingY: 0 }}>
 
           <Grid container spacing={2} paddingX={7} marginRight={1}>
             <Grid item xs={6} md={4}>
