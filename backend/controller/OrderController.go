@@ -167,7 +167,7 @@ func GetListOrder(c *gin.Context) {
 
 // GET /Order:id
 func GetOrder(c *gin.Context) {
-	var order entity.ORDER
+	var order extendedCustomer
 	id := c.Param("id")
 	if err := entity.DB().Raw("SELECT o.*, c.name FROM orders o JOIN customers c ON o.customer_id = c.id WHERE o.id = ?", id).Scan(&order).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

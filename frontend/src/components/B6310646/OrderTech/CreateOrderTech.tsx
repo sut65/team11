@@ -34,6 +34,7 @@ import { CustomerInterface } from "../../../interfaces/CustomerUI";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { blueGrey, green, grey, purple, red } from "@mui/material/colors";
 import CancelIcon from "@mui/icons-material/Cancel";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -218,6 +219,38 @@ const OrderTechCreate = () => {
 
   const [message, setAlertMessage] = React.useState("");
 
+  const successAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลสำเร็จ",
+      text: "Click OK to exit.",
+      icon: "success",
+      
+    }).then((result) => {
+      if(result.value) {
+          window.location.href = "/OrderTech";
+      }
+    });
+
+  };
+
+  const errorAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลไม่สำเร็จ",
+      text: "Click OK to exit.",
+      icon: "error",
+    });
+  };
+
+  // Swal.fire({
+  //       title: "Are you sure?",
+  //       text: "You won't be able to revert this!",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Yes, delete it!"
+  //     })
+
   // post orderTech
   function submit() {
     let data = {
@@ -244,11 +277,14 @@ const OrderTechCreate = () => {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSuccess(true);
-          window.location.href = "/OrderTech";
+          successAlert();
+          console.log("Success");
         } else {
-          setAlertMessage(res.error);
-          setError(true);
+          Swal.fire({
+            title: "บันทึกไม่สำเร็จ",
+            text: res.error.split(";")[0],
+            icon: "error",
+          });
         }
       });
   }
