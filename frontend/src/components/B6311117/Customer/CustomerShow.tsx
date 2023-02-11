@@ -137,135 +137,162 @@ const handleStart = () => {
   }, []);
 
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
-        {/* <ResponsiveAppBar_01/> */}
+    
+    <Paper style={{ backgroundColor: "#182E3E"  }} >
         <br />
 
 
-      <Box sx={{ bgcolor: "#182E3E", height: "94vh" }}>
+      <Box sx={{ bgcolor: "#182E3E", height: "96vh"  }}>
         <Container maxWidth="lg">
           <br />
           <br />
 
-          <Box sx={{ bgcolor: "#f1f8e9", height: "87vh", paddingY: 0 }}>
+        
+          <Box sx={{ bgcolor: "#f1f8e9", height: "87vh", paddingY: 0 }}> 
 
           <Grid container spacing={2} paddingX={7} marginRight={1}>
             <Grid item xs={6} md={4}>
                 
             </Grid>
 
-            <Divider orientation="vertical" sx={{padding: 2, marginTop:2, marginBottom:2}}  flexItem />
+            <Divider orientation="vertical" sx={{padding: 2.35, marginTop:2, marginBottom:2}}  flexItem />
             <Grid item xs={6} md={2}>
                     <br />  
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 15 }}>My Profile</b>
+                    <b style={{ font: "Arial", color: "#000000", fontSize: 20 }}>My Profile</b>
                     <br />
                     <br />
 
             </Grid>
+
           </Grid>
           
+            {/* //TODO Grid ใหญ่สุด  */}
+            <Grid container maxWidth="lg" spacing={0} paddingX={5}>
+            <br/>
 
-            <Grid container spacing={1} paddingX={5}>
-                {/* 1 */}
-              <Grid item xs={6} md={4}>   
-                
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+            {/*  //TODO Column1 */}
+                <Grid item xs={6} md={4}>
+                <Box sx={{
+                    width: 350,
+                    // height: 600,
+                    // bgcolor: "#DCDCDC",
+                    // bgcolor: "#f1f8e9"
+                }}>
+                  <br/>
+                  <center>
+                    <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="220" height="220" />
+                    <br/>
+                    <br/>
+
+                    {/* Button: Edit */}
+                    <Grid item xs={8} md={8} >
+                      <Button variant="contained" color="warning" onClick={handleStart} sx={{ width: 300, height: 46, marginX:-10}} >
+                          Edit Profile
+                      </Button>
+                    </Grid>
+
+                    <br/>
+
+                    {/* Button: Delete */}
+                    <Grid item xs={8} md={8}>
+                      <center>
+                      <Button variant="contained" color="error" onClick={Delete} sx={{ width: 300, height: 46, marginX:-10}}>
+                          Deleate Account
+                      </Button>
+                      </center>
+                    </Grid>
+
+                  </center>
+
+                  
+
+                  </Box>
+                </Grid>
+
+              {/*  //TODO Line:vertical */}
+              <Divider orientation="vertical" sx={{padding: 2, marginTop:-2, marginBottom:2, height:600}}  flexItem />
+
+
+
+
+                {/*  //TODO Column2 */}
+                <Grid item xs={6} md={5} paddingX={6.5}>
+                  <Box sx={{
+                      width: 620,
+                      // height: 600,
+                      // bgcolor: "#f1f8e9",
+                      // bgcolor: "#DCDCDC",
+                      marginY: -2
+                  }}>
+
+                    <Grid container spacing={1} paddingX={0}>
+
+                    {/* Row: 1 */}
+
+                    <Grid item xs={6} md={3} marginLeft={5} marginTop={2} >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Prefix</b>
+                    </Grid>
               
 
-              <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Prefix</b>
-              
-              </Grid>
-              
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Name</b>
+                    </Grid>
 
-              <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Name</b>
-              </Grid>
-              
-              
-              {/* 2 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>2</Item>     */}
-                 {/* <center>
-                    <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="128" height="128" />
-                </center> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
 
-              <Grid item xs={6} md={2} marginLeft={3} >
+                    {/* Row: 2 */}
+
+
+                    <Grid item xs={6} md={3} marginLeft={5} >
+                      <TextField
+                          disabled
+                          id="filled-disabled"
+                          label={PREFIX_NAME}
+                          // defaultValue={PREFIX_NAME}
+                          variant="filled"
+                          size="small"
+                          />
+                    </Grid>
+
+                    <Grid item xs={8} md={7} marginLeft={5}>
                     <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={PREFIX_NAME}
-                        // defaultValue={PREFIX_NAME}
-                        variant="filled"
-                        size="small"
-                        />
-              </Grid>
+                              disabled
+                              id="filled-disabled"
+                              label={Customer.Name}      
+                              // defaultValue={Customer.Name}
+                              variant="filled"
+                              size='small'
+                              sx={{width:300}}
+                              />
+                    </Grid>
 
-              <Grid item xs={6} md={5} marginLeft={2}>
-              <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={Customer.Name}      
-                        // defaultValue={Customer.Name}
-                        variant="filled"
-                        size='small'
-                        />
-              </Grid>
-              {/* 3 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>3</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    {/* Row: 3 */}
+                    <Grid item xs={6} md={7} marginLeft={5}  marginTop={2}   >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Personal ID</b>
+                    </Grid>
 
-              <Grid item xs={6} md={7} marginLeft={3}  marginTop={2}  paddingRight={35}  >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Personal ID</b>
-              </Grid>
+                    {/* Row: 4 */}
+                    <Grid item xs={8} md={7} marginLeft={5}  >
+                      <TextField
+                                disabled
+                                id="filled-disabled"
+                                label={Customer.ID_card}      
+                                // defaultValue={Customer.Name}
+                                variant="filled"
+                                size='small'
+                                sx={{width:250}}
+                                />
+                    </Grid>
 
-              {/* 4 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>4</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-              <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={Customer.ID_card}      
-                        // defaultValue={Customer.Name}
-                        variant="filled"
-                        size='small'
-                        />
-              </Grid>
-              {/* 5 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>5</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
 
-              <Grid item xs={6} md={7} marginLeft={3} marginTop={2} paddingRight={35}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Date of Birth</b>
-              </Grid>
-              {/* 6 */}
-              <Grid item xs={6} md={4}>
-                <center>
-                <Button variant="contained" color="warning" onClick={handleStart} >
-                    Edit Profile
-                </Button>
-              </center>
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    {/* Row: 5 */}
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Date of Birth</b>
+                    </Grid>
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
+
+                    {/* Row: 6 */}
+                    <Grid item xs={6} md={8} marginLeft={5} >
                         <TextField
                             disabled
                             id="filled-disabled"
@@ -275,84 +302,78 @@ const handleStart = () => {
                             variant="filled"
                             size='small'
                         />
-              </Grid>
-              {/* 7 */}
-              <Grid item xs={6} md={4}>
-                <center>
-                <Button variant="contained" color="error" onClick={Delete}>
-                    Deleate Account
-                </Button>
-                </center>
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    </Grid>
 
-              <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Gender</b>
-              </Grid>
 
-              <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Career</b>
-              </Grid>
-              {/* 8 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>8</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    {/* Row: 7 */}
+                    <Grid item xs={6} md={3} marginLeft={5} marginTop={2} >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Gender</b>
+                    </Grid>
 
-              <Grid item xs={6} md={2} marginLeft={3} >
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={GENDER_NAME}
-                            // defaultValue={Customer.GENDER.GenderName}
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Career</b>
+                    </Grid>
 
-              <Grid item xs={6} md={5} marginLeft={2}>
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={CAREER_NAME}
-                            // defaultValue={Customer.GENDER.GenderName}
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
-              {/* 9 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>9</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Telephone Number</b>
-              </Grid>
-              {/* 10 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>10</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    {/* Row: 8 */}
+                    <Grid item xs={6} md={3} marginLeft={5} >
+                      <TextField
+                                    disabled
+                                    id="filled-disabled"
+                                    label={GENDER_NAME}
+                                    // defaultValue={Customer.GENDER.GenderName}
+                                    variant="filled"
+                                    size='small'
+                                    // sx={{width:120}}
+                                />
+                    </Grid>
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={Customer.Phone}
-                            // defaultValue={Customer.Phone} 
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
+                    <Grid item xs={8} md={7} marginLeft={5}>
+                      <TextField
+                                    disabled
+                                    id="filled-disabled"
+                                    label={CAREER_NAME}
+                                    // defaultValue={Customer.GENDER.GenderName}
+                                    variant="filled"
+                                    size='small'
+                                    sx={{width:180}}
+                                />
+                    </Grid>
 
+
+                    {/* Row: 9 */}
+                    <Grid item xs={6} md={8} marginLeft={5} marginTop={2} >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Telephone Number</b>
+                    </Grid>
+
+
+                    {/* Row: 10 */}
+                    <Grid item xs={6} md={7} marginLeft={5} >
+                      <TextField
+                                    disabled
+                                    id="filled-disabled"
+                                    label={Customer.Phone}
+                                    // defaultValue={Customer.Phone} 
+                                    variant="filled"
+                                    size='small'
+                                />
+                    </Grid>
+
+
+                    {/* Row: 11 */}
+
+
+
+
+
+
+                    </Grid>
+
+                </Box>
+
+                </Grid>
 
             </Grid>
-            
 
           </Box>
 
