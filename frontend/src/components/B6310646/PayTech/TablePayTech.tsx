@@ -113,6 +113,7 @@ export default function TablePayTech() {
           {/* public */}
           <Grid item xs={5}>
             <Button
+              id="OrderTech_to_popup"
               aria-describedby={id}
               variant="contained"
               onClick={handleClick}
@@ -168,6 +169,7 @@ export default function TablePayTech() {
                     <TableCell align="right">{row.Technician.Name}</TableCell>
                     <TableCell align="center">
                       <IconButton
+                        id="Edit_PAY_Table_Normal"
                         size="large"
                         aria-label="Edit"
                         onClick={() => {
@@ -200,6 +202,7 @@ export default function TablePayTech() {
                     </TableCell>
                     <TableCell align="center">
                       <IconButton
+                        id="Delete_PAY_Table_Normal"
                         size="large"
                         aria-label="delete"
                         sx={{ color: red[600] }}

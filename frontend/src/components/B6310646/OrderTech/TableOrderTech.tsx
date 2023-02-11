@@ -114,6 +114,7 @@ export default function TableOrderTech() {
           {/* public */}
           <Grid item xs={5}>
             <Button
+              id="Select_ORDER"
               aria-describedby={id}
               variant="contained"
               onClick={handleClick}
@@ -183,6 +184,7 @@ export default function TableOrderTech() {
                         aria-lable="outlined button group"
                       >
                         <IconButton
+                          id="Edit_ORDER"
                           size="large"
                           aria-label="Edit"
                           sx={{ color: yellow[800] }}

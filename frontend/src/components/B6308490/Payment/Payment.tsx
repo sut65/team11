@@ -484,10 +484,11 @@ function Payment() {
   function button_submit_back() {
     return (
       <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
+        <Button  size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
           ย้อนกลับ
         </Button>
         <Button
+          id= "btn_submit"
           style={{ float: "right", fontSize: 20 }}
           onClick={submit}
           variant="contained"

@@ -224,13 +224,11 @@ const OrderTechCreate = () => {
       title: "บันทึกข้อมูลสำเร็จ",
       text: "Click OK to exit.",
       icon: "success",
-      
     }).then((result) => {
-      if(result.value) {
-          window.location.href = "/OrderTech";
+      if (result.value) {
+        window.location.href = "/OrderTech";
       }
     });
-
   };
 
   const errorAlert = () => {
@@ -591,6 +589,7 @@ const OrderTechCreate = () => {
           {/* button */}
           <Grid item xs={12}>
             <Button
+              id="Cancel_ORDER"
               component={RouterLink}
               to="/OrderTech"
               variant="contained"
@@ -604,6 +603,7 @@ const OrderTechCreate = () => {
             </Button>
 
             <Button
+              id="Submit_ORDER"
               style={{ float: "right" }}
               onClick={submit}
               // variant="contained"

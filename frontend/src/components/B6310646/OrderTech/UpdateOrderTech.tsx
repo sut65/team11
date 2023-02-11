@@ -249,8 +249,8 @@ const OrderTechUpdate = () => {
       text: "Click OK to exit.",
       icon: "success",
     }).then((result) => {
-      if(result.value) {
-          window.location.href = "/OrderTech";
+      if (result.value) {
+        window.location.href = "/OrderTech";
       }
     });
   };
@@ -604,6 +604,7 @@ const OrderTechUpdate = () => {
           {/* button */}
           <Grid item xs={12}>
             <Button
+              id="Back_ORDER"
               component={RouterLink}
               to="/OrderTech"
               variant="contained"
@@ -613,10 +614,11 @@ const OrderTechUpdate = () => {
               // color="error"
               endIcon={<CancelIcon />}
             >
-              Cancel
+              Back
             </Button>
 
             <Button
+              id="Update_ORDER"
               style={{ float: "right" }}
               onClick={update}
               variant="outlined"

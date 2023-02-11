@@ -50,10 +50,10 @@ function CustomerEdit({ formCreate, setFormCreate, activeStep, setActiveStep , s
         setActiveStep(activeStep - 1);
       };
 
-      const {CAREER_ID} = formCreate
-      const {Name} = formCreate
-      const {Phone} = formCreate
-      const {ID} = formCreate
+      // const {CAREER_ID} = formCreate
+      // const {Name} = formCreate
+      // const {Phone} = formCreate
+      // const {ID} = formCreate
 
 
 //   const { CAREER_ID} = formCreate
@@ -94,9 +94,9 @@ function CustomerEdit({ formCreate, setFormCreate, activeStep, setActiveStep , s
     let data = {
     //   ID: convertType(formCreate.ID as number),
       ID: customerID,
-      Name: formCreate.Name,          
-      CAREER_ID: convertType(formCreate.CAREER_ID as number),
-      Phone: formCreate.Phone,
+      Name: NAMEa,          
+      CAREER_ID: convertType(Careera),
+      Phone: phone,
     };
 
     
@@ -111,11 +111,11 @@ function CustomerEdit({ formCreate, setFormCreate, activeStep, setActiveStep , s
         .then((response) => response.json())
         .then((res) => {
             if (res.data) {
-                console.log(data);
+                // console.log(data);
                 // successAlert();
                 setTimeout(() => {
                     setActiveStep(0)
-                    console.log(data);
+                    // console.log(data);
                 }, 1500)
                 console.log("Success");
             } else {
@@ -153,6 +153,7 @@ fetch(apiUrl, requestOptions)
   //API Get Customer/id
   const [NAMEa, setNAMEa] = useState("");
   const [phone, setPhone] = useState("");
+  const [Careera, setCareera] = useState("");
   const [Customer, setCustomer] = React.useState<Partial<CustomerInterface>>({});
   const getUser = async () => {
     const apiUrl = `http://localhost:8080/GetCustomer/${customerID}`;
@@ -164,13 +165,17 @@ fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
+            // console.log(res.data)
             setCustomer(res.data)
             setPREFIX_NAME(res.data.PREFIX.PrefixName)
             setCAREER_NAME(res.data.CAREER.CareerName)
             setGENDER_NAME(res.data.GENDER.GenderName)
 
             setPhone(res.data.Phone)
-            // setNAMEa(res.data.Name)
+
+            setNAMEa(res.data.Name)
+
+            setCareera(res.data.CAREER_ID)
             
             
             // setDOB(res.data.DOB)
@@ -203,199 +208,202 @@ fetch(apiUrl, requestOptions)
                 
             </Grid>
 
-            <Divider orientation="vertical" sx={{padding: 2, marginTop:2, marginBottom:2}}  flexItem />
+            <Divider orientation="vertical" sx={{padding: 2.35, marginTop:2, marginBottom:2}}  flexItem />
             <Grid item xs={6} md={2}>
                     <br />  
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 15 }}>My Profile</b>
+                    <b style={{ font: "Arial", color: "#000000", fontSize: 20 }}>My Profile</b>
                     <br />
                     <br />
 
             </Grid>
+
           </Grid>
           
+            {/* //TODO Grid ใหญ่สุด  */}
+            <Grid container maxWidth="lg" spacing={0} paddingX={5}>
+            <br/>
 
-            <Grid container spacing={1} paddingX={5}>
-                {/* 1 */}
-              <Grid item xs={6} md={4}>
-                {/* <center>
-                    <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="128" height="128" />
-                </center> */}
-                
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+
+
+            {/*  //TODO Column1 */}
+            <Grid item xs={6} md={4}>
+                <Box sx={{
+                    width: 350,
+                    // height: 600,
+                    // bgcolor: "#DCDCDC",
+                    // bgcolor: "#f1f8e9"
+                }}>
+                  <br/>
+                  <center>
+                    <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="220" height="220" />
+                    <br/>
+                    <br/>
+
+                    {/* Button: Done */}
+                    <Grid item xs={8} md={8}>
+                      <center>
+                      <Button variant="contained" color="success" onClick={submit} sx={{ width: 300, height: 46, marginX:-10}}>
+                          Done
+                      </Button>
+                      </center>
+                    </Grid>
+
+                    <br/>
+
+                    {/* Button: Back */}
+                    <Grid item xs={8} md={8} >
+                      <Button variant="contained" color="warning" onClick={handleBack} sx={{ width: 300, height: 46, marginX:-10}}>
+                          Back
+                      </Button>
+                    </Grid>
+
+
+
+                  </center>
+
+                  
+
+                  </Box>
+                </Grid>
+
+                {/* //TODO สิ้นสุด Column:1 */}
+
+              <Divider orientation="vertical" sx={{padding: 2, marginTop:-2, marginBottom:2}}  flexItem />
+
+
+
+
+
+              {/*  //TODO Column2 */}
+              <Grid item xs={6} md={5} paddingX={6.5}>
+                  <Box sx={{
+                      width: 620,
+                      // height: 600,
+                      // bgcolor: "#f1f8e9",
+                      // bgcolor: "#DCDCDC",
+                      marginY: -2
+                  }}>
+
+                    <Grid container spacing={1} paddingX={0}>
+
+                    {/* Row: 1 */}
+
+                    <Grid item xs={6} md={3} marginLeft={5} marginTop={2} >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Prefix</b>
+                    </Grid>
               
 
-              <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Prefix</b>
-              
-              </Grid>
-              
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Name</b>
+                    </Grid>
 
-              <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Name</b>
-              </Grid>
-              
-              
-              {/* 2 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>2</Item>     */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
 
-              <Grid item xs={6} md={2} marginLeft={3} >
-                    <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={PREFIX_NAME}
-                        // defaultValue={PREFIX_NAME}
-                        variant="filled"
-                        size="small"
-                        />
-              </Grid>
+                    {/* Row: 2 */}
 
-              <Grid item xs={6} md={5} marginLeft={2}>
-              <TextField
-                        required
-                            id="outlined-required"
-                            // label={Customer.Phone}
-                            defaultValue={Name} 
-                            variant="filled"
-                            size='small'
-                            onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
-                            inputProps={{
-                                name: "Name",
-                            }}
-                            />
-                        {/* // required
-                        // id="outlined-required"
-                        // // label={Customer.Name}      
-                        // defaultValue={NAMEa.toString}    
-                        // variant="filled"
-                        // size='small'
-                        // onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
-                        // inputProps={{
-                        //     name: "Name",
-                        // }}
-                        // /> */}
-                        {/* <TextField
-                          required
-                          id="outlined-required"
-                          label="Required"
-                          defaultValue={NAMEa}
-                          value={NAMEa}
+
+                    <Grid item xs={6} md={3} marginLeft={5} >
+                      <TextField
+                          disabled
+                          id="filled-disabled"
+                          label={PREFIX_NAME}
+                          // defaultValue={PREFIX_NAME}
                           variant="filled"
-                          size='small'
-                          onChange={handleInputChange}
-                        /> */}
-              </Grid>
-              {/* 3 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>3</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                          size="small"
+                          />
+                    </Grid>
 
-              <Grid item xs={6} md={7} marginLeft={3}  marginTop={2}  paddingRight={35}  >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Personal ID</b>
-              </Grid>
+                    <Grid item xs={8} md={7} marginLeft={5}>
+                    <TextField
+                              required
+                              id="Name"
+                              // label={Customer.Phone}
+                              value={NAMEa} 
+                              variant="filled"
+                              size='small'
+                              onChange={(event) => setNAMEa(event.target.value)}
+                              sx={{width:300}}
+                              // inputProps={{
+                              //     name: "Name",
+                              // }}
+                              />
+                    </Grid>
 
-              {/* 4 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>4</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    {/* Row: 3 */}
+                    <Grid item xs={6} md={7} marginLeft={5}  marginTop={2}   >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Personal ID</b>
+                    </Grid>
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-              <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={Customer.ID_card}      
-                        // defaultValue={Customer.Name}
-                        variant="filled"
-                        size='small'
-                        />
-              </Grid>
-              {/* 5 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>5</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    {/* Row: 4 */}
+                    <Grid item xs={8} md={7} marginLeft={5}  >
+                      <TextField
+                                disabled
+                                id="filled-disabled"
+                                label={Customer.ID_card}      
+                                // defaultValue={Customer.Name}
+                                variant="filled"
+                                size='small'
+                                sx={{width:250}}
+                                />
+                    </Grid>
 
-              <Grid item xs={6} md={7} marginLeft={3} marginTop={2} paddingRight={35}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Date of Birth</b>
-              </Grid>
-              {/* 6 */}
-              <Grid item xs={6} md={4}>
-                <center>
-                <Button variant="contained" color="success" onClick={submit} >
-                    Done
-                </Button>
-              </center>
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
+
+                    {/* Row: 5 */}
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Date of Birth</b>
+                    </Grid>
+
+
+                    {/* Row: 6 */}
+                    <Grid item xs={6} md={8} marginLeft={5} >
                         <TextField
                             disabled
                             id="filled-disabled"
                             label={dayjs(Customer.DOB).format('DD/MM/YYYY')}    
-                            // defaultValue={Customer.Name}
+                            // label={dayjs(Customer.DOB).format('DD/MM/YYYY HH:mm:ss')}    
+                            // defaultValue={Date}
                             variant="filled"
                             size='small'
                         />
-              </Grid>
-              {/* 7 */}
-              <Grid item xs={6} md={4}>
-                <center>
-                <Button variant="contained" color="warning" onClick={handleBack}>
-                    Back
-                </Button>
-                </center>
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    </Grid>
 
-              <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Gender</b>
-              </Grid>
 
-              <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Career</b>
-              </Grid>
-              {/* 8 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>8</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    {/* Row: 7 */}
+                    <Grid item xs={6} md={3} marginLeft={5} marginTop={2} >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Gender</b>
+                    </Grid>
 
-              <Grid item xs={6} md={2} marginLeft={3} >
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={GENDER_NAME}
-                            // defaultValue={Customer.GENDER.GenderName}
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Career</b>
+                    </Grid>
 
-              <Grid item xs={6} md={5} marginLeft={2} >
-              <FormControl  variant="outlined">
+
+                    {/* Row: 8 */}
+                    <Grid item xs={6} md={3} marginLeft={5} >
+                      <TextField
+                                    disabled
+                                    id="filled-disabled"
+                                    label={GENDER_NAME}
+                                    // defaultValue={Customer.GENDER.GenderName}
+                                    variant="filled"
+                                    size='small'
+                                    // sx={{width:120}}
+                                />
+                    </Grid>
+
+                    <Grid item xs={8} md={7} marginLeft={5}>
+                    <FormControl  variant="outlined">
                         <Select
                         variant="filled"
                         size="small"
                         native
-                        value={CAREER_ID}
-                        onChange={(event) => setFormCreate(({...formCreate,CAREER_ID:event.target.value}))}
-                        inputProps={{
-                            name: "CAREER_ID",
-                        }}
+                        value={Careera}
+                        onChange={(event) => setCareera(event.target.value)}
+                        sx={{width:180}}
+                        // inputProps={{
+                        //     name: "CAREER_ID",
+                        // }}
                         >
                           <option aria-label="None" value="">
                             คำนำหน้า                 
@@ -407,38 +415,38 @@ fetch(apiUrl, requestOptions)
                         ))}
                         </Select>
                     </FormControl>
-              </Grid>
-              {/* 9 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>9</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+                    </Grid>
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Telephone Number</b>
-              </Grid>
-              {/* 10 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>10</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
 
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-              <TextField
+                    {/* Row: 9 */}
+                    <Grid item xs={6} md={8} marginLeft={5} marginTop={2} >
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Telephone Number</b>
+                    </Grid>
+
+
+                    {/* Row: 10 */}
+                    <Grid item xs={6} md={7} marginLeft={5} >
+                    <TextField
                             required
-                            id="outlined-required"
+                            id="Phone"
                             // label={Customer.Phone}
-                            defaultValue={Phone} 
+                            value={phone} 
                             variant="filled"
                             size='small'
-                            onChange={(event) => setFormCreate(({...formCreate,Phone:event.target.value}))}
-                            inputProps={{
-                                name: "Phone",
-                            }}
+                            onChange={(event) => setPhone(event.target.value)}
+                            // inputProps={{
+                            //     name: "Phone",
+                            // }}
                         />
-              </Grid>
+                    </Grid>
+
+                    </Grid>
+
+                </Box>
+
+                </Grid>
+                {/* //TODO สิ้นสุด Column:2 */}
+
 
 
             </Grid>
