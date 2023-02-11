@@ -34,7 +34,7 @@ func CreateChecked_payment(c *gin.Context) {
 
 	// *: ค้นหา Status_check ด้วย id
 	if tx := entity.DB().Where("id = ?", Checked_payment.Status_ID).First(&Status_check); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Status_check not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "โปรดตรวจสอบเหมือนคุณจะลืมเลือก สถานะ นะ"})
 		return
 	}
 

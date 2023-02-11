@@ -17,7 +17,7 @@ type Bank struct {
 type Payment struct {
 	gorm.Model
 	Sender_Name  string  `valid:"required~ท่านกรอกรายชื่อไม่ถูกต้อง"`
-	Amount       float32 `valid:"required,IsNotNegativeNumbers~คุณใส่จำนวนเงินไม่ถูกต้อง"`
+	Amount       float32 `valid:"required~เหมือนคุณจะลืมใส่จำนวนเงินนะ ห้ามเป็น 0,IsNotNegativeNumbers~คุณใส่จำนวนเงินไม่ถูกต้อง"`
 	Amount_Check float32
 	Date_time    time.Time `valid:"required,NotFuture_payment~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
 	Status_ID    uint

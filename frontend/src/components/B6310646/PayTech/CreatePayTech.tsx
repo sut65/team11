@@ -32,6 +32,7 @@ import {
 } from "@mui/material/colors";
 import CancelIcon from "@mui/icons-material/Cancel";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -181,6 +182,26 @@ const PayTechCreate = () => {
 
   const [message, setAlertMessage] = React.useState("");
 
+  const successAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลสำเร็จ",
+      text: "Click OK to exit.",
+      icon: "success",
+    }).then((result) => {
+      if (result.value) {
+        window.location.reload();
+      }
+    });
+  };
+
+  const errorAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลไม่สำเร็จ",
+      text: "Click OK to exit.",
+      icon: "error",
+    });
+  };
+
   // post orderTech
   function submit() {
     let data = {
@@ -206,11 +227,14 @@ const PayTechCreate = () => {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSuccess(true);
-          window.location.reload();
+          successAlert();
+          console.log("Success");
         } else {
-          setAlertMessage(res.error);
-          setError(true);
+          Swal.fire({
+            title: "บันทึกไม่สำเร็จ",
+            text: res.error.split(";")[0],
+            icon: "error",
+          });
         }
       });
   }
@@ -277,29 +301,7 @@ const PayTechCreate = () => {
             </FormControl>
           </Grid>
 
-          {/* box name */}
-          {/* box name */}
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <p>limit</p>
-              <TextField
-                disabled
-                variant="outlined"
-                type="string"
-                size="medium"
-                inputProps={{
-                  style: {
-                    width: 490,
-                  },
-                }}
-                value={Order1?.Limits}
-                sx={{ fontFamily: "Mitr-Regular" }}
-                multiline
-              />
-            </FormControl>
-          </Grid>
-
-          {/* box order */}
+          {/* box order  tech*/}
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
               <p>Order Tech</p>
@@ -317,6 +319,27 @@ const PayTechCreate = () => {
                 sx={{ fontFamily: "Mitr-Regular" }}
                 multiline
                 onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
+
+          {/* box limit */}
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>limit</p>
+              <TextField
+                disabled
+                variant="outlined"
+                type="string"
+                size="medium"
+                inputProps={{
+                  style: {
+                    width: 490,
+                  },
+                }}
+                value={Order1?.Limits}
+                sx={{ fontFamily: "Mitr-Regular" }}
+                multiline
               />
             </FormControl>
           </Grid>
@@ -437,7 +460,7 @@ const PayTechCreate = () => {
                 style={{ backgroundColor: "white" }}
                 id="Note"
                 multiline
-                // rows={4}
+                rows={4}
                 value={PayTech.Note}
                 label="note"
                 onChange={handleInputChange}
@@ -508,7 +531,7 @@ const PayTechCreate = () => {
               endIcon={<FileDownloadDoneIcon />}
               size="large"
             >
-              Submit
+              Confirm
             </Button>
           </Grid>
         </Grid>

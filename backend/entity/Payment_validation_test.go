@@ -61,6 +61,32 @@ func Test_Amout_not_negative(t *testing.T) {
 	// err.Error() ต้องมี message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("คุณใส่จำนวนเงินไม่ถูกต้อง"))
 }
+func Test_Amout_not_Zero(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Payment := Payment{
+		Amount:       0,
+		Amount_Check: 10.2,
+		Bank_ID:      1,
+		Date_time:    time.Now(),
+		OrderTech_ID: 1,
+		Sender_Name:  "Pattanasak",
+		Status_ID:    0,
+		CustomerID:   1,
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Payment)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).NotTo(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).NotTo(BeNil())
+
+	// err.Error() ต้องมี message แสดงออกมา
+	g.Expect(err.Error()).To(Equal("เหมือนคุณจะลืมใส่จำนวนเงินนะ ห้ามเป็น 0"))
+}
 func Test_Date_not_future(t *testing.T) {
 	g := NewGomegaWithT(t)
 
