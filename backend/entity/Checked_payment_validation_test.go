@@ -39,8 +39,8 @@ func Test_Date_not_futue_checkedpayment(t *testing.T) {
 
 		Date_time:    time.Now().Add(24 * time.Hour),
 		Payment_ID: 1,
-		Other:  "สวัสดี",
-		Message: "ทดสอบ",
+		Other:  "message",
+		Message: "message",
 		Status_ID:    0,
 		CustomerID:   1,
 
@@ -65,8 +65,8 @@ func Test_Date_not_pass_checkedpayment(t *testing.T) {
 
 		Date_time:    time.Now().Add(-24 * time.Hour),
 		Payment_ID: 1,
-		Other:  "สวัสดี",
-		Message: "ทดสอบ",
+		Other:  "message",
+		Message: "ทดสอบ ทดสอบ __ ทดสอบ",
 		Status_ID:    0,
 		CustomerID:   1,
 
@@ -91,8 +91,8 @@ func Test_Check_letter_number_only(t *testing.T) {
 
 		Date_time:    time.Now(),
 		Payment_ID: 1,
-		Other:  "สวัสดี",
-		Message: "iusuibfbkjfkbdfbv{;:;[]+_}hwhofwehoweh",
+		Other:  "iusuibfbkjfkbdfbv{;:;[]+_}hwhofwehoweh",
+		Message: "ข้อความถึงลูกค้า",
 		Status_ID:    0,
 		CustomerID:   1,
 
@@ -117,7 +117,7 @@ func Test_Message_not_over100(t *testing.T) {
 
 		Date_time:    time.Now(),
 		Payment_ID: 1,
-		Other:  "สวัสดี",
+		Other:  "message",
 		Message: "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789_11",
 		Status_ID:    0,
 		CustomerID:   1,

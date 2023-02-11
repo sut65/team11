@@ -54,7 +54,7 @@ const P2 = styled(Paper)(({ theme }) => ({
   fontSize: 17,
   color: theme.palette.text.secondary,
 }));
-//============================ชชชชชชชชชชชช============================================================
+//========================================================================================
 
 
 
@@ -72,17 +72,6 @@ function Payment_get_Ordertech_ID(id: string) {
 
 
 
-
-
-
-
-//ฟังค์ชันสำหรับ alert
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
@@ -136,10 +125,6 @@ function Payment() {
   const onChangeBank = (event: SelectChangeEvent) => {
     setBank_ID(event.target.value as string);
   };
-  // const onChangePAYTHECH = (event: SelectChangeEvent) => {
-  //   setOrderTech_ID(event.target.value as string);
-  // };
-
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,13 +162,7 @@ function Payment() {
           });
 
         } else {
-          //console.log("this error occurred")
-          //console.log(error)
-          //setError(true);
-          //setAlertMessage(res.error)
-          //// Alert การบันทึกไม่สำเส็จ
           Swal.fire({
-            // Display Back-end text response 
             title: 'บันทึกไม่สำเร็จ',
             text: res.error.split(";")[0],
             icon: 'error'
@@ -450,7 +429,7 @@ function Payment() {
         <TextField
           id="Amount"
           variant="outlined"
-          type="float"
+          type="number"
           size="medium"
           value={Payment.Amount || ""}
           onChange={handleInputChange}

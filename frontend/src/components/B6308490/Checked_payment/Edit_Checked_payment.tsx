@@ -63,6 +63,9 @@ function Edit_Checked_payment() {
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
   // const [Check_payment_ID, setCheck_payment_ID] = useState('')
+
+
+
   let Check_payment_ID = P_ID;
   // const [success, setSuccess] = React.useState(false);
   // const [error, setError] = React.useState(false);
@@ -70,14 +73,8 @@ function Edit_Checked_payment() {
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
 
-  const [Payment_ID_show, setPayment_ID_show] = useState('');
-  const [Order_ID_show, setOrder_ID_show] = useState('');
-  const [Sender_name_show, setSender_name_show] = useState('');
-  const [Bank_show, setBank_show] = useState('');
-  const [Amount_show, setAmount_show] = useState('');
-  const [Amount_check_show, setAmount_check_show] = useState('');
-  const [Time_show, setTime_show] = useState('');
-  const [User_show, setUser_show] = useState('');
+  const [Other, setOther] = useState('');
+  const [Message, setMessage] = useState('');
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -119,9 +116,9 @@ function Edit_Checked_payment() {
     let data = {
 
       ID: convertType(Check_payment_ID),
-      Payment_ID: convertType(Check_payment_ID),
-      Other: Checked_payment.Other ?? "",
-      Message: Checked_payment.Message ?? "",
+      Payment_ID: convertType(Check_payment_ID), // TODO
+      Other: Other ?? "",
+      Message: Message ?? "",
       Date_time: Date_time,
       Status_ID: convertType(Status_check_ID),
       CustomerID: 1
@@ -157,14 +154,6 @@ function Edit_Checked_payment() {
         }
 
       });
-    setPayment_ID_show('')
-    setOrder_ID_show('')
-    setSender_name_show('')
-    setBank_show('')
-    setAmount_show('')
-    setAmount_check_show('')
-    setTime_show('')
-    setUser_show('')
   };
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
@@ -224,12 +213,31 @@ function Edit_Checked_payment() {
   //     });
   // };
 
+  const getdata_before_edit_CheckedPaymennt = async () => {
+    const apiUrl = `http://localhost:8080/GetChecked_payment/${Check_payment_ID}`;
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setOther(res.data.Other);
+          setMessage(res.data.Message);
+        } else {
+          console.log("else");
+        }
+      });
+  };
+
   //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
     getStatus_check();
     // getChecked_payment();
     // getsetCheck_payment_Combo();
     getData_Checked();
+    getdata_before_edit_CheckedPaymennt();
 
   }, []);
 
@@ -344,7 +352,7 @@ function Edit_Checked_payment() {
           size="medium"
           multiline={true}
           rows={4}
-          value={Checked_payment.Other || ""}
+          value={Other || ""}
           onChange={handleInputChange}
         //inputProps={{ MaxLength: 200 }}
         />
@@ -361,7 +369,7 @@ function Edit_Checked_payment() {
           size="medium"
           multiline={true}
           rows={4}
-          value={Checked_payment.Message || ""}
+          value={Message || ""}
           onChange={handleInputChange}
         //inputProps={{ MaxLength: 200 }}
         />

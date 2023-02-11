@@ -18,8 +18,8 @@ type Status_check struct {
 type Checked_payment struct {
 	gorm.Model
 	Date_time time.Time `valid:"required,CheckDateTime_Time_checkpayment~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
-	Other     string	`valid:"maxstringlength(100)~แสดงความคิดเห็นได้ไม่เกิน 100 อักษร"`
-	Message   string	`valid:"maxstringlength(100)~ส่งข้อความถึงลูกค้าได้ไม่เกิน 100 อักษร,Check_letter_number_only~โปรดใส่เฉพาะข้อความ ตัวเลข และ @ / _ และ เว้นวรรค เท่านั้น"`
+	Other     string	`valid:"maxstringlength(100)~แสดงความคิดเห็นได้ไม่เกิน 100 อักษร,Check_letter_number_only~โปรดใส่เฉพาะข้อความ ตัวเลข และ @ / _ และ เว้นวรรค เท่านั้น"`
+	Message   string	`valid:"maxstringlength(100)~ส่งข้อความถึงลูกค้าได้ไม่เกิน 100 อักษร"`
 
 	//ส่วนที่ดึงมาจากตาราง se	อื่น
 	Status_ID    uint
@@ -36,7 +36,7 @@ type Checked_payment struct {
 func init() {
 	govalidator.CustomTypeTagMap.Set("CheckDateTime_Time_checkpayment", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		if t.Before(time.Now().Add(-2 * time.Minute)) || t.After(time.Now().Add(2 * time.Minute)) {
+		if t.Before(time.Now().Add(-5 * time.Minute)) || t.After(time.Now().Add(5 * time.Minute)) {
 			return false
 
 		} else {
