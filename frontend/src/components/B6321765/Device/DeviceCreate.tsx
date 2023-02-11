@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import ResponsiveAppBar from '../../Bar_01';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Typography } from "@mui/material";
@@ -16,7 +14,6 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TypeInterface, WindowsInterface } from "../../../interfaces/IDevice";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -70,7 +67,7 @@ function DeviceCreate() {
             RAM: ram,
             Harddisk: harddisk,
             Problem: problem,
-            CustomerID: 1,
+            CustomerID: convertType(userID),
             TypeID: convertType(typeID),
             WindowsID: convertType(windowsID),
             Save_Time: savetime,
@@ -144,7 +141,7 @@ function DeviceCreate() {
 
         const [userName, setUserName] = React.useState('');
         const getUser = async () => {
-            const apiUrl = `http://localhost:8080/GetCustomer/1`;
+            const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
