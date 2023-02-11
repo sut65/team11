@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ResponsiveAppBar from '../../Bar_01';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Typography } from "@mui/material";
@@ -26,13 +25,6 @@ function AddressCreate() {
             title: 'บันทึกข้อมูลสำเร็จ',
             text: 'Click OK to exit.',
             icon: 'success'
-        });
-    }
-    const errorAlert = () => {
-        Swal.fire({
-            title: 'บันทึกข้อมูลไม่สำเร็จ',
-            text: 'Click OK to exit.',
-            icon: 'error'
         });
     }
 
@@ -67,7 +59,7 @@ function AddressCreate() {
 
     const submit = () => {
         let data = {
-            CustomerID: 1,
+            CustomerID: convertType(userID),
             AddressTypeID: convertType(addressTypeID),
             TambonID: convertType(tambonID),
             Post_Code: typeof postCode == "string" ? parseInt(postCode) : 0,
@@ -89,7 +81,11 @@ function AddressCreate() {
                 successAlert();
                 console.log("Success");
             } else {
-                errorAlert();
+                Swal.fire({
+                    title: 'บันทึกไม่สำเร็จ',
+                    text: res.error.split(";")[0],
+                    icon: 'error'
+                });
                 console.log("Error");
             }
           });
@@ -194,7 +190,7 @@ function AddressCreate() {
 
         const [userName, setUserName] = React.useState('');
         const getUser = async () => {
-            const apiUrl = `http://localhost:8080/GetCustomer/1`;
+            const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
