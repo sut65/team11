@@ -70,7 +70,8 @@ function Table_Payment_for_Checked() {
                 };
                 return (
                     <RouterLink to={`/Checked_payment`} style={{ textDecoration: 'none' }}>
-                    <Button variant="contained" onClick={handleClick}
+                    <Button id= "btn_checked"
+                    variant="contained" onClick={handleClick}
                         sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#009a00' }} >
                         {<PlagiarismIcon />}ตรวจสอบ
                     </Button>

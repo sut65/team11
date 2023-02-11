@@ -414,6 +414,7 @@ function Checked_payment() {
         </Grid>
         <Grid item xs={4}>
           <Button
+            id= "btn_submit_checkedpayment"
             style={{ float: "right", fontSize: 20 }}
             onClick={submit}
             variant="contained"

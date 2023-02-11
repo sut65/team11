@@ -65,7 +65,8 @@ function Table_Paytech_show() {
                 };
                 return (
                     <RouterLink to={`/Payment`} style={{ textDecoration: 'none' }}>
-                        <Button variant="contained" onClick={handleClick}
+                        <Button id= "btn_pay"
+                        variant="contained" onClick={handleClick}
                             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#009a00' }} >
                             {<LocalAtmIcon />}ชำระเงิน
                         </Button>
