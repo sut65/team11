@@ -115,7 +115,7 @@ function Edit_Checked_payment() {
       Message: Message ?? "",
       Date_time: Date_time,
       Status_ID: convertType(Status_check_ID),
-      CustomerID: 1
+      CustomerID: userID,
 
     };
     //console.log(data);
@@ -195,20 +195,20 @@ function Edit_Checked_payment() {
       });
   };
 
-  // const getUser = async () => {
-  //   const apiUrl = `http://localhost:8080/user/${userID}`;
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setUserName(res.data.Name);
-  //       }
-  //     });
-  // };
+  const getUser = async () => {
+    const apiUrl = `http://localhost:8080/user/${userID}`;
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setUserName(res.data.Name);
+        }
+      });
+  };
 
   const getdata_before_edit_CheckedPaymennt = async () => {
     const apiUrl = `http://localhost:8080/GetChecked_payment/${Check_payment_ID}`;
