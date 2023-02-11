@@ -21,6 +21,7 @@ import TextField from "@mui/material/TextField";
 import Chip from '@mui/material/Chip';
 import { Link as RouterLink, Route } from "react-router-dom";
 import TechnicianCreate from "./TechnicianCreate";
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 //Grid
 const Item = styled(Paper)(({ theme }) => ({
@@ -139,12 +140,32 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
             .then((res) => {
                 if (res.data) {
                     // successAlert();
-                    setTimeout(() => {
-                        setActiveStep(0)
-                    }, 1500)
-                    console.log("Success");
+                    Swal.fire({
+                      title: 'บันทึกสำเร็จ',
+                      text: 'สร้าง Account Technician สำเร็จ',
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 3000
+                  });
+                  console.log(res.data)
+                  setTimeout(() => {
+                      // setActiveStep(0)
+                      localStorage.clear();
+                      window.location.href = "/";
+                  }, 1500)
+
+                  console.log("Success");
                 } else {
                     // errorAlert();
+                    Swal.fire({
+                      // Display Back-end text response 
+                      title: 'บันทึกไม่สำเร็จ',
+                      text: res.error.split(";")[0],
+                      icon: 'error',
+                      showConfirmButton: true,
+                      // timer: 3500 
+                  });
+
                     console.log("Error");
                 }
             });
