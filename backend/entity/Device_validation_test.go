@@ -39,7 +39,7 @@ func Test_CPU_not_specialCharacter(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	Device := Device{
-		CPU:        "##",
+		CPU:        "ab#cd",
 		Monitor:    "test",
 		GPU:        "test",
 		RAM:        "test",
