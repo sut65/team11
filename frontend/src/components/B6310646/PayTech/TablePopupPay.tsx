@@ -43,9 +43,9 @@ export default function TableOrderTech() {
 
   const width = 200;
   const style = {
-    maxWidth : width,
-    borderStyle: "border-box"
-  }
+    maxWidth: width,
+    borderStyle: "border-box",
+  };
 
   const apiUrl = "http://localhost:8080";
 
@@ -77,7 +77,7 @@ export default function TableOrderTech() {
       <Container maxWidth="lg" sx={{ p: 2 }}>
         <Paper>
           <TableContainer component={Paper}>
-            <Table  sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
+            <Table sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell align="right">OrderTechID</TableCell>
@@ -100,8 +100,12 @@ export default function TableOrderTech() {
                       {row.ID}
                     </TableCell>
                     <TableCell align="right">{row.OrderID}</TableCell>
-                    <TableCell  align="right" sx={style}><div style = {style}>{row.Solving}</div> </TableCell>
-                    <TableCell align="right">{row.TimeOut.toString()}</TableCell>
+                    <TableCell align="right" sx={style}>
+                      <div style={style}>{row.Solving}</div>{" "}
+                    </TableCell>
+                    <TableCell align="right">
+                      {row.TimeOut.toString()}
+                    </TableCell>
                     <TableCell align="right">{row.Status.StatusName}</TableCell>
                     <TableCell align="right">{row.Damage.DamageName}</TableCell>
                     <TableCell align="right">{row.CostDetail.Cost}</TableCell>
@@ -112,12 +116,14 @@ export default function TableOrderTech() {
                         aria-lable="outlined button group"
                       >
                         <Button
+                          id="Select_PAY_Popup"
                           onClick={() =>
                             navigate({ pathname: `/PayTechCreate/${row.ID}` })
                           }
                           variant="contained"
                           color="secondary"
-                          size="medium"                        >
+                          size="medium"
+                        >
                           select
                         </Button>
                       </ButtonGroup>

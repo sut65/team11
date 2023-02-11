@@ -212,7 +212,6 @@ const PayTechUpdate = () => {
       title: "บันทึกข้อมูลสำเร็จ",
       text: "Click OK to exit.",
       icon: "success",
-
     }).then((result) => {
       if (result.value) {
         window.location.reload();
@@ -241,14 +240,14 @@ const PayTechUpdate = () => {
     };
 
     const apiUrl = "http://localhost:8080/update-pay-tech";
-      const requestOptions = {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      };
+    const requestOptions = {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
     fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((res) => {
@@ -263,7 +262,7 @@ const PayTechUpdate = () => {
           });
         }
       });
-    
+
     // // const apiUrl = "http://localhost:8080";
     // const apiUrl = "http://localhost:8080";
     // Swal.fire({
@@ -314,14 +313,14 @@ const PayTechUpdate = () => {
     //     }
     //   });
 
-      // const requestOptionsPatch = {
-      //   method: "PATCH",
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(data),
-      // };
+    // const requestOptionsPatch = {
+    //   method: "PATCH",
+    //   headers: {
+    //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // };
   }
 
   //useEffect
@@ -596,6 +595,7 @@ const PayTechUpdate = () => {
 
           <Grid item xs={12}>
             <Button
+              id="Back_PAY"
               component={RouterLink}
               to="/PayTech"
               variant="contained"
@@ -609,6 +609,7 @@ const PayTechUpdate = () => {
             </Button>
 
             <Button
+              id="Update_PAY"
               style={{ float: "right" }}
               variant="outlined"
               onClick={update}
