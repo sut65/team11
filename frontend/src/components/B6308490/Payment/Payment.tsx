@@ -58,22 +58,14 @@ const P2 = styled(Paper)(({ theme }) => ({
 
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Payment() {
-
-  //const [Amount_Check, setAmount_Check] = useState(0); //คอยรับค่าที่ทำการคิดเงินแล้วเอามาเก็บไว้รอบันทึกลง ฐานข้อมูล
-  //ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox ทั้งหมดเป็นตารางที่ ดึงไปใส่ตารางหลัก
   const [Bank_ID, setBank_ID] = useState('');
-  // const [OrderTech_ID, setOrderTech_ID] = useState('') || 0;//>>>>>>>>>> แก้ตรงนี้ด้วยใช้จริงต้องไม่เกิด กรณี 0
   let OrderTech_ID = localStorage.getItem('Ordertech_ID'); //check again
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(false);
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
 
-  // const { id } = useParams();
-  //console.log('ทดสอบ id ที่รับมาจากต่างเพจ --->', P_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleClose = (
@@ -83,8 +75,6 @@ function Payment() {
     if (reason === "clickaway") {
       return;
     }
-    setSuccess(false);
-    setError(false);
   };
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
@@ -120,7 +110,7 @@ function Payment() {
       //Amount_Check: convertFloat(), //ส่ง Order tecth id ไปให้ backend คำนวณเงิน
       Status_ID: 3,
       Date_time: Date_time,
-      CustomerID: 1,
+      CustomerID: userID,
     };
 
     const apiUrl = "http://localhost:8080/CreatePayment";
@@ -231,21 +221,20 @@ function Payment() {
   };
 
   
-  // const getUser = async () => {
-  //   const apiUrl = `http://localhost:8080/user/${userID}`;
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setUserName(res.data.Name);
-  //       }
-  //     });
-  // };
-  //console.log('235_OrderTech_ID -->', OrderTech_ID)
+  const getUser = async () => {
+    const apiUrl = `http://localhost:8080/user/${userID}`;
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setUserName(res.data.Name);
+        }
+      });
+  };
 
   //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
@@ -328,29 +317,6 @@ function Payment() {
       </Container>
     </Paper>
   );
-  //สำหรับ combobox หมายเลขรายการ
-  // function Combo_Oder() {
-  //   return (
-  //     <FormControl fullWidth variant="outlined">
-  //       <Select
-  //         native
-  //         value={OrderTech_ID}
-  //         // onChange={onChangePAYTHECH}
-  //         inputProps={{
-  //           name: "OrderTech_ID",
-  //         }}
-  //       >
-  //         <option aria-label="None" value="">
-  //           กรุณาเลือก หมายเลข Oder                 </option>
-  //         {OrderTech.map((item: any) => (
-  //           <option value={item.ID} key={item.ID}>
-  //             {item.ORDER.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
-  //           </option>
-  //         ))}
-  //       </Select>
-  //     </FormControl>
-  //   )
-  // }
   function taxtfield_Order() {
     return (
       <FormControl fullWidth variant="outlined">

@@ -210,13 +210,13 @@ function AddressCreate() {
         getTambon();
         getProvince();
         getDistrict();
-        if (provinceID) {
-            getDistrictByID();
-        }
-        if (districtID) {
-            getTambonByID();
-        }
-    }, [provinceID,districtID]);
+    }, []);
+    useEffect(() => {
+        getDistrictByID();
+    }, [provinceID]);
+    useEffect(() => {
+        getTambonByID();
+    }, [districtID]);
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>

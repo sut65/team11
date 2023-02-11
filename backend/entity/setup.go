@@ -8,6 +8,11 @@ import (
 	"gorm.io/driver/sqlite"
 
 	"golang.org/x/crypto/bcrypt"
+
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"os"
 )
 
 var db *gorm.DB
@@ -16,6 +21,29 @@ func DB() *gorm.DB {
 
 	return db
 
+}
+
+func mapJSONToProvince(jsonData map[string]interface{}) *Province {
+	province := &Province{}
+	province.ID = uint(jsonData["id"].(float64))
+	province.Province_Name = jsonData["name_th"].(string)
+	return province
+}
+func mapJSONToDistrict(jsonData map[string]interface{}) *District {
+	district := &District{}
+	district.ID = uint(jsonData["id"].(float64))
+	district.District_Name = jsonData["name_th"].(string)
+	provinceID := uint(jsonData["province_id"].(float64))
+	district.ProvinceID = &provinceID
+	return district
+}
+func mapJSONToTambon(jsonData map[string]interface{}) *Tambon {
+	tambon := &Tambon{}
+	tambon.ID = uint(jsonData["id"].(float64))
+	tambon.Tambon_Name = jsonData["name_th"].(string)
+	districtID := uint(jsonData["amphure_id"].(float64))
+	tambon.DistrictID = &districtID
+	return tambon
 }
 
 func SetupDatabase() {
@@ -179,6 +207,19 @@ func SetupDatabase() {
 		ROLE:     cust,
 	}
 	db.Model(&Customer{}).Create(&customer_1)
+	customer_2 := Customer{
+		Name:     "ชื่อนี้จั๊ดเพิ่มเอง",
+		ID_card:  "1-4000-11111-00-1",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    "0641231231",
+		GENDER:   male,
+		CAREER:   gov_o,
+		PREFIX:   mr,
+		Email:    "customer02@example.com",
+		Password: string(passwordCus),
+		ROLE:     cust,
+	}
+	db.Model(&Customer{}).Create(&customer_2)
 
 	// Mockup  ======ระบบช่าง========
 	//GenderT
@@ -252,55 +293,111 @@ func SetupDatabase() {
 	}
 	db.Model(&AddressType{}).Create(&aType_2)
 
+	// ====== Mockup Address with JSON ========
+	file, err := os.Open("./thai_provinces.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	// Read the contents of the file into a byte slice
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Unmarshal the JSON data into a map containing a slice of maps
+	var jsonProvinces map[string][]map[string]interface{}
+	err = json.Unmarshal(bytes, &jsonProvinces)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Iterate over the slice of maps and create a new Province for each
+	for _, jsonProvince := range jsonProvinces["RECORDS"] {
+		province := mapJSONToProvince(jsonProvince)
+
+		// Save the Province to the database
+		db.Create(province)
+	}
+
+	file2, err := os.Open("./thai_amphures.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file2.Close()
+
+	// Read the contents of the file into a byte slice
+	bytes2, err := ioutil.ReadAll(file2)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Unmarshal the JSON data into a map containing a slice of maps
+	var jsonDistricts map[string][]map[string]interface{}
+	err = json.Unmarshal(bytes2, &jsonDistricts)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Iterate over the slice of maps and create a new Province for each
+	for _, jsonDistrict := range jsonDistricts["RECORDS"] {
+		district := mapJSONToDistrict(jsonDistrict)
+
+		// Save the Province to the database
+		db.Create(district)
+	}
+
+	file3, err := os.Open("./thai_tambons.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file3.Close()
+
+	// Read the contents of the file into a byte slice
+	bytes3, err := ioutil.ReadAll(file3)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Unmarshal the JSON data into a map containing a slice of maps
+	var jsonTambons map[string][]map[string]interface{}
+	err = json.Unmarshal(bytes3, &jsonTambons)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Iterate over the slice of maps and create a new Province for each
+	for _, jsonTambon := range jsonTambons["RECORDS"] {
+		tambon := mapJSONToTambon(jsonTambon)
+
+		// Save the Province to the database
+		db.Create(tambon)
+	}
+
+	// ====== Mockup Address with JSON ========
+
 	province_1 := Province{
-		Province_Name: "อุบลราชธานี",
+		Province_Name: "testจังหวัด",
 	}
 	db.Model(&Province{}).Create(&province_1)
-	province_2 := Province{
-		Province_Name: "มุกดาหาร",
-	}
-	db.Model(&Province{}).Create(&province_2)
-	province_3 := Province{
-		Province_Name: "ศรีสะเกษ",
-	}
-	db.Model(&Province{}).Create(&province_3)
 
 	District_1 := District{
-		District_Name: "อำเภอในมุกดาหาร",
-		Province:      province_2,
-	}
-	db.Model(&District{}).Create(&District_1)
-	District_2 := District{
-		District_Name: "อำเภอในศรีสะเกษ",
-		Province:      province_3,
-	}
-	db.Model(&District{}).Create(&District_2)
-	District_3 := District{
-		District_Name: "อำเภอในอุบลราชธานี",
+		District_Name: "testอำเภอ",
 		Province:      province_1,
 	}
-	db.Model(&District{}).Create(&District_3)
+	db.Model(&District{}).Create(&District_1)
 
 	tambon_1 := Tambon{
-		Tambon_Name: "ตำบลในศรีสะเกษ",
-		District:    District_2,
-	}
-	db.Model(&Tambon{}).Create(&tambon_1)
-	tambon_2 := Tambon{
-		Tambon_Name: "ตำบลในมุกดาหาร",
+		Tambon_Name: "testตำบล",
 		District:    District_1,
 	}
-	db.Model(&Tambon{}).Create(&tambon_2)
-	tambon_3 := Tambon{
-		Tambon_Name: "ตำบลในอุบลราชธานี",
-		District:    District_3,
-	}
-	db.Model(&Tambon{}).Create(&tambon_3)
+	db.Model(&Tambon{}).Create(&tambon_1)
 
 	address_1 := Address{
 		Customer:    customer_1,
 		AddressType: aType_1,
-		Tambon:      tambon_2,
+		Tambon:      tambon_1,
 		Post_Code:   34190,
 		Detail:      "test Mockup",
 		Record_Time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
@@ -466,14 +563,14 @@ func SetupDatabase() {
 
 	// ====== Mockup OrderTech ========
 	OrderTechA := OrderTech{
-		Solving:    "เปลี่ยนสายชาร์จใหม่",
-		TimeOut:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status:     StatusA,
-		Damage:     DamageA,
-		CostDetail: CostDetailA,
-		Technician: technician_1,
-		ORDER:      Order_1,
-		ForPaymentStatus: true,  //จั๊ดเพิ่ม
+		Solving:          "เปลี่ยนสายชาร์จใหม่",
+		TimeOut:          time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status:           StatusA,
+		Damage:           DamageA,
+		CostDetail:       CostDetailA,
+		Technician:       technician_1,
+		ORDER:            Order_1,
+		ForPaymentStatus: true, //จั๊ดเพิ่ม
 	}
 	db.Model(&OrderTech{}).Create(&OrderTechA)
 	// ====== Mockup OrderTech ========
@@ -652,6 +749,26 @@ func SetupDatabase() {
 		ROLE:     admin,
 	}
 	db.Model(&Admin{}).Create(&admin1)
+	admin2 := Admin{
+		Name:     "Admin 2",
+		ID_card:  "2-2222-22222-22-2",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    "0444444444",
+		Email:    "admin2@example.com",
+		Password: string(passwordAdmin),
+		ROLE:     admin,
+	}
+	db.Model(&Admin{}).Create(&admin2)
+	admin3 := Admin{
+		Name:     "Admin 3",
+		ID_card:  "3-3333-33333-33-3",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    "0444444444",
+		Email:    "admin3@example.com",
+		Password: string(passwordAdmin),
+		ROLE:     admin,
+	}
+	db.Model(&Admin{}).Create(&admin3)
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
