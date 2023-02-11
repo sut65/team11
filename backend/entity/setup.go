@@ -565,7 +565,7 @@ func SetupDatabase() {
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Status_check: status_4,
 		Payment:      Pay_1,
-		Customer:     customer_1, // แก้เป็น admin
+		Admin_ID:     1,
 	}
 	db.Model(&Checked_payment{}).Create(&Checked_Pay_1)
 

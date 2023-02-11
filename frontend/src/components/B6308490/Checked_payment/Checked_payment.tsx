@@ -61,14 +61,6 @@ const P2 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
-// let P_ID: string;
-// function CheckedPayment_get_Payment_ID(id: string) {
-//   P_ID = id;
-// } export { CheckedPayment_get_Payment_ID }
-
-
-
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Checked_payment() {
   const [Status_check_ID, setStatus_check_ID] = useState('');
@@ -76,8 +68,6 @@ function Checked_payment() {
   const Payment_ID =  localStorage.getItem('Checked_Payment_ID');
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
-  //const [success, setSuccess] = React.useState(false);
-  //const [error, setError] = React.useState(false);
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
@@ -136,7 +126,7 @@ function Checked_payment() {
       Message: Checked_payment.Message ?? "",
       Date_time: Date_time,
       Status_ID: convertType(Status_check_ID),
-      CustomerID: 1
+      Admin_ID: convertType(userID),
 
     };
     // console.log(data);
@@ -156,6 +146,7 @@ function Checked_payment() {
             title: 'บันทึกสำเร็จ',
             //text: '',
             icon: 'success'
+
           });
           localStorage.removeItem('Checked_Payment_ID');
           setTimeout(() => { window.location.href = "/Checked_paymentShow";  }, 3000);
@@ -244,20 +235,20 @@ function Checked_payment() {
       });
   };
 
-  // const getUser = async () => {
-  //   const apiUrl = `http://localhost:8080/user/${userID}`;
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setUserName(res.data.Name);
-  //       }
-  //     });
-  // };
+  const getUser = async () => {
+    const apiUrl = `http://localhost:8080/user/${userID}`;
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setUserName(res.data.Name);
+        }
+      });
+  };
 
   //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
