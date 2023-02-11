@@ -1,5 +1,4 @@
 import { AddressInterface } from "./AddressUI";
-import { CustomerInterface } from "./CustomerUI";
 import { DeviceInterface } from "./IDevice";
 
 export interface ORDERInterface {
@@ -15,11 +14,6 @@ export interface ORDERInterface {
     Address: AddressInterface
     StateID :number;
     State: StateInterface
-    
-    CustomerID: number;
-    Name:   string;
-    Customer:   CustomerInterface
-
 }
 
 export interface CASEInterface {

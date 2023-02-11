@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
+	"github.com/asaskevich/govalidator"
 )
 
 // POST Cause
@@ -108,6 +109,12 @@ func CreateRefund(c *gin.Context) {
 	// ค้นหา contact ด้วย id
 	if tx := entity.DB().Where("id = ?", refund.ContactID).First(&contact); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Contact not found"})
+		return
+	}
+
+	// : แทรกการ validate
+	if _, err := govalidator.ValidateStruct(refund); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
