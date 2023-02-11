@@ -130,6 +130,7 @@ export default function TableinPayTech2() {
                     <TableCell align="right">{row.Technician.Name}</TableCell>
                     <TableCell align="center">
                       <IconButton
+                        id="Delete_PAY_Create"
                         size="medium"
                         aria-label="delete"
                         sx={{ color: red[600] }}

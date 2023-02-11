@@ -115,6 +115,7 @@ export default function Table2Order() {
                         aria-lable="outlined button group"
                       >
                         <Button
+                          id="Select_ORDER_Popup"
                           onClick={() =>
                             navigate({ pathname: `/OrderTechCreate/${row.ID}` })
                           }

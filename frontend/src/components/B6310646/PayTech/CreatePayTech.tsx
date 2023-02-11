@@ -475,6 +475,7 @@ const PayTechCreate = () => {
             <br />
             <br />
             <IconButton
+              id="ADD_PAY"
               size="large"
               aria-label="Edit"
               onClick={submit}
@@ -510,6 +511,7 @@ const PayTechCreate = () => {
 
           <Grid item xs={12}>
             <Button
+              id="Cancel_PAY"
               component={RouterLink}
               to="/PayTech"
               variant="contained"
@@ -523,6 +525,7 @@ const PayTechCreate = () => {
             </Button>
 
             <Button
+              id="Confirm_PAY"
               component={RouterLink}
               to="/PayTech"
               style={{ float: "right" }}
