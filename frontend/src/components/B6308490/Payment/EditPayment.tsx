@@ -115,7 +115,7 @@ function Payment() {
       // Amount_Check: convertFloat(Sent_Amout_Check),
       // Status_ID: 0,
       Date_time: Date_time,
-      // User_ID: userID,               //ดึงมาจากระบบlogin
+      User_ID: userID,               //ดึงมาจากระบบlogin
       // User_ID: 1,
     };
 

@@ -207,6 +207,19 @@ func SetupDatabase() {
 		ROLE:     cust,
 	}
 	db.Model(&Customer{}).Create(&customer_1)
+	customer_2 := Customer{
+		Name:     "ชื่อนี้จั๊ดเพิ่มเอง",
+		ID_card:  "1-4000-11111-00-1",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    "0641231231",
+		GENDER:   male,
+		CAREER:   gov_o,
+		PREFIX:   mr,
+		Email:    "customer02@example.com",
+		Password: string(passwordCus),
+		ROLE:     cust,
+	}
+	db.Model(&Customer{}).Create(&customer_2)
 
 	// Mockup  ======ระบบช่าง========
 	//GenderT
@@ -736,6 +749,26 @@ func SetupDatabase() {
 		ROLE:     admin,
 	}
 	db.Model(&Admin{}).Create(&admin1)
+	admin2 := Admin{
+		Name:     "Admin 2",
+		ID_card:  "2-2222-22222-22-2",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    "0444444444",
+		Email:    "admin2@example.com",
+		Password: string(passwordAdmin),
+		ROLE:     admin,
+	}
+	db.Model(&Admin{}).Create(&admin2)
+	admin3 := Admin{
+		Name:     "Admin 3",
+		ID_card:  "3-3333-33333-33-3",
+		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:    "0444444444",
+		Email:    "admin3@example.com",
+		Password: string(passwordAdmin),
+		ROLE:     admin,
+	}
+	db.Model(&Admin{}).Create(&admin3)
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
