@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ResponsiveAppBar from '../../Bar_01';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { Typography } from "@mui/material";
@@ -88,7 +87,7 @@ function AddressEdit() {
     const update_f = () => {
         let data = {
             ID: convertType(add_id),
-            CustomerID: 1,
+            CustomerID: convertType(userID),
             AddressTypeID: convertType(addressTypeID),
             TambonID: convertType(tambonID),
             Post_Code: typeof postCode == "string" ? parseInt(postCode) : postCode,
@@ -264,7 +263,7 @@ function AddressEdit() {
 
         const [userName, setUserName] = React.useState('');
         const getUser = async () => {
-            const apiUrl = `http://localhost:8080/GetCustomer/1`;
+            const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -299,7 +298,6 @@ function AddressEdit() {
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
-            {/* <ResponsiveAppBar/> */}
             <Box>
             <Typography
                 component="h2"
