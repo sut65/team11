@@ -147,7 +147,7 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                       text: 'สร้าง Account สำเร็จ',
                       icon: 'success',
                       showConfirmButton: false,
-                      timer: 3000
+                      timer: 4000
                   });
                     console.log(res.data)
                     setTimeout(() => {
