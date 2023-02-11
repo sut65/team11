@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
 	"golang.org/x/crypto/bcrypt"
+
+	"github.com/asaskevich/govalidator"
 )
 
 //GET /Gender
@@ -127,6 +129,12 @@ func CreateCustomer(c *gin.Context){
     	c.JSON(http.StatusBadRequest, gin.H{"error": "prefix not found"})
     	return
     }
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(customer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(customer.Password), 14)
