@@ -103,3 +103,49 @@ func Test_Detail_500_Characters(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 	g.Expect(err.Error()).To(Equal("รายละเอียดที่อยู่เกิน 500 ตัวอักษร"))
 }
+
+func Test_RecordTime_cannot_blank(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Address := Address{
+		Customer:      Customer{},
+		CustomerID:    new(uint),
+		AddressTypeID: new(uint),
+		AddressType:   AddressType{},
+		TambonID:      new(uint),
+		Tambon:        Tambon{},
+		Post_Code:     34190,
+		Detail:        "test",
+		Record_Time:   time.Time{},
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Address)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("กรุณาใส่วันที่ และ เวลา"))
+}
+
+func Test_RecordTime_notFuture(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Address := Address{
+		Customer:      Customer{},
+		CustomerID:    new(uint),
+		AddressTypeID: new(uint),
+		AddressType:   AddressType{},
+		TambonID:      new(uint),
+		Tambon:        Tambon{},
+		Post_Code:     34190,
+		Detail:        "test",
+		Record_Time:   time.Now().Add(1 * time.Second),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Address)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("วันที่ และ เวลา ไม่ถูกต้อง"))
+}
