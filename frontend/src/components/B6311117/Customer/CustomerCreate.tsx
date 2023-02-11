@@ -83,6 +83,11 @@ const handleStart = () => {
     setActiveStep(activeStep + 1);
 };
 
+const Back = () => {
+  localStorage.clear();
+  window.location.href = "/";
+};
+
 // ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox และ กรอก Text-Field
 
 // const [Name, setName] = useState('');
@@ -401,7 +406,7 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
             </Grid>
             
             <Grid container spacing={5} paddingX={2} paddingY={1} >
-                <Grid item xs={7} padding={2}>
+                <Grid item xs={12} padding={2}>
                   {/* <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/" variant="contained"  >
                     ย้อนกลับ
                   </Button> */}
@@ -414,6 +419,18 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                     size="large"
                   >
                     <b>Next</b>
+                  </Button>
+
+
+                  <Button
+                    style={{ float: "left", fontSize: 20 }}
+                    // onClick={handleStart}
+                    onClick={Back}
+                    variant="contained"
+                    color="error"
+                    size="large"
+                  >
+                    <b>Back</b>
                   </Button>
                 </Grid>
             </Grid>
