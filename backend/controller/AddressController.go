@@ -136,13 +136,13 @@ func CreateAddress(c *gin.Context) {
 
 	// ค้นหา AddressType  ด้วย id
 	if tx := entity.DB().Where("id = ?", address.AddressTypeID).First(&addressType); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "AddressType not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทที่อยู่"})
 		return
 	}
 
 	// ค้นหา Tambon ด้วย id
 	if tx := entity.DB().Where("id = ?", address.TambonID).First(&tambon); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Tambon not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกตำบล"})
 		return
 	}
 

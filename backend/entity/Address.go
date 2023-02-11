@@ -53,8 +53,8 @@ type Address struct {
 	TambonID *uint
 	Tambon   Tambon `gorm:"references:id" valid:"-"`
 
-	Post_Code   int `valid:"required~กรุณากรอกรหัสไปรษณีย์,PostCodeNotOver5Digit~กรุณากรอกรหัสไปรษณีย์ 5 หลัก"`
-	Detail      string
+	Post_Code   int    `valid:"required~กรุณากรอกรหัสไปรษณีย์,PostCodeNotOver5Digit~กรุณากรอกรหัสไปรษณีย์ 5 หลัก"`
+	Detail      string `valid:"required~กรุณากรอกรายละเอียดที่อยู่,maxstringlength(500)~รายละเอียดที่อยู่เกิน 500 ตัวอักษร"`
 	Record_Time time.Time
 
 	ORDER []ORDER `gorm:"ForeignKey:AddressID"`
