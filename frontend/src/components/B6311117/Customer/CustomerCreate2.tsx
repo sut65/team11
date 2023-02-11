@@ -21,6 +21,7 @@ import TextField from "@mui/material/TextField";
 import Chip from '@mui/material/Chip';
 import { Link as RouterLink, Route } from "react-router-dom";
 import CreateForm from "./CreateForm";
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 //Grid
 const Item = styled(Paper)(({ theme }) => ({
@@ -141,14 +142,34 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
             .then((res) => {
                 if (res.data) {
                     // successAlert();
+                    Swal.fire({
+                      title: 'บันทึกสำเร็จ',
+                      text: 'สร้าง Account สำเร็จ',
+                      icon: 'success',
+                      showConfirmButton: false,
+                      timer: 3000
+                  });
                     console.log(res.data)
                     setTimeout(() => {
-                        setActiveStep(0)
-                    }, 3500)
+                        // setActiveStep(0)
+                        localStorage.clear();
+                        window.location.href = "/";
+                    }, 2000)
+
                     console.log("Success");
+                    
                 } else {
                     // errorAlert();
                     console.log("Error");
+
+                    Swal.fire({
+                      // Display Back-end text response 
+                      title: 'บันทึกไม่สำเร็จ',
+                      text: res.error.split(";")[0],
+                      icon: 'error',
+                      showConfirmButton: true,
+                      // timer: 3500 
+                  });
                 }
             });
   
