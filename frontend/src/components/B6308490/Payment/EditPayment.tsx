@@ -64,9 +64,9 @@ function Payment() {
   let PAYTECH_ID = P_ID;
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
-  const [success, setSuccess] = React.useState(false);
-  const [compete_edit, setcompete_edit] = React.useState(false);
-  const [error, setError] = React.useState(false);
+
+  const [Sender_name, setSender_name] = useState("");
+  const [Amount, setAmount] = useState(0.0);
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
@@ -74,24 +74,22 @@ function Payment() {
   //console.log(PAYTECH_ID);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
+  // const handleClose = (
+  //   event?: React.SyntheticEvent | Event,
+  //   reason?: string
+  // ) => {
+  //   if (reason === "clickaway") {
+  //     return;
+  //   }
+  //   setSuccess(false);
+  //   setError(false);
+  // };
+  const handleInputChange_Amount = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSuccess(false);
-    setError(false);
-  };
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
-  ) => {
-    const name = event.target.name as keyof typeof Payment;
-    setPayment({
-      ...Payment,
-      [name]: event.target.value,
-    });
+    const id = event.target.id as keyof typeof Payment;
+    const { value } = event.target;
+    setAmount(value);
   };
   //สร้างฟังก์ชันสำหรับ คอยรับการกระทำ เมื่อคลิ๊ก หรือ เลือก
   const handleInputChange = (
@@ -100,6 +98,7 @@ function Payment() {
     const id = event.target.id as keyof typeof Payment;
     const { value } = event.target;
     setPayment({ ...Payment, [id]: value });
+    setSender_name(value);
   };
   //สร้างฟังก์ชัน เมื่อเลือก Bank  แล้วให้ setBank(สร้างไว้แล้วข้างบน) 
   const onChangeBank = (event: SelectChangeEvent) => {
@@ -118,9 +117,9 @@ function Payment() {
     let data = {
 
       ID: convertType(PAYTECH_ID),
-      Sender_name: Payment.Sender_name ?? "",
+      Sender_name: Sender_name ?? "",
       Bank_ID: convertType(Bank_ID),
-      Amount: convertFloat(Payment.Amount),
+      Amount: convertFloat(Amount),
       // Amount_Check: convertFloat(Sent_Amout_Check),
       // Status_ID: 0,
       Date_time: Date_time,
@@ -158,7 +157,6 @@ function Payment() {
     // reset All after Submit
     setBank_ID("");
     setDate(null);
-    // setPAYTECH_ID("");
     setPayment({});
 
 
@@ -249,10 +247,32 @@ function Payment() {
       });
   };
 
+
+
+  const getdata_before_edit = async () => {
+    const apiUrl = `http://localhost:8080/GetPayment/${PAYTECH_ID}`;
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSender_name(res.data.Sender_Name);
+          setAmount(res.data.Amount);
+        } else {
+          console.log("else");
+        }
+      });
+  };
+
+
   //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
     getBank();
     getPAYTECH();
+    getdata_before_edit();
   }, []);
 
 
@@ -368,7 +388,7 @@ function Payment() {
           variant="outlined"
           type="string"
           size="medium"
-          value={Payment.Sender_name || ""}
+          value={Sender_name || ""}
           onChange={handleInputChange}
         //inputProps={{ MaxLength: 200 }}
         />
@@ -381,10 +401,10 @@ function Payment() {
         <TextField
           id="Amount"
           variant="outlined"
-          type="float"
+          type="number"
           size="medium"
-          value={Payment.Amount || ""}
-          onChange={handleInputChange}
+          value={Amount || ""}
+          onChange={handleInputChange_Amount}
         //inputProps={{ MaxLength: 200 }}
         />
       </FormControl>
