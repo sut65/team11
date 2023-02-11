@@ -473,6 +473,7 @@ func SetupDatabase() {
 		CostDetail: CostDetailA,
 		Technician: technician_1,
 		ORDER:      Order_1,
+		ForPaymentStatus: true,  //จั๊ดเพิ่ม
 	}
 	db.Model(&OrderTech{}).Create(&OrderTechA)
 	// ====== Mockup OrderTech ========
