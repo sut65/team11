@@ -160,10 +160,10 @@ function Check_Table_Payment_show() {
       }
     },
 
-    { field: "ID", headerName: "ลำดับ", width: 70,headerClassName: 'super-app-theme--header', },
-    { field: "Payment_ID", headerName: "Payment ID", width: 200,headerClassName: 'super-app-theme--header', },
+    { field: "ID", headerName: "ID", width: 70,headerClassName: 'super-app-theme--header', },
+    { field: "Payment_ID", headerName: "Payment ID", width: 100,headerClassName: 'super-app-theme--header', },
     {
-      field: "Status_ID", headerName: "สถานะ", width: 300,headerClassName: 'super-app-theme--header'
+      field: "Status_ID", headerName: "สถานะ", width: 180,headerClassName: 'super-app-theme--header'
       , renderCell: params => {
 
         if (params.row.Status_ID === 1) {

@@ -19,6 +19,7 @@ func CreateChecked_payment(c *gin.Context) {
 	var Checked_payment entity.Checked_payment
 	var Status_check entity.Status_check
 	var Payment entity.Payment
+	var Admin entity.Admin
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ * จะถูก bind เข้าตัวแปร Checked_payment
 	if err := c.ShouldBindJSON(&Checked_payment); err != nil {
@@ -38,11 +39,12 @@ func CreateChecked_payment(c *gin.Context) {
 		return
 	}
 
-	// *: ค้นหา user ด้วย id
-	// if tx := entity.DB().Where("id = ?", Checked_payment.CustomerID).First(&User); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
-	// 	return
-	// }
+	//*: ค้นหา user ด้วย id
+	if tx := entity.DB().Where("id = ?", Checked_payment.Admin_ID).First(&Admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Admin not found"})
+		return
+	}
+
 	// : แทรกการ validate
 	if _, err := govalidator.ValidateStruct(Checked_payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -56,7 +58,7 @@ func CreateChecked_payment(c *gin.Context) {
 		Date_time:  Checked_payment.Date_time,
 		Other:      Checked_payment.Other,
 		Message:    Checked_payment.Message, //เพิ่มเข้ามาใหม่
-		CustomerID: Checked_payment.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
+		Admin_ID: Checked_payment.Admin_ID, // โยงความสัมพันธ์กับ Entity Customer
 	}
 
 	// 13: บันทึก
@@ -75,17 +77,17 @@ func CreateChecked_payment(c *gin.Context) {
 // GET /Device
 func ListChecked_payment(c *gin.Context) {
 	var Checked_payment []entity.Checked_payment
-	if err := entity.DB().Preload("Customer").Preload("Status_check").Preload("Payment.OrderTech.ORDER").Find(&Checked_payment).Error; err != nil {
+	if err := entity.DB().Preload("Admin").Preload("Status_check").Preload("Payment.OrderTech.ORDER").Find(&Checked_payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
 }
 
-// fn สำหรับ List ข้อมูล CheckedPayment ทั้งหมด โดยไม่เาสถานะ "รอตวจสอบ"
+// fn สำหรับ List ข้อมูล CheckedPayment ทั้งหมด โดยไม่เอาสถานะ "รอตวจสอบ"
 func List_only_checkedPayment(c *gin.Context) {
 	var List_only_checkedPayment []entity.Checked_payment
-	if err := entity.DB().Raw("SELECT * FROM checked_payments WHERE status_id != 3").Preload("Customer").Preload("Status_check").Preload("Payment.OrderTech.ORDER").Find(&List_only_checkedPayment).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM checked_payments WHERE status_id != 3").Preload("Admin").Preload("Status_check").Preload("Payment.OrderTech.ORDER").Find(&List_only_checkedPayment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

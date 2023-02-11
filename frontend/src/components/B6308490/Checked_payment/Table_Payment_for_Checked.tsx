@@ -80,7 +80,7 @@ function Table_Payment_for_Checked() {
                 );
             }
         },
-        { field: "ID", headerName: "ID", width: 70 ,headerClassName: 'super-app-theme--header',},
+        { field: "ID", headerName: "Payment_ID", width: 100 ,headerClassName: 'super-app-theme--header',},
         {
             field: "PayTech_ID", headerName: "OrderID", width: 70,headerClassName: 'super-app-theme--header', renderCell: params => {
                 return <div>{params.row.OrderTech.ID}</div>

@@ -28,8 +28,9 @@ type Checked_payment struct {
 	Payment_ID   uint
 	Payment    Payment `gorm:"references:id" valid:"-"`
 
-	CustomerID   uint
-	Customer   Customer `gorm:"references:id" valid:"-"`
+	Admin_ID   uint
+	Admin   Admin `gorm:"references:id" valid:"-"`
+	//เชื่อให้อาร์ม
 	Review     []Review `gorm:"foreignKey:CheckedPayment_ID"`
 }
 

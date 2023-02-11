@@ -16,7 +16,7 @@ func Test_Other_notOver100_checkedpayment(t *testing.T) {
 		Other:  "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789_11",
 		Message: "ทดสอบ",
 		Status_ID:    0,
-		CustomerID:   1,
+		Admin_ID:   1,
 
 	}
 
@@ -42,7 +42,7 @@ func Test_Date_not_futue_checkedpayment(t *testing.T) {
 		Other:  "message",
 		Message: "message",
 		Status_ID:    0,
-		CustomerID:   1,
+		Admin_ID:   1,
 
 	}
 
@@ -68,7 +68,7 @@ func Test_Date_not_pass_checkedpayment(t *testing.T) {
 		Other:  "message",
 		Message: "ทดสอบ ทดสอบ __ ทดสอบ",
 		Status_ID:    0,
-		CustomerID:   1,
+		Admin_ID:   1,
 
 	}
 
@@ -94,7 +94,7 @@ func Test_Check_letter_number_only(t *testing.T) {
 		Other:  "iusuibfbkjfkbdfbv{;:;[]+_}hwhofwehoweh",
 		Message: "ข้อความถึงลูกค้า",
 		Status_ID:    0,
-		CustomerID:   1,
+		Admin_ID:   1,
 
 	}
 
@@ -120,7 +120,7 @@ func Test_Message_not_over100(t *testing.T) {
 		Other:  "message",
 		Message: "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789_11",
 		Status_ID:    0,
-		CustomerID:   1,
+		Admin_ID:   1,
 
 	}
 

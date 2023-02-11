@@ -288,13 +288,11 @@ function AddressEdit() {
     }, []);
 
     useEffect(() => {
-        if (provinceID) {
-            getDistrictByID();
-        }
-        if (districtID) {
-            getTambonByID();
-        }
-    }, [provinceID,districtID]);
+        getDistrictByID();
+    }, [provinceID]);
+    useEffect(() => {
+        getTambonByID();
+    }, [districtID]);
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>

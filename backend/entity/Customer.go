@@ -60,5 +60,4 @@ type Customer struct {
 	ORDER           []ORDER           `gorm:"foreignKey:CustomerID"`
 	Review          []Review          `gorm:"foreignKey:Customer_ID"`
 	Payment         []Payment         `gorm:"foreignKey:CustomerID"`
-	Checked_payment []Checked_payment `gorm:"foreignKey:CustomerID"`
 }

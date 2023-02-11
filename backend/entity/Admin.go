@@ -19,4 +19,6 @@ type Admin struct {
 	ROLE_ID	*uint
 	ROLE	Role	`gorm:"references:id"`
 
+	//ส่ง คีย์ไปยัง Checked_payment
+	Checked_payment []Checked_payment `gorm:"foreignKey:Admin_ID"`
 }

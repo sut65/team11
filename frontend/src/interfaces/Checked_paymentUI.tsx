@@ -11,7 +11,7 @@ export interface Checked_paymentInterface {
     Payment: PaymentInterface;
 
 
-    AdminID: number;
+    Admin_ID: number;
     // AdminID: number;
 
 }
