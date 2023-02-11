@@ -29,6 +29,7 @@ import Table2Order from "./TablePopupOrderTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 import { blue, grey, yellow } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
+import Swal from "sweetalert2";
 
 export default function TableOrderTech() {
   const params = useParams();
@@ -184,12 +185,35 @@ export default function TableOrderTech() {
                         <IconButton
                           size="large"
                           aria-label="Edit"
+                          sx={{ color: yellow[800] }}
                           onClick={() => {
-                            navigate({
-                              pathname: `/OrderTechUpdate/${row.ID}`,
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "You will be able to edit this!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, edit it!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                // Swal.fire(
+                                //   // 'Deleted!',
+                                //   // 'Your file has been deleted.',
+                                //    'success'
+                                // )
+                                navigate({
+                                  pathname: `/OrderTechUpdate/${row.ID}`,
+                                });
+                              }
                             });
                           }}
-                          sx={{ color: yellow[800] }}
+
+                          // onClick={() => {
+                          //   navigate({
+                          //     pathname: `/OrderTechUpdate/${row.ID}`,
+                          //   });
+                          // }}
                         >
                           <EditIcon fontSize="inherit" />
                         </IconButton>

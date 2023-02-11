@@ -34,6 +34,7 @@ import { CustomerInterface } from "../../../interfaces/CustomerUI";
 import SaveIcon from "@mui/icons-material/Save";
 import { grey, purple } from "@mui/material/colors";
 import CancelIcon from "@mui/icons-material/Cancel";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -242,6 +243,26 @@ const OrderTechUpdate = () => {
 
   const [message, setAlertMessage] = React.useState("");
 
+  const successAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลสำเร็จ",
+      text: "Click OK to exit.",
+      icon: "success",
+    }).then((result) => {
+      if(result.value) {
+          window.location.href = "/OrderTech";
+      }
+    });
+  };
+
+  const errorAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลไม่สำเร็จ",
+      text: "Click OK to exit.",
+      icon: "error",
+    });
+  };
+
   // post orderTech
   function update() {
     let data = {
@@ -268,11 +289,14 @@ const OrderTechUpdate = () => {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setSuccess(true);
-          window.location.href = "/OrderTech";
+          successAlert();
+          console.log("Success");
         } else {
-          setAlertMessage(res.error);
-          setError(true);
+          Swal.fire({
+            title: "บันทึกไม่สำเร็จ",
+            text: res.error.split(";")[0],
+            icon: "error",
+          });
         }
       });
   }

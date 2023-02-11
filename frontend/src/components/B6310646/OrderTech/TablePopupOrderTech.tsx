@@ -138,12 +138,7 @@ export default function Table2Order() {
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[
-                      3,
-                      6,
-                      10,
-                      { label: "All", value: -1 },
-                    ]}
+                    rowsPerPageOptions={[3, 6, 10, { label: "All", value: -1 }]}
                     colSpan={Order.length}
                     count={Order.length}
                     rowsPerPage={rowsPerPage}
