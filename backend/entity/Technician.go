@@ -41,7 +41,7 @@ type Technician struct {
 	PREFIX    PrefixT `gorm:"references:id" valid:"-"`
 
 	Location string
-	Username string `gorm:"uniqueIndex"`
+	Username string `gorm:"uniqueIndex" `
 	Password string 
 
 	ROLE_ID	*uint
