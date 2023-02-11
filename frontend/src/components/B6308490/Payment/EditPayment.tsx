@@ -13,7 +13,7 @@ import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
-const convertType = (data: string | number | undefined | Float32Array) => {
+const convertType = (data: string | number | undefined | Float32Array | any) => {
   let val = typeof data === "string" ? parseInt(data) : data;
   return val;
 };
@@ -48,20 +48,12 @@ const P2 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-
-
-let P_ID: string;
-function EditPayment_get_Ordertech_ID(id: string) {
-  P_ID = id;
-} export { EditPayment_get_Ordertech_ID }
-
-
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Payment() {
   const [Bank_ID, setBank_ID] = useState('');
   // const [Payment_ID, setPaymentH_ID] = useState('') || 0;// ตัวแปล ID สำหรับการ Update และ Delete
   // const [PAYTECH_ID, setPAYTECH_ID] = useState('') || 0;// ตัวแปล ID สำหรับการ Update และ Delete
-  let PAYTECH_ID = P_ID;
+  let Payment_ID = localStorage.getItem('Payment_ID');
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
 
@@ -116,7 +108,7 @@ function Payment() {
   function UpdatePayment() {
     let data = {
 
-      ID: convertType(PAYTECH_ID),
+      ID: convertType(Payment_ID),
       Sender_name: Sender_name ?? "",
       Bank_ID: convertType(Bank_ID),
       Amount: convertFloat(Amount),
@@ -144,6 +136,12 @@ function Payment() {
             title: 'บันทึกการแก้ไขสำเร็จ',
             icon: 'success'
           });
+
+          localStorage.removeItem('Payment_ID');
+          setTimeout(() => { window.location.href = "/PaymentShow";  }, 3000);
+
+
+
         } else {
           Swal.fire({
             // Display Back-end text response 
@@ -250,7 +248,7 @@ function Payment() {
 
 
   const getdata_before_edit = async () => {
-    const apiUrl = `http://localhost:8080/GetPayment/${PAYTECH_ID}`;
+    const apiUrl = `http://localhost:8080/GetPayment/${Payment_ID}`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -339,7 +337,7 @@ function Payment() {
         <Select
           native
           disabled
-          value={PAYTECH_ID}
+          value={Payment_ID}
           // onChange={onChangePAYTHECH}
           inputProps={{
             name: "PAYTECH_ID",
@@ -454,7 +452,7 @@ function Payment() {
       <Grid container >
         <Grid item xs={10}>
           <Button size="large" sx={{ backgroundColor: "#434242"}} component={RouterLink} to="/PaymentShow" variant="contained" style={{fontSize: 17 }} >
-            ย้อนกลับ
+            <b> ย้อนกลับ </b>
           </Button>
         </Grid>
         <Grid item xs={2}>
@@ -465,7 +463,7 @@ function Payment() {
             color="success"
             size="large"
             sx={{backgroundColor: '#F99417'}}
-            component={RouterLink} to="/PaymentShow"
+            // component={RouterLink} to="/PaymentShow"
           >
             <b>แก้ไข</b>
           </Button>

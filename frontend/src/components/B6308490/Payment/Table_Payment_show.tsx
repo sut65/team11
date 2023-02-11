@@ -2,13 +2,12 @@ import { Box, Button, colors, Container, IconButton, Typography } from '@mui/mat
 import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRenderCellParams, GridToolbar, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
-import Payment, { Payment_get_Ordertech_ID } from './Payment'
+// import Payment, { Payment_get_Ordertech_ID } from './Payment'
 import React from 'react';
 import { PaymentInterface } from '../../../interfaces/PaymentUI';
 import dayjs from 'dayjs';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Delete, Edit } from '@mui/icons-material';
-import { EditPayment_get_Ordertech_ID } from './EditPayment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "../CSS/payment.css";
 import Pagination from '@mui/material/Pagination';
@@ -124,7 +123,8 @@ function Table_Payment_show() {
 
         const handleClick = () => {
           params.api.setRowMode(params.id, 'edit');
-          EditPayment_get_Ordertech_ID(params.id.toString());
+          localStorage.setItem('Payment_ID', params.id.toString());
+
         };
         return (
           <Button variant="contained" onClick={handleClick} component={RouterLink} to="/EditPayment"

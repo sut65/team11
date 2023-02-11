@@ -2,7 +2,6 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRenderCellParams, GridToolbar, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
-import Payment, { Payment_get_Ordertech_ID } from './Payment'
 import React from 'react';
 import { PaymentInterface } from '../../../interfaces/PaymentUI';
 import dayjs from 'dayjs';
@@ -61,7 +60,9 @@ function Table_Paytech_show() {
                     params.api.setRowMode(params.id, 'edit');
                     // const Test_ID = params.id.toString();
                     //console.log(params.id);
-                    Payment_get_Ordertech_ID(params.id.toString());
+                    // Payment_get_Ordertech_ID(params.id.toString());
+                    localStorage.setItem('Ordertech_ID', params.id.toString());
+
                 };
                 return (
                     <RouterLink to={`/Payment`} style={{ textDecoration: 'none' }}>

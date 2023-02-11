@@ -11,8 +11,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Check, Delete, Edit } from '@mui/icons-material';
 // import { EditPayment_get_Ordertech_ID } from './EditPayment';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
-import { CheckedPayment_get_Payment_ID } from './Checked_payment';
-import { EditCheck_get_Payment_ID } from './Edit_Checked_payment';
+//import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "../CSS/payment.css";
 
@@ -78,7 +77,7 @@ function Check_Table_Payment_show() {
           // const Test_ID = params.id.toString();
           // console.log(params.id);
 
-          EditCheck_get_Payment_ID(params.id.toString());
+          localStorage.setItem('Checked_Payment_ID',params.id.toString());
         };
         return (
           <RouterLink to={`/EditChecked_payment`} style={{ textDecoration: 'none' }}>

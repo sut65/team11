@@ -14,7 +14,7 @@ import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
-const convertType = (data: string | number | undefined | Float32Array) => {
+const convertType = (data: string | number | undefined | Float32Array | any) => {
   let val = typeof data === "string" ? parseInt(data) : data;
   return val;
 };
@@ -50,12 +50,6 @@ const P2 = styled(Paper)(({ theme }) => ({
 }));
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 
-//ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
-let P_ID: string;
-function EditCheck_get_Payment_ID(id: string) {
-  P_ID = id;
-} export { EditCheck_get_Payment_ID }
-
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Edit_Checked_payment() {
   const [Status_check_ID, setStatus_check_ID] = useState('');
@@ -66,7 +60,7 @@ function Edit_Checked_payment() {
 
 
 
-  let Check_payment_ID = P_ID;
+  let Check_payment_ID = localStorage.getItem('Checked_Payment_ID');
   // const [success, setSuccess] = React.useState(false);
   // const [error, setError] = React.useState(false);
 
@@ -142,6 +136,9 @@ function Edit_Checked_payment() {
             //text: '',
             icon: 'success'
           });
+
+          localStorage.removeItem('Checked_Payment_ID');
+          setTimeout(() => { window.location.href = "/Checked_paymentShow";  }, 3000);
 
         } else {
           Swal.fire({
@@ -402,8 +399,8 @@ function Edit_Checked_payment() {
     return (
       <Grid container>
         <Grid item xs={9.5}>
-          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{ fontSize: 17 }} >
-            ย้อนกลับ
+          <Button size="large" sx={{ backgroundColor: "#434242"}} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{ fontSize: 17 }} >
+            <b> ย้อนกลับ </b>
           </Button>
         </Grid>
         <Grid item xs={2.5}>
@@ -414,7 +411,7 @@ function Edit_Checked_payment() {
             color="success"
             size="large"
             sx={{ backgroundColor: '#F99417' }}
-            component={RouterLink} to="/Checked_paymentShow"
+            //component={RouterLink} to="/Checked_paymentShow"
           >
             <b>แก้ไขการตรวจสอบ</b>
           </Button>
