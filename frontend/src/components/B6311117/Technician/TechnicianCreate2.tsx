@@ -145,14 +145,14 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
                       text: 'สร้าง Account Technician สำเร็จ',
                       icon: 'success',
                       showConfirmButton: false,
-                      timer: 3000
+                      timer: 4000
                   });
                   console.log(res.data)
                   setTimeout(() => {
                       // setActiveStep(0)
                       localStorage.clear();
                       window.location.href = "/";
-                  }, 1500)
+                  }, 2000)
 
                   console.log("Success");
                 } else {
