@@ -19,7 +19,7 @@ import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
-const convertType = (data: string | number | undefined | Float32Array) => {
+const convertType = (data: string | number | undefined | Float32Array |any) => {
   let val = typeof data === "string" ? parseInt(data) : data;
   return val;
 };
@@ -56,24 +56,6 @@ const P2 = styled(Paper)(({ theme }) => ({
 }));
 //========================================================================================
 
-
-
-
-
-
-//ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
-let P_ID: string;
-function Payment_get_Ordertech_ID(id: string) {
-  P_ID = id;
-} export { Payment_get_Ordertech_ID }
-
-
-
-
-
-
-
-
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Payment() {
 
@@ -81,7 +63,7 @@ function Payment() {
   //ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox ทั้งหมดเป็นตารางที่ ดึงไปใส่ตารางหลัก
   const [Bank_ID, setBank_ID] = useState('');
   // const [OrderTech_ID, setOrderTech_ID] = useState('') || 0;//>>>>>>>>>> แก้ตรงนี้ด้วยใช้จริงต้องไม่เกิด กรณี 0
-  let OrderTech_ID = P_ID;
+  let OrderTech_ID = localStorage.getItem('Ordertech_ID'); //check again
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
   const [success, setSuccess] = React.useState(false);
@@ -161,7 +143,8 @@ function Payment() {
             icon: 'success',
           });
 
-          setTimeout(() => { window.location.href = "/PaymentShow";  }, 1000);
+          localStorage.removeItem('Ordertech_ID');
+          setTimeout(() => { window.location.href = "/PaymentShow";  }, 3000);
 
         } else {
           Swal.fire({
@@ -484,19 +467,19 @@ function Payment() {
   function button_submit_back() {
     return (
       <Grid item xs={12}>
-        <Button  size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
-          ย้อนกลับ
+        <Button  size="large" sx={{ backgroundColor: "#434242", fontSize: 17 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
+          <b> ย้อนกลับ </b>
         </Button>
         <Button
           id= "btn_submit"
-          style={{ float: "right", fontSize: 20 }}
+          style={{ float: "right", fontSize: 17 }}
           onClick={submit}
           variant="contained"
           color="success"
           size="large"
           // component={RouterLink} to="/PaymentShow"
         >
-          <b>📋บันทึก</b>
+          <b>บันทึก</b>
         </Button>
       </Grid>
     )

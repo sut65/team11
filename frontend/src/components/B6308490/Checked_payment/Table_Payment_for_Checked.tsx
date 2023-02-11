@@ -11,7 +11,7 @@ import { OrderTechInterface } from '../../../interfaces/IOrderTech';
 import { Edit } from '@mui/icons-material';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
-import { CheckedPayment_get_Payment_ID } from './Checked_payment';
+//import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 
 //====================สำหรับ แถบเลื่อนหน้า footer dataGrid============================
 function CustomPagination() {
@@ -66,7 +66,8 @@ function Table_Payment_for_Checked() {
                     params.api.setRowMode(params.id, 'edit');
                     // const Test_ID = params.id.toString();
                     console.log(params.id);
-                    CheckedPayment_get_Payment_ID(params.id.toString());
+                    //CheckedPayment_get_Payment_ID(params.id.toString());
+                    localStorage.setItem('Checked_Payment_ID',params.id.toString());
                 };
                 return (
                     <RouterLink to={`/Checked_payment`} style={{ textDecoration: 'none' }}>

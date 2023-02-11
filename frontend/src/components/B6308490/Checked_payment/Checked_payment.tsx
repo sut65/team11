@@ -17,7 +17,7 @@ import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
-const convertType = (data: string | number | undefined | Float32Array) => {
+const convertType = (data: string | number | undefined | Float32Array | any) => {
   let val = typeof data === "string" ? parseInt(data) : data;
   return val;
 };
@@ -62,10 +62,10 @@ const P2 = styled(Paper)(({ theme }) => ({
 }));
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //ฟังก์ชันน้สร้างขึ้นเพื่อ รับค่าจากหน้าอื่น
-let P_ID: string;
-function CheckedPayment_get_Payment_ID(id: string) {
-  P_ID = id;
-} export { CheckedPayment_get_Payment_ID }
+// let P_ID: string;
+// function CheckedPayment_get_Payment_ID(id: string) {
+//   P_ID = id;
+// } export { CheckedPayment_get_Payment_ID }
 
 
 
@@ -73,7 +73,7 @@ function CheckedPayment_get_Payment_ID(id: string) {
 function Checked_payment() {
   const [Status_check_ID, setStatus_check_ID] = useState('');
   // const [Payment_ID, setPayment_ID] = useState(''); // ตัวแปล ID สำหรับการ Update และ Delete
-  const Payment_ID = P_ID;
+  const Payment_ID =  localStorage.getItem('Checked_Payment_ID');
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
   //const [success, setSuccess] = React.useState(false);
@@ -123,10 +123,6 @@ function Checked_payment() {
   const onChangeStatus_check = (event: SelectChangeEvent) => {
     setStatus_check_ID(event.target.value as string);
   };
-  // const onChangePayment = (event: SelectChangeEvent) => {
-  //   setPayment_ID(event.target.value as string);
-
-  // };
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,7 +157,8 @@ function Checked_payment() {
             //text: '',
             icon: 'success'
           });
-          setTimeout(() => { window.location.href = "/Checked_paymentShow";  }, 1000);
+          localStorage.removeItem('Checked_Payment_ID');
+          setTimeout(() => { window.location.href = "/Checked_paymentShow";  }, 3000);
 
         } else {
           //setAlertMessage(res.error)
@@ -408,14 +405,14 @@ function Checked_payment() {
     return (
       <Grid container spacing={3}>
         <Grid item xs={8}>
-          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 20 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
-            ย้อนกลับ
+          <Button size="large" sx={{ backgroundColor: "#434242", fontSize: 17 }} component={RouterLink} to="/Checked_paymentShow" variant="contained"  >
+            <b> ย้อนกลับ </b>
           </Button>
         </Grid>
         <Grid item xs={4}>
           <Button
             id= "btn_submit_checkedpayment"
-            style={{ float: "right", fontSize: 20 }}
+            style={{ float: "right", fontSize: 17 }}
             onClick={submit}
             variant="contained"
             color="success"

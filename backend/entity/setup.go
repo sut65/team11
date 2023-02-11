@@ -540,7 +540,7 @@ func SetupDatabase() {
 		Amount:       1253.22,
 		Amount_Check: 1253.22,
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status_ID:    1,
+		Status_ID:    3,
 		Bank:         Bank_4,
 		OrderTech:    OrderTechA,
 		Customer:     customer_1,
