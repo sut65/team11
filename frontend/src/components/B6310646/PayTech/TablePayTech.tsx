@@ -27,6 +27,7 @@ import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { grey, red, yellow } from "@mui/material/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Swal from "sweetalert2";
 
 export default function TablePayTech() {
   const params = useParams();
@@ -51,9 +52,9 @@ export default function TablePayTech() {
 
   const width = 200;
   const style = {
-    maxWidth : width,
-    borderStyle: "border-box"
-  }
+    maxWidth: width,
+    borderStyle: "border-box",
+  };
 
   const apiUrl = "http://localhost:8080";
 
@@ -71,7 +72,7 @@ export default function TablePayTech() {
         if (res.data) {
           setPayTech(res.data);
           console.log(res.data);
-          console.log(res.data.Note)
+          console.log(res.data.Note);
         }
       });
   };
@@ -101,7 +102,7 @@ export default function TablePayTech() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="lg" sx={{ p: 2 }}>
-        <Paper sx = {{ p: 4, color: "indigo", textAlign: "left" }}>
+        <Paper sx={{ p: 4, color: "indigo", textAlign: "left" }}>
           <Box display="flex">
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h4" gutterBottom component="div">
@@ -131,12 +132,12 @@ export default function TablePayTech() {
                 horizontal: "left",
               }}
             >
-              <Table2PayTech/>
+              <Table2PayTech />
             </Popover>
           </Grid>
 
           <TableContainer component={Paper}>
-            <Table  sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
+            <Table sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell align="right">PayTechID</TableCell>
@@ -158,7 +159,9 @@ export default function TablePayTech() {
                       {row.ID}
                     </TableCell>
                     <TableCell align="right">{row.OrderTechID}</TableCell>
-                    <TableCell align="right">{row.Hardware.HardwareName}</TableCell>
+                    <TableCell align="right">
+                      {row.Hardware.HardwareName}
+                    </TableCell>
                     <TableCell align="right">{row.Amount}</TableCell>
                     <TableCell align="right">{row.CostHardware}</TableCell>
                     <TableCell align="right">{row.Note}</TableCell>
@@ -168,8 +171,28 @@ export default function TablePayTech() {
                         size="large"
                         aria-label="Edit"
                         onClick={() => {
-                          navigate({ pathname: `/PayTechUpdate/${row.ID}` });
-                        }}                        
+                          Swal.fire({
+                            title: "Are you sure?",
+                            text: "You will be able to edit this!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, edit it!",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              // Swal.fire(
+                              //   // 'Deleted!',
+                              //   // 'Your file has been deleted.',
+                              //    'success'
+                              // )
+                              navigate({
+                                pathname: `/PayTechUpdate/${row.ID}`,
+                              });
+                            }
+                          });
+                          // navigate({ pathname: `/PayTechUpdate/${row.ID}` });
+                        }}
                         sx={{ color: yellow[800] }}
                       >
                         <EditIcon fontSize="inherit" />
@@ -179,13 +202,33 @@ export default function TablePayTech() {
                       <IconButton
                         size="large"
                         aria-label="delete"
-                        onClick={() => PayTechDelete(row.ID)}
                         sx={{ color: red[600] }}
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Are you sure?",
+                            text: "You won't be able to revert this!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, delete it!",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              // Swal.fire(
+                              //   // 'Deleted!',
+                              //   // 'Your file has been deleted.',
+                              //    'success'
+                              // )
+                              PayTechDelete(row.ID);
+                            }
+                          });
+                        }}
+
+                        // () => PayTechDelete(row.ID)}
                       >
                         <DeleteIcon fontSize="inherit" />
                       </IconButton>
                     </TableCell>
-
                   </TableRow>
                 ))}
               </TableBody>

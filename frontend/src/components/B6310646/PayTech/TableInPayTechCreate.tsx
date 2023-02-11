@@ -24,6 +24,7 @@ import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { red, yellow } from "@mui/material/colors";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Swal from "sweetalert2";
 export default function TableinPayTech2() {
   const params = useParams();
   const navigate = useNavigate();
@@ -131,8 +132,27 @@ export default function TableinPayTech2() {
                       <IconButton
                         size="medium"
                         aria-label="delete"
-                        onClick={() => PayTechDelete(row.ID)}
                         sx={{ color: red[600] }}
+                        onClick={() => {
+                          Swal.fire({
+                            title: "Are you sure?",
+                            text: "You won't be able to revert this!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, delete it!",
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              // Swal.fire(
+                              //   // 'Deleted!',
+                              //   // 'Your file has been deleted.',
+                              //    'success'
+                              // )
+                              PayTechDelete(row.ID);
+                            }
+                          });
+                        }}
                       >
                         <DeleteIcon fontSize="inherit" />
                       </IconButton>
