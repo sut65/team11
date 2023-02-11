@@ -59,7 +59,7 @@ function OrderUpdate() {
     const [Case_ID, setCase_ID] = useState('');
     const [Order_ID, setOrder_ID] = useState('');
     const [Reason, setReason] = useState('');
-    const [Limit, setLimit] = useState('');
+    const [Limits, setLimit] = useState('');
     const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
     const [Order, setOrder] = React.useState<Partial<ORDERInterface>>({});
     const [success, setSuccess] = React.useState(false);
@@ -142,7 +142,7 @@ function OrderUpdate() {
         CustomerID: 1,
         Date_time: Date_time,
         Reason: Reason,
-        Limit: typeof Limit == "string" ? parseInt(Limit) : 0,
+        Limits: Limits,
 
     };
 
@@ -710,11 +710,11 @@ setOrder_ID("");
             <Item style={{ background: "#FFFFFF"}}>
             <FormControl fullWidth variant="outlined">
                 <TextField
-                   id="Limit"
+                   id="Limits"
                    variant="outlined"
-                   type="int"
+                   type="number"
                    size="medium"
-                   value={Limit}
+                   value={Limits}
                    onChange={(event) => setLimit(event.target.value)}
                 />
               </FormControl>
