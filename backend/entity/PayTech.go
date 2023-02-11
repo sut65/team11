@@ -1,7 +1,6 @@
 package entity
 
 import (
-
 	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
@@ -16,9 +15,9 @@ type Hardware struct {
 type PayTech struct {
 	gorm.Model
 
-	Note         string `valid:"maxstringlength(200)~กรอกได้สูงสุด 200 ตัวอักษร,matches([A-Za-zก-ฮ./()]-)~Solving must be A-Z a-z ก-ฮ ./()-,required~Please enter a Note."`
-	Amount       int `valid:"LimitIsNotNegativeNumbers~กรุณากรอกตัวเลขจำนวนมากกว่า 0,required~กรุณากรอกตัวเลขจำนวนมากกว่า 0"`
-	CostHardware int `valid:"LimitIsNotNegativeNumbers~กรุณากรอกตัวเลขราคามากกว่า 0,required~กรุณากรอกตัวเลขราคามากกว่า 0"`
+	Note         string `valid:"maxstringlength(200)~กรอกได้สูงสุด 200 ตัวอักษร,matches([A-Za-zก-ฮ./()])~Solving must be A-Z a-z ก-ฮ ./(),required~Please enter a Note."`
+	Amount       int    `valid:"LimitIsNotNegativeNumbers~จำนวนไม่สามารถติดลบได้,required~กรุณากรอกตัวเลขจำนวนมากกว่า 0"`
+	CostHardware int    `valid:"LimitIsNotNegativeNumbers~ราคาไม่สามารถติดลบได้,required~กรุณากรอกตัวเลขราคามากกว่า 0"`
 
 	HardwareID *uint    `valid:"-"`
 	Hardware   Hardware `gorm:"references:id" valid:"-"`

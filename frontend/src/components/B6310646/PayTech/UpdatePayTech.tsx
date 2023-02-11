@@ -33,6 +33,7 @@ import {
 import CancelIcon from "@mui/icons-material/Cancel";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import TableinEdit from "./TableInEdit";
+import Swal from "sweetalert2";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -204,6 +205,29 @@ const PayTechUpdate = () => {
       });
   };
 
+  const [message, setAlertMessage] = React.useState("");
+
+  const successAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลสำเร็จ",
+      text: "Click OK to exit.",
+      icon: "success",
+
+    }).then((result) => {
+      if (result.value) {
+        window.location.reload();
+      }
+    });
+  };
+
+  const errorAlert = () => {
+    Swal.fire({
+      title: "บันทึกข้อมูลไม่สำเร็จ",
+      text: "Click OK to exit.",
+      icon: "error",
+    });
+  };
+
   // post orderTech
   function update() {
     let data = {
@@ -217,28 +241,87 @@ const PayTechUpdate = () => {
     };
 
     const apiUrl = "http://localhost:8080/update-pay-tech";
-    const requestOptions = {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
+      const requestOptions = {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      };
     fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          // successAlert();
-          setSuccess(true);
-          window.location.reload();
-          console.log(res.data);
+          successAlert();
+          console.log("Success");
         } else {
-          // errorAlert();
-          setError(true);
-          console.log(res.data);
+          Swal.fire({
+            title: "บันทึกไม่สำเร็จ",
+            text: res.error.split(";")[0],
+            icon: "error",
+          });
         }
       });
+    
+    // // const apiUrl = "http://localhost:8080";
+    // const apiUrl = "http://localhost:8080";
+    // Swal.fire({
+    //   title: "Are you sure?",
+    //   text: "You will be able to edit this!",
+    //   showDenyButton: false,
+    //   showCancelButton: true,
+    //   confirmButtonText: "บันทึก",
+    // }).then((data: any) => {
+    //   if (data.isConfirmed) {
+    //     fetch(`${apiUrl}/update-pay-tech`, requestOptionsPatch)
+    //       .then((response) => response.json())
+    //       .then((res) => {
+    //         console.log(res);
+    //         if (res.data) {
+    //           Swal.fire({
+    //             icon: "success",
+    //             title: "Saved!",
+    //             text: "บันทึกสำเร็จ",
+    //           });
+    //           // setSuccess(true);
+    //         } else {
+    //           Swal.fire({
+    //             icon: "error",
+    //             title: "Error!",
+    //             text: res.error,
+    //           });
+    //           // setError(true);
+    //         }
+    //       });
+    //   }
+    // });
+
+    // const apiUrl = "http://localhost:8080/update-pay-tech";
+
+    // fetch(apiUrl, requestOptions)
+    //   .then((response) => response.json())
+    //   .then((res) => {
+    //     if (res.data) {
+    //       successAlert();
+    //       console.log("Success");
+    //     } else {
+    //       Swal.fire({
+    //         title: "บันทึกไม่สำเร็จ",
+    //         text: res.error.split(";")[0],
+    //         icon: "error",
+    //       });
+    //     }
+    //   });
+
+      // const requestOptionsPatch = {
+      //   method: "PATCH",
+      //   headers: {
+      //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(data),
+      // };
   }
 
   //useEffect
@@ -265,7 +348,7 @@ const PayTechUpdate = () => {
 
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          บันทึกไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -304,29 +387,7 @@ const PayTechUpdate = () => {
             </FormControl>
           </Grid>
 
-          {/* box name */}
-          {/* box name */}
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <p>limit</p>
-              <TextField
-                disabled
-                variant="outlined"
-                type="string"
-                size="medium"
-                inputProps={{
-                  style: {
-                    width: 490,
-                  },
-                }}
-                value={Order1?.Limits}
-                sx={{ fontFamily: "Mitr-Regular" }}
-                multiline
-              />
-            </FormControl>
-          </Grid>
-
-          {/* box order */}
+          {/* box order tech*/}
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
               <p>Order Tech</p>
@@ -344,6 +405,27 @@ const PayTechUpdate = () => {
                 sx={{ fontFamily: "Mitr-Regular" }}
                 multiline
                 onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
+
+          {/* box limit */}
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>limit</p>
+              <TextField
+                disabled
+                variant="outlined"
+                type="string"
+                size="medium"
+                inputProps={{
+                  style: {
+                    width: 490,
+                  },
+                }}
+                value={Order1?.Limits}
+                sx={{ fontFamily: "Mitr-Regular" }}
+                multiline
               />
             </FormControl>
           </Grid>
@@ -464,7 +546,7 @@ const PayTechUpdate = () => {
                 style={{ backgroundColor: "white" }}
                 id="Note"
                 multiline
-                // rows={4}
+                rows={4}
                 value={PayTech.Note}
                 label=""
                 onChange={handleInputChange}
@@ -523,7 +605,7 @@ const PayTechUpdate = () => {
               // color="error"
               endIcon={<CancelIcon />}
             >
-              Cancel
+              Back
             </Button>
 
             <Button
