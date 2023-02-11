@@ -30,6 +30,7 @@ const Item0 = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   //color: theme.palette.text.secondary,
   elevation: 0,
+  height: 50,
 }));
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -46,7 +47,7 @@ const Item_2 = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   fontSize: 20,
-  height: 70,
+  height: 50,
   color: theme.palette.text.secondary,
 }));
 
