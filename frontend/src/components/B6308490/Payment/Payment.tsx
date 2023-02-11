@@ -158,8 +158,10 @@ function Payment() {
           Swal.fire({
             title: 'บันทึกสำเร็จ',
             //text: '',
-            icon: 'success'
+            icon: 'success',
           });
+
+          setTimeout(() => { window.location.href = "/PaymentShow";  }, 1000);
 
         } else {
           Swal.fire({
@@ -170,12 +172,12 @@ function Payment() {
         }
         console.log(data);
       });
-    // reset All after Submit
-    setBank_ID("");
-    setDate(null);
-    // setOrderTech_ID("");
-    setPayment({});
-    setAmountCheck("ไม่มีข้อมูล");
+    // // reset All after Submit
+    // setBank_ID("");
+    // setDate(null);
+    // // setOrderTech_ID("");
+    // setPayment({});
+    // setAmountCheck("ไม่มีข้อมูล");
   }
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
 
@@ -491,7 +493,7 @@ function Payment() {
           variant="contained"
           color="success"
           size="large"
-          component={RouterLink} to="/PaymentShow"
+          // component={RouterLink} to="/PaymentShow"
         >
           <b>📋บันทึก</b>
         </Button>

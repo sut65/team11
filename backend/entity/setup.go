@@ -393,7 +393,7 @@ func SetupDatabase() {
 	Order_1 := ORDER{
 		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Reason:    "เครื่องคอมเสียงดัง",
-		Limits:     12000,
+		Limits:    12000,
 		CASE:      Case_1,
 		State:     State_1,
 		Device:    device_1,
@@ -524,16 +524,27 @@ func SetupDatabase() {
 	db.Model(&Bank{}).Create(&Bank_5)
 
 	Pay_1 := Payment{
-		Sender_Name:  "ภัฒนศักดิ์ อัตตะกุล",
+		Sender_Name:  "1.ภัฒนศักดิ์ อัตตะกุล",
 		Amount:       153.22,
 		Amount_Check: 153.22,
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status_ID:    1,
+		Status_ID:    3,
 		Bank:         Bank_1,
 		OrderTech:    OrderTechA,
 		Customer:     customer_1,
 	}
 	db.Model(&Payment{}).Create(&Pay_1)
+	Pay_2 := Payment{
+		Sender_Name:  "2.ภัฒนศักดิ์ อัตตะกุล",
+		Amount:       1253.22,
+		Amount_Check: 1253.22,
+		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status_ID:    3,
+		Bank:         Bank_4,
+		OrderTech:    OrderTechA,
+		Customer:     customer_1,
+	}
+	db.Model(&Payment{}).Create(&Pay_2)
 
 	// ================== Mockup Payment ======================
 
@@ -549,8 +560,9 @@ func SetupDatabase() {
 
 	Checked_Pay_1 := Checked_payment{
 		Other:        "นี่คือการทดสอบ comment",
+		Message:      "ข้อความถึงลูกค้า",
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status_check: status_3,
+		Status_check: status_4,
 		Payment:      Pay_1,
 		Customer:     customer_1, // แก้เป็น admin
 	}

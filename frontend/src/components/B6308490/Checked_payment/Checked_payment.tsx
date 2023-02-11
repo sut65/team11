@@ -160,6 +160,7 @@ function Checked_payment() {
             //text: '',
             icon: 'success'
           });
+          setTimeout(() => { window.location.href = "/Checked_paymentShow";  }, 1000);
 
         } else {
           //setAlertMessage(res.error)
@@ -169,17 +170,18 @@ function Checked_payment() {
             text: res.error.split(";")[0],
             icon: 'error'
           });
+          
 
         }
       });
-    setPayment_ID_show('')
-    setOrder_ID_show('')
-    setSender_name_show('')
-    setBank_show('')
-    setAmount_show('')
-    setAmount_check_show('')
-    setTime_show('')
-    setUser_show('')
+    // setPayment_ID_show('')
+    // setOrder_ID_show('')
+    // setSender_name_show('')
+    // setBank_show('')
+    // setAmount_show('')
+    // setAmount_check_show('')
+    // setTime_show('')
+    // setUser_show('')
   };
 
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
@@ -416,7 +418,7 @@ function Checked_payment() {
             variant="contained"
             color="success"
             size="large"
-            component={RouterLink} to="/Checked_paymentShow"
+            //component={RouterLink} to="/Checked_paymentShow"
           >
             <b>บันทึกการตรวจสอบ</b>
           </Button>
