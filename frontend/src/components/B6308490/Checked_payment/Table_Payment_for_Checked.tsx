@@ -80,9 +80,9 @@ function Table_Payment_for_Checked() {
                 );
             }
         },
-        { field: "ID", headerName: "Payment_ID", width: 100 ,headerClassName: 'super-app-theme--header',},
+        { field: "ID", headerName: "PaymentID", width: 100 ,headerClassName: 'super-app-theme--header',},
         {
-            field: "PayTech_ID", headerName: "OrderID", width: 70,headerClassName: 'super-app-theme--header', renderCell: params => {
+            field: "OrderID", headerName: "OrderTechID", width: 100,headerClassName: 'super-app-theme--header', renderCell: params => {
                 return <div>{params.row.OrderTech.ID}</div>
             }
         },
@@ -105,7 +105,7 @@ function Table_Payment_for_Checked() {
             }
         },
         { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100 ,headerClassName: 'super-app-theme--header',},
-        { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 100 ,headerClassName: 'super-app-theme--header',},
+        { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120 ,headerClassName: 'super-app-theme--header',},
         {
             field: "Date_time", headerName: "วันที่โอนเงิน", width: 200,headerClassName: 'super-app-theme--header'
             , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
