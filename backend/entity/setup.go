@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
-	"os"
+	"net/http"
 )
 
 var db *gorm.DB
@@ -293,89 +293,110 @@ func SetupDatabase() {
 	}
 	db.Model(&AddressType{}).Create(&aType_2)
 
-	// ====== Mockup Address with JSON ========
-	file, err := os.Open("./thai_provinces.json")
-	if err != nil {
-		log.Fatal(err)
+	url := "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json"
+	spaceClient := http.Client{
+		Timeout: time.Second * 2, // Timeout after 2 seconds
 	}
-	defer file.Close()
 
-	// Read the contents of the file into a byte slice
-	bytes, err := ioutil.ReadAll(file)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Unmarshal the JSON data into a map containing a slice of maps
-	var jsonProvinces map[string][]map[string]interface{}
-	err = json.Unmarshal(bytes, &jsonProvinces)
-	if err != nil {
-		log.Fatal(err)
+	res, getErr := spaceClient.Do(req)
+	if getErr != nil {
+		log.Fatal(getErr)
+	}
+
+	if res.Body != nil {
+		defer res.Body.Close()
+	}
+
+	body, readErr := ioutil.ReadAll(res.Body)
+	if readErr != nil {
+		log.Fatal(readErr)
+	}
+	var jsonProvinces []map[string]interface{}
+	jsonErr := json.Unmarshal(body, &jsonProvinces)
+	if jsonErr != nil {
+		log.Fatal(jsonErr)
 	}
 
 	// Iterate over the slice of maps and create a new Province for each
-	for _, jsonProvince := range jsonProvinces["RECORDS"] {
+	for _, jsonProvince := range jsonProvinces {
 		province := mapJSONToProvince(jsonProvince)
-
-		// Save the Province to the database
 		db.Create(province)
 	}
 
-	file2, err := os.Open("./thai_amphures.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file2.Close()
-
-	// Read the contents of the file into a byte slice
-	bytes2, err := ioutil.ReadAll(file2)
-	if err != nil {
-		log.Fatal(err)
+	url2 := "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_amphure.json"
+	spaceClient2 := http.Client{
+		Timeout: time.Second * 2, // Timeout after 2 seconds
 	}
 
-	// Unmarshal the JSON data into a map containing a slice of maps
-	var jsonDistricts map[string][]map[string]interface{}
-	err = json.Unmarshal(bytes2, &jsonDistricts)
+	req2, err := http.NewRequest(http.MethodGet, url2, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Iterate over the slice of maps and create a new Province for each
-	for _, jsonDistrict := range jsonDistricts["RECORDS"] {
+	res2, getErr := spaceClient2.Do(req2)
+	if getErr != nil {
+		log.Fatal(getErr)
+	}
+
+	if res2.Body != nil {
+		defer res2.Body.Close()
+	}
+
+	body2, readErr := ioutil.ReadAll(res2.Body)
+	if readErr != nil {
+		log.Fatal(readErr)
+	}
+	var jsonDistricts []map[string]interface{}
+	jsonErr2 := json.Unmarshal(body2, &jsonDistricts)
+	if jsonErr2 != nil {
+		log.Fatal(jsonErr2)
+	}
+
+	// Iterate over the slice of maps and create a new District for each
+	for _, jsonDistrict := range jsonDistricts {
 		district := mapJSONToDistrict(jsonDistrict)
-
-		// Save the Province to the database
 		db.Create(district)
 	}
 
-	file3, err := os.Open("./thai_tambons.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file3.Close()
-
-	// Read the contents of the file into a byte slice
-	bytes3, err := ioutil.ReadAll(file3)
-	if err != nil {
-		log.Fatal(err)
+	url3 := "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_tambon.json"
+	spaceClient3 := http.Client{
+		Timeout: time.Second * 2, // Timeout after 2 seconds
 	}
 
-	// Unmarshal the JSON data into a map containing a slice of maps
-	var jsonTambons map[string][]map[string]interface{}
-	err = json.Unmarshal(bytes3, &jsonTambons)
+	req3, err := http.NewRequest(http.MethodGet, url3, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Iterate over the slice of maps and create a new Province for each
-	for _, jsonTambon := range jsonTambons["RECORDS"] {
+	res3, getErr := spaceClient3.Do(req3)
+	if getErr != nil {
+		log.Fatal(getErr)
+	}
+
+	if res3.Body != nil {
+		defer res3.Body.Close()
+	}
+
+	body3, readErr := ioutil.ReadAll(res3.Body)
+	if readErr != nil {
+		log.Fatal(readErr)
+	}
+	var jsonTambons []map[string]interface{}
+	jsonErr3 := json.Unmarshal(body3, &jsonTambons)
+	if jsonErr3 != nil {
+		log.Fatal(jsonErr2)
+	}
+
+	// Iterate over the slice of maps and create a new Tambon for each
+	for _, jsonTambon := range jsonTambons {
 		tambon := mapJSONToTambon(jsonTambon)
-
-		// Save the Province to the database
 		db.Create(tambon)
 	}
-
-	// ====== Mockup Address with JSON ========
 
 	province_1 := Province{
 		Province_Name: "testจังหวัด",
