@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
-import { PaymentInterface, BankInterface, PAYTECHInterface, } from "../../../interfaces/PaymentUI";
+import { PaymentInterface, BankInterface, } from "../../../interfaces/PaymentUI";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";

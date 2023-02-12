@@ -15,6 +15,9 @@ import { Checked_paymentInterface } from '../../../interfaces/Checked_paymentUI'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { bool } from 'prop-types';
 import MarkunreadIcon from '@mui/icons-material/Markunread';
+import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
+import TextsmsIcon from '@mui/icons-material/Textsms';
+
 
 //====================สำหรับปุ่มลบ============================
 const swalWithBootstrapButtons = Swal.mixin({
@@ -65,11 +68,11 @@ function Table_Payment_show() {
 
   //ฟังก์ชัน สำหรับ Datagrid
   const columns: GridColDef[] = [
-    
+
 
     { field: "ID", headerName: "Payment ID", width: 100, headerClassName: 'super-app-theme--header' },
     {
-      field: "PayTech_ID", headerName: "OrderID", width: 70, headerClassName: 'super-app-theme--header', renderCell: params => {
+      field: "OrderID", headerName: "OrderID", width: 70, headerClassName: 'super-app-theme--header', renderCell: params => {
         return <div>{params.row.OrderTech.ID}</div>
       }
     },
@@ -128,7 +131,7 @@ function Table_Payment_show() {
         };
         return (
           <Button variant="contained" onClick={handleClick} component={RouterLink} to="/EditPayment"
-            disabled={params.row.Status_ID  != 3  && params.row.Status_ID !=1 }
+            disabled={params.row.Status_ID != 3 && params.row.Status_ID != 1}
             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#F99417' }} >
             {<Edit />}แก้ไข
           </Button>
@@ -199,7 +202,7 @@ function Table_Payment_show() {
         };
         return (
           <Button variant="contained" onClick={handleClick}
-          disabled={params.row.Status_ID  != 3  && params.row.Status_ID !=1 }
+            disabled={params.row.Status_ID != 3 && params.row.Status_ID != 1}
             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
             {<Delete />}ลบ
           </Button>
@@ -215,40 +218,47 @@ function Table_Payment_show() {
       width: 100,
       editable: false,
       headerClassName: 'super-app-theme--header',
-      align:'center',
+      align: 'center',
       renderCell: (params: GridRenderCellParams) => {
 
-        const handleClick = () => { 
-        params.api.setRowMode(params.id, 'edit');
-        const apiUrl = `http://localhost:8080/GetCheckedpayment_by_PaymentID/${params.id}`;
-        const requestOptions = {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        };
-        fetch(apiUrl, requestOptions)
-          .then((response) => response.json())
-          .then((res) => {
-            if (res.data) {
-              console.log('Message -->',res.data);
-              swalWithBootstrapButtons.fire(
-                'Message',
-                // 'ลบรายการชำระเงิน สำเร็จ',
-                res.data.Message,
-                //'info'
-              )
-            }else {
-              swalWithBootstrapButtons.fire(
-                'Message',
-                 'ไม่มีข้อความจากระบบถึงท่าน',
-              )
-            }
-          })
+        const handleClick = () => {
+          params.api.setRowMode(params.id, 'edit');
+          const apiUrl = `http://localhost:8080/GetCheckedpayment_by_PaymentID/${params.id}`;
+          const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          };
+          fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+              if (res.data) {
+                console.log('Message -->', res.data);
+                swalWithBootstrapButtons.fire(
+                  'Message',
+                  // 'ลบรายการชำระเงิน สำเร็จ',
+                  res.data.Message,
+                  //'info'
+                )
+              } else {
+                swalWithBootstrapButtons.fire(
+                  'Message',
+                  'ไม่มีข้อความจากระบบถึงท่าน',
+                )
+              }
+            })
         }
         return (
-          <IconButton  onClick={handleClick} >
-            < MarkunreadIcon sx={{fontSize:'40px',color:'#362FD9'}} />
-          </IconButton >
+            <IconButton onClick={handleClick} disabled={!(params.row.Status_ID != 3 && params.row.Status_ID != 1)} >
+              {(() => {
+                if (params.row.Status_ID !== 3 && params.row.Status_ID !== 1) {
+                  return <TextsmsIcon sx={{ fontSize: '40px', color: '#362FD9' }} />;
+                } else {
+                  return <SpeakerNotesOffIcon sx={{ fontSize: '40px' }} />;
+                }
+              })()}
+            </IconButton>
         );
+        
       }
     },
 

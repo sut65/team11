@@ -112,13 +112,14 @@ func GetChecked_payment(c *gin.Context) {
 func GetCheckedpayment_by_PaymentID(c *gin.Context) {
 	var Checked_payment entity.Checked_payment
 	PaymentID := c.Param("id")
-	var id = get_id_checkedpayment_for_payment(PaymentID)
-	if tx := entity.DB().Preload("id = ?", id).Find(&Checked_payment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Checked_payment not found"})
+	if err := entity.DB().Raw("SELECT message  FROM checked_payments WHERE payment_id = ?",PaymentID).Scan(&Checked_payment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
+
 }
 
 
@@ -169,12 +170,6 @@ func DeleteChecked_payment(c *gin.Context) {
 func get_id_payment_for_status(checkedPayment_id any) int {
 	var ID_payment int
 	entity.DB().Table("checked_payments").Select("payment_id").Where("id = ?", checkedPayment_id).Row().Scan(&ID_payment)
-	return ID_payment
-}
-// fn เพื่อ ดึงค่า ceckedPayment id จาก Payment id
-func get_id_checkedpayment_for_payment(Payment_id any) int {
-	var ID_payment int
-	entity.DB().Table("checked_payments").Select("ID").Where("payment_id = ?", Payment_id).Row().Scan(&ID_payment)
 	return ID_payment
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
