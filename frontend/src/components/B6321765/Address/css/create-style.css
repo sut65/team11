@@ -1,0 +1,155 @@
+.container {
+    height: 80vh;
+    width: 60vw;
+    border-radius: 10px;
+    display: flex;
+    background-color: #182e3e;
+    flex-direction: column;
+}
+
+.topic {
+    height: 10vh;
+    width: 100%;
+}
+
+.topic .header {
+    position: relative;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+.topic .info {
+    left: 65%;
+    top: -83px;
+    position: relative;
+    color: white;
+    width: 100%;
+}
+
+.info li {
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.info ul {
+    list-style-type: none;
+}
+
+.line {
+    width: 90%;
+    color: white;
+}
+
+.block1, .block4 {
+    display: flex;
+    width: 50%;
+    height: 12vh;
+    justify-content: right;
+    align-items: right;
+}
+
+.top {
+    color: white;
+}
+
+.block1 {
+    padding-top: 15px;
+}
+
+.block1 .address-type {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    padding-right: 10%;
+}
+
+.block1 .address-type .top {
+    padding-bottom: 10px;
+}
+
+.block2 , .block3{
+    display: flex;
+    width: 100%;
+    height: 12vh;
+}
+.block2 .province , .block3 .tambon{
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    padding-right: 8%;
+}
+.block2 .district {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.block3 .postcode {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.block4 .detail {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    padding-right: 10%;
+}
+
+.tambon .top , .province .top{
+    display: flex;
+    justify-content: center;
+    padding-right: 33px;
+    padding-bottom: 10px;
+}
+.district .top , .postcode .top {
+    padding-bottom: 10px;
+}
+ 
+.tambon .bottom , .province .bottom{
+    display: flex;
+    justify-content: right;
+}
+
+.detail .top{
+    padding-bottom: 10px;
+}
+
+.block4 {
+    height: 21vh;
+}
+
+.button {
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    padding: 0 20%;
+}
+
+.back-button {
+    display: flex;
+    width: 30%;
+    height: 40%;
+}
+
+.show-button {
+    display: flex;
+    width: 30%;
+    height: 40%;
+    justify-content: right;
+    padding-right: 10px;
+}
+
+.save-button {
+    display: flex;
+    width: 30%;
+    height: 40%;
+    padding-right: 25%;
+}
