@@ -415,10 +415,11 @@ func SetupDatabase() {
 	}
 	db.Model(&Tambon{}).Create(&tambon_1)
 
+	tambonID := uint(341501)
 	address_1 := Address{
 		Customer:    customer_1,
 		AddressType: aType_1,
-		Tambon:      tambon_1,
+		TambonID:    &tambonID,
 		Post_Code:   34190,
 		Detail:      "test Mockup",
 		Record_Time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
