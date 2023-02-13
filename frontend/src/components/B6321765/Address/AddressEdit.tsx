@@ -1,19 +1,16 @@
 import React, { useEffect } from "react";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { Typography } from "@mui/material";
+import { Autocomplete, Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Swal from 'sweetalert2';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AddressInterface, DistrictInterface, ProvinceInterface, TambonInterface } from "../../../interfaces/AddressUI";
 import { AddressTypeInterface } from "../../../interfaces/AddressUI";
 import dayjs, { Dayjs } from 'dayjs';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers";
 import { useNavigate } from 'react-router-dom';
 
 let Address_ID: string;
@@ -65,19 +62,19 @@ function AddressEdit() {
     };
 
     const [provinceID, setProvinceID] = React.useState('');
-    const onChangeProvince = (event: SelectChangeEvent) => {
-        setProvinceID(event.target.value as string);
-    };
+    const onChangeProvince = (event: any, value: ProvinceInterface | null) => {
+        setProvinceID(value ? value.ID.toString() : '');
+      };
 
     const [districtID, setDistrictID] = React.useState('');
-    const onChangeDistrict = (event: SelectChangeEvent) => {
-        setDistrictID(event.target.value as string);
-    };
+    const onChangeDistrict = (event: any, value: DistrictInterface | null) => {
+        setDistrictID(value ? value.ID.toString() : '');
+      };
 
     const [tambonID, setTambonID] = React.useState('');
-    const onChangeTambon = (event: SelectChangeEvent) => {
-        setTambonID(event.target.value as string);
-    };
+    const onChangeTambon = (event: any, value: TambonInterface | null) => {
+        setTambonID(value ? value.ID.toString() : '');
+      };
 
     const convertType = (data: string | number | undefined) => {
         let val = typeof data === "string" ? parseInt(data) : data;
@@ -184,7 +181,7 @@ function AddressEdit() {
                 }
             });
         };
-
+        
         const [province, setProvince] = React.useState<ProvinceInterface[]>([]);
         const getProvince = async () => {
             const apiUrl = "http://localhost:8080/GetListProvince";
@@ -200,6 +197,7 @@ function AddressEdit() {
                 }
             });
         };
+        const selectedProvince = province.filter(p => p.ID === parseInt(provinceID, 10))[0] || null;
 
         const [district, setDistrict] = React.useState<DistrictInterface[]>([]);
         const getDistrict = async () => {
@@ -230,6 +228,7 @@ function AddressEdit() {
                 }
             });
         };
+        const selectedDistrict = district.filter(d => d.ID === parseInt(districtID, 10))[0] || null;
 
         const [tambon, setTambon] = React.useState<TambonInterface[]>([]);
         const getTambon = async () => {
@@ -260,6 +259,7 @@ function AddressEdit() {
                 }
             });
         };
+        const selectedTambon = tambon.filter(t => t.ID === parseInt(tambonID, 10))[0] || null;
 
         const [userName, setUserName] = React.useState('');
         const getUser = async () => {
@@ -285,6 +285,15 @@ function AddressEdit() {
         getDistrict();
         getAddress();
         getAddress_data();
+
+        const dateTime= setInterval(() => {
+            setDate(dayjs());
+          }, 1000);
+        
+          return () => {
+            clearInterval(dateTime);
+          };
+
     }, []);
 
     useEffect(() => {
@@ -390,81 +399,63 @@ function AddressEdit() {
                         <Typography align="right" fontSize={25} color="white">จังหวัด</Typography>
                     </Grid>
                     <Grid item xs={7} >
-                        <FormControl fullWidth variant="outlined">
-                            <Select
-                                style={{backgroundColor:"white"}}
-                                native
-                                value={provinceID}
-                                onChange={onChangeProvince}
-                                sx={{ width: 300 }}
-                                inputProps={{
-                                name: "provinceID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกจังหวัด
-                                </option>
-                                {province.map((item: ProvinceInterface) => (
-                                <option value={item.ID} key={item.ID}>
-                                    {item.Province_Name}
-                                </option>
-                                ))}
-                            </Select>
-                        </FormControl><p/>
+                    <Autocomplete
+                            style={{ backgroundColor: "white", width: 300 }}
+                            value={selectedProvince}
+                            onChange={onChangeProvince}
+                            options={province}
+                            getOptionLabel={(option: ProvinceInterface) => option.Province_Name}
+                            renderInput={params => (
+                                <TextField
+                                {...params}
+                                label="กรุณาเลือกจังหวัด"
+                                variant="outlined"
+                                fullWidth
+                                />
+                            )}
+                            /><p/>
                     </Grid>
                     <Grid item xs={3}/>
                     <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">อำเภอ</Typography>
                     </Grid>
                     <Grid item xs={7} >
-                        <FormControl fullWidth variant="outlined" >
-                            <Select
-                                native
-                                style={{backgroundColor:"white"}}
-                                value={districtID}
-                                onChange={onChangeDistrict}
-                                sx={{ width: 300 }}
-                                inputProps={{
-                                name: "districtID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกอำเภอ
-                                </option>
-                                {district.map((item: DistrictInterface) => (
-                                <option value={item.ID} key={item.ID}>
-                                    {item.District_Name}
-                                </option>
-                                ))}
-                            </Select>
-                        </FormControl><p />
+                    <Autocomplete
+                            style={{ backgroundColor: "white", width: 300 }}
+                            value={selectedDistrict}
+                            onChange={onChangeDistrict}
+                            options={district}
+                            getOptionLabel={(option: DistrictInterface) => option.District_Name}
+                            renderInput={params => (
+                                <TextField
+                                {...params}
+                                label="กรุณาเลือกอำเภอ"
+                                variant="outlined"
+                                fullWidth
+                                />
+                            )}
+                            /><p />
                     </Grid>
                     <Grid item xs={3}/>
                     <Grid item xs={2}>
                         <Typography align="right" fontSize={25} color="white">ตำบล</Typography>
                     </Grid>
                     <Grid item xs={7} >
-                        <FormControl fullWidth variant="outlined">
-                            <Select
-                                style={{backgroundColor:"white"}}
-                                native
-                                value={tambonID}
-                                onChange={onChangeTambon}
-                                sx={{ width: 300 }}
-                                inputProps={{
-                                name: "tambonID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกตำบล
-                                </option>
-                                {tambon.map((item: TambonInterface) => (
-                                <option value={item.ID} key={item.ID}>
-                                    {item.Tambon_Name}
-                                </option>
-                                ))}
-                            </Select>
-                        </FormControl><p />
+                    <Autocomplete
+                            style={{ backgroundColor: "white", width: 300 }}
+                            value={selectedTambon}
+                            onChange={onChangeTambon}
+                            options={tambon}
+                            getOptionLabel={(option: TambonInterface) => option.Tambon_Name}
+                            renderInput={params => (
+                                <TextField
+                                {...params}
+                                label="กรุณาเลือกตำบล"
+                                variant="outlined"
+                                fullWidth
+                                />
+                            )}
+                            /><p />
                     </Grid>
                     <Grid item xs={3}/>
                     <Grid item xs={2}>
@@ -503,16 +494,7 @@ function AddressEdit() {
                         <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
                     </Grid>
                     <Grid item xs={2.5} bgcolor="white">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker
-                            renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
-                            value={date}
-                            onChange={(newValue) => {
-                            setDate(newValue);
-                            }}
-                        />
-                        </LocalizationProvider>
+                        <p>{date ? date.format("DD/MM/YYYY HH:mm:ss") : ''}</p>
                     </Grid>
                     <Grid item xs={5}/>
                     <p/>
