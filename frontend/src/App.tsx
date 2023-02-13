@@ -61,6 +61,7 @@ import SignInTech from "./components/SignInTech";
 import PermissionDenied from "./components/PermissionDenied";
 import HomeCustomer from "./components/HomeCustomer";
 import SignInAdmin from "./components/SignInAdmin";
+import TimeoutLogic from "./components/TimeoutLogic";
 
 const drawerWidth = 240;
 
@@ -202,183 +203,190 @@ function App() {
     // <Route path="/TechnicianShow" element={<CreateFormTech />} />
     //   </Routes>
     // </Router>
-    <Router>
-      <Box sx={{ flexGrow: 1 }}>
-        {token ? (
-          <AppBar id="appbar" position="static">
-            <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-                onClick={handleOpen}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                id="textAppBar"
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1 }}
-              >
-                ระบบแจ้งซ่อมคอมพิวเตอร์
-              </Typography>
-              <Button id="buttonSignOutInAppBar" onClick={signout}>
-                Sign Out
-              </Button>
-            </Toolbar>
-          </AppBar>
-        ) : (
-          ""
-        )}
-      </Box>
-      <Drawer anchor="left" open={open} onClose={handleClose}>
-        <Toolbar
-          sx={{
-            // backgroundColor: "#182e3e",
-            display: "flex",
-            alignItems: "center",
-            // justifyContent: "flex-end",
-            // px: [1],
-          }}
-        >
-          <IconButton onClick={toggleDrawer}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </Toolbar>
-        <Divider />
+    <div>
 
-        <List id="textDrawer">
-          {menu.map((item, index) => (
-            <Link
-              to={item.path}
-              key={item.name}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              {_user === item.role ? (
-                <ListItem button>
-                  <ListItemIcon>{item.role}</ListItemIcon>
-                  <ListItemIcon>{item.name}</ListItemIcon>
-                </ListItem>
-              ) : (
-                ""
-              )}
-            </Link>
-          ))}
-        </List>
-      </Drawer>
-      <Container>
-        <Routes>
+      <Router>
+        <Box sx={{ flexGrow: 1 }}>
+          {token ? (
+            <AppBar id="appbar" position="fixed">
+              <TimeoutLogic /> 
+              <Toolbar>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ mr: 2 }}
+                  onClick={handleOpen}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography
+                  id="textAppBar"
+                  variant="h6"
+                  component="div"
+                  sx={{ flexGrow: 1 }}
+                >
+                  ระบบแจ้งซ่อมคอมพิวเตอร์
+                </Typography>
+                <Button id="buttonSignOutInAppBar" onClick={signout}>
+                  Sign Out
+                </Button>
+              </Toolbar>
+            </AppBar>
+          ) : (
+            ""
+          )}
+        </Box>
+        <Drawer anchor="left" open={open} onClose={handleClose}>
+          <Toolbar
+            sx={{
+              // backgroundColor: "#182e3e",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              px: [1],
+            }}
+          >
+            <IconButton onClick={toggleDrawer}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </Toolbar>
+          <Divider />
+
+          <List id="textDrawer">
+            {menu.map((item, index) => (
+              <Link
+                to={item.path}
+                key={item.name}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {_user === item.role ? (
+                  <ListItem button>
+                    <ListItemIcon>{item.role}</ListItemIcon>
+                    <ListItemIcon>{item.name}</ListItemIcon>
+                  </ListItem>
+                ) : (
+                  ""
+                )}
+              </Link>
+            ))}
+          </List>
+        </Drawer>
+        <Container sx={{marginTop:"5%",marginBottom:"5%"}}>
+          <Routes>
+
           // Public Routes // Wrap all Route under PublicRoutes element // //
-          Sign In Customer
-          <Route path="SignInCustomer" element={<PublicRoutes />}>
-            <Route path="/SignInCustomer" element={<SignInCustomer />} />
-          </Route>
+            Sign In Customer
+            <Route path="SignInCustomer" element={<PublicRoutes />}>
+              <Route path="/SignInCustomer" element={<SignInCustomer />} />
+            </Route>
           // Sign In Tech
-          <Route path="SignInTech" element={<PublicRoutes />}>
-            <Route path="/SignInTech" element={<SignInTech />} />
-          </Route>
+            <Route path="SignInTech" element={<PublicRoutes />}>
+              <Route path="/SignInTech" element={<SignInTech />} />
+            </Route>
           // Sign In Admin
-          <Route path="SignInAdmin" element={<PublicRoutes />}>
-            <Route path="/SignInAdmin" element={<SignInAdmin />} />
-          </Route>
+            <Route path="SignInAdmin" element={<PublicRoutes />}>
+              <Route path="/SignInAdmin" element={<SignInAdmin />} />
+            </Route>
           // ========== Sign Up Customer ========== //
-          <Route path="CreateForm" element={<PublicRoutes />}>
-            <Route path="/CreateForm" element={<CreateForm />} />
-          </Route>
+            <Route path="CreateForm" element={<PublicRoutes />}>
+              <Route path="/CreateForm" element={<CreateForm />} />
+            </Route>
           // Protected Routes // Wrap all Route under ProtectedRoutes element //
-          ========== For Customer ========== //
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/Home" element={<HomeCustomer />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/CustomerShow" element={<CreateForm2 />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/AddressShowPage" element={<AddressShowForm />} />
-            <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
-            <Route path="/AddressEditPage" element={<AddressEditForm />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/DeviceShowPage" element={<DeviceShowForm />} />
-            <Route path="/DeviceCreatePage" element={<DeviceCreateForm />} />
-            <Route path="/DeviceEditPage" element={<DeviceEditForm />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/ShowOrder" element={<ShowOrder />} />
-            <Route path="/OrderCreate" element={<OrderCreate />} />
-            <Route path="/OrderUpdate" element={<OrderUpdate />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/PaymentShow" element={<PaymentShow />} />
-            <Route path="/Payment" element={<Payment />} />
-            <Route path="/EditPayment" element={<EditPayment />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/RankingForm" element={<RankingForm />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/ContentClaimOrder" element={<ClaimForm />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/RefundCreate" element={<RefundCreate />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-            <Route path="/RefundShow" element={<RefundShow />} />
-          </Route>
+            ========== For Customer ========== //
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/Home" element={<HomeCustomer />} />
+
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/CustomerShow" element={<CreateForm2 />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/AddressShowPage" element={<AddressShowForm />} />
+              <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
+              <Route path="/AddressEditPage" element={<AddressEditForm />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/DeviceShowPage" element={<DeviceShowForm />} />
+              <Route path="/DeviceCreatePage" element={<DeviceCreateForm />} />
+              <Route path="/DeviceEditPage" element={<DeviceEditForm />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/ShowOrder" element={<ShowOrder />} />
+              <Route path="/OrderCreate" element={<OrderCreate />} />
+              <Route path="/OrderUpdate" element={<OrderUpdate />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/PaymentShow" element={<PaymentShow />} />
+              <Route path="/Payment" element={<Payment />} />
+              <Route path="/EditPayment" element={<EditPayment />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/RankingForm" element={<RankingForm />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/ContentClaimOrder" element={<ClaimForm />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/RefundCreate" element={<RefundCreate />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/RefundShow" element={<RefundShow />} />
+            </Route>
           // ========== For Customer ========== // // ========== For Technician
-          ========== //
-          <Route
-            path="/"
-            element={<ProtectedRoutes roleRequired="Technician" />}
-          >
-            <Route path="/TechnicianShow" element={<CreateTechnician2 />} />
-          </Route>
-          <Route
-            path="/"
-            element={<ProtectedRoutes roleRequired="Technician" />}
-          >
-            <Route path="/OrderTech" element={<TableOrderTech />} />
-            <Route path="/TableOrder-tech" element={<Table2Order />} />
-            <Route path="/OrderTechCreate/:id" element={<OrderTechCreate />} />
-            <Route path="/OrderTechUpdate/:id" element={<OrderTechUpdate />} />
-          </Route>
-          <Route
-            path="/"
-            element={<ProtectedRoutes roleRequired="Technician" />}
-          >
-            <Route path="/PayTech" element={<TablePayTech />} />
-            <Route path="/PayTechCreate/:id" element={<PayTechCreate />} />
-            <Route path="/PayTechUpdate/:id" element={<PayTechUpdate />} />
-          </Route>
+            ========== //
+            <Route
+              path="/"
+              element={<ProtectedRoutes roleRequired="Technician" />}
+            >
+              <Route path="/TechnicianShow" element={<CreateTechnician2 />} />
+            </Route>
+            <Route
+              path="/"
+              element={<ProtectedRoutes roleRequired="Technician" />}
+            >
+              <Route path="/OrderTech" element={<TableOrderTech />} />
+              <Route path="/TableOrder-tech" element={<Table2Order />} />
+              <Route path="/OrderTechCreate/:id" element={<OrderTechCreate />} />
+              <Route path="/OrderTechUpdate/:id" element={<OrderTechUpdate />} />
+            </Route>
+            <Route
+              path="/"
+              element={<ProtectedRoutes roleRequired="Technician" />}
+            >
+              <Route path="/PayTech" element={<TablePayTech />} />
+              <Route path="/PayTechCreate/:id" element={<PayTechCreate />} />
+              <Route path="/PayTechUpdate/:id" element={<PayTechUpdate />} />
+            </Route>
           // ========== For Technician ========== // // ========== For Admin
-          ========== //
-          <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
-            <Route path="/TechnicianCreate" element={<CreateFormTech />} />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
-            <Route path="/Checked_payment" element={<Checked_payment />} />
-            <Route
-              path="/Checked_paymentShow"
-              element={<Checked_paymentShow />}
-            />
-            <Route
-              path="/EditChecked_payment"
-              element={<Edit_Checked_payment />}
-            />
-          </Route>
-          <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
-            <Route
-              path="/ClaimOrderForAdmin"
-              element={<ClaimOrderForAdmin />}
-            />
-          </Route>
+            ========== //
+            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
+              <Route path="/TechnicianCreate" element={<CreateFormTech />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
+              <Route path="/Checked_payment" element={<Checked_payment />} />
+              <Route
+                path="/Checked_paymentShow"
+                element={<Checked_paymentShow />}
+              />
+              <Route
+                path="/EditChecked_payment"
+                element={<Edit_Checked_payment />}
+              />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
+              <Route
+                path="/ClaimOrderForAdmin"
+                element={<ClaimOrderForAdmin />}
+              />
+            </Route>
           // ========== For Admin ========== //
-        </Routes>
-      </Container>
-    </Router>
+          </Routes>
+        </Container>
+
+      </Router>
+    </div>
   );
 }
 
