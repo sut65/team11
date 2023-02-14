@@ -1,0 +1,80 @@
+.boxes {
+    height: 80vh;
+    width: 60vw;
+    border-radius: 10px;
+    display: flex;
+    background-color: #182e3e;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.box1 {
+    padding-top: 15px;
+}
+
+.box1 ,.box2 , .box3{
+    display: flex;
+    width: 100%;
+    height: 12vh;
+}
+.box1 .address-id , .box2 .province , .box3 .tambon{
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    padding-right: 8%;
+}
+
+
+.box1 .address-type,.box2 .district ,.box3 .postcode{
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.box4 .detail {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    padding-right: 10%;
+    overflow: hidden;
+}
+
+.address-id .top , .tambon .top , .province .top{
+    display: flex;
+    justify-content: center;
+    padding-right: 33px;
+    padding-bottom: 10px;
+}
+.address-type .top , .district .top , .postcode .top {
+    padding-bottom: 10px;
+}
+
+.address-id .bottom,.tambon .bottom , .province .bottom{
+    display: flex;
+    justify-content: right;
+}
+
+.detail .top{
+    padding-bottom: 10px;
+}
+
+.address-id .top {
+    margin-left: 50px;
+    overflow: hidden;
+}
+.address-id .bottom {
+    margin-left: 43.5%;
+    overflow: hidden;
+}
+
+.box4 {
+    display: flex;
+    width: 50%;
+    height: 12vh;
+    justify-content: right;
+    align-items: right;
+    height: 21vh;
+}
