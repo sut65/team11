@@ -243,9 +243,7 @@ function AddressCreate() {
               </div>
             </div>
             <hr className="line"/>
-            <div className="containe-block">
-                
-            </div>
+
             <div className="block1">
                 <div className="address-type">
                     <div className="top">
