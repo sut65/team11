@@ -143,9 +143,10 @@ func main() {
 	r.PATCH("/UpdatePayment", controller.UpdatePayment)
 	r.POST("/DeletePayment/:id", controller.DeletePayment)
 
-	r.GET("/ListPayment_for_Check", controller.ListPayment_for_Check) //เรียกรายการที่ยังไม่เช็คไปแสดง เพื่อเลือกเช็ค
+	r.GET("/ListPayment_for_Check", controller.ListPayment_for_Check) //เรียกรายการที่ยังไม่เช็คไปแสดง เพื่อเลือกเช็ค	
+	r.GET("/ListPayment_filter_by_customer/:id", controller.ListPayment_filter_by_customer)
 	r.GET("/SendmoneyToFrontend/:id", controller.SendmoneyToFrontend)
-	r.GET("/ListOrderTechForPaymment", controller.ListOrderTechForPaymment)
+	r.GET("/ListOrderTechForPaymment/:id", controller.ListOrderTechForPaymment)
 	r.GET("/GetCheckedpayment_by_PaymentID/:id", controller.GetCheckedpayment_by_PaymentID)
 
 	// =============== Checked_payment ==================================

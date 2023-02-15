@@ -520,6 +520,28 @@ func SetupDatabase() {
 		Customer:  customer_1,
 	}
 	db.Model(&ORDER{}).Create(&Order_1)
+	Order_2 := ORDER{
+		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Reason:    "จอฟ้า_จั๊ดเพิ่ม_1",
+		Limits:    6000,
+		CASE:      Case_1,
+		State:     State_1,
+		Device:    device_1,
+		Address:   address_1,
+		Customer:  customer_1,
+	}
+	db.Model(&ORDER{}).Create(&Order_2)
+	Order_3 := ORDER{
+		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Reason:    "เปิดไม่ติด_จั๊ดเพิ่ม_2",
+		Limits:    6000,
+		CASE:      Case_1,
+		State:     State_1,
+		Device:    device_1,
+		Address:   address_1,
+		Customer:  customer_1,
+	}
+	db.Model(&ORDER{}).Create(&Order_3)
 
 	// ====== Mockup Order ========
 
@@ -592,9 +614,32 @@ func SetupDatabase() {
 		CostDetail:       CostDetailA,
 		Technician:       technician_1,
 		ORDER:            Order_1,
-		ForPaymentStatus: true, //จั๊ดเพิ่ม
+		ForPaymentStatus: false, //จั๊ดเพิ่ม
 	}
 	db.Model(&OrderTech{}).Create(&OrderTechA)
+	OrderTechB := OrderTech{
+		Solving:          "จั๊ดเพิ่ม1-เปลี่ยนสายไฟ",
+		TimeOut:          time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status:           StatusA,
+		Damage:           DamageA,
+		CostDetail:       CostDetailA,
+		Technician:       technician_1,
+		ORDER:            Order_2,
+		ForPaymentStatus: false, //จั๊ดเพิ่ม
+	}
+	db.Model(&OrderTech{}).Create(&OrderTechB)
+	OrderTechC := OrderTech{
+		Solving:          "จั๊ดเพิ่ม2-เปลี่ยนจอ",
+		TimeOut:          time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Status:           StatusA,
+		Damage:           DamageA,
+		CostDetail:       CostDetailA,
+		Technician:       technician_1,
+		ORDER:            Order_3,
+		ForPaymentStatus: true, //จั๊ดเพิ่ม
+	}
+	db.Model(&OrderTech{}).Create(&OrderTechC)
+	
 	// ====== Mockup OrderTech ========
 
 	// ================== Mockup PayTech ======================
@@ -648,7 +693,7 @@ func SetupDatabase() {
 		Amount:       153.22,
 		Amount_Check: 153.22,
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status_ID:    1,
+		Status_ID:    4,
 		Bank:         Bank_1,
 		OrderTech:    OrderTechA,
 		Customer:     customer_1,
@@ -657,11 +702,11 @@ func SetupDatabase() {
 	Pay_2 := Payment{
 		Sender_Name:  "2.ภัฒนศักดิ์ อัตตะกุล",
 		Amount:       1253.22,
-		Amount_Check: 1253.22,
+		Amount_Check: 500,
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Status_ID:    3,
 		Bank:         Bank_4,
-		OrderTech:    OrderTechA,
+		OrderTech:    OrderTechB,
 		Customer:     customer_1,
 	}
 	db.Model(&Payment{}).Create(&Pay_2)
@@ -680,7 +725,7 @@ func SetupDatabase() {
 
 	Checked_Pay_1 := Checked_payment{
 		Other:        "นี่คือการทดสอบ comment",
-		Message:      "ข้อความถึงลูกค้า",
+		Message:      "สวัสดีครับคุณลูกค้า ไม่พบยอดเงินที่ตรงกับข้อมูลที่แจ้งเข้าระบบ กรุณารอการติดต่อกลับจากเรา",
 		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Status_check: status_4,
 		Payment:      Pay_1,
