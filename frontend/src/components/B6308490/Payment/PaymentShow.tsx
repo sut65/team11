@@ -6,7 +6,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
 import React from 'react';
-import '../CSS/Tab.css';
 //import { styled } from '@mui/system';
 import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
