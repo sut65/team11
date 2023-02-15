@@ -59,7 +59,7 @@ const P2 = styled(Paper)(({ theme }) => ({
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Payment() {
   const [Bank_ID, setBank_ID] = useState('');
-  let OrderTech_ID = localStorage.getItem('Ordertech_ID'); //check again
+  let OrderTech_ID = localStorage.getItem('Ordertech_ID');
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Payment, setPayment] = React.useState<Partial<PaymentInterface>>({});
 

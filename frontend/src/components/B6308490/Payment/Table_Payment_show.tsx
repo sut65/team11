@@ -48,7 +48,7 @@ function Table_Payment_show() {
   //===============list payment details =================
   const [Payment, set_All_Payment] = React.useState<PaymentInterface[]>([]);
   const get_All_Payment = async () => {
-    const apiUrl = `http://localhost:8080/ListPayment`;
+    const apiUrl = `http://localhost:8080/ListPayment_filter_by_customer/${localStorage.getItem("uid")}`;
     const requestOptions = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
