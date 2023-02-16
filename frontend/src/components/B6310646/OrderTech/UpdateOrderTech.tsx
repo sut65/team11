@@ -141,6 +141,7 @@ const OrderTechUpdate = () => {
           setOrder1(res.data);
           setOrderDetail(res.data);
           console.log(res.data);
+          console.log(Order1)
         }
       });
   };

@@ -66,7 +66,7 @@ export default function TablePayTech() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/pay-teches`, requestOptions)
+    fetch(`${apiUrl}/technician-pay/${localStorage.getItem("uid")}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
