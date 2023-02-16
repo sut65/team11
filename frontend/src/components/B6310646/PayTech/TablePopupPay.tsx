@@ -57,7 +57,7 @@ export default function TableOrderTech() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/order-teches`, requestOptions)
+    fetch(`${apiUrl}/technician-order-tech-status/${localStorage.getItem("uid")}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
