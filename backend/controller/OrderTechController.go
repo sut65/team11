@@ -12,10 +12,12 @@ import (
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////   		   controller OrderTech    		////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 type extendedOrderTech struct {
 	entity.OrderTech
 	Name string
+	Cost int
+	DamageName string
+	StatusName string
 }
 
 type extendedOrderTechCus struct {
@@ -286,4 +288,18 @@ func GetCostDetail(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": CostDetail})
+}
+
+// getByUID
+func ListTechnicianOrderByUID(c *gin.Context) {
+
+	var ordertech []extendedOrderTech
+	id := c.Param("id")
+
+	if err := entity.DB().Preload("CostDetail").Preload("Damage").Preload("Status").Preload("Technician").Raw("SELECT o.*, t.name, s.status_name,c.cost,d.damage_name FROM order_teches o JOIN statuses s JOIN cost_details c JOIN technicians t JOIN damages d ON o.technician_id = t.id AND o.status_id = s.id AND o.cost_detail_id = c.id AND o.damage_id = d.id WHERE s.id = 1 AND t.id = ?", id).Find(&ordertech).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": ordertech})
+
 }

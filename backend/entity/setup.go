@@ -281,6 +281,23 @@ func SetupDatabase() {
 	}
 	db.Model(&Technician{}).Create(&technician_1)
 
+	passwordTech2, err := bcrypt.GenerateFromPassword([]byte("12345678901234"), 14)
+	//Technician
+	technician_2 := Technician{
+		Name:     "supanan rueangsook",
+		ID_card:  "1-3299-01075-61-6",
+		DOB:      time.Date(2001, 8, 9, 15, 05, 45, 100, time.Local),
+		Phone:    "0885870149",
+		GENDER:   maleT,
+		EDUCATE:  BD,
+		PREFIX:   mrT,
+		Location: "กรุงเทพ....",
+		Username: "T6500002",
+		Password: string(passwordTech2),
+		ROLE:     techni,
+	}
+	db.Model(&Technician{}).Create(&technician_2)
+
 	// ====== Mockup Address ========
 
 	aType_1 := AddressType{
@@ -560,17 +577,13 @@ func SetupDatabase() {
 	// ================== Mockup OrderTech ====================
 	//Status
 	StatusA := Status{
-		StatusName: "ยังไม่ดำเนินการ",
+		StatusName: "กำลังดำเนินการ",
 	}
 	db.Model(&Status{}).Create(&StatusA)
 	StatusB := Status{
-		StatusName: "กำลังดำเนินการ",
-	}
-	db.Model(&Status{}).Create(&StatusB)
-	StatusC := Status{
 		StatusName: "ดำเนินการเสร็จสิ้น",
 	}
-	db.Model(&Status{}).Create(&StatusC)
+	db.Model(&Status{}).Create(&StatusB)
 
 	//Damage
 	DamageA := Damage{
@@ -639,7 +652,7 @@ func SetupDatabase() {
 		ForPaymentStatus: true, //จั๊ดเพิ่ม
 	}
 	db.Model(&OrderTech{}).Create(&OrderTechC)
-	
+
 	// ====== Mockup OrderTech ========
 
 	// ================== Mockup PayTech ======================
