@@ -29,22 +29,51 @@ function RankingForm() {
     const [checkedPaymentsAll, setCheckedPaymentsAll] = useState<any[]>([]);
     const [activeStep, setActiveStep] = React.useState(0);
 
+    const [customerName, setCustomerName] = React.useState("");
+
+    const userID = parseInt(localStorage.getItem("uid") + "");
+    
+
     const PageDisplay = () => {
         if (activeStep === 0) {
-            return <Content activeStep={activeStep} setActiveStep={setActiveStep} setReviewsID={setReviewsID} formDataRating={formDataRating} setFormDataRating={setFormDataRating} setCheckedPaymentsAll={setCheckedPaymentsAll}/>
+            return <Content userID ={userID} activeStep={activeStep} setActiveStep={setActiveStep} setReviewsID={setReviewsID} formDataRating={formDataRating} setFormDataRating={setFormDataRating} setCheckedPaymentsAll={setCheckedPaymentsAll}/>
 
         } else if (activeStep === 1) {
-            return <Star1 formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
+            return <Star1 customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
 
         } else if (activeStep === 2) {
-            return <Star2 formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
+            return <Star2 customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
 
         } else if (activeStep === 3) {
-            return <Submit formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
+            return <Submit customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
         } else if (activeStep === 4) {
             return <EditDataReview reviewsID={reviewsID} setActiveStep={setActiveStep} />
         }
     }
+
+
+    const getCustomerName = async () => {
+        const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        };
+        fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    // setReviews(res.data)
+                    setCustomerName(res.data.Name);
+                    console.log("getCustomerName: ",res.data.Name);
+                }
+            });
+    };
+    
+
+    useEffect(() => {
+        getCustomerName();
+
+    }, []);
 
     return (
         <Paper

@@ -32,7 +32,7 @@ import { StaticDatePicker } from '@mui/x-date-pickers';
 
 
 
-function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
+function Submit({ customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
 
 
     const [hover, setHover] = useState(-1);
@@ -147,7 +147,7 @@ function Submit({ formDataRating, setFormDataRating, activeStep, setActiveStep, 
                     </Grid>
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
-                            ผู้ดำเนินการ :
+                            ผู้ดำเนินการ : {customerName}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
