@@ -5,6 +5,17 @@
     display: flex;
     background-color: #182e3e;
     flex-direction: column;
+    overflow: hidden;
+}
+
+.container-edit-device {
+    height: 88vh;
+    width: 60vw;
+    border-radius: 10px;
+    display: flex;
+    background-color: #182e3e;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .header-device {
@@ -16,4 +27,63 @@
 
 .header-device .line-device {
     width: 90%;
+}
+
+.text-container {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.text-block {
+    padding: 10px;
+    display: flex;
+    align-items: right;
+}
+
+.blocks {
+    width: 50%;
+    margin: 0 50px;
+}
+
+.blocks .above {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.button-create-device {
+    display: flex;
+    width: 100%;
+    height: 10vh;
+    padding: 30px 20%;
+    overflow: hidden;
+}
+
+.back-button-create-device {
+    display: flex;
+    width: 30%;
+    height: 35px;
+}
+
+.show-button-create-device {
+    display: flex;
+    width: 30%;
+    height: 35px;
+    justify-content: right;
+    padding-right: 10px;
+}
+
+.save-button-create-device {
+    display: flex;
+    width: 30%;
+    height:  35px;
+    padding-right: 25%;
+}
+
+.text-block-no {
+    padding: 0px 400px 0px 0px;
 }

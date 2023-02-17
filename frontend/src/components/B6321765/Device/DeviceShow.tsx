@@ -186,9 +186,8 @@ function DeviceShow() {
             columns={columns}
             pageSize={6}
             rowsPerPageOptions={[6]}
-            components={{
-              Toolbar: GridToolbar,
-            }}/>
+            components={{ Toolbar: GridToolbar,}}
+            style={{ borderRadius: '10px' }}/>
         )
     }
 }

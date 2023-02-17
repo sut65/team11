@@ -31,7 +31,7 @@ function AddressEdit() {
           cancelButton: 'btn btn-danger'
         },
         buttonsStyling: true
-      })
+    })
 
     const update_successAlert = () => {
         Swal.fire({
@@ -42,7 +42,7 @@ function AddressEdit() {
             navigate({
                 pathname: `/AddressShowPage/`
             })
-        });;
+        });
     }
     const update_errorAlert = () => {
         Swal.fire({
