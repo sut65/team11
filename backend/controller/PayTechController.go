@@ -16,8 +16,18 @@ import (
 
 type extendedPayTech struct {
 	entity.PayTech
+	HardwareName string
 	Name string
 }
+
+type extendedOrderTechStatus struct {
+	entity.OrderTech
+	Name string
+	Cost int
+	DamageName string
+	StatusName string
+}
+
 
 // POST /PayTech
 func CreatePayTech(c *gin.Context) {
@@ -199,4 +209,45 @@ func GetHardware(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Hardware})
+}
+
+// getByUID
+func ListTechnicianByUID(c *gin.Context) {
+
+	var paytech []extendedPayTech
+	id := c.Param("id")
+
+	if err := entity.DB().Preload("Hardware").Preload("Technician").Raw("SELECT p.*, t.name, h.hardware_name FROM pay_teches p JOIN technicians t JOIN hardwares h ON p.technician_id = t.id AND p.hardware_id = h.id WHERE t.id = ?", id).Find(&paytech).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": paytech})
+
+}
+
+// getByUID
+func ListTechnicianOrderStatusByUID(c *gin.Context) {
+
+	var ordertech []extendedOrderTechStatus
+	id := c.Param("id")
+
+	if err := entity.DB().Preload("CostDetail").Preload("Damage").Preload("Status").Preload("Technician").Raw("SELECT o.*, t.name, s.status_name,c.cost,d.damage_name FROM order_teches o JOIN statuses s JOIN cost_details c JOIN technicians t JOIN damages d ON o.technician_id = t.id AND o.status_id = s.id AND o.cost_detail_id = c.id AND o.damage_id = d.id WHERE s.id = 2 AND t.id = ?", id).Find(&ordertech).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": ordertech})
+
+}
+// getByUID
+func ListTechnicianOrderTechInPayByUID(c *gin.Context) {
+
+	var paytech []extendedPayTech
+	id := c.Param("id")
+
+	if err := entity.DB().Preload("Hardware").Preload("Technician").Raw("SELECT p.*, t.name, h.hardware_name FROM pay_teches p JOIN technicians t JOIN hardwares h ON p.technician_id = t.id AND p.hardware_id = h.id WHERE order_tech_id = ?", id).Find(&paytech).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": paytech})
+
 }

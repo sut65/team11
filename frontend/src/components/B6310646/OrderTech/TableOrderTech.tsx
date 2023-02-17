@@ -27,13 +27,16 @@ import { Link as RouterLink } from "react-router-dom";
 
 import Table2Order from "./TablePopupOrderTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
-import { blue, grey, yellow } from "@mui/material/colors";
+import { blue, green, grey, yellow } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import Swal from "sweetalert2";
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 export default function TableOrderTech() {
   const params = useParams();
   const navigate = useNavigate();
+  const [Status, setStatus] = React.useState<OrderTechInterface>()
+
 
   const [OrderTech, setOrderTech] = React.useState<OrderTechInterface[]>([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -85,7 +88,7 @@ export default function TableOrderTech() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/order-teches`, requestOptions)
+    fetch(`${apiUrl}/technician-order-tech/${localStorage.getItem("uid")}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -142,7 +145,7 @@ export default function TableOrderTech() {
             <Table sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right">OrderTechID</TableCell>
+                  <TableCell align="left">OrderTechID</TableCell>
                   <TableCell align="right">OrderID</TableCell>
                   <TableCell align="center">Solving</TableCell>
                   <TableCell align="right">Time Out</TableCell>
@@ -186,6 +189,7 @@ export default function TableOrderTech() {
                         <IconButton
                           id="Edit_ORDER"
                           size="large"
+                          
                           aria-label="Edit"
                           sx={{ color: yellow[800] }}
                           onClick={() => {
@@ -219,6 +223,32 @@ export default function TableOrderTech() {
                         >
                           <EditIcon fontSize="inherit" />
                         </IconButton>
+                        {/* <IconButton
+                          id="Done_Status-2"
+                          size="large"
+                          aria-label="Done"
+                          sx={{ color: green[800] }}
+                          onClick={() => {
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "You won't be able to revert this!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Done!!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                navigate({
+                                  pathname: `/OrderTech/${row.ID}`,
+                                });
+                                // setStatus({ ...Status, [id]: value});
+                              }
+                            });
+                          }}
+                        >
+                          <DoneOutlineIcon fontSize="inherit" />
+                        </IconButton> */}
                       </ButtonGroup>
                     </TableCell>
                   </TableRow>

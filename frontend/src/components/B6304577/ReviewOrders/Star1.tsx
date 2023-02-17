@@ -16,7 +16,7 @@ import style from "./style.module.css";
 
 
 
-function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
+function Star1({ customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
     const [hover, setHover] = React.useState(-1);
     // console.log(checkedPaymentsAll);
 
@@ -64,7 +64,7 @@ function Star1({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
                     </Grid>
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
-                            ผู้ดำเนินการ :
+                            ผู้ดำเนินการ : {customerName}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>

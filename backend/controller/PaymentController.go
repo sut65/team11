@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
-	"github.com/asaskevich/govalidator"
 )
 
 var vat_pay float32 = 0.25
@@ -101,6 +101,19 @@ func ListPayment_for_Check(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Payments_for_check})
 
+}
+
+// สำหรับโชว์รายการชำระเงิน ที่ดำเนินการแล้วทั้งหมดของลูกค้า
+func ListPayment_filter_by_customer(c *gin.Context) {
+	C_id := c.Param("id")
+	var ListPayment_filter_by_customer []entity.Payment
+	query := "SELECT * FROM payments WHERE customer_id = " + C_id + ";"
+
+	if err := entity.DB().Raw(query).Preload("OrderTech.ORDER").Preload("Bank").Preload("Customer").Find(&ListPayment_filter_by_customer).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": ListPayment_filter_by_customer})
 }
 
 // ===================================================================================================================================
@@ -226,10 +239,12 @@ func DeleteBank(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
-// =========================================== สำหหรับ ดึงตารางเหมียวไปโขว์ เฉพาะ ที่มีสถานะ เสร็จแล้ว ============================================
+// =========================================== สำหรับ ดึงตารางเหมียวไปโขว์เฉพาะ ที่มีสถานะ เสร็จแล้ว ============================================
 func ListOrderTechForPaymment(c *gin.Context) {
+	C_id := c.Param("id")
 	var ListOrderTechForPaymment []entity.OrderTech
-	query := "SELECT * FROM order_teches WHERE for_Payment_status = 1"
+	query := "SELECT * FROM order_teches WHERE for_Payment_status = 1 AND order_teches.order_id IN (SELECT id FROM orders WHERE customer_id = " + C_id + ");"
+
 	if err := entity.DB().Raw(query).Preload("ORDER.CASE").Preload("ORDER.Address.AddressType").Preload("ORDER.Device.Windows").Preload("ORDER.Device.Type").Preload("ORDER.Device.Customer.GENDER").Preload("ORDER.Device.Customer.CAREER").Preload("ORDER.Device.Customer.PREFIX").Preload("Technician.EDUCATE").Preload("Technician.PREFIX").Preload("ORDER.Address.Tambon.District.Province").Preload("ORDER.Device.Windows").Preload("ORDER.Device.Type").Preload("ORDER.Device.Customer.GENDER").Preload("ORDER.Device.Customer.CAREER").Preload("ORDER.Device.Customer.PREFIX").Preload("Technician.GENDER").Preload("CostDetail").Preload("Damage").Preload("Status").Find(&ListOrderTechForPaymment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -252,7 +267,6 @@ func SendmoneyToFrontend(c *gin.Context) {
 
 	var A_B = A + B
 	var sent = A_B + (A_B * vat_pay)
-
 
 	c.JSON(http.StatusOK, gin.H{"sent": sent})
 
@@ -285,6 +299,7 @@ func get_id_Ordertech_for_status(PaymentID any) int {
 	entity.DB().Table("payments").Select("order_tech_id").Where("id = ?", PaymentID).Row().Scan(&ID_Ordertech)
 	return ID_Ordertech
 }
+
 // ============================================= สำหรับตรวจสอบข้อความถึงลูกค้า =================================================================
 // func Message_in_CheckedPayment(c *gin.Context) {
 // 	var message_to_customer entity.Checked_payment

@@ -28,7 +28,7 @@ function CustomPagination() {
 function Table_Paytech_show() {
     const [Paytech_all, set_All_Payment] = React.useState<OrderTechInterface[]>([]);
     const get_All_Paytech = async () => {
-        const apiUrl = `http://localhost:8080/ListOrderTechForPaymment`;
+        const apiUrl = `http://localhost:8080/ListOrderTechForPaymment/${localStorage.getItem("uid")}`;
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -118,7 +118,7 @@ function Table_Paytech_show() {
                 pageSize={10}
                 rowsPerPageOptions={[50]}
                 components={{ Toolbar: GridToolbar, Pagination: CustomPagination,}}
-                style={{ height: '500px', borderRadius: '35px' }}
+                style={{ height: '500px', borderRadius: '25px' ,outline: '3px solid #db36a4' }}
             />
         </div>
     )

@@ -49,6 +49,8 @@ func main() {
 	r.GET("/damage/:id", controller.GetDamage)
 	r.GET("/cost-details", controller.ListCostDetail)
 	r.GET("/cost-detail/:id", controller.GetCostDetail)
+
+	r.GET("/technician-order-tech/:id", controller.ListTechnicianOrderByUID)
 	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
 
 	// PayTech
@@ -61,6 +63,11 @@ func main() {
 
 	r.GET("/hardwares", controller.ListHardware)
 	r.GET("/hardware/:id", controller.GetHardware)
+
+	r.GET("/technician-pay/:id", controller.ListTechnicianByUID)
+	r.GET("/technician-order-tech-status/:id", controller.ListTechnicianOrderStatusByUID)
+	r.GET("/technician-order-tech-fix/:id", controller.ListTechnicianOrderTechInPayByUID)
+
 	// =============== B6310646(meow) -->> ระบบบันทึกค่าใช้จ่ายของช่าง(paytech) ==========================
 
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
@@ -73,6 +80,7 @@ func main() {
 
 	r.GET("/GetListReviews", controller.GetListReviews)
 	r.GET("/GetReview/:id", controller.GetReview)
+	r.GET("/ListCheckedPayment_filter_by_customer/:id", controller.ListCheckedPayment_filter_by_customer)
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 
 	//=============== B6321765 (พืชผล) -->> ระบบที่อยู่ผู้แจ้ง (Address) ==========================
@@ -144,8 +152,9 @@ func main() {
 	r.POST("/DeletePayment/:id", controller.DeletePayment)
 
 	r.GET("/ListPayment_for_Check", controller.ListPayment_for_Check) //เรียกรายการที่ยังไม่เช็คไปแสดง เพื่อเลือกเช็ค
+	r.GET("/ListPayment_filter_by_customer/:id", controller.ListPayment_filter_by_customer)
 	r.GET("/SendmoneyToFrontend/:id", controller.SendmoneyToFrontend)
-	r.GET("/ListOrderTechForPaymment", controller.ListOrderTechForPaymment)
+	r.GET("/ListOrderTechForPaymment/:id", controller.ListOrderTechForPaymment)
 	r.GET("/GetCheckedpayment_by_PaymentID/:id", controller.GetCheckedpayment_by_PaymentID)
 
 	// =============== Checked_payment ==================================

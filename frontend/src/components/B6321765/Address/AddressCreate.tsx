@@ -1,9 +1,7 @@
+import "./css/create-style.css";
 import React, { useEffect } from "react";
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import { Typography } from "@mui/material";
 import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import FormControl from '@mui/material/FormControl';
 import { Link as RouterLink } from "react-router-dom";
@@ -13,8 +11,7 @@ import { DistrictInterface, ProvinceInterface, TambonInterface } from "../../../
 import { AddressTypeInterface } from "../../../interfaces/AddressUI";
 import { useNavigate } from 'react-router-dom';
 import dayjs, { Dayjs } from 'dayjs';
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Autocomplete from '@mui/material/Autocomplete';
 
 function AddressCreate() {
 
@@ -31,6 +28,7 @@ function AddressCreate() {
     const [postCode, setPostCode] = React.useState<String>("");
     const [detail, setDetail] = React.useState<String>("");
     const [date, setDate] = React.useState<Dayjs | null>(dayjs());
+    
 
     const [addressTypeID, setAddressTypeID] = React.useState('');
     const onChangeAddressType = (event: SelectChangeEvent) => {
@@ -38,19 +36,19 @@ function AddressCreate() {
     };
 
     const [provinceID, setProvinceID] = React.useState('');
-    const onChangeProvince = (event: SelectChangeEvent) => {
-        setProvinceID(event.target.value as string);
-    };
+    const onChangeProvince = (event: any, value: ProvinceInterface | null) => {
+        setProvinceID(value ? value.ID.toString() : '');
+      };
 
     const [districtID, setDistrictID] = React.useState('');
-    const onChangeDistrict = (event: SelectChangeEvent) => {
-        setDistrictID(event.target.value as string);
-    };
+    const onChangeDistrict = (event: any, value: DistrictInterface | null) => {
+        setDistrictID(value ? value.ID.toString() : '');
+      };
 
     const [tambonID, setTambonID] = React.useState('');
-    const onChangeTambon = (event: SelectChangeEvent) => {
-        setTambonID(event.target.value as string);
-    };
+    const onChangeTambon = (event: any, value: TambonInterface | null) => {
+        setTambonID(value ? value.ID.toString() : '');
+      };
 
     const convertType = (data: string | number | undefined) => {
         let val = typeof data === "string" ? parseInt(data) : data;
@@ -80,6 +78,13 @@ function AddressCreate() {
             if (res.data) {
                 successAlert();
                 console.log("Success");
+                setAddressTypeID("");
+                setProvinceID("");
+                setDistrictID("");
+                setTambonID("");
+                setPostCode("");
+                setDetail("");
+                setDate(dayjs());
             } else {
                 Swal.fire({
                     title: 'บันทึกไม่สำเร็จ',
@@ -89,11 +94,6 @@ function AddressCreate() {
                 console.log("Error");
             }
           });
-        // reset All after Submit
-        setAddressTypeID("");
-        setTambonID("");
-        setPostCode("");
-        setDetail("");
       }
 
         const [addressType, setAddressType] = React.useState<AddressTypeInterface[]>([]);
@@ -127,6 +127,7 @@ function AddressCreate() {
                 }
             });
         };
+        const selectedProvince = province.filter(p => p.ID === parseInt(provinceID, 10))[0] || null;
 
         const [district, setDistrict] = React.useState<DistrictInterface[]>([]);
         const getDistrict = async () => {
@@ -157,6 +158,7 @@ function AddressCreate() {
                 }
             });
         };
+        const selectedDistrict = district.filter(d => d.ID === parseInt(districtID, 10))[0] || null;
 
         const [tambon, setTambon] = React.useState<TambonInterface[]>([]);
         const getTambon = async () => {
@@ -187,6 +189,7 @@ function AddressCreate() {
                 }
             });
         };
+        const selectedTambon = tambon.filter(t => t.ID === parseInt(tambonID, 10))[0] || null;
 
         const [userName, setUserName] = React.useState('');
         const getUser = async () => {
@@ -210,6 +213,15 @@ function AddressCreate() {
         getTambon();
         getProvince();
         getDistrict();
+
+        const dateTime= setInterval(() => {
+            setDate(dayjs());
+          }, 1000);
+        
+          return () => {
+            clearInterval(dateTime);
+          };
+
     }, []);
     useEffect(() => {
         getDistrictByID();
@@ -219,230 +231,220 @@ function AddressCreate() {
     }, [districtID]);
 
     return(
-        <Paper style={{backgroundColor:"#182e3e"}}>
-            <Box>
-            <Typography
-                component="h2"
-                variant="h4"
-                color="#558b2f"
-                gutterBottom
-                fontFamily="Arial"
-                align="center"
-                mt={3}
-                mb={3}
-                bgcolor="#182e3e"
-            >
-                <b>ระบบที่อยู่ผู้แจ้ง</b>
-            </Typography>
-            </Box>
-            <Box>
-                <Grid container spacing={0}>
-                    <Grid item xs={3}/>
-                    <Grid item xs={2}>
-                        <Typography align="right" fontSize={25} color="white">ชื่อลูกค้า</Typography>
-                    </Grid>
-                    <Grid item xs={3.5}>
-                        <TextField
-                        style={{backgroundColor:"white"}}
-                        sx={{ width: 300 }}
-                        id="outlined-read-only-input"
-                        value={userName}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        /><p/>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button sx={{ backgroundColor: "#A75D5D" }} component={RouterLink} to="/AddressEditPage" variant="contained">
-                            แก้ไข/ลบข้อมูล
-                        </Button>
-                    </Grid>
-                    <Grid item xs={3}/>
-                    <Grid item xs={2}>
-                        <Typography align="right" fontSize={25} color="white">ประเภทที่อยู่</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                        <Typography align="center" fontSize={50}>
-                            <FormControl fullWidth variant="outlined">
-                                <Select
-                                    style={{backgroundColor:"white"}}
-                                    native
-                                    value={addressTypeID}
-                                    onChange={onChangeAddressType}
-                                    sx={{ width: 300 }}
-                                    inputProps={{
-                                    name: "addressTypeID",
-                                    }}
-                                >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกประเภทที่อยู่
-                                </option>
-                                {addressType.map((item: AddressTypeInterface) => (
-                                <option value={item.ID} key={item.ID}>
-                                    {item.Type_Name}
-                                </option>
-                                ))}
-                                </Select>
-                            </FormControl><p />
-                        </Typography>
-                    </Grid>
-                    <p/>
-                    <Grid item xs={3}/>
-                    <Grid item xs={2}>
-                        <Typography align="right" fontSize={25} color="white">จังหวัด</Typography>
-                    </Grid>
-                    <Grid item xs={7} >
-                        <FormControl fullWidth variant="outlined">
-                            <Select
-                                style={{backgroundColor:"white"}}
-                                native
-                                value={provinceID}
-                                onChange={onChangeProvince}
-                                sx={{ width: 300 }}
-                                inputProps={{
-                                name: "provinceID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกจังหวัด
-                                </option>
-                                {province.map((item: ProvinceInterface) => (
-                                <option value={item.ID} key={item.ID}>
-                                    {item.Province_Name}
-                                </option>
-                                ))}
-                            </Select>
-                        </FormControl><p/>
-                    </Grid>
-                    <Grid item xs={3}/>
-                    <Grid item xs={2}>
-                        <Typography align="right" fontSize={25} color="white">อำเภอ</Typography>
-                    </Grid>
-                    <Grid item xs={7} >
-                        <FormControl fullWidth variant="outlined" >
-                            <Select
-                                native
-                                style={{backgroundColor:"white"}}
-                                value={districtID}
-                                onChange={onChangeDistrict}
-                                sx={{ width: 300 }}
-                                inputProps={{
-                                name: "districtID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกอำเภอ
-                                </option>
-                                {district.map((item: DistrictInterface) => (
-                                <option value={item.ID} key={item.ID}>
-                                    {item.District_Name}
-                                </option>
-                                ))}
-                            </Select>
-                        </FormControl><p />
-                    </Grid>
-                    <Grid item xs={3}/>
-                    <Grid item xs={2}>
-                        <Typography align="right" fontSize={25} color="white">ตำบล</Typography>
-                    </Grid>
-                    <Grid item xs={7} >
-                        <FormControl fullWidth variant="outlined">
-                            <Select
-                                style={{backgroundColor:"white"}}
-                                native
-                                value={tambonID}
-                                onChange={onChangeTambon}
-                                sx={{ width: 300 }}
-                                inputProps={{
-                                name: "tambonID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    กรุณาเลือกตำบล
-                                </option>
-                                {tambon.map((item: TambonInterface) => (
-                                <option value={item.ID} key={item.ID}>
-                                    {item.Tambon_Name}
-                                </option>
-                                ))}
-                            </Select>
-                        </FormControl><p />
-                    </Grid>
-                    <Grid item xs={3}/>
-                    <Grid item xs={2}>
-                        <Typography align="right" fontSize={25} color="white">รหัสไปรษณีย์</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                        <TextField
-                        style={{backgroundColor:"white"}}
-                        id="postCode"
-                        label="กรอกเลขไปรษณีย์"
-                        type="number"
-                        InputProps={{ inputProps: { min: 0 } }}
-                        value={postCode}
-                        sx={{ width: 300 }}
-                        variant="outlined"
-                        onChange={(event) => setPostCode(event.target.value)}
-                        /><p />
-                    </Grid>
-                    <Grid item xs={3}/>
-                    <Grid item xs={2}>
-                        <Typography align="right" fontSize={25} color="white">รายละเอียดที่อยู่</Typography>
-                    </Grid>
-                    <Grid item xs={7}>
-                        <TextField
-                        style={{backgroundColor:"white"}}
-                        id="details"
-                        sx={{ width: 300 }}
-                        multiline
-                        rows={4}
-                        value={detail}
-                        label="หมายเหตุ"
-                        onChange={(event) => setDetail(event.target.value)}
-                        /><p />
-                    </Grid>
-                    <Grid item xs={5} paddingLeft={36}>
-                        <Typography align="right" fontSize={25} color="white">วันที่และเวลา</Typography>
-                    </Grid>
-                    <Grid item xs={2.5} bgcolor="white">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker
-                            renderInput={(props) => <TextField {...props} />}
-                            label="DateTimePicker"
-                            value={date}
-                            onChange={(newValue) => {
-                            setDate(newValue);
-                            }}
-                        />
-                        </LocalizationProvider>
-                    </Grid>
-                    <Grid item xs={5}/>
-                    <p/>
-                    <Grid item xs={3}/>
-                    <Grid item xs={1}>
-                        <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
-                            ย้อนกลับ
-                        </Button>
-                    </Grid>
-                    <Grid item xs={3}/>
-                    <Grid item xs={1.2}>
-                        <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressShowPage" variant="contained">
-                            แสดงข้อมูล
-                        </Button>
-                    </Grid>
-                    <Grid item xs={2} paddingRight={1}>
-                        <Button
+        <div className="container">
+            <div className="topic">
+
+              <h1 className="header">ระบบที่อยู่ผู้แจ้ง</h1>
+              <div className="info">
+                <ul>
+                    <li>Customer : {userName}</li>
+                    <li>Datetime : {date ? date.format("DD/MM/YYYY HH:mm:ss") : ''}</li>
+                </ul>
+              </div>
+            </div>
+            <hr className="line"/>
+
+            <div className="block1">
+                <div className="address-type">
+                    <div className="top">
+                        ประเภทที่อยู่
+                    </div>
+                    <div className="bottom">
+                        {addressTypeCombobox()}
+                    </div>
+                </div>
+            </div>
+
+            <div className="block2">
+                <div className="province">
+                    <div className="top">
+                        จังหวัด
+                    </div>
+                    <div className="bottom">
+                        {provinceCombobox()}
+                    </div>
+                </div>
+                <div className="district">
+                    <div className="top">
+                        อำเภอ
+                    </div>
+                    <div className="bottom">
+                        {districtCombobox()}
+                    </div>
+                </div>
+            </div>
+
+            <div className="block3">
+                <div className="tambon">
+                    <div className="top">
+                        ตำบล
+                    </div>
+                    <div className="bottom">
+                        {tambonCombobox()}
+                    </div>
+                </div>
+                <div className="postcode">
+                    <div className="top">
+                        รหัสไปรษณีย์
+                    </div>
+                    <div className="bottom">
+                        {postcodeTextfield()}
+                    </div>
+                </div>
+            </div>
+
+            <div className="block4">
+                <div className="detail">
+                    <div className="top">
+                        รายละเอียดที่อยู่
+                    </div>
+                    <div className="bottom">
+                        {detailTextfield()}
+                    </div>
+                </div>
+            </div>
+
+            <div className="button">
+                <div className="back-button">
+                    <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
+                        ย้อนกลับ
+                    </Button>
+                </div>
+                <div className="show-button">
+                    <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/AddressShowPage" variant="contained">
+                        แสดงข้อมูล
+                    </Button>
+                </div>
+                <div className="save-button">
+                    <Button
                         variant="contained"
                         color="success"
-                        onClick={submit}>
-                            บันทึกข้อมูล
-                        </Button><p />
-                    </Grid>
-                </Grid>
-            </Box>
-            <br/><br/><br/><br/>
-        </Paper> 
+                        onClick={submit}> บันทึกข้อมูล
+                    </Button>
+                </div>
+            </div>
+        </div>
     )
+
+    function addressTypeCombobox() {
+        return (
+            <Typography align="center" fontSize={50}>
+            <FormControl fullWidth variant="outlined">
+                <Select
+                    style={{backgroundColor:"white"}}
+                    native
+                    value={addressTypeID}
+                    onChange={onChangeAddressType}
+                    sx={{ width: 300 }}
+                    inputProps={{
+                    name: "addressTypeID",
+                    }}
+                >
+                <option aria-label="None" value="">
+                    กรุณาเลือกประเภทที่อยู่
+                </option>
+                {addressType.map((item: AddressTypeInterface) => (
+                <option value={item.ID} key={item.ID}>
+                    {item.Type_Name}
+                </option>
+                ))}
+                </Select>
+            </FormControl>
+            </Typography>
+        )
+    }
+
+    function provinceCombobox() {
+        return (
+            <Autocomplete
+                style={{ backgroundColor: "white", width: 300 }}
+                value={selectedProvince}
+                onChange={onChangeProvince}
+                options={province}
+                getOptionLabel={(option: ProvinceInterface) => option.Province_Name}
+                renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="กรุณาเลือกจังหวัด"
+                    variant="outlined"
+                    fullWidth
+                    />
+                )}
+            />
+        )
+    }
+
+    function districtCombobox() {
+        return (
+            <Autocomplete
+                style={{ backgroundColor: "white", width: 300 }}
+                value={selectedDistrict}
+                onChange={onChangeDistrict}
+                options={district}
+                getOptionLabel={(option: DistrictInterface) => option.District_Name}
+                renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="กรุณาเลือกอำเภอ"
+                    variant="outlined"
+                    fullWidth
+                    />
+                )}
+            />
+        )
+    }
+
+    function tambonCombobox() {
+        return (
+            <Autocomplete
+                style={{ backgroundColor: "white", width: 300 }}
+                value={selectedTambon}
+                onChange={onChangeTambon}
+                options={tambon}
+                getOptionLabel={(option: TambonInterface) => option.Tambon_Name}
+                renderInput={params => (
+                    <TextField
+                    {...params}
+                    label="กรุณาเลือกตำบล"
+                    variant="outlined"
+                    fullWidth
+                    />
+                )}
+            />
+        )
+    }
+
+    function postcodeTextfield() {
+        return (
+            <TextField
+                style={{backgroundColor:"white"}}
+                id="postCode"
+                label="กรอกเลขไปรษณีย์"
+                type="number"
+                InputProps={{ inputProps: { min: 0 } }}
+                value={postCode}
+                sx={{ width: 300 }}
+                variant="outlined"
+                onChange={(event) => setPostCode(event.target.value)}
+            />
+        )
+    }
+
+    function detailTextfield() {
+        return (
+            <TextField
+                style={{backgroundColor:"white"}}
+                id="details"
+                sx={{ width: 300 }}
+                multiline
+                rows={4}
+                value={detail}
+                label="หมายเหตุ"
+                onChange={(event) => setDetail(event.target.value)}
+            />
+        )
+    }
+    
 }
 
 export default AddressCreate;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -51,6 +51,7 @@ const OrderTechCreate = () => {
   );
   const [Order1, setOrder1] = React.useState<Partial<ORDERInterface>>({});
   const [Order, setOrder] = React.useState<ORDERInterface[]>([]);
+  const [Order2, setOrder2] = useState([])
   // const [customer, setCustomer] = React.useState<Partial<ORDERInterface>>(
   //   {}
   // );
@@ -122,6 +123,9 @@ const OrderTechCreate = () => {
       });
   };
 
+  const [Order_ID_show, setOrder_ID_show] = useState('');
+
+
   const getOrder = async () => {
     // const apiUrl = "http://localhost:8080/GetListOrder/";
     const apiUrl = "http://localhost:8080/GetOrder/";
@@ -141,6 +145,8 @@ const OrderTechCreate = () => {
           setOrder1(res.data);
           setOrderDetail(res.data);
           console.log(res.data);
+          // setOrder_ID_show(res.data.ORDER.OrderID)
+          // localStorage.setItem('Order',Order2)
         }
       });
   };
@@ -239,15 +245,7 @@ const OrderTechCreate = () => {
     });
   };
 
-  // Swal.fire({
-  //       title: "Are you sure?",
-  //       text: "You won't be able to revert this!",
-  //       icon: "warning",
-  //       showCancelButton: true,
-  //       confirmButtonColor: "#3085d6",
-  //       cancelButtonColor: "#d33",
-  //       confirmButtonText: "Yes, delete it!"
-  //     })
+  // const OrderID =  localStorage.setItem('Order','OrderID');
 
   // post orderTech
   function submit() {
@@ -277,6 +275,7 @@ const OrderTechCreate = () => {
         if (res.data) {
           successAlert();
           console.log("Success");
+          // localStorage.removeItem('Order');
         } else {
           Swal.fire({
             title: "บันทึกไม่สำเร็จ",

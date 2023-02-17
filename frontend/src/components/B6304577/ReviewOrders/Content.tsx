@@ -54,12 +54,12 @@ function renderRating(params: GridRenderCellParams<number>) {
 }
 
 
-function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setFormDataRating, setCheckedPaymentsAll }: any) {
+function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRating, setFormDataRating, setCheckedPaymentsAll }: any) {
     const [reviews, setReviews] = useState<any[]>([]);
     const [checkedPayments, setCheckedPayments] = useState<any[]>([]);
     const [checkReviewButton, setCheckReviewButton] = useState<any[]>([]);
 
-    console.log(reviews);
+    console.log(userID);
 
 
 
@@ -90,7 +90,7 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
             });
     };
     const getCheckedPayment = async () => {
-        const apiUrl = "http://localhost:8080/ListChecked_payment";
+        const apiUrl = `http://localhost:8080/ListCheckedPayment_filter_by_customer/${userID}`;
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -161,7 +161,8 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
             headerName: 'ลูกค้า',
             width: 200,
             renderCell: params => {
-                return <div>{params.row.Customer.Name}</div>
+                console.log(params.row.Payment)
+                return <div>{params.row.Payment.Customer.Name}</div>
             }
         },
         {
@@ -283,9 +284,9 @@ function Content({ setActiveStep, activeStep, setReviewsID, formDataRating, setF
             headerName: 'ลูกค้า',
             width: 200,
             renderCell: params => {
-                console.log(params.row.Checked_payment.Customer.Name);
+                // console.log(params.row.Checked_payment.Customer.Name);
 
-                return <div>{params.row.Checked_payment.Customer.Name}</div>
+                return <div>Test</div>
             }
         },
 

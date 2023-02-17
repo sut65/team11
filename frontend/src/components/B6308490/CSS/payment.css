@@ -15,3 +15,6 @@ p {
   .swal2-cancel {
     background-color: #dc0707 !important;
   }
+  .bg_tab{
+    background-color: linear-gradient(#0071e5, #00c9b1)
+  }
