@@ -138,7 +138,7 @@ function Edit_Checked_payment() {
           });
 
           localStorage.removeItem('Checked_Payment_ID');
-          setTimeout(() => { window.location.href = "/Checked_paymentShow";  }, 3000);
+          setTimeout(() => { window.location.href = "/Checked_paymentShow"; }, 3000);
 
         } else {
           Swal.fire({
@@ -240,7 +240,7 @@ function Edit_Checked_payment() {
 
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
+    <Paper style={{ backgroundColor: "rgb(0,0,0,0.4)", borderRadius: '35px' }} >
       <Container maxWidth="xl">
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
@@ -257,16 +257,15 @@ function Edit_Checked_payment() {
           </center>
         </Box>
 
-        <Container>
-          <hr color="#99b9a0" /><br />
-          {select_Order()}<br />
-          <hr color="#99b9a0" /><br />
-          {/* {show_data()}<br />
-          <hr color="#99b9a0" /><br /> */}
+        <Container >
+          <hr style={{ borderStyle: 'dashed', borderColor: "rgb(0,0,0,0.4)" }} />
+          {select_Order()}
+          <hr style={{ borderStyle: 'dashed', borderColor: "rgb(0,0,0,0.4)" }} /> <br/>
         </Container>
+        <br />
 
         <Container>
-          <Container>
+          <Container sx={{ backgroundColor: "rgb(0,0,0,0.4)" }} style={{ borderRadius: '35px' }}>
             <Grid container spacing={3}>
               <Grid item xs={12} ></Grid>
               <Grid item xs={3}> <Item > <h3>กำหนดสถานะ</h3> </Item></Grid>
@@ -278,11 +277,12 @@ function Edit_Checked_payment() {
               <Grid item xs={3}> <Item > <h3>ข้อความถึงลูกค้า</h3> </Item> </Grid>
               <Grid item xs={9}> <Item>{taxtfield_Message()}</Item> </Grid>
             </Grid>
+            <br /><br />
           </Container>
-          <br /><br />
-          <hr style={{ height: '20px', backgroundColor: '#132430', border: 0 }} />
+          <br />
+          <hr style={{ borderStyle: 'dashed', borderColor: "rgb(0,0,0,0.4)" }} />
           {button_submit_back()}
-          <br /><br /><br /><br /><br /><br /><br />
+          <br /><br />
         </Container>
 
       </Container>
@@ -399,7 +399,7 @@ function Edit_Checked_payment() {
     return (
       <Grid container>
         <Grid item xs={9.5}>
-          <Button size="large" sx={{ backgroundColor: "#434242"}} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{ fontSize: 17 }} >
+          <Button size="large" sx={{ backgroundColor: "#434242" }} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{ fontSize: 17 }} >
             <b> ย้อนกลับ </b>
           </Button>
         </Grid>
@@ -411,7 +411,7 @@ function Edit_Checked_payment() {
             color="success"
             size="large"
             sx={{ backgroundColor: '#F99417' }}
-            //component={RouterLink} to="/Checked_paymentShow"
+          //component={RouterLink} to="/Checked_paymentShow"
           >
             <b>แก้ไขการตรวจสอบ</b>
           </Button>
@@ -421,9 +421,9 @@ function Edit_Checked_payment() {
   }
   function select_Order() {
     return (
-      <Grid container spacing={3}>
+      <Grid container spacing={3} >
         <Grid item xs={3} />
-        <Grid item xs={6}>
+        <Grid item xs={6} >
           <Item style={{ background: "#f1f8e9" }}>
             {Combo_Checked_Payment()}<br />
           </Item>
