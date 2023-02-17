@@ -188,7 +188,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
               variant="h4"
               //color="#182E3E"
               gutterBottom
-              //align="center"
               fontFamily="Arial"
             >
               <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} >
