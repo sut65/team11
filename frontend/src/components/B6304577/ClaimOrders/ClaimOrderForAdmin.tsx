@@ -126,7 +126,8 @@ function ClaimOrderForAdmin() {
             headerName: 'รายการซ่อม',
             width: 200,
             renderCell: params => {
-                return <div>{params.row.Review.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason}</div>
+                console.log(params.row.Review.Checked_payment.Payment.OrderTech.ORDER.Reason);
+                return <div>{params.row.Review.Checked_payment.Payment.OrderTech.ORDER.Reason}</div>
             }
         },
         {
@@ -185,6 +186,7 @@ function ClaimOrderForAdmin() {
                         .then((res) => {
                             if (res.data) {
                                 yesAlert();
+                                getListClaimOrders();
                                 console.log("Success");
                             } else {
                                 errorAlert();
@@ -220,6 +222,7 @@ function ClaimOrderForAdmin() {
                         .then((res) => {
                             if (res.data) {
                                 noAlert();
+                                getListClaimOrders();
                                 console.log("Success");
                             } else {
                                 errorAlert();

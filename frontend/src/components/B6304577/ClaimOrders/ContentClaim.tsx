@@ -97,6 +97,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
         };
 
     const [reviews, setReviews] = React.useState<any[]>([]);
+    const userID = parseInt(localStorage.getItem("uid") + "");
 
     const [reviewID, setReviewID] = useState('');
     const [urgencyID, setUrgencyID] = useState('');
@@ -114,7 +115,6 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
     const [urgencys, setUrgencys] = useState<any[]>([]);
     // console.log(dataDateOrder);
 
-    // console.log(reviews);
 
     const handleInputChangeclaimComment = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -153,7 +153,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
 
 
     const getReview = async () => {
-        const apiUrl = "http://localhost:8080/GetListReviews";
+        const apiUrl = `http://localhost:8080/ListReviews_filter_by_customer/${userID}`;
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -163,6 +163,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             .then((res) => {
                 if (res.data) {
                     setReviews(res.data)
+                    console.log("getReview", res.data)
                 }
             });
     };
@@ -194,7 +195,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             .then((res) => {
                 if (res.data) {
                     setClaims(res.data);
-                    // console.log(res.data);
+                    console.log("getListClaimOrders: ", res.data);
 
                     // setReviews(res.data)
                 }
@@ -217,6 +218,17 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             Claim_Comment: claimComment,
             StatusClaim_ID: 1,
         };
+
+        let dataCheckBtReport = {
+            ID: reviewID,
+            CheckSucceed: true,
+        };
+
+        let dataCheckBtEditAndDelInReview = {
+            ID: reviewID,
+            CheckDisableBtEditAndDel: true,
+        };
+
         // console.log(data);
         const apiUrl = "http://localhost:8080/CreateClaimOrder";
         const requestOptions = {
@@ -230,45 +242,21 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                 console.log(res);
                 if (res.data) {
                     // Alert การบันทึกสำเส็จ
+                    UpdateCheckBtReport(dataCheckBtReport);
+                    UpdateCheckBtEditAndDelInReview(dataCheckBtEditAndDelInReview);
+                    setTimeout(() => {
+                        getListClaimOrders();
+                        getReview();
+                    }, 1500)
                     Swal.fire({
                         title: 'บันทึกสำเร็จ',
                         text: 'เรารับการรายงานของคุณไว้แล้ว',
                         icon: 'success'
                     });
 
-                    let dataCheckSucceed = {
-                        ID: reviewID,
-                        CheckSucceed: true,
-                    };
+                    handleClear();
+                    setActiveStep(0)
 
-                    const apiUrlCheckSucceed = "http://localhost:8080/UpdateReviewINClaimOrder";
-                    const requestOptionsCheckSucceed = {
-                        method: "PATCH",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(dataCheckSucceed),
-                    };
-                    fetch(apiUrlCheckSucceed, requestOptionsCheckSucceed)
-                        .then((response) => response.json())
-                        .then((res) => {
-                            if (res.data) {
-                                console.log("Success");
-                            } else {
-                                console.log("Error");
-                            }
-                        });
-                    setReviewID('');
-                    setUrgencyID('');
-                    setDate(null);
-                    setOrderProblem('');
-                    setClaimComment('');
-                    setdataOrderID('');
-                    setDataReason('');
-                    setdataDateOrder('');
-                    setDataSolving('');
-                    setDataTechnician('');
-                    setTimeout(() => {
-                        setActiveStep(0)
-                    }, 1500)
                 } else {
                     Swal.fire({
                         // Display Back-end text response 
@@ -278,8 +266,40 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                     });
                 }
             });
+    };
 
-
+    const UpdateCheckBtReport = async (dataCheckBtReport: any) => {
+        const apiUrlCheckSucceed = "http://localhost:8080/UpdateReviewINClaimOrder";
+        const requestOptionsCheckSucceed = {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dataCheckBtReport),
+        };
+        fetch(apiUrlCheckSucceed, requestOptionsCheckSucceed)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    getReview();
+                    console.log("Success");
+                } else {
+                    console.log("Error");
+                }
+            });
+    };
+    const UpdateCheckBtEditAndDelInReview = async (dataCheckBtEditAndDelInReview: any) => {
+        const apiUrl = "http://localhost:8080/UpdateCheckBtEditAndDelInReview";
+        const requestOptions = {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dataCheckBtEditAndDelInReview),
+        };
+        fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data);
+                }
+            });
     };
     const columnReviews: GridColDef[] = [
         {
@@ -290,7 +310,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             renderCell: (params: GridRenderCellParams) => {
                 const handleClick = () => {
                     params.api.setRowMode(params.id, 'delete');
-                    // console.log(params.row.CheckSucceed);
+
 
                     // console.log(data);
 
@@ -304,7 +324,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                         .then((response) => response.json())
                         .then((res) => {
                             if (res.data) {
-                                // console.log(res.data);
+                                console.log(res.data.Checked_payment);
                                 setReviewID(res.data.ID);
                                 setDataReason(res.data.Checked_payment.Payment.OrderTech.ORDER.Reason);
                                 setdataDateOrder(res.data.Checked_payment.Payment.OrderTech.ORDER.Date_time)
@@ -375,9 +395,9 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             headerName: 'ลูกค้า',
             width: 200,
             renderCell: params => {
-                // console.log(params.row.Checked_payment.Customer.Name);
 
-                return <div>{params.row.Checked_payment.Customer.Name}</div>
+
+                return <div>{params.row.Checked_payment.Payment.Customer.Name}</div>
             }
         },
 
@@ -410,7 +430,18 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                     let data = {
                         ID: params.id
                     };
-                    console.log(data);
+                    let dataCheckBtReport = {
+                        ID: params.id,
+                        CheckSucceed: false,
+                    };
+
+                    let dataCheckBtEditAndDelInReview = {
+                        ID: params.id,
+                        CheckDisableBtEditAndDel: false,
+                    };
+                    console.log("dataCheckBtReport : ", dataCheckBtReport);
+                    console.log("dataCheckBtEditAndDelInReview : ", dataCheckBtEditAndDelInReview);
+
                     const apiUrl = "http://localhost:8080/DeleteClaimOrder";
                     const requestOptions = {
                         method: "DELETE",
@@ -421,6 +452,12 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                         .then((response) => response.json())
                         .then((res) => {
                             if (res.data) {
+                                UpdateCheckBtReport(dataCheckBtReport);
+                                UpdateCheckBtEditAndDelInReview(dataCheckBtEditAndDelInReview);
+                                setTimeout(() => {
+                                    getListClaimOrders();
+                                    getReview();
+                                }, 1500)
                                 successAlert();
                                 getListClaimOrders();
                                 console.log("Success");

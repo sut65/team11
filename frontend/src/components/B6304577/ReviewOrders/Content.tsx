@@ -31,15 +31,13 @@ function refreshPage() {
     window.location.reload();
 }
 
-const successAlert = () => {
+const successAlert = async () => {
     Swal.fire({
         title: 'ลบข้อมูลสำเร็จ',
         text: 'You clicked the button.',
         icon: 'success'
     });
-    setTimeout(() => {
-        refreshPage();
-    }, 1500)
+
 }
 const errorAlert = () => {
     Swal.fire({
@@ -64,6 +62,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
 
 
 
+
     const { checkedPaymentID, customerID } = formDataRating
 
     reviews.map((i) => checkReviewButton.push(i.CheckedPayment_ID))
@@ -76,7 +75,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
     //function fethch data จาก backend
 
     const getReview = async () => {
-        const apiUrl = "http://localhost:8080/GetListReviews";
+        const apiUrl = `http://localhost:8080/ListReviews_filter_by_customer/${userID}`;
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -104,6 +103,22 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             });
     };
 
+    const UpdateCheckForShowReviewBT = async (dataCheckForShowReviewBT: any) => {
+        const apiUrl = "http://localhost:8080/UpdateCheckForShowReviewBT";
+        const requestOptions = {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dataCheckForShowReviewBT),
+        };
+        fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data);
+                }
+            });
+    };
+
     useEffect(() => {
         getReview();
         getCheckedPayment();
@@ -122,10 +137,14 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                     setActiveStep(activeStep + 1);
                     setCheckedPaymentsAll(params.row)
                     setFormDataRating({ ...formDataRating, checkedPaymentID: params.id, customerID: params.row.CustomerID }) //รอระบบล็อคอินจะสามารถเรียก CustomerID จากหน้าlogin
+
                 };
-                if (params.id in checkReviewButton) {
-                    return <Button disabled variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
-                } return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
+
+                console.log(params.row.CheckForShowReviewBT);
+
+
+
+                return <Button disabled={params.row.CheckForShowReviewBT === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
             }
 
             // reviews.map((i)=>{i.CheckedPayment_ID})
@@ -151,7 +170,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             headerName: 'ช่างผู้รับผิดชอบงาน',
             width: 200,
             renderCell: params => {
-                console.log(params.row.Payment.OrderTech.Technician.Name);
+
 
                 return <div>{params.row.Payment.OrderTech.Technician.Name}</div>
             }
@@ -161,7 +180,6 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             headerName: 'ลูกค้า',
             width: 200,
             renderCell: params => {
-                console.log(params.row.Payment)
                 return <div>{params.row.Payment.Customer.Name}</div>
             }
         },
@@ -187,9 +205,9 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                     params.api.setRowMode(params.id, 'edit');
                     setActiveStep(4);
                     setReviewsID(params.id);
-                    // console.log(params.id);
+                    console.log(params.row);
                 };
-                return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}แก้ไข</Button>;
+                return <Button disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}แก้ไข</Button>;
             }
         },
         {
@@ -200,9 +218,16 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             renderCell: (params: GridRenderCellParams) => {
                 const handleClick = () => {
                     params.api.setRowMode(params.id, 'delete');
+
                     let data = {
                         ID: params.id
                     };
+
+                    let dataCheckForShowReviewBT = {
+                        ID: params.row.CheckedPayment_ID,
+                        CheckForShowReviewBT: false,
+                    };
+
                     console.log(data);
                     const apiUrl = "http://localhost:8080/DeleteReview";
                     const requestOptions = {
@@ -214,20 +239,23 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                         .then((response) => response.json())
                         .then((res) => {
                             if (res.data) {
+                                UpdateCheckForShowReviewBT(dataCheckForShowReviewBT);
+                                setTimeout(() => {
+                                    getCheckedPayment();
+                                    getReview();
+                                }, 1500)
+                                
                                 successAlert();
-                                getReview();
+
                                 console.log("Success");
                             } else {
                                 errorAlert();
                                 console.log("Error");
                             }
                         });
-
-                    // console.log(params.row.Statetus);
-
                 };
-                return <Button variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />} ลบ </Button>;
-                // return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />}ลบ</Button>;
+                return <Button disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />} ลบ </Button>;
+
             }
         },
         {
@@ -284,9 +312,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             headerName: 'ลูกค้า',
             width: 200,
             renderCell: params => {
-                // console.log(params.row.Checked_payment.Customer.Name);
 
-                return <div>Test</div>
+                return <div>{params.row.Customer.Name}</div>
             }
         },
 
@@ -295,57 +322,57 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
 
 
     return (
-        
-            <Container maxWidth="lg" >
-                <br />
-                <br />
-                <Typography className={style.mainToptic} sx={{ marginTop: 10, color: "#ffffff", alignItems: "center" }}>
 
-                    <h2 >
-                        ระบบประเมินความพึงพอใจ
-                    </h2>
+        <Container maxWidth="lg" >
+            <br />
+            <br />
+            <Typography className={style.mainToptic} sx={{ marginTop: 10, color: "#ffffff", alignItems: "center" }}>
+
+                <h2 >
+                    ระบบประเมินความพึงพอใจ
+                </h2>
 
 
-                </Typography>
-                <Typography sx={{ color: "#ffffff" }}>
+            </Typography>
+            <Typography sx={{ color: "#ffffff" }}>
 
-                    <h4>
-                        กรุณากรอกแบบประเมินความพึงพอใจ
-                    </h4>
-                </Typography>
-                <br />
-                <div style={{ height: 400, width: '100%' }} >
-                    <DataGrid
-                        sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
-                        rows={checkedPayments}
-                        columns={columnCheckPayments}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        getRowId={(row: ReviewInterface) => row.ID}
+                <h4>
+                    กรุณากรอกแบบประเมินความพึงพอใจ
+                </h4>
+            </Typography>
+            <br />
+            <div style={{ height: 400, width: '100%' }} >
+                <DataGrid
+                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
+                    rows={checkedPayments}
+                    columns={columnCheckPayments}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    getRowId={(row: ReviewInterface) => row.ID}
 
-                    // checkboxSelection
-                    />
-                </div>
-                <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                    <h2>
-                        การรีวิวสำเร็จ
-                    </h2>
-                </Typography>
+                // checkboxSelection
+                />
+            </div>
+            <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                <h2>
+                    การรีวิวสำเร็จ
+                </h2>
+            </Typography>
 
-                <div style={{ height: 400, width: '100%' }} >
-                    <DataGrid
-                        sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
-                        rows={reviews}
-                        columns={columnReviews}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        getRowId={(row: ReviewInterface) => row.ID}
+            <div style={{ height: 400, width: '100%' }} >
+                <DataGrid
+                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
+                    rows={reviews}
+                    columns={columnReviews}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    getRowId={(row: ReviewInterface) => row.ID}
 
-                    // checkboxSelection
-                    />
-                </div>
+                // checkboxSelection
+                />
+            </div>
 
-            </Container>
+        </Container>
 
 
 

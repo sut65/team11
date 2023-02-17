@@ -19,7 +19,6 @@ const defaultDataRating = {
     commentRating1: "",
     data2: null,
     commentRating2: "",
-    customerID:null,
 };
 
 function RankingForm() {
@@ -45,7 +44,7 @@ function RankingForm() {
             return <Star2 customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
 
         } else if (activeStep === 3) {
-            return <Submit customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
+            return <Submit userID={userID} customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
         } else if (activeStep === 4) {
             return <EditDataReview reviewsID={reviewsID} setActiveStep={setActiveStep} />
         }

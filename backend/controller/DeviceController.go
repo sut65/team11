@@ -121,6 +121,16 @@ func GetListDevice(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": devices})
 }
 
+func GetDeviceBYcustomerID(c *gin.Context) {
+	var device []entity.Device
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM devices WHERE customer_id = ?", id).Preload("Customer").Preload("Type").Preload("Windows").Find(&device).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": device})
+}
+
 // GET /Device:id
 func GetDevice(c *gin.Context) {
 	var device entity.Device

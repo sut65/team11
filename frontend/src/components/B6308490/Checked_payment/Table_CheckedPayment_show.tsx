@@ -13,7 +13,7 @@ import { Check, Delete, Edit } from '@mui/icons-material';
 import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 //import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import "../CSS/payment.css";
+import LensIcon from '@mui/icons-material/Lens';
 
 
 //====================สำหรับปุ่มลบ============================
@@ -167,13 +167,13 @@ function Check_Table_Payment_show() {
       , renderCell: params => {
 
         if (params.row.Status_ID === 1) {
-          return <div>ยังไม่ชำระเงิน</div>;
+          return <div><LensIcon />ยังไม่ชำระเงิน</div>;
         } else if (params.row.Status_ID === 2) {
-          return <div>ชำระเงินเรียบร้อย</div>;
+          return <div><LensIcon sx={{color:"green",fontSize:'10px'}} />ชำระเงินเรียบร้อย</div>;
         } else if (params.row.Status_ID === 3) {
-          return <div>รอตรวจสอบการชำระเงิน</div>;
+          return <div><LensIcon sx={{color:"orange",fontSize:'10px'}}/>รอตรวจสอบการชำระเงิน</div>;
         } else if (params.row.Status_ID === 4) {
-          return <div>การชำระเงินไม่ถูกต้อง</div>;
+          return <div><LensIcon sx={{color:"red",fontSize:'10px'}}/>การชำระเงินไม่ถูกต้อง</div>;
         }
       }
     },

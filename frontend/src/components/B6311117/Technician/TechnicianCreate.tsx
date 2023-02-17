@@ -10,7 +10,7 @@ import { Margin } from "@mui/icons-material";
 import Divider from '@mui/material/Divider';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 
@@ -188,7 +188,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
               variant="h4"
               //color="#182E3E"
               gutterBottom
-              //align="center"
               fontFamily="Arial"
             >
               <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} >
@@ -316,7 +315,8 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                 <Grid item xs={7} marginLeft={8}>
                     <FormControl fullWidth variant="outlined">
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DesktopDateTimePicker
+                        <DesktopDatePicker
+                          inputFormat="DD/MM/YYYY"
                           renderInput={(params) => <TextField {...params} />}
                           value={DOB}
                           onChange={(newValue) => setFormCreate(({...formCreate,DOB:newValue}))}

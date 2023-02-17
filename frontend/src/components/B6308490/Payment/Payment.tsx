@@ -17,6 +17,7 @@ import "../CSS/payment.css";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
+import PictureBank from "..//Photo/PictureBank.png"
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array |any) => {
@@ -38,7 +39,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const Item2 = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#93BFCF',
+  backgroundColor: "rgba(0, 0, 0, 0.3)",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -247,7 +248,7 @@ function Payment() {
 
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
+    <Paper style={{ backgroundColor: "rgb(0,0,0,0.4)" ,borderRadius: '35px'}} >
       <Container maxWidth="xl">
         
         {/* เริ่มส่วนของหน้าเว็ป */}
@@ -270,20 +271,16 @@ function Payment() {
           </center>
         </Box>
 
-        {/* {select_Order()} */}
-        <Box style={{ backgroundColor: "#e0f2f1" }}>
-          {/* {OrderTechSHOW(OrderTech_ID)}<br /> */}
-        </Box>
+       
+       <Container style={{ backgroundColor: "rgb(255,255,255,0.2)" ,borderRadius: '35px'}}>
         <br /><br />
         {show_Amout_check()}
         <br /><br />
-
-
         <Grid container spacing={3}>
           {/*แบ่งซ้ายมือให้กับรูปภาพ*/}
           <Grid item xs={4}>
-            <Item>
-              <img src="https://www.srikrungbroker.com/register_files/bank-srikrung.jpg" width="100%" height="100%" />
+            <Item style={{ backgroundColor: "rgb(255,255,255,0.6)" ,borderRadius: '20px'}}>
+              <img src={PictureBank} alt="PictureBank" width="100%" height="100%" /> 
             </Item>
           </Grid>
           {/*แบ่งกลางให้กับข้อความ*/}
@@ -297,18 +294,17 @@ function Payment() {
           {/*แบ่งขวาให้กับข้อมูล*/}
           <Grid item xs={6}>
 
-            <Item>{taxtfield_Order()}</Item><br />
-            <Item>{taxtfield_namesender()}</Item><br />
-            <Item>{Combo_Bank()}</Item><br />
-            <Item>{taxtfield_Amount()}</Item><br />
-            <Item>{Datetime()}</Item><br />
+            <Item>{taxtfield_Order()}</Item><br/>
+            <Item>{taxtfield_namesender()}</Item><br/>
+            <Item>{Combo_Bank()}</Item><br/>
+            <Item>{taxtfield_Amount()}</Item><br/>
+            <Item>{Datetime()}</Item><br/><br/>
           </Grid>
         </Grid>
-
-        
-        <hr style={{ height: '20px', backgroundColor: '#132430' ,border:0}}/>
+        </Container>
+        <br /><br />
         {button_submit_back()}
-        <br /><br /><br /><br /><br /><br /><br />
+        <br /><br />
 
 
 
@@ -391,16 +387,16 @@ function Payment() {
   }
   function show_Amout_check() {
     return (
-      <Grid container spacing={1} style={{backgroundColor:'#132430'}}>
+      <Grid container spacing={1} style={{ backgroundColor: "rgb(0,0,0,0.4)" ,borderRadius: '25px'}}>
         <Grid item xs={12}></Grid>
         <Grid item xs={5}>
           <h2 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่ต้องชำระ</h2>
         </Grid>
 
         <Grid item xs={2}>
-          <Item sx={{ backgroundColor: "#436F77", fontSize: 30, color: "#FFFFFF" }}>
+          {/* <Item sx={{ backgroundColor: "#436F77", fontSize: 30, color: "#FFFFFF" }}> */}
+          <Item sx={{ backgroundColor: "rgba(255,255,255,0.2)", fontSize: 30, color: "#FFFFFF" }}>
             {amountCheck}
-            {/* {Test_Payment_ID} */}
           </Item>
         </Grid>
 

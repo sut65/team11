@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   FormControl,
+  FormControlProps,
   Grid,
   Paper,
   styled,
@@ -32,6 +33,12 @@ import {
 } from "../../../interfaces/CustomerUI";
 import TextField from "@mui/material/TextField";
 import PersonIcon from '@mui/icons-material/Person';
+
+import { TextFieldProps } from '@mui/material/TextField';
+import { OutlinedInputProps } from '@mui/material/OutlinedInput';
+import { alpha } from '@mui/material/styles';
+
+import "../Customer/Customer.css"
 
 
 
@@ -192,16 +199,48 @@ fetch(apiUrl, requestOptions)
     // setFormCreate(({...formCreate,ID:1})) // set CustomerID เอาไว้ระบุว่าจะแก้ไขไอดีไหน
   }, []);
 
+  // TODO Functions component styles ต่างๆ
+
+  //* TextField วงกลม
+  const RedditTextField = styled((props: TextFieldProps) => (
+    <TextField
+      InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
+      {...props}
+    />
+  ))(({ theme }) => ({
+    '& .MuiOutlinedInput-root': {
+      border: '1px solid #e2e2e1',
+      overflow: 'hidden',
+      borderRadius: 30,
+      alignContent: 'center',
+      backgroundColor: theme.palette.mode === 'light' ? '#fcfcfb' : '#2b2b2b',
+      transition: theme.transitions.create([
+        'border-color',
+        'background-color',
+        'box-shadow',
+      ]),
+      '&:hover': {
+        backgroundColor: 'transparent',
+      },
+      '&.Mui-focused': {
+        backgroundColor: 'transparent',
+        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        borderColor: theme.palette.primary.main,
+      },
+    },
+  }));
+
+
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
+    <Paper style={{ backgroundColor: "#182E3E", borderRadius: 40 }}>
         <br />
 
-      <Box sx={{ bgcolor: "#182E3E", height: "94vh" }}>
+      <Box sx={{ bgcolor: "#182E3E", height: "94vh", borderRadius: 40 }}>
         <Container maxWidth="lg">
           <br />
           <br />
 
-          <Box sx={{ bgcolor: "#f1f8e9", height: "87vh", paddingY: 0 }}>
+          <Box sx={{ bgcolor: "#FFFFFF", height: "87vh", paddingY: 0, borderRadius: 7 }}>
 
           <Grid container spacing={2} paddingX={7} marginRight={1}>
             <Grid item xs={6} md={4}>
@@ -211,7 +250,7 @@ fetch(apiUrl, requestOptions)
             <Divider orientation="vertical" sx={{padding: 2.35, marginTop:2, marginBottom:2}}  flexItem />
             <Grid item xs={6} md={2}>
                     <br />  
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 20 }}>My Profile</b>
+                    <b style={{ font: "Arial", color: "#000000", fontSize: 30 }}>My Profile</b>
                     <br />
                     <br />
 
@@ -243,7 +282,7 @@ fetch(apiUrl, requestOptions)
                     {/* Button: Done */}
                     <Grid item xs={8} md={8}>
                       <center>
-                      <Button variant="contained" color="success" onClick={submit} sx={{ width: 300, height: 46, marginX:-10}}>
+                      <Button variant="contained" color="success" onClick={submit} sx={{ width: 300, height: 46, marginX:-10, borderRadius: 6 ,boxShadow: 7, fontWeight: 'bold', fontSize: 15}}>
                           Done
                       </Button>
                       </center>
@@ -253,7 +292,7 @@ fetch(apiUrl, requestOptions)
 
                     {/* Button: Back */}
                     <Grid item xs={8} md={8} >
-                      <Button variant="contained" color="warning" onClick={handleBack} sx={{ width: 300, height: 46, marginX:-10}}>
+                      <Button variant="contained" color="warning" onClick={handleBack} sx={{ width: 300, height: 46, marginX:-10, borderRadius: 6 ,boxShadow: 7, fontWeight: 'bold', fontSize: 15}}>
                           Back
                       </Button>
                     </Grid>
@@ -269,14 +308,14 @@ fetch(apiUrl, requestOptions)
 
                 {/* //TODO สิ้นสุด Column:1 */}
 
-              <Divider orientation="vertical" sx={{padding: 2, marginTop:-2, marginBottom:2}}  flexItem />
+              <Divider orientation="vertical" sx={{padding: 2, marginTop:-2, marginBottom:2, height:600}}  flexItem />
 
 
 
 
 
               {/*  //TODO Column2 */}
-              <Grid item xs={6} md={5} paddingX={6.5}>
+              <Grid item xs={6} md={5} paddingX={5}>
                   <Box sx={{
                       width: 620,
                       // height: 600,
@@ -290,12 +329,12 @@ fetch(apiUrl, requestOptions)
                     {/* Row: 1 */}
 
                     <Grid item xs={6} md={3} marginLeft={5} marginTop={2} >
-                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Prefix</b>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 14 }}>Prefix</b>
                     </Grid>
               
 
                     <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
-                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Name</b>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 14 }}>Name</b>
                     </Grid>
 
 
@@ -303,26 +342,30 @@ fetch(apiUrl, requestOptions)
 
 
                     <Grid item xs={6} md={3} marginLeft={5} >
-                      <TextField
+                      <RedditTextField
                           disabled
-                          id="filled-disabled"
-                          label={PREFIX_NAME}
+                          id="redditTextFields2"
+                          value={PREFIX_NAME}
                           // defaultValue={PREFIX_NAME}
-                          variant="filled"
-                          size="small"
+                          // variant="filled"
+                          // size="small"
                           />
                     </Grid>
 
                     <Grid item xs={8} md={7} marginLeft={5}>
-                    <TextField
+                    <TextField 
+                              id="redditTextFields"
                               required
-                              id="Name"
                               // label={Customer.Phone}
                               value={NAMEa} 
-                              variant="filled"
-                              size='small'
-                              onChange={(event) => setNAMEa(event.target.value)}
-                              sx={{width:300}}
+                              variant="standard"
+                              
+                              // size='small'
+                              onChange={(event) => {
+                                setNAMEa(event.target.value);
+                                console.log(event.target.value)}}
+                              sx={{width:300, border:-10}}
+                              InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
                               // inputProps={{
                               //     name: "Name",
                               // }}
@@ -331,18 +374,18 @@ fetch(apiUrl, requestOptions)
 
                     {/* Row: 3 */}
                     <Grid item xs={6} md={7} marginLeft={5}  marginTop={2}   >
-                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Personal ID</b>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 14 }}>Personal ID</b>
                     </Grid>
 
                     {/* Row: 4 */}
                     <Grid item xs={8} md={7} marginLeft={5}  >
-                      <TextField
+                      <RedditTextField
                                 disabled
-                                id="filled-disabled"
-                                label={Customer.ID_card}      
+                                id="redditTextFields2"
+                                value={Customer.ID_card}      
                                 // defaultValue={Customer.Name}
-                                variant="filled"
-                                size='small'
+                                // variant="filled"
+                                // size='small'
                                 sx={{width:250}}
                                 />
                     </Grid>
@@ -351,56 +394,61 @@ fetch(apiUrl, requestOptions)
 
                     {/* Row: 5 */}
                     <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
-                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Date of Birth</b>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 14 }}>Date of Birth</b>
                     </Grid>
 
 
                     {/* Row: 6 */}
                     <Grid item xs={6} md={8} marginLeft={5} >
-                        <TextField
+                        <RedditTextField
                             disabled
-                            id="filled-disabled"
-                            label={dayjs(Customer.DOB).format('DD/MM/YYYY')}    
+                            id="redditTextFields2"
+                            value={dayjs(Customer.DOB).format('DD/MM/YYYY')}    
                             // label={dayjs(Customer.DOB).format('DD/MM/YYYY HH:mm:ss')}    
                             // defaultValue={Date}
-                            variant="filled"
-                            size='small'
+                            // variant="filled"
+                            // size='small'
                         />
                     </Grid>
 
 
                     {/* Row: 7 */}
                     <Grid item xs={6} md={3} marginLeft={5} marginTop={2} >
-                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Gender</b>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 14 }}>Gender</b>
                     </Grid>
 
                     <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
-                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Career</b>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 14 }}>Career</b>
                     </Grid>
 
 
                     {/* Row: 8 */}
                     <Grid item xs={6} md={3} marginLeft={5} >
-                      <TextField
+                      <RedditTextField
                                     disabled
-                                    id="filled-disabled"
-                                    label={GENDER_NAME}
+                                    id="redditTextFields2"
+                                    value={GENDER_NAME}
                                     // defaultValue={Customer.GENDER.GenderName}
-                                    variant="filled"
-                                    size='small'
+                                    // variant="filled"
+                                    // size='small'
                                     // sx={{width:120}}
                                 />
                     </Grid>
 
                     <Grid item xs={8} md={7} marginLeft={5}>
-                    <FormControl  variant="outlined">
+                    {/* <FormControl  variant="outlined"> */}
                         <Select
-                        variant="filled"
-                        size="small"
+                        // variant="filled"
+                        // size="small"
+                        id="redditTextFields"
                         native
                         value={Careera}
                         onChange={(event) => setCareera(event.target.value)}
-                        sx={{width:180}}
+
+                        // backgroundColor: 'transparent',
+                        // boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+                        // borderColor: theme.palette.primary.main,
+                        sx={{width:300, borderRadius: 40}}
                         // inputProps={{
                         //     name: "CAREER_ID",
                         // }}
@@ -414,13 +462,13 @@ fetch(apiUrl, requestOptions)
                             </option>
                         ))}
                         </Select>
-                    </FormControl>
+                    {/* </FormControl>   */}
                     </Grid>
 
 
                     {/* Row: 9 */}
                     <Grid item xs={6} md={8} marginLeft={5} marginTop={2} >
-                      <b style={{ font: "Arial", color: "#000000", fontSize: 12 }}>Telephone Number</b>
+                      <b style={{ font: "Arial", color: "#000000", fontSize: 14 }}>Telephone Number</b>
                     </Grid>
 
 
@@ -428,12 +476,14 @@ fetch(apiUrl, requestOptions)
                     <Grid item xs={6} md={7} marginLeft={5} >
                     <TextField
                             required
-                            id="Phone"
+                            id="redditTextFields"
                             // label={Customer.Phone}
                             value={phone} 
-                            variant="filled"
-                            size='small'
+                            variant="standard"
+                            sx={{width:300}}
+                            // size='small'
                             onChange={(event) => setPhone(event.target.value)}
+                            InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
                             // inputProps={{
                             //     name: "Phone",
                             // }}

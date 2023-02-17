@@ -27,9 +27,9 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-
-const Item_2 = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#f7e6d5',
+const Item3 = styled(Paper)(({ theme }) => ({
+  borderRadius: '15px',
+  backgroundColor:'rgba(255,255,255,0.5)',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -37,15 +37,15 @@ const Item_2 = styled(Paper)(({ theme }) => ({
   height: 50,
   color: theme.palette.text.secondary,
 }));
-
-const P2 = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#FFFFFF',
-  ...theme.typography.body2,
-  //padding: theme.spacing(1),
-  textAlign: 'center',
-  fill: '#FFFFFF',
-  fontSize: 20,
+const P3 = styled(Paper)(({ theme }) => ({
+  borderRadius: '15px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   height: 50,
+  backgroundColor:'#FFFFFF',
+  
+  fontSize: 17,
   color: theme.palette.text.secondary,
 }));
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
@@ -258,9 +258,7 @@ function Edit_Checked_payment() {
         </Box>
 
         <Container >
-          <hr style={{ borderStyle: 'dashed', borderColor: "rgb(0,0,0,0.4)" }} />
-          {select_Order()}
-          <hr style={{ borderStyle: 'dashed', borderColor: "rgb(0,0,0,0.4)" }} /> <br/>
+          {select_Order()} <br />
         </Container>
         <br />
 
@@ -268,26 +266,25 @@ function Edit_Checked_payment() {
           <Container sx={{ backgroundColor: "rgb(0,0,0,0.4)" }} style={{ borderRadius: '35px' }}>
             <Grid container spacing={3}>
               <Grid item xs={12} ></Grid>
-              <Grid item xs={3}> <Item > <h3>กำหนดสถานะ</h3> </Item></Grid>
+              <Grid item xs={3}> <Item3> <P3>กำหนดสถานะ</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{Combo_Status_check()}</Item> </Grid>
-              <Grid item xs={3}> <Item > <h3>วันเวลาที่ทำการ</h3> </Item> </Grid>
+              <Grid item xs={3}> <Item3> <P3>วันเวลาที่ทำการ</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{Datetime()}</Item> </Grid>
-              <Grid item xs={3}> <Item > <h3>หมายเหตุ(admin)</h3> </Item> </Grid>
+              <Grid item xs={3}> <Item3> <P3>หมายเหตุ(admin)</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{taxtfield_Other()}</Item> </Grid>
-              <Grid item xs={3}> <Item > <h3>ข้อความถึงลูกค้า</h3> </Item> </Grid>
+              <Grid item xs={3}> <Item3> <P3>ข้อความถึงลูกค้า</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{taxtfield_Message()}</Item> </Grid>
             </Grid>
             <br /><br />
           </Container>
-          <br />
-          <hr style={{ borderStyle: 'dashed', borderColor: "rgb(0,0,0,0.4)" }} />
+            <h5 style={{ color: "#FFFFFF", textAlign: "center" }}> *ท่านกำลังแก้ไข รายการบันทึกการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว </h5>
           {button_submit_back()}
           <br /><br />
         </Container>
-
       </Container>
     </Paper>
   );
+  //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
 
   //สำหรับ combobox หมายเลขรายการ
   function Combo_Checked_Payment() {
@@ -332,7 +329,7 @@ function Edit_Checked_payment() {
           </option>
           {Status_check.map((item: Status_checkInterface) => (
             <option value={item.ID} key={item.ID}>
-              {item.Status_name}
+              {item.ID === 3 ? '⚠️' + item.Status_name + " (รายการจะยังไม่ถูกตรวจสอบตรวจสอบ)" : item.ID === 2 ? '✅' + item.Status_name : '❌' + item.Status_name}
             </option>
           ))}
         </Select>

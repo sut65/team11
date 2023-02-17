@@ -70,18 +70,7 @@ func main() {
 
 	// =============== B6310646(meow) -->> ระบบบันทึกค่าใช้จ่ายของช่าง(paytech) ==========================
 
-	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
-	r.POST("/CreateSatisfaction_System", controller.CreateSatisfaction_System)
-	r.POST("/CreateSatisfaction_Technician", controller.CreateSatisfaction_Technician)
-	r.POST("/CreateReview", controller.CreateReview)
-
-	r.PATCH("/UpdateReview", controller.UpdateReview)
-	r.DELETE("/DeleteReview", controller.DeleteReview)
-
-	r.GET("/GetListReviews", controller.GetListReviews)
-	r.GET("/GetReview/:id", controller.GetReview)
-	r.GET("/ListCheckedPayment_filter_by_customer/:id", controller.ListCheckedPayment_filter_by_customer)
-	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
+	
 
 	//=============== B6321765 (พืชผล) -->> ระบบที่อยู่ผู้แจ้ง (Address) ==========================
 	r.POST("/CreateAddressType", controller.CreateAddressType)
@@ -113,6 +102,7 @@ func main() {
 	r.PATCH("/UpdateDevice", controller.UpdateDevice)
 	r.DELETE("/DeleteDevice/:id", controller.DeleteDevice)
 	r.GET("/GetListDevice", controller.GetListDevice)
+	r.GET("/GetDeviceBYcustomerID/:id", controller.GetDeviceBYcustomerID)
 	r.GET("/GetDevice/:id", controller.GetDevice)
 	//=============== B6321765 (พืชผล) -->> ระบบอุปกรณ์ผู้แจ้ง (Device) ==========================
 
@@ -168,7 +158,28 @@ func main() {
 
 	r.GET("/List_only_checkedPayment", controller.List_only_checkedPayment) //เรียกรายการ checkedppayment โดยไม่เอาสถานะ "รอการตรวจสอบการชำระเงิน"
 
-	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
+
+	//==================================================================================//
+	//			   	B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review)			  	   	   //
+	//======================================================== =========================//
+	r.POST("/CreateSatisfaction_System", controller.CreateSatisfaction_System)
+	r.POST("/CreateSatisfaction_Technician", controller.CreateSatisfaction_Technician)
+	r.POST("/CreateReview", controller.CreateReview)
+
+	r.PATCH("/UpdateReview", controller.UpdateReview)
+	r.PATCH("/UpdateCheckForShowReviewBT", controller.UpdateCheckForShowReviewBT)
+	r.DELETE("/DeleteReview", controller.DeleteReview)
+
+	r.GET("/GetListReviews", controller.GetListReviews)
+	r.GET("/GetReview/:id", controller.GetReview)
+	r.GET("/ListCheckedPayment_filter_by_customer/:id", controller.ListCheckedPayment_filter_by_customer)
+	//==================================================================================//
+	//			   	^^B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review)^^			  	   //
+	//======================================================== =========================//
+
+	//==================================================================================//
+	//				B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) 					//
+	//======================================================== =========================//
 	r.POST("/CreateUrgency", controller.CreateUrgency)
 	r.POST("/CreatStatusClaim", controller.CreateStatusClaim)
 	r.POST("/CreateClaimOrder", controller.CreateClaimOrder)
@@ -176,12 +187,17 @@ func main() {
 	r.PATCH("/UpdateClaimOrder", controller.UpdateClaimOrder)
 	r.PATCH("/UpdateClaimOrderStatus", controller.UpdateClaimOrderStatus)
 	r.PATCH("/UpdateReviewINClaimOrder", controller.UpdateReviewINClaimOrder)
+	r.PATCH("/UpdateCheckBtEditAndDelInReview", controller.UpdateCheckBtEditAndDelInReview)
+
 	r.DELETE("/DeleteClaimOrder", controller.DeleteClaimOrder)
 
 	r.GET("/GetListClaimOrders", controller.GetListClaimOrders)
 	r.GET("/GetListUrgency", controller.GetListUrgency)
 	r.GET("/GetClaimOrder/:id", controller.GetClaimOrder)
-	//=============== B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim) ==========================
+	r.GET("/ListReviews_filter_by_customer/:id", controller.ListReviews_filter_by_customer)
+	//==================================================================================//
+	//				^^B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim)^^ 				//
+	//==================================================================================//
 
 	// login Customer Route
 	r.POST("/SignInCustomer", controller.SignInCustomer)
