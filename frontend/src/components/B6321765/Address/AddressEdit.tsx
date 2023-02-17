@@ -24,12 +24,25 @@ function AddressEdit() {
     let add_id = Address_ID;
     const userID = parseInt(localStorage.getItem("uid") + "");
     const navigate = useNavigate();
+
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success' ,
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: true
+      })
+
     const update_successAlert = () => {
         Swal.fire({
             title: 'อัพเดทข้อมูลสำเร็จ',
             text: 'Click OK to exit.',
             icon: 'success'
-        });
+        }).then(() => {
+            navigate({
+                pathname: `/AddressShowPage/`
+            })
+        });;
     }
     const update_errorAlert = () => {
         Swal.fire({
@@ -43,6 +56,10 @@ function AddressEdit() {
             title: 'ลบข้อมูลสำเร็จ',
             text: 'Click OK to exit.',
             icon: 'success'
+        }).then(() => {
+            navigate({
+                pathname: `/AddressShowPage/`
+            })
         });
     }
     const delete_errorAlert = () => {
@@ -112,23 +129,43 @@ function AddressEdit() {
       }
 
     const delete_f = () => {
-        fetch(`http://localhost:8080/DeleteAddress/${add_id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(''),
-        })
-          .then((response) => response.json())
-          .then((res) => {
-            if (res.data) {
-                delete_successAlert();
-                console.log("Success");
-            } else {
-                delete_errorAlert();
-                console.log("Error");
-            }
-          });
+        swalWithBootstrapButtons.fire({
+            title: 'คุณกำลังลบรายการที่อยู่',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ฉันต้องการลบ',
+            cancelButtonText: 'ยกเลิกการลบ',
+            reverseButtons: true,
+            
+          }).then((result) =>{
+            if (result.isConfirmed) {
+                fetch(`http://localhost:8080/DeleteAddress/${add_id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(''),
+                })
+                .then((response) => response.json())
+                .then((res) => {
+                    if (res.data) {
+                        delete_successAlert();
+                        console.log("Success");
+                    } else {
+                        delete_errorAlert();
+                        console.log("Error");
+                    }
+                });
+              } else if (
+                result.dismiss === Swal.DismissReason.cancel
+              ) {
+                swalWithBootstrapButtons.fire(
+                  'ยกเลิก',
+                  'การลบรายการที่อยู่',
+                  'error'
+                )
+              }
+          })
       }
 
         const getAddress_data = async () => {

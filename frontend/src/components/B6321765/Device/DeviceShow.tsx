@@ -1,7 +1,5 @@
+import "./css/devicestyle.css";
 import React, { useEffect } from "react";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Button from "@mui/material/Button";
 import { Link as RouterLink } from "react-router-dom";
 import { DeviceInterface } from "../../../interfaces/IDevice";
@@ -9,12 +7,13 @@ import dayjs from 'dayjs';
 import { Delete, Edit } from '@mui/icons-material';
 import Swal from 'sweetalert2'
 import { DataGrid, GridToolbar, GridColDef , GridRenderCellParams} from '@mui/x-data-grid';
-import { Typography } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { getsetDeviceID } from './DeviceEdit';
 
 
 function DeviceShow() {
+
+    const userID = parseInt(localStorage.getItem("uid") + "");
 
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -27,7 +26,7 @@ function DeviceShow() {
     const navigate = useNavigate();
     const [DeviceShow, setDeviceShow] = React.useState<DeviceInterface[]>([]);
     const getDeviceShow = async () => {
-        const apiUrl = `http://localhost:8080/GetListDevice`;
+        const apiUrl = `http://localhost:8080/GetDeviceBYcustomerID/${userID}`;
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -155,42 +154,29 @@ function DeviceShow() {
     }, []);
 
     return(
-        <Paper style={{backgroundColor:"#182e3e"}}>
-            <Box>
-                <Typography
-                    component="h2"
-                    variant="h4"
-                    color="#558b2f"
-                    gutterBottom
-                    fontFamily="Arial"
-                    align="center"
-                    mt={3}
-                    mb={3}
-                    bgcolor="#182e3e"
-                >
-                    <b>ข้อมูลอุปกรณ์</b>
-                </Typography>
-            </Box>
-            <center>
-                <Box sx={{ width: '98%', height: '50vh' }} style={{ backgroundColor: "#e0f2f1" }}  >
-                    {datashow()}
-                </Box>
-            </center>
-            <p/>
-            <Grid container spacing={2}>
-                <Grid item xs={1.2} style={{textAlign: 'right'}}>
-                    <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
-                        ย้อนกลับ
-                    </Button>
-                </Grid>
-                <Grid item xs={10.65} style={{textAlign: 'right'}}>
-                    <Button color="success"  component={RouterLink} to="/DeviceCreatePage" variant="contained">
-                        เพิ่มข้อมูล
-                    </Button>
-                </Grid>
-            </Grid>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-        </Paper>
+        <div className="container-device">
+            <div className="header-device">
+                <h1 className="head-device">ข้อมูลอุปกรณ์</h1>
+                <hr className="line-device"/>
+            </div>
+            <div className="table">
+              <div className="showTable">
+                  {datashow()}
+              </div>
+            </div>
+            <div className="bttn">
+              <div className="back-bttn">
+                <Button sx={{ backgroundColor: "#C70039" }} onClick={() => navigate(-1)} variant="contained">
+                    ย้อนกลับ
+                </Button>
+              </div>
+              <div className="add-bttn">
+                <Button color="success"  component={RouterLink} to="/DeviceCreatePage" variant="contained">
+                    เพิ่มข้อมูล
+                </Button>
+              </div>
+            </div>
+        </div>
     )
     function datashow() {
         return (
@@ -204,7 +190,7 @@ function DeviceShow() {
               Toolbar: GridToolbar,
             }}/>
         )
-      }
+    }
 }
 
 export default DeviceShow;

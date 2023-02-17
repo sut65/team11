@@ -139,10 +139,10 @@ function OrderUpdate() {
         StateID: 1,
         DeviceID: convertType(Device_ID),
         AddressID: convertType(Address_ID),
-        CustomerID: 1,
+        CustomerID: convertType(userID),
         Date_time: Date_time,
         Reason: Reason,
-        Limits: Limits,
+        Limits: typeof Limits == "string" ? parseInt(Limits) : Limits,
 
     };
 
@@ -169,7 +169,24 @@ function OrderUpdate() {
             //text: '',
             icon: 'success'
           });
+
+          // reset All after Submit
+          setOrder({});
+          setOrder_ID("");
+          setDate(null);
+          setDevice_ID("");
+          setAddress_ID("");
+          setCase_ID("");
+
+          setCpu("");
+          setMonitor("");
+          setGpu("");
+          setRam("");
+          setHarddisk("");
+          setProblem(""); 
+          
         } else {
+
           Swal.fire({
             // Display Back-end text response 
             title: 'บันทึกไม่สำเร็จ',
@@ -179,14 +196,6 @@ function OrderUpdate() {
           
         }
       });
-
-    // reset All after Submit
-    setOrder({});
-    setOrder_ID("");
-    setDate(null);
-    setDevice_ID("");
-    setAddress_ID("");
-    setCase_ID("");
 
  }
 

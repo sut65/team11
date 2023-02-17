@@ -1,0 +1,19 @@
+.container-device {
+    height: 80vh;
+    width: 60vw;
+    border-radius: 10px;
+    display: flex;
+    background-color: #182e3e;
+    flex-direction: column;
+}
+
+.header-device {
+    height: 10vh;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+.header-device .line-device {
+    width: 90%;
+}
