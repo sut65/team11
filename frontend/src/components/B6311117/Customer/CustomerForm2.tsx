@@ -4,6 +4,8 @@ import CustomerShow from './CustomerShow';
 import CustomerEdit from './CustomerEdit';
 import { CustomerInterface } from '../../../interfaces/CustomerUI';
 
+import "../../../components/SignIn.css"
+
 
 const steps = [
     'Profile Information',
@@ -42,7 +44,8 @@ function CreateForm2 (){
     return (
         <Paper
             sx={{
-                // backgroundColor: "#182e3e",
+                backgroundColor: "rgba(0,0,0,0)",    
+                boxShadow: 0,
                 // height: "1500px"
             }}>
             <form className='form-container'>
