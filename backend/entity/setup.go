@@ -556,7 +556,7 @@ func SetupDatabase() {
 		State:     State_1,
 		Device:    device_1,
 		Address:   address_1,
-		Customer:  customer_1,
+		Customer:  customer_2,
 	}
 	db.Model(&ORDER{}).Create(&Order_3)
 

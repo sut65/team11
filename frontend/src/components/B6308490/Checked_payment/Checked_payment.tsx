@@ -51,12 +51,33 @@ const Item_2 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const Item3 = styled(Paper)(({ theme }) => ({
+  backgroundColor:'rgb(170, 203, 115, 0.6)',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  fontSize: 20,
+  height: 50,
+  color: theme.palette.text.secondary,
+}));
+
 const P2 = styled(Paper)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: 50,
   fill: '#FFFFFF',
+  fontSize: 17,
+  color: theme.palette.text.secondary,
+}));
+
+const P3 = styled(Paper)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 50,
+  backgroundColor:'#FFFFFF',
+  
   fontSize: 17,
   color: theme.palette.text.secondary,
 }));
@@ -260,7 +281,8 @@ function Checked_payment() {
 
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
+    // <Paper style={{ backgroundColor: "rgb(24,46,62,0.8)" }}>
+    <Paper style={{ backgroundColor: "rgb(0,0,0,0.4)" ,borderRadius: '35px'}} >
       <Container maxWidth="xl">
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
@@ -281,35 +303,31 @@ function Checked_payment() {
         </Box>
 
         <Container>
-          {/* <hr color="#99b9a0" /> */}
-          {/* <Grid container>
-            <Grid item xs={3}/>
-            <Grid sx={{ backgroundColor: "#f1f8e9" }}>   {Combo_Payment()}   </Grid>
-          </Grid> */}
           <hr color="#99b9a0" /><br />
           {show_data()}<br />
-          <hr color="#99b9a0" /><br />
+          <hr color="#99b9a0" /><br/>
         </Container>
-
-        <Container>
+        <br/>
+        <Container sx={{ backgroundColor: "rgb(255,255,255,0.2)" }} style={{ borderRadius: '35px' }}>
           <Container>
             <Grid container spacing={3}>
               <Grid item xs={12} ></Grid>
-              <Grid item xs={3}> <Item > <h3>กำหนดสถานะ</h3> </Item></Grid>
+              <Grid item xs={3}> <Item3> <P3>กำหนดสถานะ</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{Combo_Status_check()}</Item> </Grid>
-              <Grid item xs={3}> <Item > <h3>วันเวลาที่ทำการ</h3> </Item> </Grid>
+              <Grid item xs={3}> <Item3> <P3>วันเวลาที่ทำการ</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{Datetime()}</Item> </Grid>
-              <Grid item xs={3}> <Item > <h3>หมายเหตุ(admin)</h3> </Item> </Grid>
+              <Grid item xs={3}> <Item3> <P3>หมายเหตุ(admin)</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{taxtfield_Other()}</Item> </Grid>
-              <Grid item xs={3}> <Item > <h3>ข้อความถึงลูกค้า</h3> </Item> </Grid>
+              <Grid item xs={3}> <Item3> <P3>ข้อความถึงลูกค้า</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{taxtfield_Message()}</Item> </Grid>
             </Grid>
           </Container>
           <br /><br />
           <hr color="#99b9a0" />
           {button_submit_back()}
-          <br /><br /><br /><br /><br /><br /><br />
+          <br /><br />
         </Container>
+        <br /><br />
 
       </Container>
     </Paper>
@@ -331,7 +349,7 @@ function Checked_payment() {
           </option>
           {Status_check.map((item: Status_checkInterface) => (
             <option value={item.ID} key={item.ID}>
-              {item.Status_name}
+              {item.ID === 3 ? item.Status_name + " (รายการจะยังไม่ถูกตรวจสอบตรวจสอบ)" : item.Status_name}
             </option>
           ))}
         </Select>
@@ -437,7 +455,7 @@ function Checked_payment() {
   // }
   function show_data() {
     return (
-      <Grid container style={{ borderRadius: '35px' }} spacing={1} sx={{ backgroundColor: "#132430" }} >
+      <Grid container spacing={1} sx={{ backgroundColor: "rgb(0,0,0,0.3)" }} style={{ borderRadius: '35px' }} >
         <Grid item xs={12}><center> <h2 style={{ color: "#FFFFFF" }}>ข้อมูลสำหรับตรวจสอบ</h2> </center> </Grid>
 
         <Grid item xs={12}> <br /> </Grid>

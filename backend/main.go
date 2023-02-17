@@ -50,7 +50,6 @@ func main() {
 	r.GET("/cost-details", controller.ListCostDetail)
 	r.GET("/cost-detail/:id", controller.GetCostDetail)
 
-	
 	r.GET("/technician-order-tech/:id", controller.ListTechnicianOrderByUID)
 	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
 
@@ -65,11 +64,10 @@ func main() {
 	r.GET("/hardwares", controller.ListHardware)
 	r.GET("/hardware/:id", controller.GetHardware)
 
-	
 	r.GET("/technician-pay/:id", controller.ListTechnicianByUID)
 	r.GET("/technician-order-tech-status/:id", controller.ListTechnicianOrderStatusByUID)
 	r.GET("/technician-order-tech-fix/:id", controller.ListTechnicianOrderTechInPayByUID)
-	
+
 	// =============== B6310646(meow) -->> ระบบบันทึกค่าใช้จ่ายของช่าง(paytech) ==========================
 
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
@@ -82,6 +80,7 @@ func main() {
 
 	r.GET("/GetListReviews", controller.GetListReviews)
 	r.GET("/GetReview/:id", controller.GetReview)
+	r.GET("/ListCheckedPayment_filter_by_customer/:id", controller.ListCheckedPayment_filter_by_customer)
 	//=============== B6304577(อาร์ม) -->> ระบบประเมินความพึงพอใจ(Review) ==========================
 
 	//=============== B6321765 (พืชผล) -->> ระบบที่อยู่ผู้แจ้ง (Address) ==========================
@@ -95,6 +94,7 @@ func main() {
 	r.DELETE("/DeleteAddress/:id", controller.DeleteAddress)
 	r.GET("/GetListAddress", controller.GetListAddress)
 	r.GET("/GetAddress/:id", controller.GetAddress)
+	r.GET("/GetAddressBYcustomerID/:id", controller.GetAddressBYcustomerID)
 	r.GET("/GetListTambon", controller.GetListTambon)
 	r.GET("/GetDistrict/:id", controller.GetDistrict)
 	r.GET("/GetTambon/:id", controller.GetTambon)
@@ -152,7 +152,7 @@ func main() {
 	r.PATCH("/UpdatePayment", controller.UpdatePayment)
 	r.POST("/DeletePayment/:id", controller.DeletePayment)
 
-	r.GET("/ListPayment_for_Check", controller.ListPayment_for_Check) //เรียกรายการที่ยังไม่เช็คไปแสดง เพื่อเลือกเช็ค	
+	r.GET("/ListPayment_for_Check", controller.ListPayment_for_Check) //เรียกรายการที่ยังไม่เช็คไปแสดง เพื่อเลือกเช็ค
 	r.GET("/ListPayment_filter_by_customer/:id", controller.ListPayment_filter_by_customer)
 	r.GET("/SendmoneyToFrontend/:id", controller.SendmoneyToFrontend)
 	r.GET("/ListOrderTechForPaymment/:id", controller.ListOrderTechForPaymment)

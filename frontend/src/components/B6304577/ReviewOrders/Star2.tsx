@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import style from "./style.module.css";
 import TextField from '@mui/material/TextField';
 
-function Star2({ formDataRating, setFormDataRating, activeStep, setActiveStep, steps ,checkedPaymentsAll}: any) {
+function Star2({ customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps ,checkedPaymentsAll}: any) {
     const [hover, setHover] = React.useState(-1);
     const { data2, commentRating2 } = formDataRating
     const handleNext = () => {
@@ -56,7 +56,7 @@ function Star2({ formDataRating, setFormDataRating, activeStep, setActiveStep, s
                     </Grid>
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
-                            ผู้ดำเนินการ :
+                            ผู้ดำเนินการ : {customerName}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>

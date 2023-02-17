@@ -19,9 +19,10 @@ import { CASEInterface, ORDERInterface } from "../../interfaces/ORDERUI";
 import Swal from 'sweetalert2'
 
 function OrderShow() {
+    const customerID = parseInt(localStorage.getItem("uid") + "");
     const [OrderShow, setOrderShow] = React.useState<ORDERInterface[]>([]);
     const getOrderShow = async () => {
-        const apiUrl = `http://localhost:8080/GetListOrder`;
+        const apiUrl = `http://localhost:8080/GetOrder/${customerID}`;
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },

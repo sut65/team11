@@ -123,6 +123,20 @@ func GetReview(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": review})
 }
 
+// สำหรับโชว์รายการชำระเงิน ที่ดำเนินการแล้วทั้งหมดของลูกค้า
+func ListCheckedPayment_filter_by_customer(c *gin.Context) {
+	C_id := c.Param("id")
+	var listCheckedPayment_filter_by_customer []entity.Checked_payment
+	query := "SELECT * FROM checked_payments WHERE  checked_payments.payment_id in (SELECT payments.id FROM payments WHERE payments.customer_id = " + C_id + ")" + ";"
+
+	if err := entity.DB().Raw(query).Preload("Status_check").Preload("Payment.Customer").Preload("Payment.OrderTech.Technician").Preload("Payment.OrderTech.ORDER").Find(&listCheckedPayment_filter_by_customer).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": listCheckedPayment_filter_by_customer})
+}
+
+
 // PATCH /Review
 func UpdateReview(c *gin.Context) {
 	var Review entity.Review

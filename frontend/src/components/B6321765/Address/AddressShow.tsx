@@ -13,6 +13,8 @@ import { DataGrid, GridToolbar, GridColDef , GridRenderCellParams} from '@mui/x-
 import { getsetAddressID } from './AddressEdit';
 
 function AddressShow() {
+
+  const userID = parseInt(localStorage.getItem("uid") + "");
    
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -34,7 +36,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const [AddressShow, setAddressShow] = React.useState<AddressInterface[]>([]);
 const getAddressShow = async () => {
-    const apiUrl = `http://localhost:8080/GetListAddress`;
+    const apiUrl = `http://localhost:8080/GetAddressBYcustomerID/${userID}`;
     const requestOptions = {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -107,7 +109,9 @@ const columns: GridColDef[] = [
                         'ลบสำเร็จ',
                         'ลบรายการที่อยู่ สำเร็จ',
                         'success'
-                      );
+                      ).then(() => {
+                        window.location.reload();
+                      });
                     } else {
                       swalWithBootstrapButtons.fire(
                         'การลบล้มเหลว',
@@ -115,7 +119,6 @@ const columns: GridColDef[] = [
                         'error'
                       );
                     }
-                    window.location.reload();
                   });
               } else if (
                 result.dismiss === Swal.DismissReason.cancel
