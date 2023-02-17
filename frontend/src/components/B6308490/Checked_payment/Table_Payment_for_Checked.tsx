@@ -144,7 +144,7 @@ function Table_Payment_for_Checked() {
                 pageSize={10}
                 rowsPerPageOptions={[50]}
                 components={{ Toolbar: GridToolbar, Pagination: CustomPagination,}}
-                style={{ height: '500px', borderRadius: '35px' }}
+                style={{ height: '500px',outline: '3px solid #db36a4', borderRadius: '25px'  }}
             />
         </div>
     )

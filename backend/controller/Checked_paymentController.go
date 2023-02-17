@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
-	"github.com/asaskevich/govalidator"
 )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,8 +57,8 @@ func CreateChecked_payment(c *gin.Context) {
 		Status_ID:  Checked_payment.Status_ID,  // โยงความสัมพันธ์กับ Entity Status Check
 		Date_time:  Checked_payment.Date_time,
 		Other:      Checked_payment.Other,
-		Message:    Checked_payment.Message, //เพิ่มเข้ามาใหม่
-		Admin_ID: Checked_payment.Admin_ID, // โยงความสัมพันธ์กับ Entity Customer
+		Message:    Checked_payment.Message,  //เพิ่มเข้ามาใหม่
+		Admin_ID:   Checked_payment.Admin_ID, // โยงความสัมพันธ์กับ Entity Customer
 	}
 
 	// 13: บันทึก
@@ -74,7 +74,7 @@ func CreateChecked_payment(c *gin.Context) {
 }
 
 // ================================================== function List to frontend =================================================
-// GET /Device
+
 func ListChecked_payment(c *gin.Context) {
 	var Checked_payment []entity.Checked_payment
 	if err := entity.DB().Preload("Admin").Preload("Status_check").Preload("Payment.OrderTech.ORDER").Find(&Checked_payment).Error; err != nil {
@@ -108,20 +108,19 @@ func GetChecked_payment(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
 }
+
 // Get Checked_payment by Payment_id
 func GetCheckedpayment_by_PaymentID(c *gin.Context) {
 	var Checked_payment entity.Checked_payment
 	PaymentID := c.Param("id")
-	if err := entity.DB().Raw("SELECT message  FROM checked_payments WHERE payment_id = ?",PaymentID).Scan(&Checked_payment).Error; err != nil {
+	if err := entity.DB().Raw("SELECT message  FROM checked_payments WHERE payment_id = ?", PaymentID).Scan(&Checked_payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-
 	c.JSON(http.StatusOK, gin.H{"data": Checked_payment})
 
 }
-
 
 // PATCH /UpdatePayment
 func UpdateCheckedPayment(c *gin.Context) {
@@ -131,7 +130,7 @@ func UpdateCheckedPayment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Model(UpdateCheckedPayment).Where("id = ?", UpdateCheckedPayment.ID).Updates(map[string]interface{}{"Other": UpdateCheckedPayment.Other,"Message": UpdateCheckedPayment.Message, "Date_time": UpdateCheckedPayment.Date_time, "Status_ID": UpdateCheckedPayment.Status_ID}).Error; err != nil {
+	if err := entity.DB().Model(UpdateCheckedPayment).Where("id = ?", UpdateCheckedPayment.ID).Updates(map[string]interface{}{"Other": UpdateCheckedPayment.Other, "Message": UpdateCheckedPayment.Message, "Date_time": UpdateCheckedPayment.Date_time, "Status_ID": UpdateCheckedPayment.Status_ID}).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -172,6 +171,7 @@ func get_id_payment_for_status(checkedPayment_id any) int {
 	entity.DB().Table("checked_payments").Select("payment_id").Where("id = ?", checkedPayment_id).Row().Scan(&ID_payment)
 	return ID_payment
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////   		   controller Status_check    		  //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -191,10 +191,10 @@ func CreateStatus_check(c *gin.Context) {
 }
 
 // GET /Status_check
-// List all Status_check
+// List status != 1
 func ListStatus_check(c *gin.Context) {
 	var Status_check []entity.Status_check
-	if err := entity.DB().Raw("SELECT * FROM Status_checks").Scan(&Status_check).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM Status_checks WHERE id != 1 ").Scan(&Status_check).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -243,12 +243,6 @@ func DeleteStatus_check(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Status_check not found"})
 		return
 	}
-	/*
-		if err := entity.DB().Where("id = ?", id).Delete(&entity.User{}).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}*/
-
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
