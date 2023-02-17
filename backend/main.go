@@ -94,6 +94,7 @@ func main() {
 	r.DELETE("/DeleteAddress/:id", controller.DeleteAddress)
 	r.GET("/GetListAddress", controller.GetListAddress)
 	r.GET("/GetAddress/:id", controller.GetAddress)
+	r.GET("/GetAddressBYcustomerID/:id", controller.GetAddressBYcustomerID)
 	r.GET("/GetListTambon", controller.GetListTambon)
 	r.GET("/GetDistrict/:id", controller.GetDistrict)
 	r.GET("/GetTambon/:id", controller.GetTambon)

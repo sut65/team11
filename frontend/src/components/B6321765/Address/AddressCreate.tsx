@@ -22,6 +22,10 @@ function AddressCreate() {
             title: 'บันทึกข้อมูลสำเร็จ',
             text: 'Click OK to exit.',
             icon: 'success'
+        }).then(() =>{
+            navigate({
+                pathname: `/AddressShowPage/`
+            })
         });
     }
 
@@ -78,13 +82,6 @@ function AddressCreate() {
             if (res.data) {
                 successAlert();
                 console.log("Success");
-                setAddressTypeID("");
-                setProvinceID("");
-                setDistrictID("");
-                setTambonID("");
-                setPostCode("");
-                setDetail("");
-                setDate(dayjs());
             } else {
                 Swal.fire({
                     title: 'บันทึกไม่สำเร็จ',
