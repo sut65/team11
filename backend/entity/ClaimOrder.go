@@ -1,9 +1,10 @@
 package entity
 
 import (
+	"time"
+
 	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
-	"time"
 )
 
 type Urgency struct {
@@ -36,7 +37,7 @@ type Claim_Order struct {
 func init() {
 	govalidator.CustomTypeTagMap.Set("CheckDateTime_ClaimTime", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		if t.Before(time.Now().Add(-2*time.Minute)) || t.After(time.Now().Add(2*time.Minute)) {
+		if t.Before(time.Now().Add(-5*time.Minute)) || t.After(time.Now().Add(5*time.Minute)) {
 			return false
 		} else {
 			return true

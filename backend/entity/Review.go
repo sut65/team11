@@ -23,6 +23,7 @@ type Review struct {
 	gorm.Model
 	CheckedPayment_ID      *uint
 	Checked_payment        Checked_payment `gorm:"references:id" valid:"-"`
+	
 	Satisfaction_System_ID *uint
 	Satisfaction_System    Satisfaction_System `gorm:"references:id" valid:"-"`
 
@@ -36,9 +37,13 @@ type Review struct {
 	TimestampReview time.Time `valid:"required,CheckDateTime_TimestampReview~กรุณาตรวจสอบวันที่ให้ถูกต้อง"`
 
 	StatusReview bool `valid:"required~เหมือนคุณจะลืมกด check box"`
+
 	Customer_ID  *uint
 	Customer     Customer `gorm:"references:id" valid:"-"`
+
 	CheckSucceed bool
+
+	CheckDisableBtEditAndDel bool // ใช้เช็คสถานะของปุ่ม Edit และ Delete ใน ตาราง Review หากมีการ กดบันทึกในระบบรายงานปัญหาหลังหารซ่อม จะ Disable ปุ่ม
 
 	Claim_Order []Claim_Order `gorm:"ForeignKey:Review_ID"`
 }
@@ -46,7 +51,7 @@ type Review struct {
 func init() {
 	govalidator.CustomTypeTagMap.Set("CheckDateTime_TimestampReview", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		if t.Before(time.Now().Add(-2 * time.Minute)) || t.After(time.Now().Add(2 * time.Minute)) {
+		if t.Before(time.Now().Add(-5 * time.Minute)) || t.After(time.Now().Add(5 * time.Minute)) {
 			return false
 
 		} else {

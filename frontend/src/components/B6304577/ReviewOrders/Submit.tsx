@@ -32,7 +32,7 @@ import { StaticDatePicker } from '@mui/x-date-pickers';
 
 
 
-function Submit({ customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
+function Submit({ userID, customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
 
 
     const [hover, setHover] = useState(-1);
@@ -92,8 +92,14 @@ function Submit({ customerName, formDataRating, setFormDataRating, activeStep, s
             // TimestampReview: date.toISOString().split("T")[0],
             //.concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
             StatusReview: checked,
-            Customer_ID: formDataRating.customerID,
+            Customer_ID: userID,
         };
+
+        let dataCheckForShowReviewBT = {
+            ID: checkedPaymentsAll.ID,
+            CheckForShowReviewBT: true,
+        };
+
         console.log(data);
         const apiUrl = "http://localhost:8080/CreateReview";
         const requestOptions = {
@@ -106,6 +112,13 @@ function Submit({ customerName, formDataRating, setFormDataRating, activeStep, s
             .then((res) => {
                 console.log(res);
                 if (res.data) {
+
+                    // Update Checked Payment
+
+                    UpdateCheckForShowReviewBT(dataCheckForShowReviewBT);
+
+                    // Update Checked Payment
+
                     // Alert การบันทึกสำเส็จ
                     Swal.fire({
                         title: 'บันทึกสำเร็จ',
@@ -128,6 +141,21 @@ function Submit({ customerName, formDataRating, setFormDataRating, activeStep, s
             });
     };
 
+    const UpdateCheckForShowReviewBT = async (dataCheckForShowReviewBT: any) => {
+        const apiUrl = "http://localhost:8080/UpdateCheckForShowReviewBT";
+        const requestOptions = {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dataCheckForShowReviewBT),
+        };
+        fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data);
+                }
+            });
+    };
 
     return (
         <Container
@@ -232,21 +260,21 @@ function Submit({ customerName, formDataRating, setFormDataRating, activeStep, s
                 </AccordionDetails>
             </Accordion>
             <Box>
-            <Typography sx={{color:"#ffffff",marginBottom:2}}>
-                วันที่รีวิว
-            </Typography>
+                <Typography sx={{ color: "#ffffff", marginBottom: 2 }}>
+                    วันที่รีวิว
+                </Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <StaticDatePicker
-                            showToolbar={false}
-                            onChange={(newValue) => setValue(newValue)}
-                            value={value}
-                            renderInput={(params) => <TextField {...params} />}
-                            componentsProps={{
-                                actionBar: {
-                                    actions:['today'],
-                                },
-                            }}
-                        />
+                    <StaticDatePicker
+                        showToolbar={false}
+                        onChange={(newValue) => setValue(newValue)}
+                        value={value}
+                        renderInput={(params) => <TextField {...params} />}
+                        componentsProps={{
+                            actionBar: {
+                                actions: ['today'],
+                            },
+                        }}
+                    />
                 </LocalizationProvider>
             </Box>
             <Box>
@@ -267,7 +295,7 @@ function Submit({ customerName, formDataRating, setFormDataRating, activeStep, s
                     />
                 </FormGroup>
             </Box>
-            
+
             <Box sx={{ flexGrow: 1, marginBottom: 2 }}>
                 <Grid container >
                     <Grid item xs={6}>

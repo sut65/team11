@@ -105,7 +105,7 @@ func CreateReview(c *gin.Context) {
 // GET /Review
 func GetListReviews(c *gin.Context) {
 	var GetReviews []entity.Review
-	if err := entity.DB().Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.OrderTech.ORDER").Find(&GetReviews).Error; err != nil {
+	if err := entity.DB().Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Customer").Find(&GetReviews).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -116,14 +116,14 @@ func GetListReviews(c *gin.Context) {
 func GetReview(c *gin.Context) {
 	var review entity.Review
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM reviews WHERE id = ?", id).Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Checked_payment.Customer").Preload("Checked_payment.Payment.OrderTech.ORDER").Preload("Checked_payment.Payment.OrderTech.Technician").Find(&review).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM reviews WHERE id = ?", id).Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Customer").Preload("Checked_payment.Payment.OrderTech.ORDER").Preload("Checked_payment.Payment.OrderTech.Technician").Find(&review).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": review})
 }
 
-// สำหรับโชว์รายการชำระเงิน ที่ดำเนินการแล้วทั้งหมดของลูกค้า
+// get data by Customer_ID
 func ListCheckedPayment_filter_by_customer(c *gin.Context) {
 	C_id := c.Param("id")
 	var listCheckedPayment_filter_by_customer []entity.Checked_payment
@@ -151,6 +151,23 @@ func UpdateReview(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Review})
 }
+
+
+// PATCH /Review
+func UpdateCheckForShowReviewBT(c *gin.Context) {
+	var cp entity.Checked_payment
+	if err := c.ShouldBindJSON(&cp); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Model(cp).Where("id = ?", cp.ID).Update("CheckForShowReviewBT",cp.CheckForShowReviewBT).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": cp})
+}
+
+
 
 // DELETE /Review
 func DeleteReview(c *gin.Context) {

@@ -28,8 +28,15 @@ type Checked_payment struct {
 	Payment_ID uint
 	Payment    Payment `gorm:"references:id" valid:"-"`
 
+<<<<<<< HEAD
 	Admin_ID uint
 	Admin    Admin `gorm:"references:id" valid:"-"`
+=======
+	Admin_ID   uint
+	Admin   Admin `gorm:"references:id" valid:"-"`
+
+	CheckForShowReviewBT bool  // ใช้กับระบบอาร์ม อาร์มเป็นคนเพิ่ม 
+>>>>>>> fd623c6 (get data by customerID SignIn - close #242)
 	//เชื่อให้อาร์ม
 	Review []Review `gorm:"foreignKey:CheckedPayment_ID"`
 }
