@@ -31,7 +31,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 const Item2 = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#93BFCF',
+  backgroundColor: "rgba(255, 255, 255,0.2)",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -277,7 +277,7 @@ function Payment() {
 
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
+    <Paper style={{ backgroundColor: "rgb(0,0,0,0.5)" ,borderRadius: '25px'}}>
       <Container maxWidth="xl">
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
@@ -304,8 +304,8 @@ function Payment() {
         {/* {show_Amout_check()}
         <br/><br/> */}
 
-        <Container>
-          <Grid container spacing={3}>
+        <Container >
+          <Grid container spacing={3} >
             {/*แบ่งกลางให้กับข้อความ*/}
             <Grid item xs={2} ></Grid>
             <Grid item xs={2} >
@@ -322,10 +322,15 @@ function Payment() {
               <Item>{Datetime()}</Item><br />
             </Grid>
           </Grid>
+          {/* <Grid item xs={12 }> <p style={{ color: "#FFFFFF", }}> ท่านกำลังแก้ไข รายการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว แต่ยังไม่ได้รับการตรวจสอบ  </p></Grid> */}
+          <h5 style={{ color: "#FFFFFF", textAlign: "center" }}> *ท่านกำลังแก้ไข รายการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว แต่ยังไม่ได้รับการตรวจสอบ  </h5>
           
-          <hr style={{ height: '20px', backgroundColor: '#132430' ,border:0}}/>
+    
+
+          
+
           {button_submit_back()}
-          <br /><br /><br /><br /><br /><br /><br />
+          <br/><br/><br/><br/>
         </Container>
       </Container>
     </Paper>

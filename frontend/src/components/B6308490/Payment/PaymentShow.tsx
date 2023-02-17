@@ -60,7 +60,7 @@ function Paytech_Show() {
 
     return (
         // <Paper style={{ backgroundColor: "#182E3E" }}>
-        <Paper style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
+        <Paper style={{ backgroundColor: "rgb(0,0,0,0.4)" ,borderRadius: '25px'}}>
             <div style={{ height: "auto", width: "100%", marginTop: "20px" }}>
                 <Box sx={{ maginX: 0, maginY: 0 }}>
                     <center>
@@ -87,11 +87,11 @@ function Paytech_Show() {
             <Container>
                 <TabsUnstyled defaultValue={0}>
                     <TabsList className="TabsList">
+                        <Tab>รายการทั้งหมดที่ชำระเงินแล้ว</Tab>
                         <Tab>รายการที่ยังไม่ชำระเงิน</Tab>
-                        <Tab>ตรวจสอบรายการชำระเงินทั้งหมด</Tab>
                     </TabsList>
-                    <TabPanel value={0}>{Show_not_pay()}</TabPanel>
-                    <TabPanel value={1}>{Show_pay()}</TabPanel>
+                    <TabPanel value={0}>{Show_pay()}</TabPanel>
+                    <TabPanel value={1}>{Show_not_pay()}</TabPanel>
                 </TabsUnstyled>
             </Container>
 
