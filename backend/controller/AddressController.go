@@ -183,6 +183,16 @@ func GetListAddress(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": addresses})
 }
 
+func GetAddressBYcustomerID(c *gin.Context) {
+	var address []entity.Address
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM addresses WHERE customer_id = ?", id).Preload("Customer.GENDER").Preload("Customer.CAREER").Preload("Customer.PREFIX").Preload("AddressType").Preload("Tambon").Preload("Tambon.District").Preload("Tambon.District.Province").Find(&address).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": address})
+}
+
 // GET /Address:id
 func GetAddress(c *gin.Context) {
 	var address entity.Address
