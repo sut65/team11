@@ -133,10 +133,10 @@ function OrderCreate() {
         StateID: 1,
         DeviceID: convertType(Device_ID),
         AddressID: convertType(Address_ID),
-        CustomerID: 1,
+        CustomerID:  convertType(userID),
         Date_time: Date_time,
         Reason: Reason,
-        Limits: typeof Limits == "string" ? parseInt(Limits) : 0,
+        Limits: typeof Limits == "string" ? parseInt(Limits) : Limits,
 
     };
 
@@ -161,7 +161,24 @@ function OrderCreate() {
             title: 'บันทึกสำเร็จ',
             //text: '',
             icon: 'success'
+            
           });
+
+          setOrder({});
+          setDate(null);
+          setDevice_ID("");
+          setAddress_ID("");
+          setCase_ID("");
+      
+          setCpu("");
+          setMonitor("");
+          setGpu("");
+          setRam("");
+          setHarddisk("");
+          setProblem(""); 
+      
+          setReason("");
+          setLimit("");
         } else {
           console.log(data)
           Swal.fire({
@@ -174,22 +191,22 @@ function OrderCreate() {
         }
       });
 
-    // reset All after Submit
-    setOrder({});
-    setDate(null);
-    setDevice_ID("");
-    setAddress_ID("");
-    setCase_ID("");
+    // // reset All after Submit
+    // setOrder({});
+    // setDate(null);
+    // setDevice_ID("");
+    // setAddress_ID("");
+    // setCase_ID("");
 
-    setCpu("");
-    setMonitor("");
-    setGpu("");
-    setRam("");
-    setHarddisk("");
-    setProblem(""); 
+    // setCpu("");
+    // setMonitor("");
+    // setGpu("");
+    // setRam("");
+    // setHarddisk("");
+    // setProblem(""); 
 
-    setReason("");
-    setLimit("");
+    // setReason("");
+    // setLimit("");
 
  }
 
