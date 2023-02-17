@@ -15,6 +15,11 @@ import "../CSS/payment.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
+import { color } from "@mui/system";
+
+
+var Edge1 = '15px';
+var Edge2 = '30px';
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array | any) => {
@@ -24,13 +29,15 @@ const convertType = (data: string | number | undefined | Float32Array | any) => 
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 //ตกแต่ง Grid 
 const Item0 = styled(Paper)(({ theme }) => ({
-  backgroundColor: 'transparent',
+  backgroundColor: 'rgba(255, 255, 255,0)',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  //color: theme.palette.text.secondary,
   elevation: 0,
   height: 50,
+  borderRadius: Edge1
+  
+  
 }));
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -38,17 +45,18 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  //color: theme.palette.text.secondary,
+  
 }));
 
 const Item_2 = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#f7e6d5',
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : 'rgba(255, 255, 255, 0.3)',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
   fontSize: 20,
   height: 50,
-  color: theme.palette.text.secondary,
+  borderRadius: Edge1
 }));
 
 const Item3 = styled(Paper)(({ theme }) => ({
@@ -58,17 +66,20 @@ const Item3 = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   fontSize: 20,
   height: 50,
-  color: theme.palette.text.secondary,
+  borderRadius: Edge1
 }));
 
 const P2 = styled(Paper)(({ theme }) => ({
+  backgroundColor: "rgb(0,0,0,.0.5)",
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: 50,
   fill: '#FFFFFF',
   fontSize: 17,
-  color: theme.palette.text.secondary,
+  // color: theme.palette.text.secondary,
+  color:'#000000',
+  borderRadius: Edge2
 }));
 
 const P3 = styled(Paper)(({ theme }) => ({
@@ -77,9 +88,9 @@ const P3 = styled(Paper)(({ theme }) => ({
   justifyContent: 'center',
   height: 50,
   backgroundColor:'#FFFFFF',
-  
   fontSize: 17,
   color: theme.palette.text.secondary,
+  borderRadius: Edge2,  
 }));
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
@@ -303,12 +314,11 @@ function Checked_payment() {
         </Box>
 
         <Container>
-          <hr color="#99b9a0" /><br />
           {show_data()}<br />
-          <hr color="#99b9a0" /><br/>
         </Container>
         <br/>
-        <Container sx={{ backgroundColor: "rgb(255,255,255,0.2)" }} style={{ borderRadius: '35px' }}>
+        <Container>
+        <Container sx={{ backgroundColor: "rgb(0,0,0,0.1)" }} style={{ borderRadius: '35px' }}>
           <Container>
             <Grid container spacing={3}>
               <Grid item xs={12} ></Grid>
@@ -321,9 +331,10 @@ function Checked_payment() {
               <Grid item xs={3}> <Item3> <P3>ข้อความถึงลูกค้า</P3> </Item3> </Grid>
               <Grid item xs={9}> <Item>{taxtfield_Message()}</Item> </Grid>
             </Grid>
+          </Container><br/><br/>
           </Container>
+
           <br /><br />
-          <hr color="#99b9a0" />
           {button_submit_back()}
           <br /><br />
         </Container>
@@ -332,6 +343,8 @@ function Checked_payment() {
       </Container>
     </Paper>
   );
+  //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
+
   //สำหรับ combobox Status_check
   function Combo_Status_check() {
     return (
@@ -349,7 +362,7 @@ function Checked_payment() {
           </option>
           {Status_check.map((item: Status_checkInterface) => (
             <option value={item.ID} key={item.ID}>
-              {item.ID === 3 ? item.Status_name + " (รายการจะยังไม่ถูกตรวจสอบตรวจสอบ)" : item.Status_name}
+              {item.ID === 3 ? '⚠️'+item.Status_name + " (รายการจะยังไม่ถูกตรวจสอบตรวจสอบ)" :item.ID === 2 ? '✅'+item.Status_name :'❌'+item.Status_name}
             </option>
           ))}
         </Select>
@@ -358,7 +371,7 @@ function Checked_payment() {
   }
   function taxtfield_Other() {
     return (
-      <FormControl fullWidth variant="outlined">
+      <FormControl fullWidth variant="outlined" >
         <TextField
           id="Other"
           variant="outlined"
@@ -368,7 +381,6 @@ function Checked_payment() {
           rows={4}
           value={Checked_payment.Other || ""}
           onChange={handleInputChange}
-        //inputProps={{ MaxLength: 200 }}
         />
       </FormControl>
     )
@@ -455,28 +467,28 @@ function Checked_payment() {
   // }
   function show_data() {
     return (
-      <Grid container spacing={1} sx={{ backgroundColor: "rgb(0,0,0,0.3)" }} style={{ borderRadius: '35px' }} >
-        <Grid item xs={12}><center> <h2 style={{ color: "#FFFFFF" }}>ข้อมูลสำหรับตรวจสอบ</h2> </center> </Grid>
+      <Grid container spacing={1} sx={{ backgroundColor: "rgb(0,0,0,0.4)" }} style={{ borderRadius: '35px' }} >
+        <Grid item xs={12}><center> <h2 style={{ color: "#C0DEFF" }}>ข้อมูลสำหรับตรวจสอบ</h2> </center> </Grid>
 
-        <Grid item xs={12}> <br /> </Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>Paymment ID: </h4></Item0></Grid>
+        <Grid item xs={12}>  </Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>Paymment ID: </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2>{Payment_ID_show}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>Order ID: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>Order ID: </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{Order_ID_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ชื่อผู้โอนเงิน: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>ชื่อผู้โอนเงิน: </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2>{Sender_name_show}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ชื่อของลูกค้า: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>ชื่อของลูกค้า: </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{User_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>วันที่โอนเงินเข้าระบบ: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>วันที่โอนเงินเข้าระบบ: </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2>{dayjs(Time_show).format('DD/MM/YYYY HH:mm ')}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ธนาคาร: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>ธนาคาร: </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{Bank_show}</P2>   </Item_2></Grid>
 
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ยอดเงินที่โอนเข้า(บาท): </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>ยอดเงินที่โอนเข้า(บาท): </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2>{Amount_show}</P2>   </Item_2></Grid>
-        <Grid item xs={2}><Item0><h4 style={{ color: "#a1a1a1", textAlign: "right" }}>ยอดที่ต้องโอน(บาท): </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 style={{ color: "#C0DEFF", textAlign: "right" }}>ยอดที่ต้องโอน(บาท): </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2>{Amount_check_show}</P2>   </Item_2></Grid>
         <Grid item xs={12}> <br /> </Grid>
 

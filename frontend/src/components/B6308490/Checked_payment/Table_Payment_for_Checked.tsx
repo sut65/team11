@@ -54,7 +54,7 @@ function Table_Payment_for_Checked() {
     //ฟังก์ชัน สำหรับ Datagrid
     const columns: GridColDef[] = [
         {
-            field: 'action1',
+            field: 'ตรวจสอบ',
             headerName: '',
             width: 150,
             editable: false,
