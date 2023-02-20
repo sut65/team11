@@ -8,6 +8,8 @@ import {
   Paper,
   Popover,
   SwipeableDrawer,
+  TableFooter,
+  TablePagination,
   Typography,
 } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -38,6 +40,23 @@ export default function TableOrderTech() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState(0);
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - OrderTech.length) : 0;
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
@@ -58,7 +77,10 @@ export default function TableOrderTech() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/technician-order-tech-status/${localStorage.getItem("uid")}`, requestOptions)
+    fetch(
+      `${apiUrl}/technician-order-tech-status/${localStorage.getItem("uid")}`,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -81,7 +103,7 @@ export default function TableOrderTech() {
             <Table sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right">OrderTechID</TableCell>
+                  <TableCell align="left">OrderTechID</TableCell>
                   <TableCell align="right">OrderID</TableCell>
                   <TableCell align="center">Solving</TableCell>
                   <TableCell align="right">Time Out</TableCell>
@@ -129,11 +151,12 @@ export default function TableOrderTech() {
                               confirmButtonText: "Got it!",
                             }).then((result) => {
                               if (result.isConfirmed) {
-                                navigate({ pathname: `/PayTechCreate/${row.ID}` });
+                                navigate({
+                                  pathname: `/PayTechCreate/${row.ID}`,
+                                });
                               }
                             });
                           }}
-
                           variant="contained"
                           color="secondary"
                           size="medium"
@@ -146,6 +169,25 @@ export default function TableOrderTech() {
                 ))}
               </TableBody>
             </Table>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
+                  colSpan={OrderTech.length}
+                  count={OrderTech.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
           </TableContainer>
         </Paper>
       </Container>

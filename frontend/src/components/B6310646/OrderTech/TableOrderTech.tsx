@@ -209,7 +209,10 @@ export default function TableOrderTech() {
                                 //   // 'Your file has been deleted.',
                                 //    'success'
                                 // )
-                                localStorage.setItem("Ordertech_ID", row.ID.toString());
+                                localStorage.setItem(
+                                  "Ordertech_ID",
+                                  row.ID.toString()
+                                );
                                 navigate({
                                   pathname: `/OrderTechUpdate/${row.ID}`,
                                 });
@@ -260,41 +263,27 @@ export default function TableOrderTech() {
                   </TableRow>
                 )}
               </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[
-                      5,
-                      10,
-                      25,
-                      { label: "All", value: -1 },
-                    ]}
-                    colSpan={OrderTech.length}
-                    count={OrderTech.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    SelectProps={{
-                      inputProps: {
-                        "aria-label": "rows per page",
-                      },
-                      native: true,
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </TableRow>
-              </TableFooter>
             </Table>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+                  colSpan={OrderTech.length}
+                  count={OrderTech.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
           </TableContainer>
-          {/* <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rpg}
-                page={pg}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            /> */}
         </Paper>
       </Container>
     </React.Fragment>
