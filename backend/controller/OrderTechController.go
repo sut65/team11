@@ -9,21 +9,26 @@ import (
 	"gorm.io/gorm"
 )
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////   		   controller OrderTech    		////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////   		   controller OrderTech    		////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 type extendedOrderTech struct {
 	entity.OrderTech
-	Name string
-	Cost int
+	Name       string
+	Cost       int
 	DamageName string
 	StatusName string
 }
 
 type extendedOrderTechCus struct {
 	entity.OrderTech
-	limits uint
+	// limits int
 	Name   string
+}
+
+type extendedCustomer struct {
+	entity.ORDER
+	Name string
 }
 
 // POST /OrderTech
@@ -96,6 +101,7 @@ func CreateOrderTech(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": pm})
 
+	Update_status_Order(ORDER.ID) //ถ้าบันทึกได้ ไปอัพเดตสถานะ
 }
 
 // GET /OrderTech
@@ -116,7 +122,7 @@ func ListOrderTechs(c *gin.Context) {
 func GetOrderTech(c *gin.Context) {
 	var OrderTech extendedOrderTechCus
 	id := c.Param("id")
-	if tx := entity.DB().Raw("SELECT ot.* , t.name, s.status_name, o.limits , d.damage_name,c.cost FROM order_teches ot JOIN technicians t JOIN orders o JOIN statuses s JOIN cost_details c JOIN damages d ON ot.technician_id = t.id AND ot.order_id = o.id AND ot.status_id = s.id AND ot.cost_detail_id = c.id AND ot.damage_id = d.id WHERE ot.id = ?", id).First(&OrderTech); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("ORDER").Raw("SELECT ot.* , t.name, s.status_name, o.limits , d.damage_name,c.cost FROM order_teches ot JOIN technicians t JOIN orders o JOIN statuses s JOIN cost_details c JOIN damages d ON ot.technician_id = t.id AND ot.order_id = o.id AND ot.status_id = s.id AND ot.cost_detail_id = c.id AND ot.damage_id = d.id WHERE ot.id = ?", id).First(&OrderTech); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "OrderTech not found"})
 		return
 	}
@@ -134,7 +140,6 @@ func GetOrderTechcus(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": OrderTech})
 }
-
 
 // PATCH /users
 func UpdateOrderTech(c *gin.Context) {
@@ -302,4 +307,39 @@ func ListTechnicianOrderByUID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": ordertech})
 
+}
+
+// ======================  --> เพื่อ list Order เฉพาะสถานะ Ready ==================================================
+// GET /ORDER
+func Get_ListOrder_Only_Ready(c *gin.Context) {
+	var Ordersr_Only_Ready []entity.ORDER
+	query := "SELECT * FROM ORDERS WHERE state_id = 1;"
+	if err := entity.DB().Raw(query).Preload("Customer").Preload("Device").Preload("Address").Preload("CASE").Preload("State").Find(&Ordersr_Only_Ready).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": Ordersr_Only_Ready})
+}
+
+// ============================================= update status Payment =================================================================
+func Update_status_Order(id any) {
+	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 4})
+}
+
+// ==============================================================================================================
+// GET /Order:id
+func GetOrder_for_Ordertech(c *gin.Context) {
+	var order extendedCustomer
+	id := c.Param("id")
+	if err := entity.DB().Preload("Customer").Raw("SELECT o.*, c.name FROM orders o JOIN customers c ON o.customer_id = c.id WHERE o.id = ?", id).Scan(&order).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": order})
+}
+
+// ============================================= update status Payment when กดถูก =================================================================
+func Update_status_Ordertech(c *gin.Context) {
+	id := c.Param("id")
+	entity.DB().Table("order_teches").Where("id = ?", id).Updates(map[string]interface{}{"status_id": 2})
 }

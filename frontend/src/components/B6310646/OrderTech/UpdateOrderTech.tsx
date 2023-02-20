@@ -122,9 +122,36 @@ const OrderTechUpdate = () => {
       });
   };
 
+  // const getOrder = async () => {
+  //   // const apiUrl = "http://localhost:8080/GetListOrder/";
+  //   const apiUrl = "http://localhost:8080/GetOrder_for_Ordertech/";
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   // fetch(`${apiUrl}${params.id}`, requestOptions)
+  //   fetch(`${apiUrl}${params.id}`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setOrder(res.data);
+  //         setOrder1(res.data);
+  //         setOrderDetail(res.data);
+  //         console.log(res.data);
+  //         console.log(Order1)
+  //       }
+  //     });
+  // };
+
+  // var newID = 4;
+  var newID = localStorage.getItem("Ordertech_ID");
   const getOrder = async () => {
+    console.log('*******************************',newID)
     // const apiUrl = "http://localhost:8080/GetListOrder/";
-    const apiUrl = "http://localhost:8080/GetOrder/";
+    const apiUrl = "http://localhost:8080/GetOrder_for_Ordertech/";
     const requestOptions = {
       method: "GET",
       headers: {
@@ -133,16 +160,23 @@ const OrderTechUpdate = () => {
       },
     };
     // fetch(`${apiUrl}${params.id}`, requestOptions)
-    fetch(`${apiUrl}${params.id}`, requestOptions)
+    fetch(`${apiUrl}${newID}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
+          console.log('*******************************',newID)
+          // console.log('-------------------------------->',res.data);
           setOrder(res.data);
           setOrder1(res.data);
           setOrderDetail(res.data);
           console.log(res.data);
-          console.log(Order1)
+          // setOrder_ID_show(res.data.ORDER.OrderID)
+          // localStorage.setItem('Order',Order2)
+          
+          // localStorage.removeItem('Ordertech_ID');
+
         }
+        //console.log('-------------------------------->************',);
       });
   };
 
@@ -162,7 +196,7 @@ const OrderTechUpdate = () => {
         if (res.data) {
           setTechnician(res.data);
           setT_name(res.data.Name);
-          console.log(res.data);
+          //console.log(res.data);
         }
       });
   };
@@ -304,14 +338,14 @@ const OrderTechUpdate = () => {
 
   //useEffect
   useEffect(() => {
-    getOrder();
     getDamage();
-    getOrder();
+    // getOrder();
     getStatus();
     getDamage();
     getCostDetail();
     getTechnician();
     getCurrentOrderTech();
+    getOrder();
     // getUser();
   }, []);
 
@@ -572,9 +606,7 @@ const OrderTechUpdate = () => {
                   name: "StatusID",
                 }}
               >
-                <option aria-label="None" value="">
-                  select-status
-                </option>
+                
                 {Status.map((item: StatusInterface) => (
                   <option value={item.ID} key={item.ID}>
                     {item.StatusName}

@@ -128,7 +128,7 @@ const OrderTechCreate = () => {
 
   const getOrder = async () => {
     // const apiUrl = "http://localhost:8080/GetListOrder/";
-    const apiUrl = "http://localhost:8080/GetOrder/";
+    const apiUrl = "http://localhost:8080/GetOrder_for_Ordertech/";
     const requestOptions = {
       method: "GET",
       headers: {
@@ -141,6 +141,7 @@ const OrderTechCreate = () => {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
+          console.log('-------------------------------->',res.data);
           setOrder(res.data);
           setOrder1(res.data);
           setOrderDetail(res.data);
@@ -148,6 +149,7 @@ const OrderTechCreate = () => {
           // setOrder_ID_show(res.data.ORDER.OrderID)
           // localStorage.setItem('Order',Order2)
         }
+        console.log('-------------------------------->************',);
       });
   };
 
@@ -258,6 +260,7 @@ const OrderTechCreate = () => {
       CostDetailID: convertType(OrderTech.CostDetailID),
       TechnicianID: Number(localStorage.getItem("uid")),
       OrderID: Order1.ID,
+      ForPaymentStatus: false ,
     };
 
     const apiUrl = "http://localhost:8080/order-tech";
@@ -288,14 +291,15 @@ const OrderTechCreate = () => {
 
   //useEffect
   useEffect(() => {
-    getOrder();
+    
     getDamage();
-    getOrder();
+    // getOrder();
     getStatus();
     getDamage();
     getCostDetail();
     getTechnician();
     // getUser();
+    getOrder();
   }, []);
 
   return (
@@ -555,9 +559,10 @@ const OrderTechCreate = () => {
                   name: "StatusID",
                 }}
               >
-                <option aria-label="None" value="">
+                <option aria-label="None" value={1}>
                   select-status
                 </option>
+
                 {Status.map((item: StatusInterface) => (
                   <option value={item.ID} key={item.ID}>
                     {item.StatusName}
