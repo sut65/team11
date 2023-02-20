@@ -9,6 +9,8 @@ import {
   Paper,
   Popover,
   SwipeableDrawer,
+  TableFooter,
+  TablePagination,
   Typography,
 } from "@mui/material";
 import Table from "@mui/material/Table";
@@ -50,6 +52,24 @@ export default function TableinPayTech2() {
   const style = {
     maxWidth: width,
     borderStyle: "border-box",
+  };
+
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, setPage] = React.useState(0);
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - PayTech.length) : 0;
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const apiUrl = "http://localhost:8080";
@@ -104,7 +124,7 @@ export default function TableinPayTech2() {
             <Table sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right">PayTechID</TableCell>
+                  <TableCell align="left">PayTechID</TableCell>
                   <TableCell align="right">OrderTechID</TableCell>
                   <TableCell align="center">HardwareName</TableCell>
                   <TableCell align="right">Amount</TableCell>
@@ -164,6 +184,26 @@ export default function TableinPayTech2() {
                 ))}
               </TableBody>
             </Table>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
+                  colSpan={PayTech.length}
+                  count={PayTech.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
+            {/* </Table> */}
           </TableContainer>
         </Paper>
       </Container>

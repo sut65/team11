@@ -22,6 +22,7 @@ import {
 import { TechnicianInterface } from "../../../interfaces/TechnicianUI";
 import { ORDERInterface } from "../../../interfaces/ORDERUI";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
+
 import {
   blueGrey,
   green,
@@ -48,6 +49,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+
+const defaultProps = {
+  options: [],
+  getOptionLabel: (option: any) => option,
+};
 
 const PayTechCreate = () => {
   const navigate = useNavigate();
@@ -241,7 +247,7 @@ const PayTechCreate = () => {
       HardwareID: convertType(PayTech.HardwareID),
       TechnicianID: Number(localStorage.getItem("uid")),
       OrderTechID: OrderTech1.ID,
-      Limits: limits
+      Limits: limits,
     };
 
     const apiUrl = "http://localhost:8080/pay-tech";
@@ -375,7 +381,6 @@ const PayTechCreate = () => {
             </FormControl>
           </Grid>
 
-
           {/* time in box  */}
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
@@ -474,9 +479,10 @@ const PayTechCreate = () => {
               <TextField
                 style={{ backgroundColor: "white" }}
                 id="CostHardware"
-                multiline
+                // multiline
                 value={PayTech.CostHardware}
                 label="cost"
+                type="number"
                 onChange={handleInputChange}
               />
               <p />
@@ -486,7 +492,7 @@ const PayTechCreate = () => {
           {/* box note */}
           <Grid item xs={6}>
             <FormControl fullWidth>
-              <p style={{ textAlign: "left" }}>หมายเหตุ</p>
+              <p style={{ textAlign: "left" }}>หมายเหตุ*</p>
 
               <TextField
                 style={{ backgroundColor: "white" }}
@@ -494,7 +500,7 @@ const PayTechCreate = () => {
                 multiline
                 rows={4}
                 value={PayTech.Note}
-                label="note"
+                label="note*"
                 onChange={handleInputChange}
               />
               <p />
@@ -575,6 +581,7 @@ const PayTechCreate = () => {
                 }).then((result) => {
                   if (result.isConfirmed) {
                     update_status_when_confirm(OrderTech1?.ID); //สำหรับการอัพเดตเมื่อกดปุ่ม
+                    update_state_when_confirm(OrderTech1?.OrderID); //สำหรับการอัพเดตเมื่อกดปุ่ม
                     navigate({ pathname: `/PayTech/` });
                   }
                 });
@@ -592,6 +599,24 @@ export default PayTechCreate;
 
 function update_status_when_confirm(id: any) {
   const apiUrl = `http://localhost:8080/Update_odertech_status_for_Just/${id}`;
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(""),
+  };
+  fetch(apiUrl, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+      } else {
+      }
+      // window.location.reload();
+    });
+}
+function update_state_when_confirm(id: any) {
+  const apiUrl = `http://localhost:8080/Update_odertech_status_for_Few/${id}`;
   const requestOptions = {
     method: "PATCH",
     headers: {

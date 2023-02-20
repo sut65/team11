@@ -47,6 +47,8 @@ const PayTechUpdate = () => {
   const params = useParams();
   const [PayTech, setPayTech] = React.useState<Partial<PayTechInterface>>({});
   const [PayTech1, setPayTech1] = React.useState<PayTechInterface>();
+  const [PayTech2, setPayTech2] = React.useState<PayTechInterface[]>([]); // for combobox first disable
+
   const [OrderTech1, setOrderTech1] = React.useState<
     Partial<OrderTechInterface>
   >({});
@@ -100,6 +102,7 @@ const PayTechUpdate = () => {
           setOrderTechDetail(res.data);
           setOrder1(res.data);
           setPayTech1(res.data);
+          setPayTech2(res.data);
         }
       });
   };
@@ -401,7 +404,7 @@ const PayTechUpdate = () => {
                     width: 490,
                   },
                 }}
-                value={OrderTech1?.ID}
+                value={PayTech?.ID}
                 sx={{ fontFamily: "Mitr-Regular" }}
                 multiline
                 onChange={handleInputChange}
@@ -409,10 +412,10 @@ const PayTechUpdate = () => {
             </FormControl>
           </Grid>
 
-          {/* box limit */}
+          {/* box TimeStamp */}
           <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <p>limit</p>
+          <FormControl fullWidth variant="outlined">
+              <p>Order Tech</p>
               <TextField
                 disabled
                 variant="outlined"
@@ -423,51 +426,13 @@ const PayTechUpdate = () => {
                     width: 490,
                   },
                 }}
-                value={OrderTechDetail?.ORDER?.Limits}
+                value={PayTech.OrderTechID}
                 sx={{ fontFamily: "Mitr-Regular" }}
                 multiline
+                onChange={handleInputChange}
               />
             </FormControl>
-          </Grid>
 
-          {/* time in box  */}
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <p>Time Out</p>
-              <TextField
-                disabled
-                variant="outlined"
-                type="string"
-                size="medium"
-                inputProps={{}}
-                value={OrderTechDetail?.TimeOut}
-                sx={{ fontFamily: "Mitr-Regular" }}
-                multiline
-              />
-            </FormControl>
-          </Grid>
-
-          {/* box reason Solving */}
-
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <p>Solving</p>
-              <TextField
-                disabled
-                variant="outlined"
-                type="string"
-                // size="medium"
-                inputProps={{
-                  style: {
-                    height: 70,
-                    width: 300,
-                  },
-                }}
-                value={OrderTechDetail?.Solving}
-                sx={{ fontFamily: "Mitr-Regular" }}
-                multiline
-              />
-            </FormControl>
           </Grid>
         </Grid>
 
@@ -540,7 +505,7 @@ const PayTechUpdate = () => {
           {/* box note */}
           <Grid item xs={6}>
             <FormControl fullWidth>
-              <p style={{ textAlign: "left" }}>หมายเหตุ</p>
+              <p style={{ textAlign: "left" }}>หมายเหตุ*</p>
 
               <TextField
                 style={{ backgroundColor: "white" }}

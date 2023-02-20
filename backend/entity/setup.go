@@ -615,24 +615,63 @@ func SetupDatabase() {
 		DamageName: "มาก",
 	}
 	db.Model(&Damage{}).Create(&DamageC)
-
 	//CostDetail
 	CostDetailA := CostDetail{
-		Cost: 300,
+		Cost: 200,
 	}
 	db.Model(&CostDetail{}).Create(&CostDetailA)
 	CostDetailB := CostDetail{
-		Cost: 500,
+		Cost: 300,
 	}
 	db.Model(&CostDetail{}).Create(&CostDetailB)
 	CostDetailC := CostDetail{
-		Cost: 700,
+		Cost: 400,
 	}
 	db.Model(&CostDetail{}).Create(&CostDetailC)
 	CostDetailD := CostDetail{
-		Cost: 1000,
+		Cost: 500,
 	}
 	db.Model(&CostDetail{}).Create(&CostDetailD)
+	CostDetailE := CostDetail{
+		Cost: 600,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailE)
+	CostDetailF := CostDetail{
+		Cost: 700,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailF)
+	CostDetailG := CostDetail{
+		Cost: 800,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailG)
+	CostDetailH := CostDetail{
+		Cost: 900,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailH)
+	CostDetailI := CostDetail{
+		Cost: 1000,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailI)
+	CostDetailJ := CostDetail{
+		Cost: 1100,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailJ)
+	CostDetailK := CostDetail{
+		Cost: 1200,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailK)
+	CostDetailL := CostDetail{
+		Cost: 1300,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailL)
+	CostDetailM := CostDetail{
+		Cost: 1400,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailM)
+	CostDetailN := CostDetail{
+		Cost: 1500,
+	}
+	db.Model(&CostDetail{}).Create(&CostDetailN)
 	// ================== Mockup OrderTech ====================
 
 	// ====== Mockup OrderTech ========

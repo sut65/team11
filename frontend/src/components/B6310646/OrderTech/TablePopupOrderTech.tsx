@@ -78,11 +78,15 @@ export default function Table2Order() {
             <Table sx={{ minWidth: 400, p: 2 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="right">OrderID</TableCell>
-                  <TableCell align="center">Time in</TableCell>
+                  <TableCell align="left">OrderID</TableCell>
+                  <TableCell align="center">Case</TableCell>
+                  <TableCell align="right">Type</TableCell>
                   <TableCell align="right">Reason</TableCell>
                   <TableCell align="right">Limits</TableCell>
-                  <TableCell align="right">Case</TableCell>
+                  <TableCell align="center">Time in</TableCell>
+                  <TableCell align="left">Customer</TableCell>
+                  <TableCell align="right">PostCode</TableCell>
+                  <TableCell align="right">Phone</TableCell>
                   <TableCell align="right">State</TableCell>
                 </TableRow>
               </TableHead>
@@ -102,12 +106,16 @@ export default function Table2Order() {
                       {row.ID}
                     </TableCell>
 
+                    <TableCell align="right">{row.CASE.Case_text}</TableCell>
+                    <TableCell align="right">{row.CASE.Level_case}</TableCell>
+                    <TableCell align="right">{row.Reason}</TableCell>
+                    <TableCell align="right">{row.Limits}</TableCell>
                     <TableCell align="right">
                       {row.Date_time?.toString()}
                     </TableCell>
-                    <TableCell align="right">{row.Reason}</TableCell>
-                    <TableCell align="right">{row.Limits}</TableCell>
-                    <TableCell align="right">{row.CASE.Level_case}</TableCell>
+                    <TableCell align="right">{row.Customer.Name}</TableCell>
+                    <TableCell align="right">{row.Address.Post_Code}</TableCell>
+                    <TableCell align="right">{row.Customer.Phone}</TableCell>
                     <TableCell align="right">{row.State.State}</TableCell>
                     <TableCell align="right">
                       <ButtonGroup
@@ -135,27 +143,26 @@ export default function Table2Order() {
                   </TableRow>
                 )}
               </TableBody>
-
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[3, 6, 10, { label: "All", value: -1 }]}
-                    colSpan={Order.length}
-                    count={Order.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    SelectProps={{
-                      inputProps: {
-                        "aria-label": "rows per page",
-                      },
-                      native: true,
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </TableRow>
-              </TableFooter>
             </Table>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 15, { label: "All", value: -1 }]}
+                  colSpan={Order.length}
+                  count={Order.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
           </TableContainer>
         </Paper>
       </Container>
