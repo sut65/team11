@@ -20,12 +20,6 @@ type extendedPayTech struct {
 	Name         string
 }
 
-type extendedOrderTechCusForPay struct {
-	entity.OrderTech
-	limits int
-	Name   string
-}
-
 type extendedOrderTechStatus struct {
 	entity.OrderTech
 	Name       string
@@ -276,12 +270,18 @@ func Update_odertech_status_for_Just(c *gin.Context) {
 	entity.DB().Table("order_teches").Where("id = ?", id).Updates(map[string]interface{}{"for_Payment_status": 1})
 }
 
+// ===================================================================
+func Update_odertech_status_for_Few(c *gin.Context) {
+	id := c.Param("id")
+	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 5})
+}
+
 // GET /OrderTech/:id
 // Get OrderTech by id
 func GetOrderTechForPay(c *gin.Context) {
-	var OrderTech extendedOrderTechCusForPay
+	var OrderTech entity.PayTech
 	id := c.Param("id")
-	if tx := entity.DB().Preload("ORDER").Raw("SELECT p.* , o.limits ,ot.solving,ot.time_out FROM pay_teches p JOIN order_teches ot ON p.order_tech_id = ot.id JOIN orders o ON o.id = ot.order_id WHERE p.id = ?", id).First(&OrderTech); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("OrderTech.ORDER").Raw("SELECT p.* , o.limits ,ot.solving,ot.time_out FROM pay_teches p JOIN order_teches ot ON p.order_tech_id = ot.id JOIN orders o ON o.id = ot.order_id WHERE p.id = ?", id).Find(&OrderTech); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "PayTech not found"})
 		return
 	}
