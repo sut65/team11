@@ -1,6 +1,6 @@
 //ดึงส่วนต่าง ๆ ที่จะต้องใช้งาน
 import React, { useEffect, useState } from "react";
-import { Link as RouterLink, Route } from "react-router-dom";
+import { Link as RouterLink, Route, useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import { AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
@@ -14,11 +14,24 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ResponsiveAppBar from "../Bar_01";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from "@mui/x-data-grid";
 import { CASEInterface, ORDERInterface } from "../../interfaces/ORDERUI";
 import Swal from 'sweetalert2'
+import { Delete, Edit } from "@mui/icons-material";
+import TextsmsIcon from '@mui/icons-material/Textsms';
+import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
+import { getsetOrderID } from "./UpdateOrder";
 
 function OrderShow() {
+
+    // const swalWithBootstrapButtons = Swal.mixin({
+    //     customClass: {
+    //       confirmButton: 'btn btn-success' ,
+    //       cancelButton: 'btn btn-danger'
+    //     },
+    //     buttonsStyling: true
+    //   })
+    
     const customerID = parseInt(localStorage.getItem("uid") + "");
     const [OrderShow, setOrderShow] = React.useState<ORDERInterface[]>([]);
     const getOrderShow = async () => {
@@ -39,6 +52,28 @@ function OrderShow() {
     };
 
     const columns: GridColDef[] = [
+        {
+            field: 'action1',
+            headerName: '',
+            width: 100,
+            editable: false,
+            headerClassName: 'super-app-theme--header',
+            renderCell: (params: GridRenderCellParams) => {
+      
+              const handleClick = () => {
+                params.api.setRowMode(params.id, 'edit');
+                getsetOrderID(params.id.toString());
+      
+              };
+              return (
+                <Button variant="contained" onClick={handleClick} component={RouterLink} to="/OrderUpdate"
+                  // disabled={params.row.Status_ID != 3 && params.row.Status_ID != 1}
+                  sx={{ cursor: 'pointer', backgroundColor: 'success' }} >
+                  {<Edit />}แก้ไข
+                </Button>
+              );
+            }
+          },
         { field: "ID", headerName: "OrderID", width: 70 },
         { field: "CustomerName", headerName: "ลูกค้า", width: 200, renderCell:params =>{        
             return <div>{params.row.Customer.Name}</div>
@@ -67,9 +102,9 @@ function OrderShow() {
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
             {/* <ResponsiveAppBar/> */}
-            <Box sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#FFFFFF" }}  >
+            <Paper sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#FFFFFF" }}  >
                 {datashow()}
-            </Box>
+            </Paper>
             <Grid sx = {{padding : 2}}></Grid>
             <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/OrderCreate" variant="contained">
                 ย้อนกลับ
@@ -87,7 +122,8 @@ function OrderShow() {
             rowsPerPageOptions={[6]}
             components={{
               Toolbar:GridToolbar,
-            }}/>
+            }}
+            style={{ borderRadius: '10px' }}/>
         )
       }
 }

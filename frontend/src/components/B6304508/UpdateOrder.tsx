@@ -50,9 +50,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+let OrderID: string;
+  function getsetOrderID(id: string) {
+    OrderID = id;
+  } export { getsetOrderID }
+
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function OrderUpdate() {
-
+  let OID = OrderID;
     //ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox ทั้งหมดเป็นตารางที่ ดึงไปใส่ตารางหลัก
     const [Device_ID, setDevice_ID] = useState('');
     const [Address_ID, setAddress_ID] = useState('');
@@ -134,7 +139,7 @@ function OrderUpdate() {
     function update() {
         let data = {
 
-        ID: convertType(Order_ID),
+        ID: convertType(OID),
         CASEID: convertType(Case_ID),
         StateID: 1,
         DeviceID: convertType(Device_ID),
@@ -150,7 +155,7 @@ function OrderUpdate() {
 
     //check data
 
-    const apiUrl = "http://localhost:8080/UpdateOrder";
+    const apiUrl = `http://localhost:8080/UpdateOrder`;
     const requestOptions = {
       method: "PATCH",
       headers: {
@@ -202,7 +207,7 @@ function OrderUpdate() {
  function cancle() {
   let data = {
 
-  ID: convertType(Order_ID),
+  ID: convertType(OID),
   StateID: 2,
 
 };
@@ -211,7 +216,7 @@ console.log(data);
 
 //check data
 
-const apiUrl = "http://localhost:8080/UpdateOrderCR";
+const apiUrl = `http://localhost:8080/UpdateOrderCR`;
 const requestOptions = {
 method: "PATCH",
 headers: {
@@ -249,7 +254,7 @@ setOrder_ID("");
 
  const [orders, setOrders ] = React.useState<ORDERInterface[]>([]);
         const getOrder = async () => {
-            const apiUrl = "http://localhost:8080/GetListOrder";
+            const apiUrl = `http://localhost:8080/GetOrder/${OID}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -371,7 +376,23 @@ setOrder_ID("");
       });
   };
 
+    const getUser = async () => {
+      const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
+      const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      };
+      fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+          setUserName(res.data.Name);
+          }
+      });
+  };
+
   useEffect(() => {
+    getUser();
     getDevice();
     getAddress();
     getCase();
@@ -381,137 +402,112 @@ setOrder_ID("");
 
   }, [Device_ID,Address_ID]);
 
-  //ฟังก์ชัน สำหรับ Datagrid หัวข้อตารางแสดงข้อมูล Order
-  // const columns: GridColDef[] = [
-  //   { field: "Payment_ID", headerName: "ลำดับ", width: 100 },
-  //   { field: "PAYTECH_ID", headerName: "PAYMENT_ID", width: 300 },
-  //   { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 400 },
-  //   { field: "Bank_ID", headerName: "ธนาคาร", width: 400 },
-  //   { field: "Amount", headerName: "ยอดเงินที่โอน", width: 400 },
-  //   { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 400 },
-  //   { field: "Date_time", headerName: "วันที่โอนเงิน", width: 400 },
-  //   { field: "Status_ID", headerName: "สถานะ", width: 400 },
-  //   { field: "USER_ID", headerName: "ผู้ส่งเรื่อง", width: 400 },
-  // ];
-
  //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
  return (
+
   <Paper style={{ backgroundColor: "#182E3E" }}>
-    {/* <ResponsiveAppBar /> */}
-    <Container maxWidth="xl">
-      <Snackbar
-        open={success}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
-        </Alert>
-      </Snackbar>
 
-      <Snackbar open={error}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
-        </Alert>
-      </Snackbar>
+  <div className="container">
+    <div className="topic">
+    <hr className="line"/>
 
+    <h2 className="header">แก้ไขข้อมูลการแจ้งซ่อม</h2>
+      <div className="info">
+        <ul>
+            <li>Customer : {userName}</li>
+            <li>Datetime : {Date_time ? Date_time.format("DD/MM/YYYY HH:mm:ss") : ''}</li>
+        </ul>
+      </div>
+    </div>
 
-      {/* เริ่มส่วนของหน้าเว็ป */}
+    <hr className="line"/>
 
-      <Box sx={{ maginX: 0, maginY: 0 }}>
-        <center>
-          <Typography
-            component="h2"
-            variant="h4"
-            //color="#182E3E"
-            gutterBottom
-            //align="center"
-            fontFamily="Arial"
-          >
-            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} ><br />
-              แก้ไขข้อมูลการแจ้งซ่อม
-            </b><br /><br />
+    <div className="block2">
+        <div className="province">
+        <div className="top">
+                ORDER
+            </div>
+            <div className="bottom">
+            <Paper style={{ backgroundColor: "#FFFFF" }}>
+              <Typography align="center" fontSize={50}>
+                <FormControl fullWidth variant="outlined">
+                  <Select
+                    native
+                    disabled
+                    value={OID}
+                    sx={{ width: 300 }}
+                    onChange={onChangeOrder}
+                    inputProps={{
+                      name: "OID",
+                    }}
+                  >
+                    {orders.map((item) => (
+                      <option value={item.ID} key={item.ID}>
+                        Order-ID : {item.ID}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                </Typography>
+              </Paper>
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                Cancle ออเดอร์
+            </div>
+            <div className="bottom">
+            <div className="cancle-button">
+          <Button 
+                variant="contained"
+                color="warning"
+                onClick={cancle}> Cancle
+          </Button>
+      </div>
+            </div>
+        </div>
+    </div>
 
-          </Typography>
-        </center>
-      </Box>
-
-      <Grid container spacing={3} sx={{ padding: 2 }}>
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>ORDER</p>
-            </Grid>
-            <Grid item xs={9} >
-              <Item style={{ background: "#FFFFFF"}}>
-              <FormControl fullWidth variant="outlined">
-                <Select
-                  native
-                  value={Order_ID}
-                  onChange={onChangeOrder}
-                  inputProps={{
-                    name: "Order_ID",
-                  }}
-                >
-                  <option aria-label="None" value="">
-                    กรุณาเลือกออเดอร์
-                  </option>
-                  {orders.map((item) => (
-                    <option value={item.ID} key={item.ID}>
-                       Order-ID : {item.ID}
+    <div className="block2">
+        <div className="province">
+            <div className="top">
+                อุปกรณ์
+            </div>
+            <div className="bottom">
+            <Paper style={{ backgroundColor: "#FFFFF" }}>
+              <Typography align="center" fontSize={50}>
+                <FormControl fullWidth variant="outlined">
+                  <Select
+                    native
+                    value={Device_ID}
+                    onChange={onChangeDevice}
+                    inputProps={{
+                      name: "Device_ID",
+                    }}
+                  >
+                    <option aria-label="None" value="">
+                      กรุณาเลือกอุปกรณ์
                     </option>
-                  ))}
-                </Select>
-              </FormControl>
-              </Item>
-            </Grid>
-            
-          </Grid>
-
-          <Grid container spacing={3} sx={{ padding: 2 }}>
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>DEVICE</p>
-            </Grid>
-            <Grid item xs={9} >
-              <Item style={{ background: "#FFFFFF"}}>
-              <FormControl fullWidth variant="outlined">
-                <Select
-                  native
-                  value={Device_ID}
-                  onChange={onChangeDevice}
-                  inputProps={{
-                    name: "Device_ID",
-                  }}
-                >
-                  <option aria-label="None" value="">
-                    กรุณาเลือกอุปกรณ์
-                  </option>
-                  {Device.map((item) => (
-                    <option value={item.ID} key={item.ID}>
-                       Device-ID : {item.ID} - Type : {item.Type.Type_Name} - Customer : {item.Customer.Name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-              </Item>
-            </Grid>
-            
-          </Grid>
-
-          <Grid container spacing={3} sx={{ padding: 2 }}>
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>Address</p>
-            </Grid>
-            <Grid item xs={9} >
-              <Item style={{ background: "#FFFFFF"}}>
-              <FormControl fullWidth variant="outlined">
+                    {Device.map((item) => (
+                      <option value={item.ID} key={item.ID}>
+                          Device-ID : {item.ID} - Type : {item.Type.Type_Name} - Customer : {item.Customer.Name}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                </Typography>
+              </Paper>
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                ที่อยู่
+            </div>
+            <div className="bottom">
+            <Paper style={{ backgroundColor: "#FFFFF" , width: 380 }}>
+                <Typography align="center" fontSize={50}>
+                <FormControl fullWidth variant="outlined">
                 <Select
                   native
                   value={Address_ID}
@@ -529,130 +525,124 @@ setOrder_ID("");
                     </option>
                   ))}
                 </Select>
-              </FormControl>
-              </Item>
-            </Grid>
-            
-          </Grid>
+                </FormControl>
+                </Typography>
+              </Paper>
+            </div>
+        </div>
+    </div>
 
-          <Grid container spacing={4} sx={{ padding: 4 }}>
-
-          <Grid item xs={1}>
-              <p style={{ color: "#FFFFFF" }}>CPU</p>
-              </Grid>
-              <Grid item xs={4}>
-              <Item style={{ background: "#FFFFFF"}}>
-              <TextField
-                fullWidth
-                id="outlined-read-only-input"
-                value={Cpu}
-                InputProps={{
-                  readOnly: true,
-                }}
+    <div className="block2">
+        <div className="province">
+            <div className="top">
+                CPU
+            </div>
+            <div className="bottom">
+            <TextField
+              style={{ backgroundColor: "white", width: 300 }}
+              id="outlined-read-only-input"
+              value={Cpu}
+              InputProps={{
+                readOnly: true,
+              }}
               />
-            </Item>
-            </Grid>
-
-            <Grid item xs={1}>
-              <p style={{ color: "#FFFFFF"}}>Monitor</p></Grid>
-              <Grid item xs={4}>
-              <Item style={{ background: "#FFFFFF"}}>
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                Monitor
+            </div>
+            <div className="bottom">
               <TextField
+                style={{ backgroundColor: "white", width: 300 }}
                 fullWidth
                 id="outlined-read-only-input"
                 value={Monitor}
                 InputProps={{
                   readOnly: true,
-
                 }}
-
               />
-              </Item>
-            </Grid>
+            </div>
+        </div>
+    </div>
 
-            </Grid>
+    <div className="block2">
+        <div className="province">
+            <div className="top">
+                GPU
+            </div>
+            <div className="bottom">
+              <TextField
+              style={{ backgroundColor: "white", width: 300 }}
+              fullWidth
+              id="outlined-read-only-input"
+              value={Gpu}
+              InputProps={{
+                readOnly: true,
+              }}
+              />
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                Monitor
+            </div>
+            <div className="bottom">
+              <TextField
+              style={{ backgroundColor: "white", width: 300 }}
+              fullWidth
+              id="outlined-read-only-input"
+              value={Ram}
+              InputProps={{
+              readOnly: true,
+              }}
+              />
+            </div>
+        </div>
+    </div>
 
-              <Grid container spacing={4} sx={{ padding: 4 }}>
+      <div className="block2">
+          <div className="province">
+              <div className="top">
+                  Harddisk
+              </div>
+              <div className="bottom">
+                <TextField
+                style={{ backgroundColor: "white", width: 300 }}
+                fullWidth
+                id="outlined-read-only-input"
+                value={Harddisk}
+                InputProps={{
+                  readOnly: true,
+                }}
+                />
+              </div>
+          </div>
+          <div className="district">
+              <div className="top">
+                  Problem
+              </div>
+              <div className="bottom">
+                <TextField
+                style={{ backgroundColor: "white", width: 300 }}
+                fullWidth
+                id="outlined-read-only-input"
+                value={Problem}
+                InputProps={{
+                readOnly: true,
+                }}
+                />
+              </div>
+          </div>
+      </div>
 
-              <Grid item xs={1}>
-                  <p style={{ color: "#FFFFFF" }}>GPU</p>
-                  </Grid>
-                  <Grid item xs={4}>
-                  <Item style={{ background: "#FFFFFF"}}>
-                  <TextField
-                    fullWidth
-                    id="outlined-read-only-input"
-                    value={Gpu}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Item>
-                </Grid>
-
-                <Grid item xs={1}>
-                  <p style={{ color: "#FFFFFF"}}>RAM</p></Grid>
-                  <Grid item xs={4}>
-                  <Item style={{ background: "#FFFFFF"}}>
-                  <TextField
-                    fullWidth
-                    id="outlined-read-only-input"
-                    value={Ram}
-                    InputProps={{
-                      readOnly: true,
-
-                    }}
-
-                  />
-                  </Item>
-                </Grid>
-
-                </Grid>
-
-            <Grid container spacing={4} sx={{ padding: 4 }}>
-
-              <Grid item xs={1}>
-                  <p style={{ color: "#FFFFFF" }}>Harddisk</p>
-                  </Grid>
-                  <Grid item xs={4}>
-                  <Item style={{ background: "#FFFFFF"}}>
-                  <TextField
-                    fullWidth
-                    id="outlined-read-only-input"
-                    value={Harddisk}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                </Item>
-                </Grid>
-
-                <Grid item xs={1}>
-                  <p style={{ color: "#FFFFFF"}}>Problem</p></Grid>
-                  <Grid item xs={4}>
-                  <Item style={{ background: "#FFFFFF"}}>
-                  <TextField
-                    fullWidth
-                    id="outlined-read-only-input"
-                    value={Problem}
-                    InputProps={{
-                      readOnly: true,
-
-                    }}
-
-                  />
-                  </Item>
-                </Grid>
-
-                </Grid>
-
-          <Grid container spacing={3} sx={{ padding: 2 }}>
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>อาการ</p>
-            </Grid>
-            <Grid item xs={4} >
-              <Item style={{ background: "#FFFFFF"}}>
+      <div className="block2">
+        <div className="province">
+            <div className="top">
+                อาการ
+            </div>
+            <div className="bottom">
+            <Paper style={{ background: "#FFFFFF" , width: 330}}>
               <FormControl fullWidth variant="outlined">
                 <Select
                   native
@@ -672,99 +662,90 @@ setOrder_ID("");
                   ))}
                 </Select>
               </FormControl>
-              </Item>
-            </Grid>
-
-            <Grid item xs={5} >
-            <Item style={{ background: "#FFFFFF"}}>
-            <FormControl fullWidth variant="outlined">
-                <TextField
-                   id="Reason"
-                   variant="outlined"
-                   type="string"
-                   size="medium"
-                   value={Reason}
-                   onChange={(event) => setReason(event.target.value)}
-                />
-              </FormControl>
-              </Item>
-            </Grid>
-          </Grid>
-
-          <Grid container spacing={3} sx={{ padding: 2 }}>
-          <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>เวลาที่พร้อมให้ซ่อม</p>
-            </Grid>
-            <Grid item xs={4}>
-            <Item style={{ background: "#FFFFFF"}}>
+              </Paper>
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                เพิ่มเติม
+            </div>
+            <div className="bottom">
+              <Paper style={{ background: "#FFFFFF" , width: 330}}>
               <FormControl fullWidth variant="outlined">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DesktopDateTimePicker
-                    renderInput={(params) => <TextField {...params} />}
-                    value={Date_time}
-                    onChange={(newValue) => {
-                      setDate(newValue);
-                    }}
-                  />
-                </LocalizationProvider>
-              </FormControl>
-              </Item>
-            </Grid>
-
-            <Grid item xs={1}>
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>ช่วงราคา</p>
-            </Grid>
-            <Grid item xs={4} >
-            <Item style={{ background: "#FFFFFF"}}>
-            <FormControl fullWidth variant="outlined">
                 <TextField
-                   id="Limits"
-                   variant="outlined"
-                   type="number"
-                   size="medium"
-                   value={Limits}
-                   onChange={(event) => setLimit(event.target.value)}
+                  id="Reason"
+                  variant="outlined"
+                  type="string"
+                  size="medium"
+                  value={Reason}
+                  onChange={(event) => setReason(event.target.value)}
                 />
               </FormControl>
-              </Item>
-            </Grid>
-          </Grid>
-              
-        <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/OrderCreate" variant="contained"  >
-          ย้อนกลับ
-        </Button>
-        <Button
-          style={{ float: "right", fontSize: 20 }}
-          onClick={update}
-          variant="contained"
-          color="success"
-          size="large"
-        >
-          <b>แก้ไข</b>
-        </Button>
-      </Grid>
+              </Paper>
+            </div>
+        </div>
+    </div>
 
-      <Grid sx={{ padding: 2 }}></Grid>
-      
-      <Grid item xs={12}>
-        <Button size="large" sx={{ backgroundColor: "##9999FF", fontSize: 20 }} component={RouterLink} to="/ShowOrder" variant="contained"  >
-          ข้อมูล
-        </Button>
-        <Button
-          style={{ float: "right", fontSize: 20}}
-          onClick={cancle}
-          variant="contained"
-          color="warning"
-          size="large"
-        >
-          <b>Cancle Order</b>
-        </Button>
-      </Grid>
+    <div className="block3">
+        <div className="tambon">
+            <div className="top">
+                วันที่พร้อมให้มาซ่อม
+            </div>
+            <div className="bottom">
+              <Paper style={{ background: "#FFFFFF" , width: 330}}>
+                <FormControl fullWidth variant="outlined">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DesktopDateTimePicker
+                      renderInput={(params) => <TextField {...params} />}
+                      value={Date_time}
+                      onChange={(newValue) => {
+                        setDate(newValue);
+                      }}
+                    />
+                  </LocalizationProvider>
+                </FormControl>
+              </Paper>
+            </div>
+        </div>
+        <div className="postcode">
+            <div className="top">
+                ช่วงราคา
+            </div>
+            <div className="bottom">
+              <Paper style={{ background: "#FFFFFF" , width: 330}}>
+              <FormControl fullWidth variant="outlined">
+                  <TextField
+                    id="Limit"
+                    variant="outlined"
+                    type="int"
+                    size="medium"
+                    value={Limits}
+                    onChange={(event) => setLimit(event.target.value)}
+                  />
+                </FormControl>
+                </Paper>
+            </div>
+        </div>
+    </div>
 
+    <hr className="line"/>
 
-    </Container>
+    <div className="button">
+      <div className="back-button">
+        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/ShowOrder" variant="contained"  >
+            ย้อนกลับ
+        </Button>
+      </div>
+      <div className="save-button">
+            <Button
+                variant="contained"
+                color="success"
+                onClick={update}> บันทึกข้อมูล
+            </Button>
+      </div>
+    </div>
+
+  </div>  
   </Paper>
 );
 

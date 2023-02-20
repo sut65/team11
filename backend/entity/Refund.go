@@ -27,6 +27,7 @@ type Refund struct {
 	Refund_Cause   string `valid:"required~กรุณากรอกเหตุผลที่ยกเลิกออเดอร์,isAlpha~กรุณาไม่ใช้ตัวอีกษรพิเศษ,maxstringlength(100)~กรอกเหตุผลไม่เกิน 100 อักษร"`
 	Refund_Contact string `valid:"required~กรุณากรอกช่องทางการคืนเงิน,isAlpha~กรุณาไม่ใช้ตัวอีกษรพิเศษ"`
 	Refund_time    time.Time
+	StatusRefund	string
 
 	OrderID uint
 	ORDER   ORDER `gorm:"references:id" valid:"-"`
@@ -36,6 +37,9 @@ type Refund struct {
 
 	ContactID uint
 	Contact   Contact `gorm:"references:id" valid:"-"`
+
+	CustomerID uint
+	Customer   Customer `gorm:"references:id" valid:"-"`
 }
 
 func init() {

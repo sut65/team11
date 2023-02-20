@@ -55,7 +55,7 @@ function RefundShow() {
                 {datashow()}
             </Box>
             <Grid sx = {{padding : 2}}></Grid>
-            <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/RefundCreate" variant="contained">
+            <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/" variant="contained">
                 ย้อนกลับ
             </Button>
             <Grid sx = {{padding : 20}}></Grid>

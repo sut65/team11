@@ -120,8 +120,8 @@ func CreateRefund(c *gin.Context) {
 
 	ad := entity.Refund{
 		OrderID: 		refund.OrderID,		
-		CauseID:        refund.CauseID,   // โยงความสัมพันธ์กับ Entity Device
-		ContactID:      refund.ContactID, // โยงความสัมพันธ์กับ Entity Address // ตั้งค่าฟิลด์ date-time
+		CauseID:        refund.CauseID,  
+		ContactID:      refund.ContactID, 
 		Refund_Cause:   refund.Refund_Cause,
 		Refund_Contact: refund.Refund_Contact,
 		Refund_time:    refund.Refund_time,
