@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
+import Swal from "sweetalert2";
 export default function TableOrderTech() {
   const params = useParams();
   const navigate = useNavigate();
@@ -117,9 +118,22 @@ export default function TableOrderTech() {
                       >
                         <Button
                           id="Select_PAY_Popup"
-                          onClick={() =>
-                            navigate({ pathname: `/PayTechCreate/${row.ID}` })
-                          }
+                          onClick={() => {
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "กรุณา ใส่ของในตะกร้าให้ครบก่อนกด confirm หากใส่ยังไม่ครบให้กด Back",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Got it!",
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                navigate({ pathname: `/PayTechCreate/${row.ID}` });
+                              }
+                            });
+                          }}
+
                           variant="contained"
                           color="secondary"
                           size="medium"
