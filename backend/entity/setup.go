@@ -532,9 +532,14 @@ func SetupDatabase() {
 	db.Model(&State{}).Create(&State_4)
 
 	State_5 := State{
-		State: "ProcessToRefund",
+		State: "Finish",
 	}
 	db.Model(&State{}).Create(&State_5)
+
+	State_6 := State{
+		State: "ProcessToRefund",
+	}
+	db.Model(&State{}).Create(&State_6)
 
 	//---------------------------------------------------------------
 
@@ -670,21 +675,78 @@ func SetupDatabase() {
 	// ================== Mockup PayTech ======================
 	//Hardware
 	HardwareA := Hardware{
-		HardwareName: "หน้าจอ",
+		HardwareName: "หน้าจอ (Monitor)",
 	}
 	db.Model(&Hardware{}).Create(&HardwareA)
 	HardwareB := Hardware{
-		HardwareName: "สายไฟ",
+		HardwareName: "สายไฟ (wire)",
 	}
 	db.Model(&Hardware{}).Create(&HardwareB)
 	HardwareC := Hardware{
-		HardwareName: "พัดลม",
+		HardwareName: "พัดลมระบายความร้อน (Fan Case)",
 	}
 	db.Model(&Hardware{}).Create(&HardwareC)
 	HardwareD := Hardware{
-		HardwareName: "Software",
+		HardwareName: "ไดร์เวอร์ (Drivers)",
 	}
 	db.Model(&Hardware{}).Create(&HardwareD)
+	HardwareE := Hardware{
+		HardwareName: "ฮาร์ดดิสก์ (Hard Disk Drive)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareE)
+	HardwareF := Hardware{
+		HardwareName: "เมมโมรี่ (Memory)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareF)
+	HardwareG := Hardware{
+		HardwareName: "เมนบอร์ด (Motherboard)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareG)
+	HardwareH := Hardware{
+		HardwareName: "เครื่องจักรสำหรับประมวลผล (CPU)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareH)
+	HardwareI := Hardware{
+		HardwareName: "การ์ดจอ (Graphics Card)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareI)
+	HardwareJ := Hardware{
+		HardwareName: "แหล่งจ่ายไฟ (Power Supply Unit)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareJ)
+	HardwareK := Hardware{
+		HardwareName: "การ์ดเสียง (Sound Card)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareK)
+	HardwareL := Hardware{
+		HardwareName: "แรม (RAM)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareL)
+	HardwareM := Hardware{
+		HardwareName: "ชิปเซ็ต (Chipset)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareM)
+	HardwareN := Hardware{
+		HardwareName: "แอนตี้ไวรัส (Antivirus)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareN)
+	HardwareO := Hardware{
+		HardwareName: "อินเทอร์เน็ต (Internet software)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareO)
+	HardwareP := Hardware{
+		HardwareName: "โปรแกรมเครื่องพิมพ์ (Printer software)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareP)
+	HardwareQ := Hardware{
+		HardwareName: "ซอฟต์แวร์ประเภทโปรแกรมต่าง ๆ (Application software)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareQ)
+	HardwareR := Hardware{
+		HardwareName: "อื่นๆ (Other)",
+	}
+	db.Model(&Hardware{}).Create(&HardwareR)
+	//18 selection
 
 	// ================== Mockup PayTech ======================
 
@@ -824,7 +886,7 @@ func SetupDatabase() {
 		ORDER:          Order_1,
 		Cause:          Cause_1,
 		Contact:        Contact_1,
-		Customer:  		customer_1,
+		Customer:       customer_1,
 	}
 	db.Model(&Refund{}).Create(&Refund_1)
 
