@@ -25,6 +25,7 @@ func main() {
 	r.PATCH("/UpdateCustomer", controller.UpdateCustomer)
 	r.DELETE("/DeleteCustomer", controller.DeleteCustomer)
 	r.POST("/CreateCustomer", controller.CreateCustomer)
+	r.POST("/PreDeleteCustomer/:id", controller.PreDeleteCustomer)
 
 	//=============== B6311117(โต้ง) -->> ระบบช่าง ==========================
 	r.GET("/GetGenderT", controller.ListGenderT)
