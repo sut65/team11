@@ -36,6 +36,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { TextFieldProps } from '@mui/material/TextField';
 import { OutlinedInputProps } from '@mui/material/OutlinedInput';
 import { alpha } from '@mui/material/styles';
+import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 import "../Customer/Customer.css" 
 
@@ -80,11 +81,172 @@ const handleStart = () => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
+  
+  
 
-  function Delete() {
-    let data = {
-        ID: customerID,
-    }
+  
+  // const [Aerror, setAerror] = useState(false);
+
+  function PreDelete(){
+    
+    
+    
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Typing Your Password for Delete Account',
+            input: 'text',
+            inputAttributes: {
+              autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            showLoaderOnConfirm: true,
+            preConfirm: (Password) => {
+              let data ={
+                Password: Password
+              }
+              const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+              };
+              
+              // ok
+                 let Password2 = fetch(`http://localhost:8080/PreDeleteCustomer/${customerID}`, requestOptions ) //เอาตรงนี้ไปเช็ค PS
+                 .then((response) => response.json())
+                 .then(Password2 => {
+                   // console.log(Password2)
+                   console.log(Password2.data)
+                if (Password2.data === true) {
+                  console.log("Delete Account Success")
+                  {Delete()}
+                  
+                  Swal.fire({
+                    icon: 'success',
+                    title: `Delete Accout Success`,
+                  }, )
+
+                  // setAerror(false)
+                  
+                  return
+                }
+                else{
+                  // console.log("Aerror")
+                  // setAerror(true)
+                  // console.log(Aerror)
+
+                  Swal.fire({
+                    icon: 'error',
+                    title: `Wrong Password`,
+                  }, )
+
+                }
+
+
+                // Swal.fire({
+                //   timer:1500
+                // }, )
+
+                // if (Aerror != false) {
+                //   console.log("เข้ามาแล้ว")
+                //   Swal.fire({
+                //     icon: 'error',
+                //     title: `Wrong Password`,
+                //   }, )
+                // }
+
+                // else{
+                  //   console.log("Cannot Delete Account")
+                  //           Swal.fire({
+                    //             icon: 'error',
+                    //             title: `"Wrong Password `,
+                    //           }, )
+                    
+                    // }
+                    
+
+                    // if (!Password.ok) { //err
+                    //   throw new Error(Password.statusText)
+                    // }
+                    // ถ้า Password ตรง
+                  })
+                  .catch(error => { // ถ้าไม่ตรง
+                    Swal.showValidationMessage(
+                      `Request failed: ${error}` //ผิดจะ โชว์ข้อความนี้
+                      )
+                    })
+                  },
+
+
+                
+
+
+                  
+                  // allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => { // ถูกให้ทำอะไร
+                  // console.log(Aerror)
+                  // if (Aerror != false) {
+                  //   Swal.fire({
+                  //     icon: 'error',
+                  //     title: `Wrong Password`,
+                  //   }, )
+                  // }
+                  
+                }) 
+                
+              
+
+              }
+            })
+            
+          }
+          
+          
+          function Delete() {
+            let data = {
+              ID: customerID,
+            }
+            
+      
+      // const pwd = {
+        //   Password: "",
+        // };
+        // const [password, setPassword] = useState(pwd)
+    // async function SignInCus(data: any) {
+    //   const requestOptions = {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(data),
+    //   };
+    
+    //   let res = await fetch(`${apiUrl}/SignInCustomer`, requestOptions)
+    //     .then((response) => response.json())
+    //     .then((res) => {
+    //       console.log('Log:', res);
+    
+    //       if (res.data) {
+    //         localStorage.setItem("token", res.data.token);
+    //         localStorage.setItem("uid", res.data.id);
+    //         localStorage.setItem("role", res.data.role);
+    //         return res.data;
+    //       } else {
+    //         return false;
+    //       }
+    //     });
+    
+    //   return res;
+    // }
+
+
 
     const apiUrl = "http://localhost:8080/DeleteCustomer";
     const requestOptions = {
@@ -96,13 +258,13 @@ const handleStart = () => {
         .then((response) => response.json())
         .then((res) => {
             if (res.data) {
-                // successAlert();
                 setTimeout(() => {
                     console.log(data);
-                }, 1500)
+                    localStorage.clear();
+                    window.location.href = "/";
+                }, 3000)
                 console.log("Delete Account Success");
             } else {
-                // errorAlert();
                 console.log("Delete Account Error");
             }
         });
@@ -243,7 +405,7 @@ const handleStart = () => {
                     {/* Button: Delete */}
                     <Grid item xs={8} md={8}>
                       <center>
-                      <Button variant="contained" color="error" onClick={Delete} sx={{ width: 300, height: 46, marginX:-10, borderRadius: 6 ,boxShadow: 7, fontWeight: 'bold', fontSize: 15 }}>
+                      <Button variant="contained" color="error" onClick={PreDelete} sx={{ width: 300, height: 46, marginX:-10, borderRadius: 6 ,boxShadow: 7, fontWeight: 'bold', fontSize: 15 }}>
                           Delete Account
                       </Button>
                       </center>

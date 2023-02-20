@@ -168,3 +168,80 @@ func CreateCustomer(c *gin.Context){
     c.JSON(http.StatusOK, gin.H{"data": viewCS})
 }
 
+
+type DeleteCus struct{
+	// uid	int
+	Password string
+}
+
+type DeleteOutput struct{
+	status bool
+}
+// POST /SignInCustomer
+func PreDeleteCustomer(c *gin.Context) {
+	var DeleteCus DeleteCus
+	var customer entity.Customer
+
+	
+	if err := c.ShouldBindJSON(&DeleteCus); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	id := c.Param("id")
+	if tx := entity.DB().Where("id = ?", id).First(&customer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "customer not found"})
+		return
+	}
+
+	pwd := getPassword_DB(id)
+
+	
+
+
+	// func getPassword_DB(id any) string {
+	// 	var passwordTrue string
+	// 	entity.DB().Table("customers").Select("password").Where("id = ?", id).Row().Scan(&passwordTrue)
+	// 	return passwordTrue
+	// }
+
+
+	// pwd := getPassword_DB(id)
+
+	// compare := {
+	// 	typepwd: 	DeleteCus.Password, // ตัวแปลนี้ จะเก็บค่า Ordertech_ID
+	// 	pwd:  		 getPassword_DB(ccustomer.Password),
+	// }
+
+
+
+
+	// ค้นหา user ด้วย uid ที่ผู้ใช้กรอกเข้ามา
+	// if err := entity.DB().Raw("SELECT * FROM customers WHERE email = ?", DeleteCus.Email).Scan(&customer).Error; err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	// 
+	// pwd := "123456"
+	err := bcrypt.CompareHashAndPassword([]byte(pwd), []byte(DeleteCus.Password))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incerrect"})
+		return
+	}
+	//err = nil : รหัสถูกต้อง
+
+	// output := DeleteOutput{
+	// 	status: true,
+	// }
+
+	
+
+	c.JSON(http.StatusOK, gin.H{"data": true})
+}
+
+func getPassword_DB(id any) string {
+		var passwordTrue string
+		entity.DB().Table("customers").Select("password").Where("id = ?", id).Row().Scan(&passwordTrue)
+		return passwordTrue
+	}
