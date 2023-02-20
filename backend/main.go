@@ -70,6 +70,9 @@ func main() {
 	r.GET("/technician-pay/:id", controller.ListTechnicianByUID)
 	r.GET("/technician-order-tech-status/:id", controller.ListTechnicianOrderStatusByUID)
 	r.GET("/technician-order-tech-fix/:id", controller.ListTechnicianOrderTechInPayByUID)
+	r.PATCH("/Update_odertech_status_for_Just/:id", controller.Update_odertech_status_for_Just) //อัพเดตสถานะ odertech_status_for_Just
+	r.GET("/technician-pay-tech-fix-in-edit/:id", controller.ListTechnicianPayTechInEditByUID)
+	r.GET("/pay-tech-info-cus/:id", controller.GetOrderTechForPay)
 
 	// =============== B6310646(meow) -->> ระบบบันทึกค่าใช้จ่ายของช่าง(paytech) ==========================
 

@@ -61,7 +61,7 @@ export default function TableinEdit() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/technician-pay/${localStorage.getItem("uid")}`, requestOptions)
+    fetch(`${apiUrl}/technician-pay-tech-fix-in-edit/${params.id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {

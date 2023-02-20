@@ -62,7 +62,9 @@ export default function TableinPayTech2() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/technician-pay/${localStorage.getItem("uid")}`, requestOptions)
+    // fetch(`${apiUrl}/technician-order-tech-fix/${localStorage.getItem("uid")}`, requestOptions)
+    // fetch(`${apiUrl}/technician-order-tech-fix/${id}`, requestOptions)
+    fetch(`${apiUrl}/technician-order-tech-fix/${params.id}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {

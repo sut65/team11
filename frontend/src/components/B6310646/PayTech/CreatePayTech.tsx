@@ -1,4 +1,4 @@
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
@@ -33,7 +33,14 @@ import {
 import CancelIcon from "@mui/icons-material/Cancel";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Swal from "sweetalert2";
-
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import {
+  AddShoppingCart,
+  ShoppingBasket,
+  ShoppingCart,
+} from "@mui/icons-material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
 
@@ -43,6 +50,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const PayTechCreate = () => {
+  const navigate = useNavigate();
+
   const params = useParams();
   const [PayTech, setPayTech] = React.useState<Partial<PayTechInterface>>({});
   const [OrderTech1, setOrderTech1] = React.useState<
@@ -53,6 +62,7 @@ const PayTechCreate = () => {
   const [OrderTechDetail, setOrderTechDetail] =
     React.useState<OrderTechInterface>();
   const [Order1, setOrder1] = React.useState<Partial<ORDERInterface>>({});
+  const [limits, setLimits] = React.useState<ORDERInterface>();
 
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -101,6 +111,25 @@ const PayTechCreate = () => {
         }
       });
   };
+  // const getLimits = async () => {
+  //   const apiUrl = "http://localhost:8080/list-test-limits/";
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   fetch(`${apiUrl}${params.id}`, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setLimits(res.data);
+  //         // setOrderTechDetail(res.data);
+  //       }
+  //     });
+  // };
+  // console.log(limits);
 
   const getOrder = async () => {
     // const apiUrl = "http://localhost:8080/GetListOrder/";
@@ -212,6 +241,7 @@ const PayTechCreate = () => {
       HardwareID: convertType(PayTech.HardwareID),
       TechnicianID: Number(localStorage.getItem("uid")),
       OrderTechID: OrderTech1.ID,
+      Limits: limits
     };
 
     const apiUrl = "http://localhost:8080/pay-tech";
@@ -245,6 +275,7 @@ const PayTechCreate = () => {
     getHardware();
     getTechnician();
     getOrder();
+    // getLimits();
   }, []);
 
   return (
@@ -337,12 +368,13 @@ const PayTechCreate = () => {
                     width: 490,
                   },
                 }}
-                value={Order1?.Limits}
+                value={OrderTechDetail?.ORDER.Limits}
                 sx={{ fontFamily: "Mitr-Regular" }}
                 multiline
               />
             </FormControl>
           </Grid>
+
 
           {/* time in box  */}
           <Grid item xs={6}>
@@ -481,7 +513,7 @@ const PayTechCreate = () => {
               onClick={submit}
               sx={{ color: green[600] }}
             >
-              <AddBoxIcon fontSize="large" />
+              <AddShoppingCart fontSize="large" />
             </IconButton>
           </Grid>
 
@@ -511,7 +543,7 @@ const PayTechCreate = () => {
 
           <Grid item xs={12}>
             <Button
-              id="Cancel_PAY"
+              id="Back_PAY"
               component={RouterLink}
               to="/PayTech"
               variant="contained"
@@ -521,18 +553,32 @@ const PayTechCreate = () => {
               // color="error"
               endIcon={<CancelIcon />}
             >
-              Cancel
+              Back
             </Button>
 
             <Button
               id="Confirm_PAY"
-              component={RouterLink}
-              to="/PayTech"
               style={{ float: "right" }}
               variant="outlined"
               sx={{ border: 2.7, color: purple[500] }}
               endIcon={<FileDownloadDoneIcon />}
               size="large"
+              onClick={() => {
+                Swal.fire({
+                  title: "Are you sure?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Done!!",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    update_status_when_confirm(OrderTech1?.ID); //สำหรับการอัพเดตเมื่อกดปุ่ม
+                    navigate({ pathname: `/PayTech/` });
+                  }
+                });
+              }}
             >
               Confirm
             </Button>
@@ -543,3 +589,22 @@ const PayTechCreate = () => {
   );
 };
 export default PayTechCreate;
+
+function update_status_when_confirm(id: any) {
+  const apiUrl = `http://localhost:8080/Update_odertech_status_for_Just/${id}`;
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(""),
+  };
+  fetch(apiUrl, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+      } else {
+      }
+      // window.location.reload();
+    });
+}

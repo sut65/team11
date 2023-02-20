@@ -46,6 +46,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 const PayTechUpdate = () => {
   const params = useParams();
   const [PayTech, setPayTech] = React.useState<Partial<PayTechInterface>>({});
+  const [PayTech1, setPayTech1] = React.useState<PayTechInterface>();
   const [OrderTech1, setOrderTech1] = React.useState<
     Partial<OrderTechInterface>
   >({});
@@ -82,7 +83,7 @@ const PayTechUpdate = () => {
   };
 
   const getOrderTech = async () => {
-    const apiUrl = "http://localhost:8080/order-tech/";
+    const apiUrl = "http://localhost:8080/pay-tech-info-cus/";
     const requestOptions = {
       method: "GET",
       headers: {
@@ -98,7 +99,7 @@ const PayTechUpdate = () => {
           setOrderTech1(res.data);
           setOrderTechDetail(res.data);
           setOrder1(res.data);
-          console.log(res.data);
+          setPayTech1(res.data);
         }
       });
   };
@@ -236,7 +237,7 @@ const PayTechUpdate = () => {
       CostHardware: convertType(PayTech.CostHardware),
       HardwareID: convertType(PayTech.HardwareID),
       TechnicianID: Number(localStorage.getItem("uid")),
-      OrderTechID: OrderTech1.ID,
+      OrderTechID: PayTech.OrderTechID,
     };
 
     const apiUrl = "http://localhost:8080/update-pay-tech";
@@ -328,7 +329,7 @@ const PayTechUpdate = () => {
     getOrderTech();
     getHardware();
     getTechnician();
-    getOrder();
+    // getOrder();
     getCurrentPayTech();
   }, []);
 
@@ -389,7 +390,7 @@ const PayTechUpdate = () => {
           {/* box order tech*/}
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>Order Tech</p>
+              <p>Pay Tech</p>
               <TextField
                 disabled
                 variant="outlined"
@@ -422,7 +423,7 @@ const PayTechUpdate = () => {
                     width: 490,
                   },
                 }}
-                value={Order1?.Limits}
+                value={OrderTechDetail?.ORDER?.Limits}
                 sx={{ fontFamily: "Mitr-Regular" }}
                 multiline
               />
