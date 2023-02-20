@@ -525,6 +525,13 @@ func SetupDatabase() {
 		State: "Refund",
 	}
 	db.Model(&State{}).Create(&State_3)
+	//---------------------------------------------------------------
+	State_4 := State{
+		State: "Process",
+	}
+	db.Model(&State{}).Create(&State_4)
+
+	//---------------------------------------------------------------
 
 	Order_1 := ORDER{
 		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),

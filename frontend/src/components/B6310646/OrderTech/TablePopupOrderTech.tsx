@@ -42,7 +42,7 @@ export default function Table2Order() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/GetListOrder`, requestOptions)
+    fetch(`${apiUrl}/Get_ListOrder_Only_Ready`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {

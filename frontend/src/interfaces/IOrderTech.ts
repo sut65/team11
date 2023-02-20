@@ -5,6 +5,7 @@ export interface OrderTechInterface {
     ID: number,
     Solving: string,
     TimeOut: Date;
+    ForPaymentStatus: boolean;
 
     StatusID:   number;
     StatusName: string;
@@ -25,8 +26,8 @@ export interface OrderTechInterface {
     OrderID:    number;
     Reason: string;
     Date_time: Date | null;
+    Limits: number;
     ORDER:      ORDERInterface;
-
 }
 
 export interface StatusInterface {

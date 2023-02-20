@@ -30,13 +30,12 @@ import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 import { blue, green, grey, yellow } from "@mui/material/colors";
 import EditIcon from "@mui/icons-material/Edit";
 import Swal from "sweetalert2";
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 
 export default function TableOrderTech() {
   const params = useParams();
   const navigate = useNavigate();
-  const [Status, setStatus] = React.useState<OrderTechInterface>()
-
+  const [Status, setStatus] = React.useState<OrderTechInterface>();
 
   const [OrderTech, setOrderTech] = React.useState<OrderTechInterface[]>([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -88,7 +87,10 @@ export default function TableOrderTech() {
         "Content-Type": "application/json",
       },
     };
-    fetch(`${apiUrl}/technician-order-tech/${localStorage.getItem("uid")}`, requestOptions)
+    fetch(
+      `${apiUrl}/technician-order-tech/${localStorage.getItem("uid")}`,
+      requestOptions
+    )
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
@@ -189,7 +191,6 @@ export default function TableOrderTech() {
                         <IconButton
                           id="Edit_ORDER"
                           size="large"
-                          
                           aria-label="Edit"
                           sx={{ color: yellow[800] }}
                           onClick={() => {
@@ -208,6 +209,7 @@ export default function TableOrderTech() {
                                 //   // 'Your file has been deleted.',
                                 //    'success'
                                 // )
+                                localStorage.setItem("Ordertech_ID", row.ID.toString());
                                 navigate({
                                   pathname: `/OrderTechUpdate/${row.ID}`,
                                 });
@@ -223,7 +225,7 @@ export default function TableOrderTech() {
                         >
                           <EditIcon fontSize="inherit" />
                         </IconButton>
-                        {/* <IconButton
+                        <IconButton
                           id="Done_Status-2"
                           size="large"
                           aria-label="Done"
@@ -239,16 +241,14 @@ export default function TableOrderTech() {
                               confirmButtonText: "Done!!",
                             }).then((result) => {
                               if (result.isConfirmed) {
-                                navigate({
-                                  pathname: `/OrderTech/${row.ID}`,
-                                });
-                                // setStatus({ ...Status, [id]: value});
+                                update_status_to_done(row.ID); //สำหรับการอัพเดตเมื่อกดปุ่ม
+                                navigate({ pathname: `/PayTech/` });
                               }
                             });
                           }}
                         >
                           <DoneOutlineIcon fontSize="inherit" />
-                        </IconButton> */}
+                        </IconButton>
                       </ButtonGroup>
                     </TableCell>
                   </TableRow>
@@ -299,4 +299,22 @@ export default function TableOrderTech() {
       </Container>
     </React.Fragment>
   );
+}
+function update_status_to_done(id: any) {
+  const apiUrl = `http://localhost:8080/Update_status_Ordertech/${id}`;
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(""),
+  };
+  fetch(apiUrl, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+      } else {
+      }
+      // window.location.reload();
+    });
 }

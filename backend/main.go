@@ -51,6 +51,9 @@ func main() {
 	r.GET("/cost-detail/:id", controller.GetCostDetail)
 
 	r.GET("/technician-order-tech/:id", controller.ListTechnicianOrderByUID)
+	r.GET("/Get_ListOrder_Only_Ready", controller.Get_ListOrder_Only_Ready)     //อัพเดตสสถานะ ของตารางฟิวส์
+	r.GET("/GetOrder_for_Ordertech/:id", controller.GetOrder_for_Ordertech)     //เพื่อ list Order เฉพาะสถานะ Ready
+	r.PATCH("/Update_status_Ordertech/:id", controller.Update_status_Ordertech) //อัพเดตสถานะ ของตารางเหมียวเอง
 	// =============== B6310646(meow) -->> ระบบรับออเดอร์ช่าง(ordertech) ==========================
 
 	// PayTech
