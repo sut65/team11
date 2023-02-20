@@ -179,23 +179,71 @@ func GetOrder(c *gin.Context) {
 
 // PATCH /Order
 func UpdateOrder(c *gin.Context) {
+	var cased entity.CASE
+	var state entity.State
+	var device entity.Device
+	var address entity.Address
+	var customer entity.Customer
 	var order entity.ORDER
 
-	// : แทรกการ validate
-	// if _, err := govalidator.ValidateStruct(order); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-
+	// ผลลัพธ์ที่ได้จะถูก bind เข้าตัวแปร Order
 	if err := c.ShouldBindJSON(&order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Model(order).Where("id = ?", order.ID).Updates(map[string]interface{}{"CustomerID": order.CustomerID, "CASEID": order.CASEID, "StateID": order.StateID, "DeviceID": order.DeviceID, "AddressID": order.AddressID, "Date_time": order.Date_time, "Reason": order.Reason, "Limits": order.Limits}).Error; err != nil {
+
+	// ค้นหา cased  ด้วย id
+	if tx := entity.DB().Where("id = ?", order.CASEID).First(&cased); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Case not found"})
+		return
+	}
+
+	// ค้นหา state  ด้วย id
+	if tx := entity.DB().Where("id = ?", order.StateID).First(&state); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "State not found"})
+		return
+	}
+
+	// ค้นหา device ด้วย id
+	if tx := entity.DB().Where("id = ?", order.DeviceID).First(&device); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Device not found"})
+		return
+	}
+
+	// ค้นหา address ด้วย id
+	if tx := entity.DB().Where("id = ?", order.AddressID).First(&address); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Address not found"})
+		return
+	}
+
+	// ค้นหา Customer ด้วย id
+	if tx := entity.DB().Where("id = ?", order.CustomerID).First(&customer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
+		return
+	}
+
+	// : แทรกการ validate
+	if _, err := govalidator.ValidateStruct(order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": order})
+
+	ad := entity.ORDER{
+		CASEID:     order.CASEID,     // โยงความสัมพันธ์กับ Entity Case
+		StateID:    order.StateID,    // โยงความสัมพันธ์กับ Entity State
+		DeviceID:   order.DeviceID,   // โยงความสัมพันธ์กับ Entity Device
+		AddressID:  order.AddressID,  // โยงความสัมพันธ์กับ Entity Address
+		CustomerID: order.CustomerID, // โยงความสัมพันธ์กับ Entity Customer
+		Date_time:  order.Date_time,  // ตั้งค่าฟิลด์ date-time
+		Reason:     order.Reason,
+		Limits:     order.Limits,
+	}
+
+	if err := entity.DB().Model(ad).Where("id = ?", order.ID).Updates(&ad).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": ad})
 }
 
 // PATCH /Order /Cancel and Refund

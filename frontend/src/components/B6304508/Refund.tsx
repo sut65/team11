@@ -125,7 +125,7 @@ function RefundCreate() {
         CauseID: convertType(Cause_ID),
         ContactID: convertType(Contact_ID),
         OrderID: convertType(Order_ID),
-        CustomerID: 1,
+        CustomerID: convertType(userID),
         Date_time: Date_time,
         Refund_Cause: Refund_Cause,
         Refund_Contact: Refund_Contact,
@@ -137,7 +137,7 @@ function RefundCreate() {
         let data2 = {
 
         ID: convertType(Order_ID),
-        StateID: 3,
+        StateID: 5,
 
     };
 
@@ -271,7 +271,7 @@ function RefundCreate() {
   };
 
   const GetOrderID = async () => {
-    const apiUrl1 = `http://localhost:8080/GetOrder/${Order_ID}`;
+    const apiUrl1 = `http://localhost:8080/GetOrder/${userID}`;
     const requestOptions1 = {
       method: "GET",
       headers: { "Content-Type": "application/json" },
@@ -288,7 +288,23 @@ function RefundCreate() {
       console.log('-------------------------------------',Order_ID)
   };
 
+      const getUser = async () => {
+        const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
+        const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        };
+        fetch(apiUrl, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+            setUserName(res.data.Name);
+            }
+        });
+    };
+
   useEffect(() => {
+    getUser();
     getCause();
     getContact();
     getOrder();
@@ -300,57 +316,29 @@ function RefundCreate() {
 
  return (
   <Paper style={{ backgroundColor: "#182E3E" }}>
-    {/* <ResponsiveAppBar /> */}
-    <Container maxWidth="xl">
-      <Snackbar
-        open={success}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
-        </Alert>
-      </Snackbar>
 
-      <Snackbar open={error}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
-        </Alert>
-      </Snackbar>
+<div className="container">
+    <div className="topic">
+    <hr className="line"/>
 
+    <h2 className="header">ระบบบันทึกข้อมูลการแจ้งซ่อม</h2>
+      <div className="info">
+        <ul>
+            <li>Customer : {userName}</li>
+            <li>Datetime : {Date_time ? Date_time.format("DD/MM/YYYY HH:mm:ss") : ''}</li>
+        </ul>
+      </div>
+    </div>
 
-      {/* เริ่มส่วนของหน้าเว็ป */}
+    <hr className="line"/>
 
-      <Box sx={{ maginX: 0, maginY: 0 }}>
-        <center>
-          <Typography
-            component="h2"
-            variant="h4"
-            //color="#182E3E"
-            gutterBottom
-            //align="center"
-            fontFamily="Arial"
-          >
-            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} ><br />
-              ระบบยกเลิกการแจ้งซ่อม REFUND
-            </b><br /><br />
-
-          </Typography>
-        </center>
-      </Box>
-
-      <Grid container spacing={4} sx={{ padding: 2 }}>
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>ORDER</p>
-            </Grid>
-            <Grid item xs={4} >
-              <Item style={{ background: "#FFFFFF"}}>
+    <div className="block2">
+        <div className="province">
+            <div className="top">
+                ORDER
+            </div>
+            <div className="bottom">
+            <Paper style={{ backgroundColor: "#FFFFF" , width: 380}}>
               <FormControl fullWidth variant="outlined">
                 <Select
                   native
@@ -370,20 +358,20 @@ function RefundCreate() {
                   ))}
                 </Select>
               </FormControl>
-              </Item>
-            </Grid>
-
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>เวลาที่ REFUND</p>
-            </Grid>
-
-            <Grid item xs={5}>
-            <Item style={{ background: "#FFFFFF"}}>
+              </Paper>
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                เวลาที่ REFUND
+            </div>
+            <div className="bottom">
+            <Paper style={{ backgroundColor: "#FFFFF" , width: 380}}>
               <FormControl fullWidth variant="outlined">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DesktopDateTimePicker
                     renderInput={(params) => <TextField {...params} />}
+                    disabled
                     value={Date_time}
                     onChange={(newValue) => {
                       setDate(newValue);
@@ -391,18 +379,18 @@ function RefundCreate() {
                   />
                 </LocalizationProvider>
               </FormControl>
-              </Item>
-            </Grid>
-            
-          </Grid>
+              </Paper>
+            </div>
+        </div>
+    </div>
 
-          <Grid container spacing={3} sx={{ padding: 2 }}>
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>เหตุผล</p>
-            </Grid>
-            <Grid item xs={4} >
-              <Item style={{ background: "#FFFFFF"}}>
+    <div className="block2">
+        <div className="province">
+            <div className="top">
+                เหตุผล
+            </div>
+            <div className="bottom">
+            <Paper style={{ background: "#FFFFFF", width: 380}}>
               <FormControl fullWidth variant="outlined">
                 <Select
                   native
@@ -422,11 +410,15 @@ function RefundCreate() {
                   ))}
                 </Select>
               </FormControl>
-              </Item>
-            </Grid>
-
-            <Grid item xs={6} >
-            <Item style={{ background: "#FFFFFF"}}>
+              </Paper>
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                เหตุผลเพิ่มเติม
+            </div>
+            <div className="bottom">
+            <Paper style={{ background: "#FFFFFF", width: 380}}>
             <FormControl fullWidth variant="outlined">
                 <TextField
                    id="Reason"
@@ -437,17 +429,18 @@ function RefundCreate() {
                    onChange={(event) => setRefundCause(event.target.value)}
                 />
               </FormControl>
-              </Item>
-            </Grid>
-          </Grid>
+              </Paper>
+            </div>
+        </div>
+    </div>
 
-          <Grid container spacing={4} sx={{ padding: 2 }}>
-          <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>ช่องทางคืนเงิน</p>
-            </Grid>
-            <Grid item xs={4}>
-            <Item style={{ background: "#FFFFFF"}}>
+    <div className="block2">
+        <div className="province">
+            <div className="top">
+                ช่องทางคืนเงิน
+            </div>
+            <div className="bottom">
+            <Paper style={{ background: "#FFFFFF", width: 380}}>
             <FormControl fullWidth variant="outlined">
                 <Select
                   native
@@ -467,16 +460,15 @@ function RefundCreate() {
                   ))}
                 </Select>
               </FormControl>
-              </Item>
-            </Grid>
-
-            <Grid item xs={1}>
-              {/* <FormControl fullWidth variant="outlined"> */}
-              <p style={{ color: "#FFFFFF", textAlign: "right" }}>Contact</p>
-            </Grid>
-
-            <Grid item xs={5} >
-            <Item style={{ background: "#FFFFFF"}}>
+              </Paper>
+            </div>
+        </div>
+        <div className="district">
+            <div className="top">
+                Contact
+            </div>
+            <div className="bottom">
+            <Paper style={{ background: "#FFFFFF" , width: 380}}>
             <FormControl fullWidth variant="outlined">
                 <TextField
                    id="Reason"
@@ -487,31 +479,29 @@ function RefundCreate() {
                    onChange={(event) => setRefundContact(event.target.value)}
                 />
               </FormControl>
-              </Item>
-            </Grid>
+              </Paper>
+            </div>
+        </div>
+    </div>
 
-            </Grid>
-
-            <Grid sx={{ padding: 2 }}></Grid>
-              
-        <Grid item xs={12}>
+    <div className="button">
+      <div className="back-button">
         <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/" variant="contained"  >
-          ย้อนกลับ
+            ย้อนกลับ
         </Button>
-        <Button
-          style={{ float: "right", fontSize: 20 }}
-          onClick={submit}
-          variant="contained"
-          color="success"
-          size="large"
-        >
-          <b>บันทึก</b>
-        </Button>
+      </div>
+   
+      <div className="save-button">
+            <Button
+                variant="contained"
+                color="success"
+                onClick={submit}> บันทึกข้อมูล
+            </Button>
+      </div>
 
-        </Grid>
-        <Grid sx={{ padding: 15 }}></Grid>
+    </div>
+    </div>
 
-    </Container>
   </Paper>
 );
 

@@ -531,6 +531,11 @@ func SetupDatabase() {
 	}
 	db.Model(&State{}).Create(&State_4)
 
+	State_5 := State{
+		State: "ProcessToRefund",
+	}
+	db.Model(&State{}).Create(&State_5)
+
 	//---------------------------------------------------------------
 
 	Order_1 := ORDER{
@@ -819,6 +824,7 @@ func SetupDatabase() {
 		ORDER:          Order_1,
 		Cause:          Cause_1,
 		Contact:        Contact_1,
+		Customer:  		customer_1,
 	}
 	db.Model(&Refund{}).Create(&Refund_1)
 
