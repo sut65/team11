@@ -532,21 +532,11 @@ func SetupDatabase() {
 	db.Model(&State{}).Create(&State_4)
 
 	State_5 := State{
-<<<<<<< HEAD
-		State: "Finish",
-=======
 		State: "Process to Claim",
->>>>>>> e2248d8 (fix bug - close #255)
 	}
 	db.Model(&State{}).Create(&State_5)
 
 	State_6 := State{
-<<<<<<< HEAD
-		State: "ProcessToRefund",
-	}
-	db.Model(&State{}).Create(&State_6)
-
-=======
 		State: "Claim Approve",
 	}
 	db.Model(&State{}).Create(&State_6)
@@ -571,7 +561,7 @@ func SetupDatabase() {
 	}
 	db.Model(&State{}).Create(&State_10)
 
->>>>>>> e2248d8 (fix bug - close #255)
+
 	//---------------------------------------------------------------
 
 	Order_1 := ORDER{
@@ -615,7 +605,6 @@ func SetupDatabase() {
 	database.Create(&Cause{Cause_text: "การร้องขอคืนเงินด้วยเหตุผลส่วนตัว ", By_text: "ลูกค้า"})
 	database.Create(&Cause{Cause_text: "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ", By_text: "ช่างซ่อมคอมพิวเตอร์"})
 	database.Create(&Cause{Cause_text: "การร้องขอคืนเงินด้วยเหตุผลความไม่พอใจ ", By_text: "เว็บไซต์"})
-
 	database.Create(&Contact{Contact: "Promtpay", Times: "7 วัน"})
 	database.Create(&Contact{Contact: "เงินสด ", Times: "14 วัน"})
 	database.Create(&Contact{Contact: "wallet", Times: "10 วัน"})
