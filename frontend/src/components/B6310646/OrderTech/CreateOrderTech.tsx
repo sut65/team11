@@ -51,7 +51,7 @@ const OrderTechCreate = () => {
   );
   const [Order1, setOrder1] = React.useState<Partial<ORDERInterface>>({});
   const [Order, setOrder] = React.useState<ORDERInterface[]>([]);
-  const [Order2, setOrder2] = useState([])
+  const [Order2, setOrder2] = useState([]);
   // const [customer, setCustomer] = React.useState<Partial<ORDERInterface>>(
   //   {}
   // );
@@ -123,8 +123,7 @@ const OrderTechCreate = () => {
       });
   };
 
-  const [Order_ID_show, setOrder_ID_show] = useState('');
-
+  const [Order_ID_show, setOrder_ID_show] = useState("");
 
   const getOrder = async () => {
     // const apiUrl = "http://localhost:8080/GetListOrder/";
@@ -141,7 +140,7 @@ const OrderTechCreate = () => {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          console.log('-------------------------------->',res.data);
+          console.log("-------------------------------->", res.data);
           setOrder(res.data);
           setOrder1(res.data);
           setOrderDetail(res.data);
@@ -149,7 +148,7 @@ const OrderTechCreate = () => {
           // setOrder_ID_show(res.data.ORDER.OrderID)
           // localStorage.setItem('Order',Order2)
         }
-        console.log('-------------------------------->************',);
+        console.log("-------------------------------->************");
       });
   };
 
@@ -260,7 +259,7 @@ const OrderTechCreate = () => {
       CostDetailID: convertType(OrderTech.CostDetailID),
       TechnicianID: Number(localStorage.getItem("uid")),
       OrderID: Order1.ID,
-      ForPaymentStatus: false ,
+      ForPaymentStatus: false,
     };
 
     const apiUrl = "http://localhost:8080/order-tech";
@@ -291,7 +290,6 @@ const OrderTechCreate = () => {
 
   //useEffect
   useEffect(() => {
-    
     getDamage();
     // getOrder();
     getStatus();
@@ -559,10 +557,9 @@ const OrderTechCreate = () => {
                   name: "StatusID",
                 }}
               >
-                <option aria-label="None" value={1}>
+                <option aria-label="None" value="">
                   select-status
                 </option>
-
                 {Status.map((item: StatusInterface) => (
                   <option value={item.ID} key={item.ID}>
                     {item.StatusName}

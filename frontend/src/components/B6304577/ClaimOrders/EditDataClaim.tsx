@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Delete, Edit} from '@mui/icons-material';
+import { Delete, Edit } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -22,6 +22,7 @@ const successAlert = () => {
         title: 'บันทึกสำเร็จ',
         text: 'You clicked the button.',
         icon: 'success'
+        
     });
 }
 const errorAlert = () => {
@@ -34,7 +35,7 @@ const errorAlert = () => {
 
 
 
-function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: any) {
+function EditContentClaimOrder() {
     const [expanded, setExpanded] = React.useState<string | false>('panel1');
 
     const handleChange =
@@ -60,7 +61,9 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
     const [urgencys, setUrgencys] = useState<any[]>([]);
     // console.log(Claims);
 
-    // console.log(reviews);
+    const claimID = parseInt(localStorage.getItem("claimID") + "");
+
+    // console.log(reviewID);
 
     const handleInputChangeclaimComment = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -82,7 +85,7 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
         setUrgencyID(event.target.value as string);
     };
     const handleBack = () => {
-        setActiveStep(0);
+        // setActiveStep(0);
     };
     const handleClear = () => {
         setReviewID('');
@@ -100,20 +103,20 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
     };
 
 
-    const getReview = async () => {
-        const apiUrl = "http://localhost:8080/GetListReviews";
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    setReviews(res.data)
-                }
-            });
-    };
+    // const getReview = async () => {
+    //     const apiUrl = "http://localhost:8080/GetListReviews";
+    //     const requestOptions = {
+    //         method: "GET",
+    //         headers: { "Content-Type": "application/json" },
+    //     };
+    //     fetch(apiUrl, requestOptions)
+    //         .then((response) => response.json())
+    //         .then((res) => {
+    //             if (res.data) {
+    //                 setReviews(res.data)
+    //             }
+    //         });
+    // };
     const getUrgencyID = async () => {
         const apiUrl = "http://localhost:8080/GetListUrgency";
         const requestOptions = {
@@ -129,7 +132,7 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
             });
     };
     const getListClaimOrders = async () => {
-        const apiUrl = "http://localhost:8080/GetListClaimOrders";
+        const apiUrl = "http://localhost:8080/ListClaims_filter_by_customer";
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -155,25 +158,26 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    console.log("getEditDataClaim:::::",res.data);
+                    console.log(":::::::::::::::::::::",res.data.ClaimTime);
                     setReviewID(res.data.Review_ID);
-                    setDataReason(res.data.Review.Checked_payment.Payment.PayTech.OrderTech.ORDER.Reason);
-                    setdataDateOrder(res.data.Review.Checked_payment.Payment.PayTech.OrderTech.ORDER.Date_time)
-                    setdataOrderID(res.data.Review.Checked_payment.Payment.PayTech.OrderTech.ORDER.ID)
-                    setDataSolving(res.data.Review.Checked_payment.Payment.PayTech.OrderTech.Solving)
-                    setDataTechnician(res.data.Review.Checked_payment.Payment.PayTech.OrderTech.Technician.Name)
-
+                    setDataReason(res.data.Review.Checked_payment.Payment.OrderTech.ORDER.Reason);
+                    setdataDateOrder(res.data.Review.Checked_payment.Payment.OrderTech.ORDER.Date_time)
+                    setdataOrderID(res.data.Review.Checked_payment.Payment.OrderTech.ORDER.ID)
+                    setDataSolving(res.data.Review.Checked_payment.Payment.OrderTech.Solving)
+                    setDataTechnician(res.data.Review.Checked_payment.Payment.OrderTech.Technician.Name)
                     setOrderProblem(res.data.OrderProblem);
                     setClaimComment(res.data.Claim_Comment);
+                    setUrgencyID(res.data.Urgency_ID);
+                    setDate(res.data.ClaimTime);
                 }
             });
     }
 
     useEffect(() => {
-        getReview();
+        // getReview();
         getUrgencyID();
         getListClaimOrders();
-
         getEditDataClaim();
     }, []);
 
@@ -201,7 +205,8 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
                 if (res.data) {
                     successAlert();
                     setTimeout(() => {
-                        setActiveStep(0)
+                        handleClear();
+                        window.location.href = "/ShowClaim";
                     }, 1500)
                     console.log("Success");
                 } else {
@@ -363,19 +368,16 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
     ];
 
     return (
-        <Paper
-            sx={{
-                backgroundColor: "#182e3e",
-                height: '1500px',
-                paddingTop: 20
-            }} >
+        <Paper >
             <Container sx={{ background: "#ffffff" }}>
-
-
-
                 <Box
                     sx={{ flexGrow: 1, padding: 5, marginBottom: 10 }}
                 >
+                    <Typography >
+                        <h1>
+                            ระบบแก้ไขรายละเอียดการเคลม
+                        </h1>
+                    </Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography>
@@ -462,7 +464,7 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
                                     onChange={onChangeUrgencys}
                                 >
                                     <MenuItem value="">
-                                        กรุณาเลือกโซน
+                                        กรุณาเลือกระดับความเร่งด่วน
                                     </MenuItem>
                                     {urgencys.map((item: any) => (
                                         <MenuItem value={item.ID} key={item.ID}>{item.Urgency_Type}</MenuItem>
@@ -513,16 +515,9 @@ function EditContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID 
                                 color="success"
                                 fullWidth
                                 onClick={submitEdit}
+                                
                             >
                                 อัพเดตข้อมูล
-                            </Button>
-                        </Grid>
-                        <Grid item xs={4} sx={{ marginTop: 10 }} style={{ float: "right" }}>
-                            <Button
-                                variant="contained"
-                                color="error"
-                                onClick={handleClear}>
-                                เคลียร์
                             </Button>
                         </Grid>
                     </Grid>

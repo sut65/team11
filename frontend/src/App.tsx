@@ -26,7 +26,6 @@ import AddressCreateForm from "./components/B6321765/Address/AddressCreate";
 import AddressShowForm from "./components/B6321765/Address/AddressShow";
 import AddressEditForm from "./components/B6321765/Address/AddressEdit";
 import OrderCreate from "./components/B6304508/Order";
-import ClaimForm from "./components/B6304577/ClaimOrders/ClaimForm";
 import ClaimOrderForAdmin from "./components/B6304577/ClaimOrders/ClaimOrderForAdmin";
 import DeviceCreateForm from "./components/B6321765/Device/DeviceCreate";
 import DeviceEditForm from "./components/B6321765/Device/DeviceEdit";
@@ -62,6 +61,9 @@ import PermissionDenied from "./components/PermissionDenied";
 import HomeCustomer from "./components/HomeCustomer";
 import SignInAdmin from "./components/SignInAdmin";
 import TimeoutLogic from "./components/TimeoutLogic";
+import CreateClaim from "./components/B6304577/ClaimOrders/CreateClaim";
+import ShowClaim from "./components/B6304577/ClaimOrders/ShowClaim";
+import EditContentClaimOrder from "./components/B6304577/ClaimOrders/EditDataClaim";
 
 const drawerWidth = 240;
 
@@ -122,11 +124,7 @@ const menu = [
   },
   { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer" },
   { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer" },
-  {
-    name: "ระบบรายงานปัญหาหลังการซ่อม",
-    path: "/ContentClaimOrder",
-    role: "Customer",
-  },
+  { name: "Show Claim Order", path: "/ShowClaim", role: "Customer" },
   { name: "ระบบยกเลิกการแจ้งซ่อม", path: "/RefundCreate", role: "Customer" },
   {
     name: "ระบบ show ยกเลิกการแจ้งซ่อม",
@@ -209,7 +207,7 @@ function App() {
         <Box sx={{ flexGrow: 1 }}>
           {token ? (
             <AppBar id="appbar" position="fixed">
-              <TimeoutLogic /> 
+              <TimeoutLogic />
               <Toolbar>
                 <IconButton
                   size="large"
@@ -273,7 +271,7 @@ function App() {
             ))}
           </List>
         </Drawer>
-        <Container sx={{marginTop:"5%",marginBottom:"5%"}}>
+        <Container sx={{ marginTop: "5%", marginBottom: "5%" }}>
           <Routes>
 
           // Public Routes // Wrap all Route under PublicRoutes element // //
@@ -326,7 +324,9 @@ function App() {
               <Route path="/RankingForm" element={<RankingForm />} />
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-              <Route path="/ContentClaimOrder" element={<ClaimForm />} />
+              <Route path="/ContentClaimOrder" element={<CreateClaim />} />
+              <Route path="/EditContentClaimOrder" element={<EditContentClaimOrder />} />
+              <Route path="/ShowClaim" element={<ShowClaim />} />
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
               <Route path="/RefundCreate" element={<RefundCreate />} />

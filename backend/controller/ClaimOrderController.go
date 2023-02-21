@@ -116,11 +116,24 @@ func GetListClaimOrders(c *gin.Context) {
 func GetClaimOrder(c *gin.Context) {
 	var ClaimOrder entity.Claim_Order
 	id := c.Param("id")
-	if err := entity.DB().Raw("SELECT * FROM claim_orders WHERE id = ?", id).Preload("Urgency").Preload("StatusClaim").Preload("Review.Satisfaction_System").Preload("Review.Satisfaction_Technician").Preload("Review.Checked_payment.Customer").Preload("Review.Checked_payment.Payment.OrderTech.ORDER").Preload("Review.Checked_payment.Payment.OrderTech.Technician").Find(&ClaimOrder).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM claim_orders WHERE id = ?", id).Preload("Urgency").Preload("StatusClaim").Preload("Review.Satisfaction_System").Preload("Review.Satisfaction_Technician").Preload("Review.Checked_payment.Payment.Customer").Preload("Review.Checked_payment.Payment.OrderTech.ORDER").Preload("Review.Checked_payment.Payment.OrderTech.Technician").Find(&ClaimOrder).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": ClaimOrder})
+}
+
+// get data by Customer_ID => GetClaimOrder
+func ListClaims_filter_by_customer(c *gin.Context) {
+	C_id := c.Param("id")
+	var listClaims_filter_by_customer[]entity.Claim_Order
+	query := "SELECT * FROM claim_orders WHERE claim_orders.review_id = (SELECT reviews.id FROM reviews WHERE reviews.customer_id = " + C_id + ")"+";"
+
+	if err := entity.DB().Raw(query).Preload("Urgency").Preload("StatusClaim").Preload("Review.Satisfaction_System").Preload("Review.Satisfaction_Technician").Preload("Review.Customer").Preload("Review.Checked_payment.Payment.OrderTech.ORDER").Preload("Review.Checked_payment.Payment.OrderTech.Technician").Find(&listClaims_filter_by_customer).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": listClaims_filter_by_customer})
 }
 
 // get data by Customer_ID
@@ -129,7 +142,7 @@ func ListReviews_filter_by_customer(c *gin.Context) {
 	var listReviews_filter_by_customer[]entity.Review
 	query := "SELECT * FROM reviews WHERE reviews.customer_id =  " + C_id + ";"
 
-	if err := entity.DB().Raw(query).Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Customer").Find(&listReviews_filter_by_customer).Error; err != nil {
+	if err := entity.DB().Raw(query).Preload("Satisfaction_System").Preload("Satisfaction_Technician").Preload("Customer").Preload("Checked_payment.Payment.OrderTech.ORDER").Preload("Checked_payment.Payment.OrderTech.Technician").Find(&listReviews_filter_by_customer).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -180,6 +193,20 @@ func UpdateCheckBtEditAndDelInReview(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": review})
+}
+// PATCH /UpdateOrderStateForClaimOrder
+func UpdateOrderStateForClaimOrder(c *gin.Context) {
+	var Order entity.ORDER
+
+	if err := c.ShouldBindJSON(&Order); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := entity.DB().Model(Order).Where("id = ?", Order.ID).Updates(map[string]interface{}{"StateID": Order.StateID}).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": Order})
 }
 
 
