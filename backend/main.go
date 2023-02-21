@@ -196,12 +196,14 @@ func main() {
 	r.PATCH("/UpdateClaimOrderStatus", controller.UpdateClaimOrderStatus)
 	r.PATCH("/UpdateReviewINClaimOrder", controller.UpdateReviewINClaimOrder)
 	r.PATCH("/UpdateCheckBtEditAndDelInReview", controller.UpdateCheckBtEditAndDelInReview)
+	r.PATCH("/UpdateOrderStateForClaimOrder", controller.UpdateOrderStateForClaimOrder)
 
 	r.DELETE("/DeleteClaimOrder", controller.DeleteClaimOrder)
 
 	r.GET("/GetListClaimOrders", controller.GetListClaimOrders)
 	r.GET("/GetListUrgency", controller.GetListUrgency)
 	r.GET("/GetClaimOrder/:id", controller.GetClaimOrder)
+	r.GET("/ListClaims_filter_by_customer/:id", controller.ListClaims_filter_by_customer)
 	r.GET("/ListReviews_filter_by_customer/:id", controller.ListReviews_filter_by_customer)
 	//==================================================================================//
 	//				^^B6304577(อาร์ม) -->> ระบบรายงานปัญหาหลังการซ่อม(Claim)^^ 				//

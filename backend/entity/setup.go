@@ -522,25 +522,56 @@ func SetupDatabase() {
 	db.Model(&State{}).Create(&State_2)
 
 	State_3 := State{
-		State: "Refund",
+		State: "Process",
 	}
 	db.Model(&State{}).Create(&State_3)
 	//---------------------------------------------------------------
 	State_4 := State{
-		State: "Process",
+		State: "Finish",
 	}
 	db.Model(&State{}).Create(&State_4)
 
 	State_5 := State{
+<<<<<<< HEAD
 		State: "Finish",
+=======
+		State: "Process to Claim",
+>>>>>>> e2248d8 (fix bug - close #255)
 	}
 	db.Model(&State{}).Create(&State_5)
 
 	State_6 := State{
+<<<<<<< HEAD
 		State: "ProcessToRefund",
 	}
 	db.Model(&State{}).Create(&State_6)
 
+=======
+		State: "Claim Approve",
+	}
+	db.Model(&State{}).Create(&State_6)
+
+	State_7 := State{
+		State: "Claim Rejrct",
+	}
+	db.Model(&State{}).Create(&State_7)
+
+	State_8 := State{
+		State: "Process to Refund",
+	}
+	db.Model(&State{}).Create(&State_8)
+
+	State_9 := State{
+		State: "Refund Approve",
+	}
+	db.Model(&State{}).Create(&State_9)
+
+	State_10 := State{
+		State: "Refund Rejrct",
+	}
+	db.Model(&State{}).Create(&State_10)
+
+>>>>>>> e2248d8 (fix bug - close #255)
 	//---------------------------------------------------------------
 
 	Order_1 := ORDER{

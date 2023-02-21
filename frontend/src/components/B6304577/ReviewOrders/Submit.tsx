@@ -170,7 +170,7 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
                     </Grid>
                     <Grid item xs={6}>
                         <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.Date_time).format('DD/MM/YYYY HH:mm:ss ')}
+                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.CreatedAt).format('DD/MM/YYYY HH:mm:ss ')}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>

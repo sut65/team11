@@ -9,17 +9,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Grid from '@mui/material/Grid';
+import { Link as RouterLink, Route } from "react-router-dom";
 import Button from '@mui/material/Button';
 import { ReviewInterface } from '../../../interfaces/ReviewUI';
-import { DataGrid, GridEditRowsModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Delete, Edit } from '@mui/icons-material';
+import { Delete, Edit, Report } from '@mui/icons-material';
 import { Rating } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import Typography from '@mui/material/Typography';
@@ -196,7 +191,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
 
     const columnReviews: GridColDef[] = [
         {
-            field: 'action1',
+            field: 'action_Edit',
             headerName: 'แก้ไข',
             width: 100,
             editable: false,
@@ -211,7 +206,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             }
         },
         {
-            field: 'action2',
+            field: 'action_delete',
             headerName: 'ลบ',
             width: 100,
             editable: false,
@@ -244,7 +239,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                                     getCheckedPayment();
                                     getReview();
                                 }, 1500)
-                                
+
                                 successAlert();
 
                                 console.log("Success");
@@ -256,6 +251,38 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                 };
                 return <Button disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />} ลบ </Button>;
 
+            }
+        },
+        {
+            field: 'action_Claim',
+            headerName: 'Claim',
+            width: 160,
+            editable: false,
+            renderCell: (params: GridRenderCellParams) => {
+                console.log(params.row.Checked_payment.Payment.OrderTech.ORDER.StateID)
+                const handleClick = () => {
+                    params.api.setRowMode(params.id, 'edit');
+
+                };
+                if (params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 5) {
+                    return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} component={RouterLink} to="/ShowClaim" >{<Report />}Show Claim</Button>;
+                } else {
+                    return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} component={RouterLink} to="/ContentClaimOrder" >{<Report />}Claim</Button>;
+                }
+
+            }
+        },
+        {
+            field: 'action_Refund',
+            headerName: 'Refund',
+            width: 120,
+            editable: false,
+            renderCell: (params: GridRenderCellParams) => {
+                const handleClick = () => {
+                    console.log(params.row)
+                    localStorage.setItem("orderID", params.row.Checked_payment.Payment.OrderTech.ORDER.ID);
+                };
+                return <Button disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} component={RouterLink} to="/RefundCreate" >{<Edit />}Refund</Button>;
             }
         },
         {
