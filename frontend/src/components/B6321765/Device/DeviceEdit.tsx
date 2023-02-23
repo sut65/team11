@@ -40,13 +40,7 @@ function DeviceEdit() {
             })
         });
     }
-    const update_errorAlert = () => {
-        Swal.fire({
-            title: 'อัพเดทข้อมูลไม่สำเร็จ',
-            text: 'Click OK to exit.',
-            icon: 'error'
-        });
-    }
+
     const delete_successAlert = () => {
         Swal.fire({
             title: 'ลบข้อมูลสำเร็จ',
@@ -161,7 +155,11 @@ function DeviceEdit() {
                 update_successAlert();
                 console.log("Success");
             } else {
-                update_errorAlert();
+                Swal.fire({
+                    title: 'บันทึกไม่สำเร็จ',
+                    text: res.error.split(";")[0],
+                    icon: 'error'
+                });
                 console.log("Error");
             }
           });

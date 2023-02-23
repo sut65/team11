@@ -98,7 +98,9 @@ function DeviceShow() {
                             'ลบสำเร็จ',
                             'ลบรายการอุปกรณ์ สำเร็จ',
                             'success'
-                          );
+                          ).then(() => {
+                            window.location.reload();
+                          });
                         } else {
                           swalWithBootstrapButtons.fire(
                             'การลบล้มเหลว',
@@ -106,7 +108,6 @@ function DeviceShow() {
                             'error'
                           );
                         }
-                        window.location.reload();
                       });
                   } else if (
                     result.dismiss === Swal.DismissReason.cancel

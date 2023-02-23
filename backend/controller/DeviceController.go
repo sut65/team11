@@ -8,7 +8,6 @@ import (
 	"github.com/sut65/team11/entity"
 )
 
-// POST Type
 func CreateType(c *gin.Context) {
 	var types entity.Type
 	if err := c.ShouldBindJSON(&types); err != nil {
@@ -31,7 +30,6 @@ func GetListType(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": types})
 }
 
-// POST Windows
 func CreateWindows(c *gin.Context) {
 	var windows entity.Windows
 	if err := c.ShouldBindJSON(&windows); err != nil {
@@ -80,7 +78,7 @@ func CreateDevice(c *gin.Context) {
 		return
 	}
 
-	// 13: ค้นหา Customer ด้วย id
+	// ค้นหา Customer ด้วย id
 	if tx := entity.DB().Where("id = ?", device.CustomerID).First(&customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
@@ -111,7 +109,6 @@ func CreateDevice(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": dv})
 }
 
-// GET /Device
 func GetListDevice(c *gin.Context) {
 	var devices []entity.Device
 	if err := entity.DB().Preload("Customer").Preload("Type").Preload("Windows").Find(&devices).Error; err != nil {
@@ -131,7 +128,6 @@ func GetDeviceBYcustomerID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": device})
 }
 
-// GET /Device:id
 func GetDevice(c *gin.Context) {
 	var device entity.Device
 	id := c.Param("id")
@@ -142,11 +138,14 @@ func GetDevice(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": device})
 }
 
-// PATCH /Device
 func UpdateDevice(c *gin.Context) {
 	var device entity.Device
 
 	if err := c.ShouldBindJSON(&device); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if _, err := govalidator.ValidateStruct(device); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -157,7 +156,6 @@ func UpdateDevice(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": device})
 }
 
-// DELETE /Device
 func DeleteDevice(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM devices WHERE id = ?", id); tx.RowsAffected == 0 {
