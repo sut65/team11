@@ -200,9 +200,19 @@ func GetAddress(c *gin.Context) {
 
 func UpdateAddress(c *gin.Context) {
 	var address entity.Address
+	var addressType entity.AddressType
+	var tambon entity.Tambon
 
 	if err := c.ShouldBindJSON(&address); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", address.AddressTypeID).First(&addressType); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทที่อยู่"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", address.TambonID).First(&tambon); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกตำบล"})
 		return
 	}
 	if _, err := govalidator.ValidateStruct(address); err != nil {

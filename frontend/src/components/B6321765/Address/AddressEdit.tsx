@@ -117,7 +117,7 @@ function AddressEdit() {
                 console.log("Success");
             } else {
                 Swal.fire({
-                    title: 'บันทึกไม่สำเร็จ',
+                    title: 'อัพเดทข้อมูลไม่สำเร็จ',
                     text: res.error.split(";")[0],
                     icon: 'error'
                 });
