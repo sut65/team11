@@ -130,21 +130,44 @@ func GetPayment(c *gin.Context) {
 
 // PATCH /UpdatePayment
 func UpdatePayment(c *gin.Context) {
-	var UpdatePayment entity.Payment
+	var Customer entity.Customer
+	var Payment entity.Payment
+	var Bank entity.Bank
 
-	if err := c.ShouldBindJSON(&UpdatePayment); err != nil {
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Payment
+	if err := c.ShouldBindJSON(&Payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := entity.DB().Model(UpdatePayment).Where("id = ?", UpdatePayment.ID).Updates(map[string]interface{}{"Sender_Name": UpdatePayment.Sender_Name, "Bank_ID": UpdatePayment.Bank_ID, "Amount": UpdatePayment.Amount, "Date_time": UpdatePayment.Date_time}).Error; err != nil {
+	// 10: ค้นหา Bank ด้วย id
+	if tx := entity.DB().Where("id = ?", Payment.Bank_ID).First(&Bank); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "โปรดตรวจสอบคุณอาจลืม เลือกธนาคาร"})
+		return
+	}
+	// 11: ค้นหา user ด้วย id
+	if tx := entity.DB().Where("id = ?", Payment.CustomerID).First(&Customer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		return
+	}
+	// : แทรกการ validate
+	if _, err := govalidator.ValidateStruct(Payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": UpdatePayment})
+	// 12: สร้าง Payment
+	pm := entity.Payment{
 
-	// ถ้า อัพเดตสถานะแปลว่าเคย ตรวจสอบไปแล้ว ดังนั้น จะไม่เปลียนค่า เพื่อโชว์
-	// ordertech_id :=  get_id_Ordertech_for_status(UpdatePayment.ID)
-	// Update_odertech_status(ordertech_id,0)
+		Sender_Name: Payment.Sender_Name,
+		Bank_ID:     Payment.Bank_ID,
+		Amount:      Payment.Amount,
+		Date_time:   Payment.Date_time,
+	}
+
+	if err := entity.DB().Model(pm).Where("id = ?", Payment.ID).Updates(&pm).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": pm})
 }
 
 // DELETE /payment/:id

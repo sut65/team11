@@ -3,14 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, } from "../../../interfaces/PaymentUI";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import dayjs, { Dayjs } from "dayjs";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/PAY_and_CHECKED.css";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import Stack from '@mui/material/Stack';
 
 import {DateTimePicker, DateTimePickerTabs,DateTimePickerTabsProps,} from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -76,20 +73,7 @@ function Payment() {
 
   const userID = parseInt(localStorage.getItem("uid") + "");
   const [userName, setUserName] = useState('');
-  //console.log('-------> ',P_ID);
-  //console.log(PAYTECH_ID);
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////
-  // const handleClose = (
-  //   event?: React.SyntheticEvent | Event,
-  //   reason?: string
-  // ) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-  //   setSuccess(false);
-  //   setError(false);
-  // };
+  
   const handleInputChange_Amount = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
@@ -110,13 +94,6 @@ function Payment() {
   const onChangeBank = (event: SelectChangeEvent) => {
     setBank_ID(event.target.value as string);
   };
-  // const onChangePAYTHECH = (event: SelectChangeEvent) => {
-  //   setPAYTECH_ID(event.target.value as string);
-  // };
-
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   //ฟังก์ชันนี้ สำหรับการกดปุ่ม submit จะทำการสร้างข้อมูลต่าง ๆ เพื่อส่งไปทำการบันทึกที่ backend
   function UpdatePayment() {
@@ -129,7 +106,8 @@ function Payment() {
       // Amount_Check: convertFloat(Sent_Amout_Check),
       // Status_ID: 0,
       Date_time: Date_time,
-      User_ID: userID,               //ดึงมาจากระบบlogin
+      CustomerID: userID,               //ดึงมาจากระบบlogin
+      
     };
 
     const apiUrl = "http://localhost:8080/UpdatePayment";
@@ -153,7 +131,10 @@ function Payment() {
           localStorage.removeItem('Payment_ID');
           setTimeout(() => { window.location.href = "/PaymentShow"; }, 3000);
 
-
+          //ถ้าแก้ไขสำเร็จค่อยคืนคว่าว่าง
+          setBank_ID("");
+          setDate(null);
+          setPayment({});
 
         } else {
           Swal.fire({
@@ -165,49 +146,7 @@ function Payment() {
         }
         console.log(data);
       });
-    // reset All after Submit
-    setBank_ID("");
-    setDate(null);
-    setPayment({});
-
-
-
   }
-  /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////
-
-  //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
-
-  // const [amountCheck, setAmountCheck] = useState('ไม่มีข้อมูล');
-  // console.log(amountCheck);
-
-  // async function submitPayment() {
-
-  //   // console.log(data);
-  //   const apiUrl = `http://localhost:8080/SendmoneyToFrontend/${PAYTECH_ID}`;
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res) {
-  //         // setMoney(res.data);
-  //         setAmountCheck(res.sent + (parseFloat(res.sent) * 0.25));
-  //         console.log(res.sum);
-  //         console.log(res.moneyMan);
-  //         console.log(res.sent);
-
-  //       } else {
-  //         console.log("else");
-  //         setAmountCheck('ไม่มีข้อมูล');
-  //       }
-  //     });
-  //     // console.log(amountCheck);
-  // };
-
-  //////////////////////////////-_เรียกยอดเงินรวมออกมาแดงให้ลูกค้า_-////////////////////////////////////////////
-
   const [Bank, setBank] = React.useState<BankInterface[]>([]);
   const getBank = async () => {
     const apiUrl = `http://localhost:8080/ListBank`;
@@ -258,8 +197,6 @@ function Payment() {
       });
   };
 
-
-
   const getdata_before_edit = async () => {
     const apiUrl = `http://localhost:8080/GetPayment/${Payment_ID}`;
     const requestOptions = {
@@ -272,6 +209,8 @@ function Payment() {
         if (res.data) {
           setSender_name(res.data.Sender_Name);
           setAmount(res.data.Amount);
+          setDate(res.data.Date_time );
+          setBank_ID(res.data.Bank_ID);
         } else {
           console.log("else");
         }
@@ -279,7 +218,6 @@ function Payment() {
   };
 
 
-  //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
   useEffect(() => {
     getBank();
     getPAYTECH();
@@ -310,12 +248,8 @@ function Payment() {
           </center>
         </Box>
         {select_Order()}
-        {/* <Box style={{ backgroundColor: "#e0f2f1" }}>
-          {PAYTECHSHOW()}<br />
-        </Box> */}
         <br /><br />
-        {/* {show_Amout_check()}
-        <br/><br/> */}
+       
 
         <Container >
           <Grid container spacing={3} >
@@ -424,25 +358,6 @@ function Payment() {
       </FormControl>
     )
   }
-  // function show_Amout_check() {
-  //   return (
-  //     <Grid container spacing={3}>
-  //       <Grid item xs={5}>
-  //         <h2 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่ต้องชำระ</h2>
-  //       </Grid>
-
-  //       <Grid item xs={2}>
-  //         <Item sx={{ backgroundColor: "#436F77", fontSize: 30 ,color: "#FFFFFF"}}>
-  //           {amountCheck}
-  //         </Item>
-  //       </Grid>
-
-  //       <Grid item xs={5}>
-  //         <h2 style={{ color: "#FFFFFF"}}>บาท</h2>
-  //       </Grid>
-  //     </Grid>
-  //   )
-  //}
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">

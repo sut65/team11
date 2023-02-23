@@ -3,15 +3,10 @@ import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRend
 import Pagination from '@mui/material/Pagination';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
-// import Payment, { Payment_get_Ordertech_ID } from './Payment'
 import React from 'react';
 import { PaymentInterface } from '../../../interfaces/PaymentUI';
 import dayjs from 'dayjs';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Check, Delete, Edit } from '@mui/icons-material';
-// import { EditPayment_get_Ordertech_ID } from './EditPayment';
-import PlagiarismIcon from '@mui/icons-material/Plagiarism';
-//import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import LensIcon from '@mui/icons-material/Lens';
 import "../CSS/PAY_and_CHECKED.css";
@@ -72,12 +67,8 @@ function Check_Table_Payment_show() {
       editable: false,
       headerClassName:'title_table',cellClassName:"cell_table",
       renderCell: (params: GridRenderCellParams) => {
-
-        // const [OrderTech_ID, setOrderTech_ID] = useState(9999);
         const handleClick = () => {
           params.api.setRowMode(params.id, 'edit');
-          // const Test_ID = params.id.toString();
-          // console.log(params.id);
 
           localStorage.setItem('Checked_Payment_ID',params.id.toString());
         };
@@ -184,7 +175,6 @@ function Check_Table_Payment_show() {
       , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
     }
     //{ field: "CustomerID", headerName: "ผู้ส่งเรื่อง", width: 300 },
-
 
   ];
 

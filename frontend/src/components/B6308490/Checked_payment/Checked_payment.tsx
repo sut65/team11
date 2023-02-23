@@ -2,18 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
-import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import {  Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import { PaymentInterface, BankInterface,} from "../../../interfaces/PaymentUI";
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import dayjs, { Dayjs } from "dayjs";
 import "../CSS/PAY_and_CHECKED.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import Stack from '@mui/material/Stack';
-import { color } from "@mui/system";
-
 import {DateTimePicker, DateTimePickerTabs,DateTimePickerTabsProps,} from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -100,7 +95,6 @@ const P3 = styled(Paper)(({ theme }) => ({
 //ฟังค์ชัน สำหรับสร้างตารางหลัก
 function Checked_payment() {
   const [Status_check_ID, setStatus_check_ID] = useState('');
-  // const [Payment_ID, setPayment_ID] = useState(''); // ตัวแปล ID สำหรับการ Update และ Delete
   const Payment_ID =  localStorage.getItem('Checked_Payment_ID');
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
@@ -116,25 +110,7 @@ function Checked_payment() {
   const [User_show, setUser_show] = useState('');
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    //setSuccess(false);
-    //setError(false);
-  };
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
-  ) => {
-    const name = event.target.name as keyof typeof Checked_payment;
-    setChecked_payment({
-      ...Checked_payment,
-      [name]: event.target.value,
-    });
-  };
+
   //สร้างฟังก์ชันสำหรับ คอยรับการกระทำ เมื่อคลิ๊ก หรือ เลือก
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -147,8 +123,6 @@ function Checked_payment() {
   const onChangeStatus_check = (event: SelectChangeEvent) => {
     setStatus_check_ID(event.target.value as string);
   };
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   //ฟังก์ชันนี้ สำหรับการกดปุ่ม submit จะทำการสร้างข้อมูลต่าง ๆ เพื่อส่งไปทำการบันทึกที่ backend
 
@@ -439,30 +413,13 @@ function Checked_payment() {
     )
   }
 
-  // function select_Order() {
-  //   return (<Container>
-  //     <Grid container spacing={3}>
-  //       <Grid item xs={2}> </Grid>
-  //       <Grid item xs={6}>
-  //         <Item style={{ background: "#f1f8e9" }}>
-  //           {Combo_Payment()}<br />
-  //         </Item>
-  //       </Grid>
-  //       <Grid item xs={4}>
-  //         <Item style={{ backgroundColor: "#182e3e" }}>
-  //           {button_pay()}
-  //         </Item>
-  //       </Grid>
-  //     </Grid>
-  //   </Container>)
-  // }
   function show_data() {
     return (
-      <Grid container spacing={1} sx={{ backgroundColor: "rgb(0,0,0,0.4)" }} style={{ borderRadius: '35px' }} >
+      <Grid container spacing={1} sx={{ backgroundColor: "rgb(0,0,0,0.1)" }} style={{ borderRadius: '35px' }} >
         <Grid item xs={12}><center> <h2 id='black_font' style={{color:'#C0DEFF'}}>ข้อมูลสำหรับตรวจสอบ</h2> </center> </Grid>
 
         <Grid item xs={12}>  </Grid>
-        <Grid item xs={2}><Item0><h4 id='font_for_show_details'>Paymment ID: </h4></Item0></Grid>
+        <Grid item xs={2}><Item0><h4 id='font_for_show_details'>Payment ID: </h4></Item0></Grid>
         <Grid item xs={3.6}><Item_2>   <P2 id='black_font'>{Payment_ID_show}</P2>   </Item_2></Grid>
         <Grid item xs={2}><Item0><h4 id='font_for_show_details'>Order ID: </h4></Item0></Grid>
         <Grid item xs={3.4}><Item_2>   <P2 id='black_font'>{Order_ID_show}</P2>   </Item_2></Grid>
