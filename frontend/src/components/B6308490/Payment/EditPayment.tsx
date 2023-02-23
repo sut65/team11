@@ -8,7 +8,7 @@ import { PaymentInterface, BankInterface, } from "../../../interfaces/PaymentUI"
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import dayjs, { Dayjs } from "dayjs";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import "../CSS/payment.css";
+import "../CSS/PAY_and_CHECKED.css";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 
@@ -116,7 +116,6 @@ function Payment() {
       // Status_ID: 0,
       Date_time: Date_time,
       User_ID: userID,               //ดึงมาจากระบบlogin
-      // User_ID: 1,
     };
 
     const apiUrl = "http://localhost:8080/UpdatePayment";
@@ -138,7 +137,7 @@ function Payment() {
           });
 
           localStorage.removeItem('Payment_ID');
-          setTimeout(() => { window.location.href = "/PaymentShow";  }, 3000);
+          setTimeout(() => { window.location.href = "/PaymentShow"; }, 3000);
 
 
 
@@ -277,7 +276,7 @@ function Payment() {
 
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
-    <Paper style={{ backgroundColor: "rgb(0,0,0,0.5)" ,borderRadius: '25px'}}>
+    <Paper style={{ backgroundColor: "rgb(0,0,0,0.5)", borderRadius: '25px' }}>
       <Container maxWidth="xl">
         <Box sx={{ maginX: 0, maginY: 0 }}>
           <center>
@@ -295,7 +294,7 @@ function Payment() {
 
             </Typography>
           </center>
-        </Box>        
+        </Box>
         {select_Order()}
         {/* <Box style={{ backgroundColor: "#e0f2f1" }}>
           {PAYTECHSHOW()}<br />
@@ -309,10 +308,10 @@ function Payment() {
             {/*แบ่งกลางให้กับข้อความ*/}
             <Grid item xs={2} ></Grid>
             <Grid item xs={2} >
-              <Item2 > <P2 >ชื่อผู้โอนเงิน</P2> </Item2><br />
-              <Item2 > <P2>ธนาคารที่โอนเงินเข้า</P2> </Item2><br />
-              <Item2 > <P2>จำนวนเงินที่โอนเข้า</P2> </Item2><br />
-              <Item2 > <P2>วันเวลาที่ทำการ</P2> </Item2><br />
+              <Item2 > <P2 id='black_font' >ชื่อผู้โอนเงิน</P2> </Item2><br />
+              <Item2 > <P2 id='black_font' >ธนาคารที่โอนเงินเข้า</P2> </Item2><br />
+              <Item2 > <P2 id='black_font' >จำนวนเงินที่โอนเข้า</P2> </Item2><br />
+              <Item2 > <P2 id='black_font' >วันเวลาที่ทำการ</P2> </Item2><br />
             </Grid>
             {/*แบ่งขวาให้กับข้อมูล*/}
             <Grid item xs={6}>
@@ -323,14 +322,10 @@ function Payment() {
             </Grid>
           </Grid>
           {/* <Grid item xs={12 }> <p style={{ color: "#FFFFFF", }}> ท่านกำลังแก้ไข รายการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว แต่ยังไม่ได้รับการตรวจสอบ  </p></Grid> */}
-          <h5 style={{ color: "#FFFFFF", textAlign: "center" }}> *ท่านกำลังแก้ไข รายการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว แต่ยังไม่ได้รับการตรวจสอบ  </h5>
-          
-    
-
-          
+          <h5 id='Topic_font' style={{ textAlign: "center" }}> *ท่านกำลังแก้ไข รายการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว แต่ยังไม่ได้รับการตรวจสอบ  </h5>
 
           {button_submit_back()}
-          <br/><br/><br/><br/>
+          <br /><br /><br /><br />
         </Container>
       </Container>
     </Paper>
@@ -341,6 +336,7 @@ function Payment() {
       <FormControl fullWidth variant="outlined">
         <Select
           native
+          id='combo'
           disabled
           value={Payment_ID}
           // onChange={onChangePAYTHECH}
@@ -365,6 +361,7 @@ function Payment() {
       <FormControl fullWidth variant="outlined">
         <Select
           native
+          id='combo_bank'
           value={Bank_ID}
           onChange={onChangeBank}
           inputProps={{
@@ -456,19 +453,17 @@ function Payment() {
     return (
       <Grid container >
         <Grid item xs={10}>
-          <Button size="large" sx={{ backgroundColor: "#434242"}} component={RouterLink} to="/PaymentShow" variant="contained" style={{fontSize: 17 }} >
+          <Button id='btn_back' size="large" component={RouterLink} to="/PaymentShow" variant="contained"  >
             <b> ย้อนกลับ </b>
           </Button>
         </Grid>
         <Grid item xs={2}>
           <Button
-            style={{ float: "right", fontSize: 17 }}
+            id='btn_orange'
+            style={{ float: "right" ,width: '120px',height:'50px' }}
             onClick={UpdatePayment}
             variant="contained"
-            color="success"
             size="large"
-            sx={{backgroundColor: '#F99417'}}
-            // component={RouterLink} to="/PaymentShow"
           >
             <b>แก้ไข</b>
           </Button>
