@@ -158,57 +158,55 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
     };
 
     return (
-        <Container
-            maxWidth="md"
-        >
-            <Box sx={{ flexGrow: 1 }}>
+        <Box id='boxstarFrame'>
+            <Box id='reviewTextInfoFrame'>
                 <Grid container >
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                        <Typography id='textInfo_01'>
                             รายการที่แจ้งซ่อม : {checkedPaymentsAll.Payment.OrderTech.ORDER.Reason}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.CreatedAt).format('DD/MM/YYYY HH:mm:ss ')}
+                        <Typography id='textInfo_02'>
+                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.CreatedAt).format('DD/MM/YYYY HH:mm:ss')}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
+                        <Typography id='textInfo_03'>
                             ผู้ดำเนินการ : {customerName}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
+                        <Typography id='textInfo_04'>
                             วันที่รีวิว : {date.toLocaleString()}
                         </Typography>
                     </Grid>
                 </Grid>
             </Box>
 
-            <Accordion sx={{ marginTop: 12, background: "#00556c" }}>
+            <Accordion id='accordionConfig'>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography className={style.textReview}>
+                    <Typography id='textAccordion'>
                         การประเมินความพึงพอใจเกี่ยวกับระบบ
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography className={style.textReview}>
+                    <Typography id='textAccordion'>
                         หัวข้อที่ 1
                     </Typography>
                     <AccordionDetails>
                         <Rating name="read-only" value={data1} readOnly size="large" sx={{ alignItems: "center" }} />
                     </AccordionDetails>
 
-                    <Typography className={style.textReview} sx={{ marginTop: 2 }}>
+                    <Typography id='textAccordion'>
                         ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <AccordionDetails>
-                        <Typography className={style.textReview}>
+                        <Typography id='textAccordion'>
                             : {commentRating1}
                         </Typography>
                         <Button
@@ -223,28 +221,28 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
                     </AccordionDetails>
                 </AccordionDetails>
             </Accordion>
-            <Accordion sx={{ marginBottom: 5, background: "#00556c" }}>
+            <Accordion id='accordionConfig'>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel2a-content"
                     id="panel2a-header"
                 >
-                    <Typography className={style.textReview}>
+                    <Typography id='textAccordion'>
                         การประเมินความพึงพอใจช่างที่ซ่อม
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography className={style.textReview}>
+                    <Typography id='textAccordion'>
                         หัวข้อที่ 2
                     </Typography>
                     <AccordionDetails>
                         <Rating name="read-only" value={data2} readOnly size="large" />
                     </AccordionDetails>
-                    <Typography className={style.textReview} sx={{ marginTop: 2 }}>
+                    <Typography id='textAccordion'>
                         ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <AccordionDetails>
-                        <Typography className={style.textReview}>
+                        <Typography id='textAccordion'>
                             : {commentRating2}
                         </Typography>
                         <Button
@@ -259,8 +257,8 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
                     </AccordionDetails>
                 </AccordionDetails>
             </Accordion>
-            <Box>
-                <Typography sx={{ color: "#ffffff", marginBottom: 2 }}>
+            <Box id='reviewTextIndatetimeFrame'>
+                <Typography id='textDatetime'>
                     วันที่รีวิว
                 </Typography>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -277,9 +275,10 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
                     />
                 </LocalizationProvider>
             </Box>
-            <Box>
+            <Box sx={{marginTop:'10px'}}>
                 <FormGroup>
                     <FormControlLabel
+                        className='textCheck'
                         sx={{ color: "#ffffff", paddingBottom: 5 }}
                         label="ตรวจสอบความถูกต้องเรียบร้อยแล้ว"
                         labelPlacement="end"
@@ -296,33 +295,39 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
                 </FormGroup>
             </Box>
 
-            <Box sx={{ flexGrow: 1, marginBottom: 2 }}>
-                <Grid container >
-                    <Grid item xs={6}>
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            color="inherit"
-                            disabled={activeStep === 1}
-                            onClick={handleBack}
-                            sx={{ mr: 1 }}
-                        >
-                            กลับ
-                        </Button>
+            <Container
+                maxWidth="md"
+                sx={{ marginTop: 5 }}
+            >
+                <Box sx={{ flexGrow: 1, marginBottom: 2 }}>
+                    <Grid container >
+                        <Grid item xs={6}>
+                            <Button
+                                id='textInBt'
+                                variant="contained"
+                                fullWidth
+                                onClick={handleBack}
+                                color="error"
+                                sx={{ mr: 1, backgroundColor: "#E96479" }}
+                            >
+                                กลับ
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                id='textInBt'
+                                variant="contained"
+                                fullWidth
+                                onClick={activeStep === steps.length ? submit : handleNext}
+                                color="secondary"
+                                sx={{ backgroundColor: "#3F979B" }}
+                            >
+                                {activeStep === steps.length ? 'บันทึก' : 'ถัดไป'}
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={activeStep === steps.length ? submit : handleNext}
-                            color={activeStep === steps.length ? "success" : "inherit"}
-                        >
-                            {activeStep === steps.length ? 'บันทึก' : 'ถัดไป'}
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Box>
-
+                </Box>
+            </Container>
             <Box sx={{ width: '100%', marginTop: 5, marginBottom: 1 }}>
                 <Stepper activeStep={activeStep - 1} alternativeLabel>
                     {steps.map((label: any) => (
@@ -353,7 +358,7 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
                     ))}
                 </Stepper>
             </Box>
-        </Container>
+        </Box>
     );
 
 } export default Submit

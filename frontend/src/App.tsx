@@ -165,43 +165,8 @@ function App() {
     setOpen(false);
   };
   return (
-    // <Router>
-    //   <Routes>
-    //     {/* ทดสอบหน้า fontent ที่นี่ */}
-    //     <Route path="/" element={<LoginCustomer />} />
-    //     {/* <Route path="/" element={<PaymentShow />} />  */}
-    //     {/* ทดสอบหน้า fontent ที่นี่ */}
-    //     <Route path="/ContentClaimOrder" element={<ClaimForm />} />
-    //     <Route path="/ClaimOrderForAdmin" element={<ClaimOrderForAdmin />} />
-    //     <Route path="/RankingForm" element={<RankingForm />} />
-    //     <Route path="/OrderCreate" element={<OrderCreate />} />
-    // <Route path="/OrderUpdate" element={<OrderUpdate />} />
-    // <Route path="/ShowOrder" element={<ShowOrder />} />
-    //     <Route path="/PaymentShow" element={<PaymentShow />} />
-    //     <Route path="/Payment" element={<Payment />} />
-    //     <Route path="/EditPayment" element={<EditPayment />} />
-    // <Route path="/Checked_paymentShow" element={<Checked_paymentShow />} />
-    // <Route path="/Checked_payment" element={<Checked_payment />} />
-    // <Route path="/EditChecked_payment" element={<Edit_Checked_payment />} />
-    // <Route path="/AddressCreatePage" element={<AddressCreateForm />} />
-    // <Route path="/AddressShowPage" element={<AddressShowForm/>} />
-    // <Route path="/AddressEditPage" element={<AddressEditForm/>} />
-    // <Route path="/DeviceCreatePage" element={<DeviceCreateForm/>} />
-    // <Route path="/DeviceEditPage" element={<DeviceEditForm/>} />
-    // <Route path="/DeviceShowPage" element={<DeviceShowForm/>} />
-    //     <Route path="/RefundCreate" element={<RefundCreate />} />
-    //     <Route path="/RefundCreate" element={<RefundShow />} />
-    //     <Route path="/OrderTech" element={<OrderTech />} />
-    //     <Route path="/PayTech" element={<PayTech />} />
-    //     <Route path="/CustomerCreate" element={<CreateForm />} />
-    //     <Route path="/CustomerShow" element={<CreateForm2 />} />
 
-    // <Route path="/TechnicianCreate" element={<CreateTechnician2 />} />
-    // <Route path="/TechnicianShow" element={<CreateFormTech />} />
-    //   </Routes>
-    // </Router>
     <div>
-
       <Router>
         <Box sx={{ flexGrow: 1 }}>
           {token ? (
@@ -235,7 +200,16 @@ function App() {
             ""
           )}
         </Box>
-        <Drawer anchor="left" open={open} onClose={handleClose}>
+        <Drawer
+          PaperProps={{
+            sx: {
+              backgroundColor: "rgba(255, 255, 255, 0.6)",
+              backdropFilter: "blur(25px)" // เบลอพื้นหลังด้วยค่าความเบลอ 10px
+            }
+          }}
+          anchor="left"
+          open={open}
+          onClose={handleClose} >
           <Toolbar
             sx={{
               // backgroundColor: "#182e3e",
@@ -254,12 +228,13 @@ function App() {
           <List id="textDrawer">
             {menu.map((item, index) => (
               <Link
+
                 to={item.path}
                 key={item.name}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 {_user === item.role ? (
-                  <ListItem button>
+                  <ListItem button >
                     <ListItemIcon>{item.role}</ListItemIcon>
                     <ListItemIcon>{item.name}</ListItemIcon>
                   </ListItem>

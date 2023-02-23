@@ -15,11 +15,11 @@ import { ReviewInterface } from '../../../interfaces/ReviewUI';
 import { DataGrid } from '@mui/x-data-grid';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Delete, Edit, Report } from '@mui/icons-material';
-import { Rating } from '@mui/material';
+import { Box, Rating } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import style from "./style.module.css";
+import "./review.css"
 
 
 function refreshPage() {
@@ -123,6 +123,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'action',
             headerName: '',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 100,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
@@ -139,14 +141,14 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
 
 
 
-                return <Button disabled={params.row.CheckForShowReviewBT === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}รีวิว</Button>;
+                return <Button id='textBtInTableReview_checkedPayment' disabled={params.row.CheckForShowReviewBT === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} >{<Edit />}รีวิว</Button>;
             }
-
-            // reviews.map((i)=>{i.CheckedPayment_ID})
         },
         {
             field: 'Product_ID',
             headerName: 'รายการซ่อม',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             renderCell: params => {
                 return <div>{params.row.Payment.OrderTech.ORDER.Reason}</div>
@@ -155,6 +157,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'OrderTech',
             headerName: 'วิธีซ่อม',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             renderCell: params => {
                 return <div>{params.row.Payment.OrderTech.Solving}</div>
@@ -163,6 +167,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'Technician',
             headerName: 'ช่างผู้รับผิดชอบงาน',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             renderCell: params => {
 
@@ -173,6 +179,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'CustomerID',
             headerName: 'ลูกค้า',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             renderCell: params => {
                 return <div>{params.row.Payment.Customer.Name}</div>
@@ -181,6 +189,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'Status_ID',
             headerName: 'สถานะ',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 180,
             renderCell: params => {
                 return <div>{params.row.Status_check.Status_name}</div>
@@ -193,6 +203,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'action_Edit',
             headerName: 'แก้ไข',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 100,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
@@ -202,12 +214,14 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                     setReviewsID(params.id);
                     console.log(params.row);
                 };
-                return <Button disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Edit />}แก้ไข</Button>;
+                return <Button id='textBtInTableReview_checkedPayment' disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} >{<Edit />}แก้ไข</Button>;
             }
         },
         {
             field: 'action_delete',
             headerName: 'ลบ',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 100,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
@@ -249,14 +263,16 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                             }
                         });
                 };
-                return <Button disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />} ลบ </Button>;
+                return <Button id='textBtInTableReview_checkedPayment' disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer', borderRadius: '25px' }} >{<Delete />} ลบ </Button>;
 
             }
         },
         {
             field: 'action_Claim',
             headerName: 'Claim',
-            width: 160,
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
+            width: 180,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
                 console.log(params.row.Checked_payment.Payment.OrderTech.ORDER.StateID)
@@ -264,10 +280,12 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                     params.api.setRowMode(params.id, 'edit');
 
                 };
-                if (params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 5) {
-                    return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} component={RouterLink} to="/ShowClaim" >{<Report />}Show Claim</Button>;
-                } else {
-                    return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} component={RouterLink} to="/ContentClaimOrder" >{<Report />}Claim</Button>;
+                if (params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 5 ||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 6||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 7) {
+                    return <Button id='textBtInTableReview_checkedPayment' variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/ShowClaim" >{<Report />}Show Claim</Button>;
+                } else if (params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 8 ||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 9||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 10) {
+                    return <Button id='textBtInTableReview_checkedPayment' disabled={true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/ShowClaim" >{<Report />}Claim</Button>;
+                }else {
+                    return <Button id='textBtInTableReview_checkedPayment' variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/ContentClaimOrder" >{<Report />}Claim</Button>;
                 }
 
             }
@@ -275,19 +293,30 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'action_Refund',
             headerName: 'Refund',
-            width: 120,
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
+            width: 180,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
                 const handleClick = () => {
                     console.log(params.row)
                     localStorage.setItem("localOrderID", params.row.Checked_payment.Payment.OrderTech.ORDER.ID);
                 };
-                return <Button disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} component={RouterLink} to="/RefundCreate" >{<Edit />}Refund</Button>;
+                
+                if (params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 8 ||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 9||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 10) {
+                    return <Button id='textBtInTableReview_checkedPayment' variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/RefundCreate" >{<Report />}Show Refund</Button>;
+                } else if (params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 5 ||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 6||params.row.Checked_payment.Payment.OrderTech.ORDER.StateID === 7) {
+                    return <Button id='textBtInTableReview_checkedPayment' disabled={true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/RefundCreate" >{<Report />}Refund</Button>;
+                }else {
+                    return <Button id='textBtInTableReview_checkedPayment' variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/RefundCreate" >{<Report />}Refund</Button>;
+                }
             }
         },
         {
             field: 'Checked_payment',
             headerName: 'รายการซ่อม',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 150,
             renderCell: params => {
                 return <div>{params.row.Checked_payment.Payment.OrderTech.ORDER.Reason}</div>
@@ -296,6 +325,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'Satisfaction_System_ID',
             headerName: 'ระดับความพึงพอใจต่อระบบ',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             renderCell: renderRating,
 
@@ -303,28 +334,38 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'Review_Comment_System',
             headerName: 'ความคิดเห็นต่อระบบซ่อมคอมพิวเตอร์',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200
         },
         {
             field: 'Satisfaction_Technician_ID',
             headerName: 'ระดับความพึงพอใจต่อช่างที่ซ่อม',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             renderCell: renderRating,
         },
         {
             field: 'Review_Comment_Technician',
             headerName: 'ความคิดเห็นต่อช่างซ่อม',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200
         },
         {
             field: 'Timestamp',
             headerName: 'วันที่',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
         },
         {
             field: 'StatusReview',
             headerName: 'สถานะ',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 70,
             renderCell: params => {
 
@@ -337,6 +378,8 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
         {
             field: 'Customer_ID',
             headerName: 'ลูกค้า',
+            headerClassName: 'textReviewfieldTable',
+            cellClassName: 'textReviewfieldTable',
             width: 200,
             renderCell: params => {
 
@@ -349,57 +392,47 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
 
 
     return (
-
-        <Container maxWidth="lg" >
-            <br />
-            <br />
-            <Typography className={style.mainToptic} sx={{ marginTop: 10, color: "#ffffff", alignItems: "center" }}>
-
-                <h2 >
+        <Box>
+            <Box id='reviewShowFrame'>
+                <Typography id='textReviewTopic'>
                     ระบบประเมินความพึงพอใจ
-                </h2>
-
-
-            </Typography>
-            <Typography sx={{ color: "#ffffff" }}>
-
-                <h4>
+                </Typography>
+                <Typography id='textReviewSubTopic'>
                     กรุณากรอกแบบประเมินความพึงพอใจ
-                </h4>
-            </Typography>
-            <br />
-            <div style={{ height: 400, width: '100%' }} >
-                <DataGrid
-                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
-                    rows={checkedPayments}
-                    columns={columnCheckPayments}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    getRowId={(row: ReviewInterface) => row.ID}
-
-                // checkboxSelection
-                />
-            </div>
-            <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                <h2>
+                </Typography>
+                <div style={{ height: 400, width: '100%' }} >
+                    <DataGrid
+                        sx={{ background: '#ffffff', color: 'ff0000', borderTopLeftRadius: '25px', borderTopRightRadius: '25px' }}
+                        rows={checkedPayments}
+                        columns={columnCheckPayments}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        getRowId={(row: ReviewInterface) => row.ID}
+                    />
+                </div>
+                <Typography id='textReviewTopic'>
                     การรีวิวสำเร็จ
-                </h2>
-            </Typography>
+                </Typography>
+                <Typography id='textReviewSubTopic'>
+                    ขอบคุณสำหรับการรีวิวครั้งนี้
+                </Typography>
 
-            <div style={{ height: 400, width: '100%' }} >
-                <DataGrid
-                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
-                    rows={reviews}
-                    columns={columnReviews}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    getRowId={(row: ReviewInterface) => row.ID}
+                <div style={{ height: 400, width: '100%' }} >
+                    <DataGrid
+                        sx={{ background: '#ffffff', color: 'ff0000', borderBottomLeftRadius: '25px', borderBottomRightRadius: '25px' }}
+                        rows={reviews}
+                        columns={columnReviews}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        getRowId={(row: ReviewInterface) => row.ID}
 
-                // checkboxSelection
-                />
-            </div>
+                    // checkboxSelection
+                    />
+                </div>
 
-        </Container>
+            </Box>
+        </Box>
+
 
 
 

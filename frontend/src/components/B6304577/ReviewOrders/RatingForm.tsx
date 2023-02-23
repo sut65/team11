@@ -14,7 +14,7 @@ const steps = [
 ];
 
 const defaultDataRating = {
-    checkedPaymentID:null,
+    checkedPaymentID: null,
     data1: null,
     commentRating1: "",
     data2: null,
@@ -31,20 +31,20 @@ function RankingForm() {
     const [customerName, setCustomerName] = React.useState("");
 
     const userID = parseInt(localStorage.getItem("uid") + "");
-    
+
 
     const PageDisplay = () => {
         if (activeStep === 0) {
-            return <Content userID ={userID} activeStep={activeStep} setActiveStep={setActiveStep} setReviewsID={setReviewsID} formDataRating={formDataRating} setFormDataRating={setFormDataRating} setCheckedPaymentsAll={setCheckedPaymentsAll}/>
+            return <Content userID={userID} activeStep={activeStep} setActiveStep={setActiveStep} setReviewsID={setReviewsID} formDataRating={formDataRating} setFormDataRating={setFormDataRating} setCheckedPaymentsAll={setCheckedPaymentsAll} />
 
         } else if (activeStep === 1) {
-            return <Star1 customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
+            return <Star1 customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll} />
 
         } else if (activeStep === 2) {
-            return <Star2 customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
+            return <Star2 customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll} />
 
         } else if (activeStep === 3) {
-            return <Submit userID={userID} customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll}/>
+            return <Submit userID={userID} customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll} />
         } else if (activeStep === 4) {
             return <EditDataReview reviewsID={reviewsID} setActiveStep={setActiveStep} />
         }
@@ -63,11 +63,11 @@ function RankingForm() {
                 if (res.data) {
                     // setReviews(res.data)
                     setCustomerName(res.data.Name);
-                    console.log("getCustomerName: ",res.data.Name);
+                    console.log("getCustomerName: ", res.data.Name);
                 }
             });
     };
-    
+
 
     useEffect(() => {
         getCustomerName();
@@ -75,15 +75,10 @@ function RankingForm() {
     }, []);
 
     return (
-        <Paper
-            sx={{
-                backgroundColor: "#182e3e",
-                height: '1500px'
-            }}>
-            <form className='form-container'>
-                <div className='text-start'>{PageDisplay()}</div>
-            </form >
-        </Paper>
+
+        <form className='form-container'>
+            <div className='text-start'>{PageDisplay()}</div>
+        </form >
     );
 
 } export default RankingForm

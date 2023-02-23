@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
 import { DataGrid, GridEditRowsModel, GridValueGetterParams } from '@mui/x-data-grid'; //npm i @mui/x-data-grid
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'; //npm i @mui/x-data-grid
 import { Delete, Edit } from '@mui/icons-material'; //npm i @mui/icons-material
-import { Rating } from '@mui/material';
+import { OutlinedInputProps, Rating } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs'; //npm i dayjs
 
 import Typography from '@mui/material/Typography';
@@ -151,109 +151,88 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
 
 
     return (
-        <Container maxWidth="md" sx={{paddingTop:1}}>
+        <Box id='boxstarFrame' >
             <Box
-                className={style.boxshadow}
+                id='reviewStarFrame'
             >
-                <Typography className={style.mainToptic}>
-                    <h2>
-                        เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง
-                    </h2>
+                <Typography id='textStarTopic'>
+                    เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง
                 </Typography>
-                <Typography className={style.subToptic}>
-                    <h6>
-                        รวมแบ่งปันประสบการณ์ การบริการ
-                        โดยให้คะแนนความพึงพอใจ
-                    </h6>
+                <Typography id='textStarSubTopic'>
+                    รวมแบ่งปันประสบการณ์ การบริการ
+                    โดยให้คะแนนความพึงพอใจ
                 </Typography>
 
                 <Rating
-                    className={style.star}
-                    size="large"
+                    id='rating'
                     value={editDataReview_Rating_System}
                     onChange={(event, newValue) => {
                         seteditDataReview_Rating_System(newValue);
                     }}
-                    sx={{
-                        fontSize: "6rem",
-                        alignItems: 'center',
-                    }}
 
                 />
                 <br />
                 <Container maxWidth="lg" >
-                    <Typography sx={{color:"#ffffff"}}>
-                        <h4>
-                            ช่วยบอกความพึงพอใจกับเรา
-                        </h4>
-
+                    <Typography id='textStarComment'>
+                        ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <TextField
-                        id="commentRating1"
+                        id="textfieldComment"
                         multiline
                         rows={3}
                         fullWidth
-                        variant="filled"
-                        helperText="เช่น การให้บริการยอดเยี่ยม"
-                        sx={{ marginBottom: 5, input: { color: 'red' } }}
-                        inputProps={{ style: { color: "#ffffff" } }}
+                        variant="standard"
+                        InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
                         defaultValue=""
                         value={editDataReview_Comment_System}
                         onChange={handleInputChangeCommentSystem}
-
                     />
+                    <Typography id='textStarCommentHelp'>
+                        เช่น การให้บริการยอดเยี่ยม
+                    </Typography>
                 </Container>
             </Box>
             <Box
-                className={style.boxshadow}
+                id='reviewStarFrame'
+                sx={{ marginTop: '6rem' }}
             >
-                <Typography className={style.mainToptic}>
-                    <h2>
-                        การให้บริการของช่างเป็นอย่างไร
-                    </h2>
+                <Typography id='textStarTopic'>
+                    การให้บริการของช่างเป็นอย่างไร
                 </Typography>
-                <Typography className={style.subToptic}>
-                    <h6>
-                        รวมแบ่งปันประสบการณ์ การบริการ
-                        โดยให้คะแนนความพึงพอใจ
-                    </h6>
+                <Typography id='textStarSubTopic'>
+                    รวมแบ่งปันประสบการณ์ การบริการ
+                    โดยให้คะแนนความพึงพอใจ
                 </Typography>
 
                 <Rating
-                    className={style.star}
-                    size="large"
+                    id='rating'
                     value={editDataReview_Rating_Technician}
                     onChange={(event, newValue) => {
                         seteditDataReview_Rating_Technician(newValue);
                     }}
-                    sx={{
-                        fontSize: "6rem",
-                        alignItems: 'center',
-                    }}
+
 
                 />
                 <br />
                 <Container maxWidth="lg" >
-                    <Typography sx={{color:"#ffffff"}}>
-                        <h4>
-                            ช่วยบอกความพึงพอใจกับเรา
-                        </h4>
-
+                    <Typography id='textStarComment'>
+                        ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <TextField
-                        id="commentRating1"
+                        id="textfieldComment"
                         multiline
                         rows={3}
                         fullWidth
-                        variant="filled"
-                        helperText="เช่น การให้บริการยอดเยี่ยม"
-                        sx={{ marginBottom: 5, input: { color: 'red' } }}
-                        inputProps={{ style: { color: "#ffffff" } }}
+                        variant="standard"
+                        InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
                         defaultValue=""
                         value={editDataReview_Comment_Technician}
                         onChange={handleInputChangeCommentTechnician}
 
                     />
+                    <Typography id='textStarCommentHelp'>
+                        เช่น การให้บริการยอดเยี่ยม
+                    </Typography>
                 </Container>
             </Box>
             <Container
@@ -264,11 +243,11 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                     <Grid container sx={{ marginTop: 4, marginBottom: 10 }}>
                         <Grid item xs={4}>
                             <Button
+                                id='BTpageEditReview'
                                 variant="contained"
                                 className={style.btBack}
                                 fullWidth
                                 color="error"
-                                // disabled={activeStep === 0}
                                 onClick={handleBack}
                                 sx={{ mr: 1 }}
                             >
@@ -280,6 +259,7 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                         </Grid>
                         <Grid item xs={4}>
                             <Button
+                                id='BTpageEditReview'
                                 variant="contained"
                                 fullWidth
                                 onClick={submitEdit}
@@ -292,7 +272,7 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                 </Box>
                 <br />
             </Container>
-        </Container>
+        </Box>
 
 
 
