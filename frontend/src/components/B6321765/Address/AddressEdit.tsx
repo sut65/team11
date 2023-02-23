@@ -14,14 +14,13 @@ import { AddressTypeInterface } from "../../../interfaces/AddressUI";
 import dayjs, { Dayjs } from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
-let Address_ID: string;
 function getsetAddressID(id: string) {
-  Address_ID = id;
+    localStorage.setItem('Address_ID', id);
 } export { getsetAddressID }
 
 function AddressEdit() {
 
-    let add_id = Address_ID;
+    let add_id = localStorage.getItem('Address_ID') || '';
     const userID = parseInt(localStorage.getItem("uid") + "");
     const navigate = useNavigate();
 
