@@ -69,6 +69,7 @@ async function SignInAd(data: any) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uid", res.data.id);
         localStorage.setItem("role", res.data.role);
+        localStorage.setItem("name", res.data.name);
         return res.data;
       } else {
         return false;
