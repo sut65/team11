@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Delete, Edit } from '@mui/icons-material';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import "../CSS/payment.css";
+import "../CSS/PAY_and_CHECKED.css";
 import Pagination from '@mui/material/Pagination';
 import { Checked_paymentInterface } from '../../../interfaces/Checked_paymentUI';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -71,13 +71,13 @@ function Table_Payment_show() {
   const columns: GridColDef[] = [
 
 
-    //{ field: "ID", headerName: "Payment ID", width: 100, headerClassName: 'super-app-theme--header' },
+    //{ field: "ID", headerName: "Payment ID", width: 100, headerClassName:'title_table',cellClassName:"cell_table" },
     {
       field: 'แก้ไข',
       headerName: '',
       width: 95,
       editable: false,
-      headerClassName: 'super-app-theme--header',
+      headerClassName:'title_table',cellClassName:"cell_table",
       renderCell: (params: GridRenderCellParams) => {
 
         const handleClick = () => {
@@ -88,6 +88,7 @@ function Table_Payment_show() {
         return (
           <Button variant="contained" onClick={handleClick} component={RouterLink} to="/EditPayment"
             disabled={params.row.Status_ID != 3 && params.row.Status_ID != 1}
+            id = 'font_style'
             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#F99417' }} >
             {<Edit />}แก้ไข
           </Button>
@@ -99,7 +100,7 @@ function Table_Payment_show() {
       headerName: '',
       width: 95,
       editable: false,
-      headerClassName: 'super-app-theme--header',
+      headerClassName:'title_table',cellClassName:"cell_table",
       renderCell: (params: GridRenderCellParams) => {
 
         const handleClick = () => {
@@ -158,6 +159,7 @@ function Table_Payment_show() {
         };
         return (
           <Button variant="contained" onClick={handleClick}
+            id = 'font_style'
             disabled={params.row.Status_ID != 3 && params.row.Status_ID != 1}
             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
             {<Delete />}ลบ
@@ -173,7 +175,7 @@ function Table_Payment_show() {
       headerName: 'ข้อความ',
       width: 100,
       editable: false,
-      headerClassName: 'super-app-theme--header',
+      headerClassName:'title_table',cellClassName:"cell_table",
       align: 'center',
       renderCell: (params: GridRenderCellParams) => {
 
@@ -219,13 +221,13 @@ function Table_Payment_show() {
     },
 
     {
-      field: "OrderID", headerName: "OrderID", width: 70, headerClassName: 'super-app-theme--header', renderCell: params => {
+      field: "OrderID", headerName: "OrderID", width: 70, headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
         return <div>{params.row.OrderTech.ID}</div>
       }
     },
-    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200, headerClassName: 'super-app-theme--header', },
+    { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200, headerClassName:'title_table',cellClassName:"cell_table", },
     {
-      field: "Status_ID", headerName: "สถานะการชำระเงิน", width: 200, headerClassName: 'super-app-theme--header'
+      field: "Status_ID", headerName: "สถานะการชำระเงิน", width: 200, headerClassName:'title_table',cellClassName:"cell_table"
       , renderCell: params => {
 
         if (params.row.Status_ID === 1) {
@@ -240,7 +242,7 @@ function Table_Payment_show() {
       }
     },
     {
-      field: "Bank_ID", headerName: "ธนาคาร", width: 140, headerClassName: 'super-app-theme--header'
+      field: "Bank_ID", headerName: "ธนาคาร", width: 140, headerClassName:'title_table',cellClassName:"cell_table"
       , renderCell: params => {
 
         if (params.row.Bank_ID === 1) {
@@ -256,10 +258,10 @@ function Table_Payment_show() {
         }
       }
     },
-    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100, headerClassName: 'super-app-theme--header', },
-    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120, headerClassName: 'super-app-theme--header', },
+    { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100, headerClassName:'title_table',cellClassName:"cell_table", },
+    { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120, headerClassName:'title_table',cellClassName:"cell_table", },
     {
-      field: "Date_time", headerName: "วันที่โอนเงิน", width: 180, headerClassName: 'super-app-theme--header'
+      field: "Date_time", headerName: "วันที่โอนเงิน", width: 180, headerClassName:'title_table',cellClassName:"cell_table"
       , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
     },
     

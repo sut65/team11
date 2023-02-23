@@ -3,7 +3,7 @@ import Check_Table_Payment_show from './Table_CheckedPayment_show';
 import Table_Payment_for_Checked from './Table_Payment_for_Checked';
 
 import React from 'react';
-
+import "../CSS/PAY_and_CHECKED.css";
 import TabsUnstyled from '@mui/base/TabsUnstyled';
 import TabsListUnstyled from '@mui/base/TabsListUnstyled';
 import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
@@ -17,7 +17,7 @@ function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
   //===================================================================================================================================
 
   const Tab = styled(TabUnstyled)`
-    font-family: IBM Plex Sans, sans-serif;
+    font-family: Noto Sans Thai;
     color: white;
     cursor: pointer;
     font-size: 1rem;
@@ -38,7 +38,7 @@ function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
 
   const TabPanel = styled(TabPanelUnstyled)`
     width: 100%;
-    font-family: IBM Plex Sans, sans-serif;
+    font-family: Noto Sans Thai;
     font-size: 0.875rem;
   `;
 
@@ -69,7 +69,7 @@ function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
               //align="center"
               fontFamily="Arial"
             >
-              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} >
+              <b id="Topic_font" >
                 <br />
                 ระบบตรวจสอบการชำระเงิน
               </b>
@@ -108,7 +108,7 @@ function show_Payment_not_check() {
       <Grid item xs={12} style={{ backgroundColor: '#091926' }}>
         <center>
           <Typography component="h3" variant="h6" gutterBottom fontFamily="Arial" >
-            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} > ------------ รายการที่ยังไม่ตรวจสอบ ------------ </b>
+            <b id="Topic_font" > ------------ รายการที่ยังไม่ตรวจสอบ ------------ </b>
           </Typography>
         </center>
       </Grid>
@@ -128,7 +128,7 @@ function show_all_CheckedPayment() {
       <Grid item xs={12} style={{ backgroundColor: '#091926' }}>
         <center>
           <Typography component="h3" variant="h6" gutterBottom fontFamily="Arial" >
-            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} > ------------ รายการตรวจสอบทั้งหมด ------------ </b>
+            <b id="Topic_font" > ------------ รายการตรวจสอบทั้งหมด ------------ </b>
           </Typography>
         </center>
       </Grid>

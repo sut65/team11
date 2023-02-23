@@ -53,12 +53,14 @@ function Table_Payment_for_Checked() {
 
     //ฟังก์ชัน สำหรับ Datagrid
     const columns: GridColDef[] = [
-        {
+        {   
             field: 'ตรวจสอบ',
             headerName: '',
+            headerClassName:"title_table",
+            cellClassName:"cell_table",
             width: 150,
             editable: false,
-            headerClassName: 'super-app-theme--header',
+            // headerClassName: 'super-app-theme--header',
             renderCell: (params: GridRenderCellParams) => {
 
                 // const [OrderTech_ID, setOrderTech_ID] = useState(9999);
@@ -71,24 +73,22 @@ function Table_Payment_for_Checked() {
                 };
                 return (
                     <RouterLink to={`/Checked_payment`} style={{ textDecoration: 'none' }}>
-                    <Button id= "btn_checked"
-                    variant="contained" onClick={handleClick}
-                        sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#009a00' }} >
+                    <Button id= "btn_green_table" variant="contained" onClick={handleClick} >                            
                         {<PlagiarismIcon />}ตรวจสอบ
                     </Button>
                     </RouterLink>
                 );
             }
         },
-        { field: "ID", headerName: "PaymentID", width: 100 ,headerClassName: 'super-app-theme--header',},
+        { field: "ID", headerName: "PaymentID" ,headerClassName:'title_table',cellClassName:"cell_table", width: 100},
         {
-            field: "OrderID", headerName: "OrderTechID", width: 100,headerClassName: 'super-app-theme--header', renderCell: params => {
+            field: "OrderID", headerName: "OrderTechID", width: 100,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
                 return <div>{params.row.OrderTech.ID}</div>
             }
         },
-        { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน", width: 200 ,headerClassName: 'super-app-theme--header',},
+        { field: "Sender_Name", headerName: "ชื่อผู้โอนเงิน",headerClassName:'title_table',cellClassName:"cell_table", width: 200 },
         {
-            field: "Bank_ID", headerName: "ธนาคาร", width: 140,headerClassName: 'super-app-theme--header'
+            field: "Bank_ID", headerName: "ธนาคาร", width: 140,headerClassName:'title_table',cellClassName:"cell_table"
             , renderCell: params => {
 
                 if (params.row.Bank_ID === 1) {
@@ -104,14 +104,14 @@ function Table_Payment_for_Checked() {
                 }
             }
         },
-        { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100 ,headerClassName: 'super-app-theme--header',},
-        { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120 ,headerClassName: 'super-app-theme--header',},
+        { field: "Amount", headerName: "ยอดเงินที่โอน", width: 100 ,headerClassName:'title_table',cellClassName:"cell_table",},
+        { field: "Amount_Check", headerName: "ยอดที่ต้องโอนเงิน", width: 120 ,headerClassName:'title_table',cellClassName:"cell_table",},
         {
-            field: "Date_time", headerName: "วันที่โอนเงิน", width: 200,headerClassName: 'super-app-theme--header'
+            field: "Date_time", headerName: "วันที่โอนเงิน", width: 200,headerClassName:'title_table',cellClassName:"cell_table"
             , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
         },
         {
-            field: "Status_ID", headerName: "สถานะ", width: 200 ,headerClassName: 'super-app-theme--header'
+            field: "Status_ID", headerName: "สถานะ", width: 200 ,headerClassName:'title_table',cellClassName:"cell_table"
             , renderCell: params => {
 
                 if (params.row.Status_ID === 1) {
@@ -145,6 +145,7 @@ function Table_Payment_for_Checked() {
                 rowsPerPageOptions={[50]}
                 components={{ Toolbar: GridToolbar, Pagination: CustomPagination,}}
                 style={{ height: '500px',outline: '3px solid #db36a4', borderRadius: '25px'  }}
+                
             />
         </div>
     )

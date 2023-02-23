@@ -48,11 +48,11 @@ function Table_Paytech_show() {
     //ฟังก์ชัน สำหรับ Datagrid
     const columns: GridColDef[] = [
         {
-            field: 'action1',
+            field: 'ชำระ',
             headerName: '',
             width: 150,
             editable: false,
-            headerClassName: 'super-app-theme--header',
+            headerClassName:'title_table',cellClassName:"cell_table",
             renderCell: (params: GridRenderCellParams) => {
 
                 // const [OrderTech_ID, setOrderTech_ID] = useState(9999);
@@ -66,37 +66,37 @@ function Table_Paytech_show() {
                 };
                 return (
                     <RouterLink to={`/Payment`} style={{ textDecoration: 'none' }}>
-                        <Button id= "btn_pay"
+                        <Button id= "btn_green_table"
                         variant="contained" onClick={handleClick}
                             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#009a00' }} >
-                            {<LocalAtmIcon />}ชำระเงิน
+                            {<LocalAtmIcon />} ชำระเงิน
                         </Button>
                     </RouterLink>
                 );
             }
         },
         //{ field: "ID", headerName: "OrderTechID", width: 100 },
-        { field: "OrderID", headerName: "OrderID", width: 70 ,headerClassName: 'super-app-theme--header'},
+        { field: "OrderID", headerName: "OrderID", width: 70 ,headerClassName:'title_table',cellClassName:"cell_table"},
         //{ field: "TimeOut", headerName: "Time out", width: 100 },
 
         {
-            field: "ID", headerName: "ปัญหาที่พบ", width: 200,headerClassName: 'super-app-theme--header', renderCell: params => {
+            field: "ID", headerName: "ปัญหาที่พบ", width: 200,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
                 return <div>{params.row.ORDER.Reason} </div>
             }
         },
-        { field: "Solving", headerName: "Solving", width: 200,headerClassName: 'super-app-theme--header' },
+        { field: "Solving", headerName: "Solving", width: 200,headerClassName:'title_table',cellClassName:"cell_table" },
         {
-            field: "StatusID", headerName: "Status", width: 120,headerClassName: 'super-app-theme--header', renderCell: params => {
+            field: "StatusID", headerName: "Status", width: 120,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
                 return <div>{params.row.Status.StatusName}</div>
             }
         },
         {
-            field: "DamageID", headerName: "ระดับความรุนแรง", width: 150,headerClassName: 'super-app-theme--header', renderCell: params => {
+            field: "DamageID", headerName: "ระดับความรุนแรง", width: 150,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
                 return <div>{params.row.Damage.DamageName}</div>
             }
         },
         {
-            field: "TechnicianID", headerName: "ช่างผู้ซ่อม", width: 210,headerClassName: 'super-app-theme--header', renderCell: params => {
+            field: "TechnicianID", headerName: "ช่างผู้ซ่อม", width: 210,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
                 return <div>{params.row.Technician.Name}</div>
             }
         },

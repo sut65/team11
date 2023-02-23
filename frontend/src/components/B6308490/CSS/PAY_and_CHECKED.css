@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@200;400;600;800&display=swap');
+
+p {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  color: #000;
+}
+
+.swal2-confirm {
+  background-color: #008b1e !important;
+}
+
+.swal2-cancel {
+  background-color: #dc0707 !important;
+}
+
+.bg_tab {
+  background-color: linear-gradient(#0071e5, #00c9b1)
+}
+
+#Topic_font {
+  font-family: 'Noto Sans Thai';
+  color: #FFFFFF;
+}
+
+#black_font {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#font_style {
+  font-family: 'Noto Sans Thai';
+}
+
+/*=======================================Table-Datagrid=================================================*/
+.title_table {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+  background-color: #D4E3A9;
+}
+
+.cell_table {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+/*======================================= ปุ่มกด =================================================*/
+#btn_green {
+  font-family: 'Noto Sans Thai';
+  background-color: #009a00;
+  cursor: 'pointer';
+  font-size: 17;
+  box-shadow: 6px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#btn_green {
+  font-family: 'Noto Sans Thai';
+  background-color: #009a00;
+  cursor: 'pointer';
+  font-size: 17;
+  box-shadow: 6px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#btn_green_table {
+  font-family: 'Noto Sans Thai';
+  background-color: #009a00;
+  cursor: 'pointer';
+  font-size: 17;
+}
+
+#btn_orange_table {
+  font-family: 'Noto Sans Thai';
+  background-color: #F99417;
+  cursor: 'pointer';
+  font-size: 17;
+}
+
+#btn_orange {
+  font-family: 'Noto Sans Thai';
+  background-color: #F99417;
+  cursor: 'pointer';
+  font-size: 17;
+  box-shadow: 6px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#btn_red {
+  font-family: 'Noto Sans Thai';
+  background-color: #FF3222;
+  cursor: 'pointer';
+  font-size: 17;
+
+}
+
+#btn_back {
+  font-family: 'Noto Sans Thai';
+  background-color: #9f39ff;
+  cursor: 'pointer';
+  font-size: 17;
+  box-shadow: 6px 4px 8px rgba(0, 0, 0, 0.5);
+  width: 120px;
+  height: 50px;
+
+
+}
+
+/*======================================= โชว์ใน CheckedPayment =================================================*/
+/* #P_for_show{
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50;
+    background-color:#FFFFFF;
+    font-size: 35;
+    font-family: 'Noto Sans Thai';
+    color: #000000;
+  } */
+
+/*=============================================ตรวจสอบการชำระเงิน================================================== */
+#editcheck_combo {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#Other {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#Message {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#datetime-local {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#font_for_show_details {
+  font-family: 'Noto Sans Thai';
+  color: #C0DEFF;
+  text-Align: right;
+  font-size: 15px;
+}
+
+/*============================================= ชำระเงิน ================================================== */
+#combo_bank {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#combo {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+  text-align: center;
+}
+
+#Sender_name {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#Amount {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+#datetime-local {
+  font-family: 'Noto Sans Thai';
+  color: #000000;
+}
+
+/* 
+
+  #font_for_show_details{
+    font-family: 'Noto Sans Thai';
+    color: #C0DEFF;
+    text-Align: right;
+    font-size: 15px;
+  } */
