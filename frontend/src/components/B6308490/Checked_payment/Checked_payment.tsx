@@ -5,17 +5,28 @@ import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface,} from "../../../interfaces/PaymentUI";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import ResponsiveAppBar from '../../Bar_01';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "../CSS/PAY_and_CHECKED.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 import { color } from "@mui/system";
+
+import {DateTimePicker, DateTimePickerTabs,DateTimePickerTabsProps,} from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+
+const CustomTabs = (props: DateTimePickerTabsProps) => (
+  <React.Fragment >
+    <DateTimePickerTabs {...props} />
+    <Box sx={{ backgroundColor: 'blueviolet', height: 5 }} />
+  </React.Fragment>
+);
 
 
 
@@ -390,20 +401,23 @@ function Checked_payment() {
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
-        <Stack component="form" noValidate spacing={3}>
-          <TextField
-            id="datetime-local"
-            type="datetime-local"
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+            renderInput={(params) => <TextField {...params} />}
             value={Date_time ? dayjs(Date_time).format('YYYY-MM-DDTHH:mm') : ''}
-            onChange={(e) => {
-              setDate(dayjs(e.target.value));
+            onChange={(newValue) => {
+              setDate(dayjs(newValue));
             }}
-            sx={{ width: '100%' }}
-            InputLabelProps={{
-              shrink: true,
+            hideTabs={false}
+            components={{ Tabs: CustomTabs }}
+            componentsProps={{
+              tabs: {
+                dateRangeIcon: <CalendarMonthOutlinedIcon />,
+                timeIcon: <QueryBuilderOutlinedIcon />,
+              },
             }}
           />
-        </Stack>
+        </LocalizationProvider>
       </FormControl>
     );
   }

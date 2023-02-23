@@ -12,6 +12,20 @@ import "../CSS/PAY_and_CHECKED.css";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 
+import {DateTimePicker, DateTimePickerTabs,DateTimePickerTabsProps,} from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+
+const CustomTabs = (props: DateTimePickerTabsProps) => (
+  <React.Fragment >
+    <DateTimePickerTabs {...props} />
+    <Box sx={{ backgroundColor: 'blueviolet', height: 5 }} />
+  </React.Fragment>
+);
+
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array | any) => {
   let val = typeof data === "string" ? parseInt(data) : data;
@@ -432,20 +446,23 @@ function Payment() {
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
-        <Stack component="form" noValidate spacing={3}>
-          <TextField
-            id="datetime-local"
-            type="datetime-local"
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+            renderInput={(params) => <TextField {...params} />}
             value={Date_time ? dayjs(Date_time).format('YYYY-MM-DDTHH:mm') : ''}
-            onChange={(e) => {
-              setDate(dayjs(e.target.value));
+            onChange={(newValue) => {
+              setDate(dayjs(newValue));
             }}
-            sx={{ width: '100%' }}
-            InputLabelProps={{
-              shrink: true,
+            hideTabs={false}
+            components={{ Tabs: CustomTabs }}
+            componentsProps={{
+              tabs: {
+                dateRangeIcon: <CalendarMonthOutlinedIcon />,
+                timeIcon: <QueryBuilderOutlinedIcon />,
+              },
             }}
           />
-        </Stack>
+        </LocalizationProvider>
       </FormControl>
     );
   }

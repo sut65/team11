@@ -19,8 +19,29 @@ import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
 import PictureBank from "..//Photo/PictureBank.png"
 
+
+
+
+import {DateTimePicker, DateTimePickerTabs,DateTimePickerTabsProps,} from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+
+const CustomTabs = (props: DateTimePickerTabsProps) => (
+  <React.Fragment >
+    <DateTimePickerTabs {...props} />
+    <Box sx={{ backgroundColor: 'blueviolet', height: 5 }} />
+  </React.Fragment>
+);
+
+
+
+
+
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
-const convertType = (data: string | number | undefined | Float32Array |any) => {
+const convertType = (data: string | number | undefined | Float32Array | any) => {
   let val = typeof data === "string" ? parseInt(data) : data;
   return val;
 };
@@ -134,7 +155,7 @@ function Payment() {
           });
 
           localStorage.removeItem('Ordertech_ID');
-          setTimeout(() => { window.location.href = "/PaymentShow";  }, 3000);
+          setTimeout(() => { window.location.href = "/PaymentShow"; }, 3000);
 
         } else {
           Swal.fire({
@@ -220,7 +241,7 @@ function Payment() {
       });
   };
 
-  
+
   const getUser = async () => {
     const apiUrl = `http://localhost:8080/user/${userID}`;
     const requestOptions = {
@@ -247,9 +268,9 @@ function Payment() {
 
   //////////////////////////////////////////////////////////////////////////////-_ ส่วนนี้คือส่วนที่กำหนด UI _-////////////////////////////////////////////////////////////////////////////////////////////////
   return (
-    <Paper style={{ backgroundColor: "rgb(0,0,0,0.4)" ,borderRadius: '35px'}} >
+    <Paper style={{ backgroundColor: "rgb(0,0,0,0.4)", borderRadius: '35px' }} >
       <Container maxWidth="xl">
-        
+
         {/* เริ่มส่วนของหน้าเว็ป */}
 
         <Box sx={{ maginX: 0, maginY: 0 }}>
@@ -264,42 +285,42 @@ function Payment() {
             >
               <b id='Topic_font'><br />
                 ระบบชำระเงิน
-              </b><br/>
+              </b><br />
 
             </Typography>
           </center>
         </Box>
 
-       
-       <Container style={{ backgroundColor: "rgb(255,255,255,0.2)" ,borderRadius: '35px'}}>
-        <br /><br />
-        {show_Amout_check()}
-        <br /><br />
-        <Grid container spacing={3}>
-          {/*แบ่งซ้ายมือให้กับรูปภาพ*/}
-          <Grid item xs={4}>
-            <Item style={{ backgroundColor: "rgb(255,255,255,0.6)" ,borderRadius: '20px'}}>
-              <img src={PictureBank} alt="PictureBank" width="100%" height="100%" /> 
-            </Item>
-          </Grid>
-          {/*แบ่งกลางให้กับข้อความ*/}
-          <Grid item xs={2} >
-            <Item2 ><center> <P2 id='black_font'>หมายเลข Order</P2> </center></Item2><br />
-            <Item2 ><center> <P2 id='black_font'>ชื่อผู้โอนเงิน</P2> </center></Item2><br />
-            <Item2 ><center> <P2 id='black_font'>ธนาคาร</P2> </center></Item2><br />
-            <Item2 ><center> <P2 id='black_font'>ยอดเงินที่โอนเข้า</P2> </center></Item2><br />
-            <Item2 ><center> <P2 id='black_font'>วันเวลาที่ทำการ</P2> </center></Item2><br />
-          </Grid>
-          {/*แบ่งขวาให้กับข้อมูล*/}
-          <Grid item xs={6}>
 
-            <Item>{taxtfield_Order()}</Item><br/>
-            <Item>{taxtfield_namesender()}</Item><br/>
-            <Item>{Combo_Bank()}</Item><br/>
-            <Item>{taxtfield_Amount()}</Item><br/>
-            <Item>{Datetime()}</Item><br/><br/>
+        <Container style={{ backgroundColor: "rgb(255,255,255,0.2)", borderRadius: '35px' }}>
+          <br /><br />
+          {show_Amout_check()}
+          <br /><br />
+          <Grid container spacing={3}>
+            {/*แบ่งซ้ายมือให้กับรูปภาพ*/}
+            <Grid item xs={4}>
+              <Item style={{ backgroundColor: "rgb(255,255,255,0.6)", borderRadius: '20px' }}>
+                <img src={PictureBank} alt="PictureBank" width="100%" height="100%" />
+              </Item>
+            </Grid>
+            {/*แบ่งกลางให้กับข้อความ*/}
+            <Grid item xs={2} >
+              <Item2 ><center> <P2 id='black_font'>หมายเลข Order</P2> </center></Item2><br />
+              <Item2 ><center> <P2 id='black_font'>ชื่อผู้โอนเงิน</P2> </center></Item2><br />
+              <Item2 ><center> <P2 id='black_font'>ธนาคาร</P2> </center></Item2><br />
+              <Item2 ><center> <P2 id='black_font'>ยอดเงินที่โอนเข้า</P2> </center></Item2><br />
+              <Item2 ><center> <P2 id='black_font'>วันเวลาที่ทำการ</P2> </center></Item2><br />
+            </Grid>
+            {/*แบ่งขวาให้กับข้อมูล*/}
+            <Grid item xs={6}>
+
+              <Item>{taxtfield_Order()}</Item><br />
+              <Item>{taxtfield_namesender()}</Item><br />
+              <Item>{Combo_Bank()}</Item><br />
+              <Item>{taxtfield_Amount()}</Item><br />
+              <Item>{Datetime()}</Item><br /><br />
+            </Grid>
           </Grid>
-        </Grid>
         </Container>
         <br /><br />
         {button_submit_back()}
@@ -387,10 +408,10 @@ function Payment() {
   }
   function show_Amout_check() {
     return (
-      <Grid container spacing={1} style={{ backgroundColor: "rgb(0,0,0,0.4)" ,borderRadius: '25px'}}>
+      <Grid container spacing={1} style={{ backgroundColor: "rgb(0,0,0,0.4)", borderRadius: '25px' }}>
         <Grid item xs={12}></Grid>
         <Grid item xs={5}>
-          <h2 id='Topic_font' style={{textAlign:"right"}}>ยอดเงินที่ต้องชำระ</h2>
+          <h2 id='Topic_font' style={{ textAlign: "right" }}>ยอดเงินที่ต้องชำระ</h2>
         </Grid>
 
         <Grid item xs={2}>
@@ -409,32 +430,35 @@ function Payment() {
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
-        <Stack component="form" noValidate spacing={3}>
-          <TextField
-            id="datetime-local"
-            type="datetime-local"
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+            renderInput={(params) => <TextField {...params} />}
             value={Date_time ? dayjs(Date_time).format('YYYY-MM-DDTHH:mm') : ''}
-            onChange={(e) => {
-              setDate(dayjs(e.target.value));
+            onChange={(newValue) => {
+              setDate(dayjs(newValue));
             }}
-            sx={{ width: '100%' }}
-            InputLabelProps={{
-              shrink: true,
+            hideTabs={false}
+            components={{ Tabs: CustomTabs }}
+            componentsProps={{
+              tabs: {
+                dateRangeIcon: <CalendarMonthOutlinedIcon />,
+                timeIcon: <QueryBuilderOutlinedIcon />,
+              },
             }}
           />
-        </Stack>
+        </LocalizationProvider>
       </FormControl>
     );
   }
   function button_submit_back() {
     return (
       <Grid item xs={12}>
-        <Button  id='btn_back' size="large" component={RouterLink} to="/PaymentShow" variant="contained"  >
+        <Button id='btn_back' size="large" component={RouterLink} to="/PaymentShow" variant="contained"  >
           <b> ย้อนกลับ </b>
         </Button>
         <Button
-          id= 'btn_green'
-          style={{ float: "right" ,width: '150px',height:'50px'}}
+          id='btn_green'
+          style={{ float: "right", width: '150px', height: '50px' }}
           onClick={submit}
           variant="contained"
           size="large"
