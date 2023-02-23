@@ -66,7 +66,10 @@ function RefundCreate() {
     const [error, setError] = React.useState(false);
 
     const userID = parseInt(localStorage.getItem("uid") + "");
+    const OrderIDLocal = (localStorage.getItem("localOrderID") + "");
     const [userName, setUserName] = useState('');
+    console.log("OrderIDLocal::::::",OrderIDLocal);
+    
   
     ////////////////////////////////////////////////////////////////////////////////////
 
@@ -106,10 +109,10 @@ function RefundCreate() {
     const onChangeContact = (event: SelectChangeEvent) => {
         setContact_ID(event.target.value as string);
     };
-    const onChangeOrder = (event: SelectChangeEvent) => {
-        setOrder_ID(event.target.value as string);
-        GetOrderID();
-    };
+    // const onChangeOrder = (event: SelectChangeEvent) => {
+    //     setOrder_ID(event.target.value as string);
+    //     GetOrderID();
+    // };
 
     ///////////////////////////////////////////////////////////////
 
@@ -124,20 +127,20 @@ function RefundCreate() {
 
         CauseID: convertType(Cause_ID),
         ContactID: convertType(Contact_ID),
-        OrderID: convertType(Order_ID),
+        OrderID: convertType(OrderIDLocal),
         CustomerID: convertType(userID),
         Date_time: Date_time,
         Refund_Cause: Refund_Cause,
         Refund_Contact: Refund_Contact,
-        StateID: 3,
+        StateID: 8,
 
     };
 
 
         let data2 = {
 
-        ID: convertType(Order_ID),
-        StateID: 5,
+        ID: convertType(OrderIDLocal),
+        StateID: 8,
 
     };
 
@@ -163,6 +166,16 @@ function RefundCreate() {
             //text: '',
             icon: 'success'
           });
+          console.log(res.data)
+          setRefund({});
+          setDate(null);
+          setCause_ID("");
+          setContact_ID("");
+          setOrder_ID("");
+
+          setRefundCause("");
+          setRefundContact("");
+
         } else {
           console.log(res.data)
           Swal.fire({
@@ -195,40 +208,40 @@ function RefundCreate() {
     });
 
     // reset All after Submit
-    setRefund({});
-    setDate(null);
-    setCause_ID("");
-    setContact_ID("");
-    setOrder_ID("");
+    // setRefund({});
+    // setDate(null);
+    // setCause_ID("");
+    // setContact_ID("");
+    // setOrder_ID("");
 
-    setRefundCause("");
-    setRefundContact("");
+    // setRefundCause("");
+    // setRefundContact("");
 
  }
 
- const [Order, setOrder] = React.useState<any[]>([]); //useStateเรียกทุกตัวมาใช้
+//  const [Order, setOrder] = React.useState<any[]>([]); //useStateเรียกทุกตัวมาใช้
 
- const getOrder = async () => {
-   const apiUrl1 = "http://localhost:8080/GetListOrder";
-   const requestOptions1 = {
-     method: "GET",
-     headers: { "Content-Type": "application/json" },
-   };
-   fetch(apiUrl1, requestOptions1)
-     .then((response) => response.json())
-     .then((res) => {
-       if (res.data) {
+//  const getOrder = async () => {
+//    const apiUrl1 = `http://localhost:8080/GetListOrder`;
+//    const requestOptions1 = {
+//      method: "GET",
+//      headers: { "Content-Type": "application/json" },
+//    };
+//    fetch(apiUrl1, requestOptions1)
+//      .then((response) => response.json())
+//      .then((res) => {
+//        if (res.data) {
 
-         setOrder(res.data);
-         // console.log(res.data);
-         GetOrderID();
+//         //  setOrder(res.data);
+//          // console.log(res.data);
+//          GetOrderID();
 
 
-       } else {
-         console.log("else");
-       }
-     });
- };
+//        } else {
+//          console.log("else");
+//        }
+//      });
+//  };
 
  const [Cause, setCause] = React.useState<CauseInterface[]>([]);
  const getCause = async () => {
@@ -270,23 +283,23 @@ function RefundCreate() {
       });
   };
 
-  const GetOrderID = async () => {
-    const apiUrl1 = `http://localhost:8080/GetOrder/${userID}`;
-    const requestOptions1 = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    fetch(apiUrl1, requestOptions1)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
+  // const GetOrderID = async () => {
+  //   const apiUrl1 = `http://localhost:8080/GetOrder/${userID}`;
+  //   const requestOptions1 = {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   fetch(apiUrl1, requestOptions1)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //           setOrder(res.data);
+  //           console.log(res.data);
 
-            console.log(res.data);
-
-        }
-      });
-      console.log('-------------------------------------',Order_ID)
-  };
+  //       }
+  //     });
+  //     console.log('-------------------------------------',Order_ID)
+  // };
 
       const getUser = async () => {
         const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
@@ -307,8 +320,8 @@ function RefundCreate() {
     getUser();
     getCause();
     getContact();
-    getOrder();
-   GetOrderID();
+  //   getOrder();
+  //  GetOrderID();
 
   }, [Order_ID]);
 
@@ -338,26 +351,31 @@ function RefundCreate() {
                 ORDER
             </div>
             <div className="bottom">
-            <Paper style={{ backgroundColor: "#FFFFF" , width: 380}}>
-              <FormControl fullWidth variant="outlined">
-                <Select
-                  native
-                  value={Order_ID}
-                  onChange={onChangeOrder}
-                  inputProps={{
-                    name: "Order_ID",
-                  }}
-                >
-                  <option aria-label="None" value="">
-                    กรุณาเลือกออเดอร์
-                  </option>
-                  {Order.map((item) => (
-                    <option value={item.ID} key={item.ID}>
-                       Order-ID : {item.ID}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
+            <Paper style={{ backgroundColor: "#FFFFF" }}>
+              <Typography align="center" fontSize={50}>
+                <FormControl fullWidth variant="outlined">
+                  <Select
+                    native
+                    disabled
+                    value={OrderIDLocal}
+                    sx={{ width: 300 }}
+                    // onChange={onChangeOrder}
+                    inputProps={{
+                      name: "OrderIDLocal",
+                    }}
+                  >
+                    <option value = {OrderIDLocal}
+                            key={OrderIDLocal}>
+                              Order-ID : {OrderIDLocal}
+                            </option>
+                    {/* {OrderIDLocal => (
+                      <option value={item.ID} key={item.ID}>
+                        Order-ID : {item.ID}
+                      </option>
+                    ))} */}
+                  </Select>
+                </FormControl>
+                </Typography>
               </Paper>
             </div>
         </div>

@@ -69,7 +69,9 @@ function OrderUpdate() {
     const [Order, setOrder] = React.useState<Partial<ORDERInterface>>({});
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
-
+    
+    
+    const OIDL = parseInt(localStorage.getItem("OrderIDLocalForOrder") + "");
     const userID = parseInt(localStorage.getItem("uid") + "");
     const [userName, setUserName] = useState('');
 
@@ -139,7 +141,7 @@ function OrderUpdate() {
     function update() {
         let data = {
 
-        ID: convertType(OID),
+        ID: convertType(OIDL),
         CASEID: convertType(Case_ID),
         StateID: 1,
         DeviceID: convertType(Device_ID),
@@ -207,7 +209,7 @@ function OrderUpdate() {
  function cancle() {
   let data = {
 
-  ID: convertType(OID),
+  ID: convertType(OIDL),
   StateID: 2,
 
 };
@@ -254,7 +256,7 @@ setOrder_ID("");
 
  const [orders, setOrders ] = React.useState<ORDERInterface[]>([]);
         const getOrder = async () => {
-            const apiUrl = `http://localhost:8080/GetOrder/${OID}`;
+            const apiUrl = `http://localhost:8080/GetOrder/${OIDL}`;
             const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -435,18 +437,20 @@ setOrder_ID("");
                   <Select
                     native
                     disabled
-                    value={OID}
+                    value={OIDL}
                     sx={{ width: 300 }}
-                    onChange={onChangeOrder}
                     inputProps={{
-                      name: "OID",
+                      name: "OIDL",
                     }}
-                  >
-                    {orders.map((item) => (
+                  >   
+                      <option value={OIDL} key={OIDL}>
+                        Order-ID : {OIDL}
+                      </option>
+                    {/* {orders.map((item) => (
                       <option value={item.ID} key={item.ID}>
                         Order-ID : {item.ID}
-                      </option>
-                    ))}
+                      </option> */}
+                    
                   </Select>
                 </FormControl>
                 </Typography>

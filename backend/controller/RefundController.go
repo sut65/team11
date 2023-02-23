@@ -137,7 +137,7 @@ func CreateRefund(c *gin.Context) {
 // GET /Refund
 func GetListRefund(c *gin.Context) {
 	var refunds []entity.Refund
-	if err := entity.DB().Preload("ORDER").Preload("ORDER.Customer").Preload("Cause").Preload("Contact").Find(&refunds).Error; err != nil {
+	if err := entity.DB().Preload("ORDER").Preload("ORDER.Customer").Preload("Cause").Preload("Contact").Preload("ORDER.State").Find(&refunds).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -153,6 +153,16 @@ func GetRefund(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": refund})
+}
+
+func Update_state_Refund_Fin(c *gin.Context) {
+	id := c.Param("id")
+	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 9})
+}
+
+func Update_state_Refund_Rej(c *gin.Context) {
+	id := c.Param("id")
+	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 10})
 }
 
 // DELETE /Address

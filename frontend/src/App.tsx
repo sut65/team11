@@ -111,6 +111,11 @@ const menu = [
     path: "/ClaimOrderForAdmin",
     role: "Admin",
   },
+  {
+    name: "ระบบ show ยกเลิกการแจ้งซ่อม",
+    path: "/RefundShow",
+    role: "Admin",
+  },
 
   // ========== For Customer ========== //
   { name: "หน้าแรก", path: "/", role: "Customer" },
@@ -119,18 +124,12 @@ const menu = [
   { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage", role: "Customer" },
   {
     name: "ระบบการจัดการข้อมูลการแจ้งซ่อม",
-    path: "/OrderCreate",
+    path: "/ShowOrder",
     role: "Customer",
   },
   { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer" },
   { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer" },
   { name: "Show Claim Order", path: "/ShowClaim", role: "Customer" },
-  { name: "ระบบยกเลิกการแจ้งซ่อม", path: "/RefundCreate", role: "Customer" },
-  {
-    name: "ระบบ show ยกเลิกการแจ้งซ่อม",
-    path: "/RefundShow",
-    role: "Customer",
-  },
 ];
 
 function App() {
@@ -331,7 +330,7 @@ function App() {
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
               <Route path="/RefundCreate" element={<RefundCreate />} />
             </Route>
-            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
               <Route path="/RefundShow" element={<RefundShow />} />
             </Route>
           // ========== For Customer ========== // // ========== For Technician

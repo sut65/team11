@@ -246,6 +246,16 @@ func UpdateOrder(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": ad})
 }
 
+func Get_ListOrder_Only_Finish_userID(c *gin.Context) {
+	var Ordersr_Only_Ready []entity.ORDER
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM ORDERS WHERE state_id = 4 AND customer_id = ?", id).Preload("Customer").Preload("Device").Preload("Address").Preload("CASE").Preload("State").Find(&Ordersr_Only_Ready).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": Ordersr_Only_Ready})
+}
+
 // PATCH /Order /Cancel and Refund
 func UpdateOrderCR(c *gin.Context) {
 	var order entity.ORDER
