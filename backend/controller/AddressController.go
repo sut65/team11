@@ -202,6 +202,7 @@ func UpdateAddress(c *gin.Context) {
 	var address entity.Address
 	var addressType entity.AddressType
 	var tambon entity.Tambon
+	var customer entity.Customer
 
 	if err := c.ShouldBindJSON(&address); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -213,6 +214,10 @@ func UpdateAddress(c *gin.Context) {
 	}
 	if tx := entity.DB().Where("id = ?", address.TambonID).First(&tambon); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกตำบล"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", address.CustomerID).First(&customer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
 	if _, err := govalidator.ValidateStruct(address); err != nil {
