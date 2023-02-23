@@ -31,6 +31,25 @@ function OrderShow() {
     //     },
     //     buttonsStyling: true
     //   })
+
+    const [userName, setUserName] = useState('');
+    const userID = parseInt(localStorage.getItem("uid") + "");
+    const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
+
+    const getUser = async () => {
+      const apiUrl = `http://localhost:8080/GetCustomer/${userID}`;
+      const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      };
+      fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+          setUserName(res.data.Name);
+          }
+      });
+  };
     
     const customerID = parseInt(localStorage.getItem("uid") + "");
     const [OrderShow, setOrderShow] = React.useState<ORDERInterface[]>([]);
@@ -61,8 +80,9 @@ function OrderShow() {
             renderCell: (params: GridRenderCellParams) => {
       
               const handleClick = () => {
-                params.api.setRowMode(params.id, 'edit');
-                getsetOrderID(params.id.toString());
+                // params.api.setRowMode(params.id, 'edit');
+                // getsetOrderID(params.id.toString());
+                localStorage.setItem('OrderIDLocalForOrder', params.id.toString());
       
               };
               return (
@@ -90,27 +110,54 @@ function OrderShow() {
           field: "Add_time", headerName: "เวลาที่ให้มาซ่อม", width: 200
           , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
         },
-        { field: "state", headerName: "สถานะ", width: 100 , renderCell:params =>{        
+        { field: "state", headerName: "สถานะ", width: 200 , renderCell:params =>{        
             return <div>{params.row.State.State}</div>
         }},
     ];
 
     useEffect(() => {
         getOrderShow();
+        getUser();
     }, []);
 
     return(
         <Paper style={{backgroundColor:"#182e3e"}}>
-            {/* <ResponsiveAppBar/> */}
-            <Paper sx={{ width: '100%', height: '50vh' }} style={{ backgroundColor: "#FFFFFF" }}  >
-                {datashow()}
-            </Paper>
-            <Grid sx = {{padding : 2}}></Grid>
-            <Button sx={{ backgroundColor: "#C70039" }} component={RouterLink} to="/OrderCreate" variant="contained">
-                ย้อนกลับ
-            </Button>
-            <Grid sx = {{padding : 20}}></Grid>
+
+            <div className="body">
+            <div className="topic">
+              <h1 className="header">ข้อมูลออเดอร์</h1>
+              <div className="info">
+                <ul>
+                    <li>Customer : {userName}</li>
+                    <li>Datetime : {Date_time ? Date_time.format("DD/MM/YYYY HH:mm:ss") : ''}</li>
+                </ul>
+              </div>
+            </div>
+            
+            <hr className="line"/>
+
+            <div className="table">
+              <div className="showTable">
+                  {datashow()}
+              </div>
+            </div>
+            <Grid container spacing={2} sx = {{padding : 2}}>
+              <Grid item xs={10}>
+                <Button sx={{ fontSize: 20, backgroundColor: "#C70039" }} component={RouterLink} to="/" variant="contained">
+                    ย้อนกลับ
+                </Button>
+                </Grid>
+                <Grid item xs={2}>
+                <Button color="success" sx={{fontSize: 20 }} component={RouterLink} to="/OrderCreate" variant="contained">
+                    เพิ่มข้อมูล
+                </Button>
+              </Grid>
+            </Grid>
+        </div>
+        
         </Paper>
+
+        
     )
     function datashow() {
         return (

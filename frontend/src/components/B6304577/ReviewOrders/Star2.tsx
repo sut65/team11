@@ -11,8 +11,9 @@ import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import style from "./style.module.css";
 import TextField from '@mui/material/TextField';
+import { OutlinedInputProps } from '@mui/material';
 
-function Star2({ customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps ,checkedPaymentsAll}: any) {
+function Star2({ customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
     const [hover, setHover] = React.useState(-1);
     const { data2, commentRating2 } = formDataRating
     const handleNext = () => {
@@ -39,58 +40,48 @@ function Star2({ customerName, formDataRating, setFormDataRating, activeStep, se
 
     return (
 
-        <Container
-            maxWidth="md"
+        <Box
+            id='boxstarFrame'
         >
-            <Box sx={{ flexGrow: 1 }}>
+            <Box id='reviewTextInfoFrame'>
                 <Grid container >
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
+                        <Typography id='textInfo_01'>
                             รายการที่แจ้งซ่อม : {checkedPaymentsAll.Payment.OrderTech.ORDER.Reason}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 10, color: "#ffffff" }}>
-                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.CreatedAt).format('DD/MM/YYYY HH:mm:ss ')}
-                        </Typography> 
+                        <Typography id='textInfo_02'>
+                            วันที่แจ้งซ่อม : {dayjs(checkedPaymentsAll.Payment.OrderTech.ORDER.CreatedAt).format('DD/MM/YYYY HH:mm:ss')}
+                        </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
+                        <Typography id='textInfo_03'>
                             ผู้ดำเนินการ : {customerName}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography sx={{ marginTop: 4, color: "#ffffff" }}>
+                        <Typography id='textInfo_04'>
                             วันที่รีวิว : {date.toLocaleString()}
                         </Typography>
                     </Grid>
                 </Grid>
             </Box>
             <Box
-                className={style.boxshadow}
-                sx={{marginTop:10}}
+                id='reviewStarFrame'
+                sx={{ marginTop: 10 }}
             >
-                 <Typography className={style.mainToptic}>
-                    <h2>
-                        การให้บริการของช่างเป็นอย่างไร
-                    </h2>
+                <Typography id='textStarTopic'>
+                    การให้บริการของช่างเป็นอย่างไร
                 </Typography>
-                <Typography className={style.subToptic}>
-                    <h6>
-                        รวมแบ่งปันประสบการณ์ การบริการ
-                        โดยให้คะแนนความพึงพอใจ
-                    </h6>
+                <Typography id='textStarSubTopic'>
+                    รวมแบ่งปันประสบการณ์ การบริการ
+                    โดยให้คะแนนความพึงพอใจ
                 </Typography>
 
                 <Rating
-                    className={style.star}
-                    size="large"
+                    id='rating'
                     value={formDataRating.data2}
-                    sx={{
-                        fontSize: "6rem",
-                        alignItems: 'center',
-
-                    }}
                     onChange={(event, newValue) => {
                         setFormDataRating({ ...formDataRating, data2: newValue });
                     }}
@@ -100,27 +91,24 @@ function Star2({ customerName, formDataRating, setFormDataRating, activeStep, se
                 />
                 <br />
                 <Container maxWidth="lg" >
-                    <Typography sx={{color:"#ffffff"}}>
-                        <h4>
-                            ช่วยบอกความพึงพอใจกับเรา
-                        </h4>
-
+                    <Typography id='textStarComment'>
+                        ช่วยบอกความพึงพอใจกับเรา
                     </Typography>
                     <TextField
-                        id="commentRating1"
+                        id="textfieldComment"
                         multiline
-                        rows={3}
                         fullWidth
-                        variant="filled"
-                        helperText="เช่น การให้บริการยอดเยี่ยม"
-                        sx={{ marginBottom: 5, input: { color: 'red' } }}
-                        inputProps={{ style: { color: "#ffffff" } }}
+                        rows={3}
+                        variant="standard"
+                        InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
                         defaultValue=""
                         value={commentRating2}
                         onChange={(event) =>
                             setFormDataRating(({ ...formDataRating, commentRating2: event.target.value }))}
-
                     />
+                    <Typography id='textStarCommentHelp'>
+                        เช่น การให้บริการยอดเยี่ยม
+                    </Typography>
                 </Container>
             </Box>
             <Container
@@ -131,22 +119,24 @@ function Star2({ customerName, formDataRating, setFormDataRating, activeStep, se
                     <Grid container >
                         <Grid item xs={6}>
                             <Button
+                                id='textInBt'
                                 variant="contained"
                                 fullWidth
-                                color="inherit"
-                                disabled={activeStep === 1}
                                 onClick={handleBack}
-                                sx={{ mr: 1 }}
+                                color="error"
+                                sx={{ mr: 1 ,backgroundColor:"#E96479"}}
                             >
                                 กลับ
                             </Button>
                         </Grid>
                         <Grid item xs={6}>
                             <Button
+                                id='textInBt'
                                 variant="contained"
                                 fullWidth
                                 onClick={activeStep === steps.length ? handleSubmit : handleNext}
-                                color="inherit"
+                                color="primary"
+                                sx={{backgroundColor:"#3795BD"}}
                             >
                                 {activeStep === steps.length ? 'บันทึก' : 'ถัดไป'}
                             </Button>
@@ -185,7 +175,7 @@ function Star2({ customerName, formDataRating, setFormDataRating, activeStep, se
                 </Stepper>
             </Box>
             <br />
-        </Container>
+        </Box>
     );
 
 } export default Star2

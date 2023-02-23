@@ -16,6 +16,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CASEInterface, ORDERInterface } from "../../interfaces/ORDERUI";
 import Swal from 'sweetalert2'
+import { DeviceInterface } from "../../interfaces/IDevice";
+import { AddressInterface } from "../../interfaces/AddressUI";
 
 // const successAlert = () => {
 //   Swal.fire({
@@ -210,11 +212,11 @@ function OrderCreate() {
 
  }
 
- const [Device, setDevice] = React.useState<any[]>([]); //useStateเรียกทุกตัวมาใช้
+ const [Device, setDevice] = React.useState<DeviceInterface[]>([]); //useStateเรียกทุกตัวมาใช้
 
  const getDevice = async () => {
   //  GetDevice();
-   const apiUrl = "http://localhost:8080/GetListDevice";
+   const apiUrl = `http://localhost:8080/GetDeviceBYcustomerID/${userID}`;
    const requestOptions = {
      method: "GET",
      headers: { "Content-Type": "application/json" },
@@ -225,7 +227,7 @@ function OrderCreate() {
        if (res.data) {
 
          setDevice(res.data);
-         // console.log(res.data);
+         console.log(res.data);
          GetDeviceID();
 
 
@@ -235,11 +237,11 @@ function OrderCreate() {
      });
  };
 
- const [Address, setAddress] = React.useState<any[]>([]); //useStateเรียกทุกตัวมาใช้
+ const [Address, setAddress] = React.useState<AddressInterface[]>([]); //useStateเรียกทุกตัวมาใช้
 
  const getAddress = async () => {
   //  GetAddress();
-   const apiUrl = "http://localhost:8080/GetListAddress";
+   const apiUrl = `http://localhost:8080/GetAddressBYcustomerID/${userID}`;
    const requestOptions = {
      method: "GET",
      headers: { "Content-Type": "application/json" },
@@ -371,7 +373,7 @@ function OrderCreate() {
                 อุปกรณ์
             </div>
             <div className="bottom">
-            <Paper style={{ backgroundColor: "#FFFFF" }}>
+            <Paper style={{ backgroundColor: "#FFFFF" , width: 380 }}>
               <Typography align="center" fontSize={50}>
                 <FormControl fullWidth variant="outlined">
                   <Select
@@ -626,27 +628,24 @@ function OrderCreate() {
 
     <hr className="line"/>
 
-    <div className="button">
-      <div className="back-button">
-        <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/" variant="contained"  >
+    <Grid container spacing={2} sx = {{padding : 2}}>
+    <Grid item xs={10}>
+    <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/ShowOrder" variant="contained"  >
             ย้อนกลับ
         </Button>
-      </div>
-      <div className="show-button">
-          <Button sx={{ backgroundColor: "success" }} component={RouterLink} to="/ShowOrder" variant="contained">
-              แสดงข้อมูล
-          </Button>
-      </div>
-      <div className="save-button">
-            <Button
-                variant="contained"
-                color="success"
-                onClick={submit}> บันทึกข้อมูล
-            </Button>
-      </div>
-    </div>
+    </Grid>
+    <Grid item xs={2}>
+    <Button
+            variant="contained"
+            color="success"
+            sx={{fontSize: 20 }}
+            onClick={submit}> บันทึกข้อมูล
+      </Button>
+    </Grid>
+    </Grid>
 
   </div>
+                      
   </Paper>
 );
 

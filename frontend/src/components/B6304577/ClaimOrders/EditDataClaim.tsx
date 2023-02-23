@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import { Link as RouterLink, Route } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormControl, Select, SelectChangeEvent } from '@mui/material';
@@ -19,15 +20,15 @@ import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
 const successAlert = () => {
     Swal.fire({
-        title: 'บันทึกสำเร็จ',
+        title: 'แก้ไขสำเร็จ',
         text: 'You clicked the button.',
         icon: 'success'
-        
+
     });
 }
 const errorAlert = () => {
     Swal.fire({
-        title: 'บันทึกไม่สำเร็จ',
+        title: 'แก้ไขไม่สำเร็จ',
         text: 'You clicked the button.',
         icon: 'error'
     });
@@ -158,8 +159,8 @@ function EditContentClaimOrder() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log("getEditDataClaim:::::",res.data);
-                    console.log(":::::::::::::::::::::",res.data.ClaimTime);
+                    console.log("getEditDataClaim:::::", res.data);
+                    console.log(":::::::::::::::::::::", res.data.ClaimTime);
                     setReviewID(res.data.Review_ID);
                     setDataReason(res.data.Review.Checked_payment.Payment.OrderTech.ORDER.Reason);
                     setdataDateOrder(res.data.Review.Checked_payment.Payment.OrderTech.ORDER.Date_time)
@@ -368,165 +369,162 @@ function EditContentClaimOrder() {
     ];
 
     return (
-        <Paper >
-            <Container sx={{ background: "#ffffff" }}>
-                <Box
-                    sx={{ flexGrow: 1, padding: 5, marginBottom: 10 }}
-                >
-                    <Typography >
-                        <h1>
-                            ระบบแก้ไขรายละเอียดการเคลม
-                        </h1>
-                    </Typography>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography>
-                                <h1>
-                                    รายละเอียดการซ่อม
-                                </h1>
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Typography >
-                                เลขที่แจ้งซ่อม
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={dataOrderID + " : " + dataReason}
-                                disabled
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Typography >
-                                วันที่แจ้งซ่อม
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={dataReason}
-                                disabled
-                            />
-                        </Grid>
-                        <Grid item xs={6} sx={{ marginTop: 5 }}>
-                            <Typography >
-                                วิธีซ่อม
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={dataSolving}
-                                disabled
-                            />
-                        </Grid>
-                        <Grid item xs={6} sx={{ marginTop: 5 }}>
-                            <Typography >
-                                ช่างผู้ซ่อม
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                variant="outlined"
-                                value={dataTechnician}
-                                disabled
-                            />
-                        </Grid>
-                        <Grid item xs={12} sx={{ marginTop: 10 }}>
-                            <Typography>
-                                <h1>
-                                    กรุณากรอกรายละเอียดในการเคลม
-                                </h1>
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography >
-                                ปัญหาที่พบ
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={4}
-                                variant="outlined"
-                                value={orderProblem}
-                                defaultValue=""
-                                onChange={handleInputChangeorderProblem}
-                            />
-                        </Grid>
-                        <Grid item xs={6} sx={{ marginTop: 15 }}>
-                            <Typography >
-                                ระดับความเร่งด่วน
-                            </Typography>
-                            <FormControl fullWidth>
-                                <Select
-                                    id="Urgencys"
-                                    value={urgencyID}
-                                    displayEmpty
-                                    inputProps={{ 'aria-label': 'Without label' }}
-                                    onChange={onChangeUrgencys}
-                                >
-                                    <MenuItem value="">
-                                        กรุณาเลือกระดับความเร่งด่วน
-                                    </MenuItem>
-                                    {urgencys.map((item: any) => (
-                                        <MenuItem value={item.ID} key={item.ID}>{item.Urgency_Type}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={6} sx={{ marginTop: 15 }}>
-                            <Typography >
-                                วันที่แจ้งเคลม
-                            </Typography>
-                            <FormControl fullWidth variant="outlined">
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        value={date}
-                                        onChange={(newValue) => { setDate(newValue); }}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sx={{ marginBottom: 5 }}>
-                            <Typography >
-                                หมายเหตุเพิ่มเติม
-                            </Typography>
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={4}
-                                variant="outlined"
-                                value={claimComment}
-                                defaultValue=""
-                                onChange={handleInputChangeclaimComment}
-                            />
-                        </Grid>
-                        <Grid item xs={4} sx={{ marginTop: 10 }}>
-                            <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={handleBack}>
-                                กลับ
-                            </Button>
-
-                        </Grid>
-                        <Grid item xs={4} sx={{ marginTop: 10 }}>
-                            <Button
-                                variant="contained"
-                                color="success"
-                                fullWidth
-                                onClick={submitEdit}
-                                
-                            >
-                                อัพเดตข้อมูล
-                            </Button>
-                        </Grid>
+        <Box id='claimEditFrame'>
+            <Box
+                sx={{ flexGrow: 1, padding: 5, marginBottom: 10 }}
+            >
+                <Typography id='textClaimEditTopic1'>
+                    ระบบแก้ไขรายละเอียดการเคลม
+                </Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography id='textClaimEditTopic2'>
+                            รายละเอียดการซ่อม
+                        </Typography>
                     </Grid>
-                </Box>
-            </Container>
+                    <Grid item xs={6}>
+                        <Typography id='textClaimEditTopic3'>
+                            เลขที่แจ้งซ่อม
+                        </Typography>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={dataOrderID + " : " + dataReason}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography id='textClaimEditTopic3'>
+                            วันที่แจ้งซ่อม
+                        </Typography>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={dataReason}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item xs={6} sx={{ marginTop: 5 }}>
+                        <Typography id='textClaimEditTopic3'>
+                            วิธีซ่อม
+                        </Typography>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={dataSolving}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item xs={6} sx={{ marginTop: 5 }}>
+                        <Typography id='textClaimEditTopic3'>
+                            ช่างผู้ซ่อม
+                        </Typography>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            value={dataTechnician}
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item xs={12} sx={{ marginTop: 10 }}>
+                        <Typography id='textClaimEditTopic2'>
+                            กรุณากรอกรายละเอียดในการเคลม
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography id='textClaimEditTopic3'>
+                            ปัญหาที่พบ
+                        </Typography>
+                        <TextField
+                            id='textfieldClaimEdit1'
+                            fullWidth
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            value={orderProblem}
+                            defaultValue=""
+                            onChange={handleInputChangeorderProblem}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sx={{ marginTop: 15 }}>
+                        <Typography id='textClaimEditTopic3'>
+                            ระดับความเร่งด่วน
+                        </Typography>
+                        <FormControl fullWidth>
+                            <Select
+                                id="Urgencys"
+                                value={urgencyID}
+                                displayEmpty
+                                inputProps={{ 'aria-label': 'Without label' }}
+                                onChange={onChangeUrgencys}
+                            >
+                                <MenuItem value="">
+                                    กรุณาเลือกระดับความเร่งด่วน
+                                </MenuItem>
+                                {urgencys.map((item: any) => (
+                                    <MenuItem value={item.ID} key={item.ID}>{item.Urgency_Type}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={6} sx={{ marginTop: 15 }}>
+                        <Typography id='textClaimEditTopic3'>
+                            วันที่แจ้งเคลม
+                        </Typography>
+                        <FormControl fullWidth variant="outlined">
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={date}
+                                    onChange={(newValue) => { setDate(newValue); }}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sx={{ marginBottom: 5 }}>
+                        <Typography id='textClaimEditTopic3'>
+                            หมายเหตุเพิ่มเติม
+                        </Typography>
+                        <TextField
+                            id='textfieldClaimEdit2'
+                            fullWidth
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            value={claimComment}
+                            defaultValue=""
+                            onChange={handleInputChangeclaimComment}
+                        />
+                    </Grid>
+                    <Grid item xs={4} sx={{ marginTop: 10 }}>
+                        <Button
+                            id='BtInClaimEdit'
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleBack}
+                            component={RouterLink}
+                            to="/ShowClaim"
+                        >
 
+                            กลับ
+                        </Button>
 
+                    </Grid>
+                    <Grid item xs={4} sx={{ marginTop: 10 }}>
+                        <Button
+                            id='BtInClaimEdit'
+                            variant="contained"
+                            color="success"
+                            fullWidth
+                            onClick={submitEdit}
 
-        </Paper>
+                        >
+                            อัพเดตข้อมูล
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Box>
     );
 }
 

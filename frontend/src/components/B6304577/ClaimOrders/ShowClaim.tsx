@@ -15,16 +15,19 @@ import { ReviewInterface } from '../../../interfaces/ReviewUI';
 import { DataGrid, GridEditRowsModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Delete, Edit, Report } from '@mui/icons-material';
-import { Rating } from '@mui/material';
+import { Box, Rating } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import style from "./style.module.css";
+import "./claim.css"
 
 
-function refreshPage() {
-    window.location.reload();
-}
+const headerStyles = {
+    backgroundColor: 'blue',
+    color: 'white',
+    fontWeight: 'bold',
+};
 
 const successAlert = async () => {
     Swal.fire({
@@ -147,6 +150,8 @@ function ShowClaim() {
         {
             field: 'action1',
             headerName: 'แก้ไข',
+            headerClassName: 'textClaimshowfieldTable',
+            cellClassName: 'textClaimshowfieldTable',
             width: 100,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
@@ -157,12 +162,14 @@ function ShowClaim() {
                     // setClaimID(params.id)
                     // console.log(params.id);
                 };
-                return <Button disabled={params.row.StatusClaim.ID !== 1} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} component={RouterLink} to="/EditContentClaimOrder">{<Edit />}แก้ไข</Button>;
+                return <Button id='textBtInTableShow' disabled={params.row.StatusClaim.ID !== 1} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/EditContentClaimOrder">{<Edit />}แก้ไข</Button>;
             }
         },
         {
             field: 'action2',
             headerName: 'ลบ',
+            headerClassName: 'textClaimshowfieldTable',
+            cellClassName: 'textClaimshowfieldTable',
             width: 100,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
@@ -204,7 +211,9 @@ function ShowClaim() {
                                 setTimeout(() => {
                                     getListClaimOrders();
                                     getReview();
+                                    window.location.href = "/RankingForm";
                                 }, 1500)
+
                                 successAlert();
                                 getListClaimOrders();
                                 console.log("Success");
@@ -217,13 +226,15 @@ function ShowClaim() {
                     // console.log(params.row.Statetus);
 
                 };
-                return <Button disabled={params.row.StatusClaim.ID !== 1} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />} ลบ </Button>;
+                return <Button id='textBtInTableShow' disabled={params.row.StatusClaim.ID !== 1} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer', borderRadius: '25px' }} >{<Delete />} ลบ </Button>;
                 // return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />}ลบ</Button>;
             }
         },
         {
             field: 'Checked_payment',
             headerName: 'รายการซ่อม',
+            headerClassName: 'textClaimshowfieldTable',
+            cellClassName: 'textClaimshowfieldTable',
             width: 150,
             renderCell: params => {
                 return <div>{params.row.Review.Checked_payment.Payment.OrderTech.ORDER.Reason}</div>
@@ -232,12 +243,16 @@ function ShowClaim() {
         {
             field: 'OrderProblem',
             headerName: 'สาเหตุการเคลม',
+            headerClassName: 'textClaimshowfieldTable',
+            cellClassName: 'textClaimshowfieldTable',
             width: 220,
 
         },
         {
             field: 'Urgency_ID',
             headerName: 'ระดับความเร่งด่วน',
+            headerClassName: 'textClaimshowfieldTable',
+            cellClassName: 'textClaimshowfieldTable',
             width: 200,
             renderCell: params => {
                 return <div>{params.row.Urgency.Urgency_Type}</div>
@@ -246,12 +261,16 @@ function ShowClaim() {
         {
             field: 'Timestamp',
             headerName: 'วันที่',
+            headerClassName: 'textClaimshowfieldTable',
+            cellClassName: 'textClaimshowfieldTable',
             width: 200,
             valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
         },
         {
             field: 'StatusReview',
             headerName: 'สถานะ',
+            headerClassName: 'textClaimshowfieldTable',
+            cellClassName: 'textClaimshowfieldTable',
             width: 200,
             renderCell: params => {
 
@@ -266,25 +285,24 @@ function ShowClaim() {
     }, []);
 
     return (
-        <Paper >
-            <Container maxWidth="lg" sx={{ background: "#ffffff" }}>
-                <Typography >
-                    <h1>
-                        ระบบแสดงรายละเอียดการเคลม
-                    </h1>
-                </Typography>
-                <div style={{ height: 400, width: '100%' }} >
-                    <DataGrid
-                        sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000' }}
-                        rows={Claims}
-                        columns={columnClaim}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        getRowId={(row: ReviewInterface) => row.ID}
-                    />
-                </div>
-            </Container>
-        </Paper>
+        <Box id="claimShowFrame">
+            <Typography id="textClaimShowTopic">
+                <h1>
+                    ระบบแสดงรายละเอียดการเคลม
+                </h1>
+            </Typography>
+            <div style={{ height: 400, width: '100%' }} >
+                <DataGrid
+                    sx={{ marGinTop: 10, background: '#ffffff', color: 'ff0000', borderRadius: '25px' }}
+                    rows={Claims}
+                    columns={columnClaim}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                    getRowId={(row: ReviewInterface) => row.ID}
+
+                />
+            </div>
+        </Box>
 
 
     );

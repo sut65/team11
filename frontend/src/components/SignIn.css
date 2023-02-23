@@ -1,9 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:600|Work+Sans:400,500,600,700&display=swap');
 
 body {
-    background-color: #4158D0;
+    background-image: "https://i.postimg.cc/prct3DRd/1-CTp1sf-WB-70-ZWDj-Hyr-Kf-GQ.webp";
     background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
     font-family: "work sans";
+    /* height: 100vh ; */
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    position: relative;
+    
 }
 
 #signinform {

@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@200;400;600;800&display=swap');
+
+#claimShowFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+
+    margin: 100px auto;
+    padding: 25px;
+
+    background-size: cover;
+    position: relative;
+    content: "";
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(100px);
+
+    box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.5);
+}
+
+#textClaimShowTopic {
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 800;
+    font-size: 15px;
+}
+
+
+
+.textClaimshowfieldTable {
+    font-family: 'Noto Sans Thai';
+}
+
+#textBtInTableShow {
+    font-family: 'Noto Sans Thai';
+}
+
+/*
+    page create claim
+*/
+
+#claimCreatFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+
+    margin: 100px auto;
+
+    background-size: cover;
+    position: relative;
+    content: "";
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.703);
+    backdrop-filter: blur(100px);
+
+    box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.5);
+}
+
+#textClaimCreateTopic1 {
+    justify-content: center;
+    margin-bottom: 4rem;
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 800;
+    font-size: 30px;
+}
+#textClaimCreateTopic2 {
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 800;
+    font-size: 25px;
+}
+
+#textClaimCreateTopic3 {
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#textfieldClaimCreate1 {
+    color: #000000;
+    font-size: 18px;
+    font-family: 'Noto Sans Thai';
+}
+
+#textfieldClaimCreate2 {
+    color: #000000;
+    font-size: 18px;
+    font-family: 'Noto Sans Thai';
+}
+#BtInClaimCreate{
+    border-radius: 25px;
+    color: #FFFFFF;
+    font-family: 'Noto Sans Thai';
+}
+
+/*
+    page edit claim
+*/
+#claimEditFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+
+    margin: 100px auto;
+
+    background-size: cover;
+    position: relative;
+    content: "";
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.703);
+    backdrop-filter: blur(100px);
+
+    box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.5);
+}
+
+#textClaimEditTopic1 {
+    justify-content: center;
+    margin-bottom: 4rem;
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 800;
+    font-size: 30px;
+}
+#textClaimEditTopic2 {
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 800;
+    font-size: 25px;
+}
+
+#textClaimEditTopic3 {
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#textfieldClaimEdit1 {
+    color: #000000;
+    font-size: 18px;
+    font-family: 'Noto Sans Thai';
+}
+
+#textfieldClaimEdit2 {
+    color: #000000;
+    font-size: 18px;
+    font-family: 'Noto Sans Thai';
+}
+#BtInClaimEdit{
+    border-radius: 25px;
+    color: #FFFFFF;
+    font-family: 'Noto Sans Thai';
+}

@@ -1,3 +1,5 @@
+import { CustomerInterface } from "./CustomerUI";
+
 export interface TypeInterface {
     ID: number,
     Type_Name: string,
@@ -17,7 +19,9 @@ export interface DeviceInterface {
     Harddisk: string,
     Problem: string,
     CustomerID: number,
+    Customer: CustomerInterface,
     TypeID: number,
+    Type:   TypeInterface,
     WindowsID: number,
     Save_Time: Date | null;
 }

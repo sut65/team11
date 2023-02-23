@@ -14,6 +14,8 @@ import PlagiarismIcon from '@mui/icons-material/Plagiarism';
 //import { CheckedPayment_get_Payment_ID } from './Checked_payment';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import LensIcon from '@mui/icons-material/Lens';
+import "../CSS/PAY_and_CHECKED.css";
+
 
 
 //====================สำหรับปุ่มลบ============================
@@ -64,11 +66,11 @@ function Check_Table_Payment_show() {
   //ฟังก์ชัน สำหรับ Datagrid
   const columns: GridColDef[] = [
     {
-      field: 'action1',
+      field: 'แก้ไข',
       headerName: '',
       width: 100,
       editable: false,
-      headerClassName: 'super-app-theme--header',
+      headerClassName:'title_table',cellClassName:"cell_table",
       renderCell: (params: GridRenderCellParams) => {
 
         // const [OrderTech_ID, setOrderTech_ID] = useState(9999);
@@ -81,8 +83,7 @@ function Check_Table_Payment_show() {
         };
         return (
           <RouterLink to={`/EditChecked_payment`} style={{ textDecoration: 'none' }}>
-            <Button variant="contained" onClick={handleClick}
-              sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#F99417' }} >
+            <Button id="btn_orange_table" variant="contained" onClick={handleClick} >
               {<Edit />}แก้ไข
             </Button>
           </RouterLink>
@@ -90,11 +91,11 @@ function Check_Table_Payment_show() {
       }
     },
     {
-      field: 'action2',
+      field: 'ลบ',
       headerName: '',
       width: 100,
       editable: false,
-      headerClassName: 'super-app-theme--header',
+      headerClassName:'title_table',cellClassName:"cell_table",
       renderCell: (params: GridRenderCellParams) => {
         const handleClick = () => {
           swalWithBootstrapButtons.fire({
@@ -152,18 +153,17 @@ function Check_Table_Payment_show() {
         };
 
         return (
-          <Button variant="contained" onClick={handleClick}
-            sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#ff3222' }} >
+          <Button id="btn_red" variant="contained" onClick={handleClick}>
             {<Delete />}ลบ
           </Button>
         );
       }
     },
 
-    { field: "ID", headerName: "ID", width: 70,headerClassName: 'super-app-theme--header', },
-    { field: "Payment_ID", headerName: "Payment ID", width: 100,headerClassName: 'super-app-theme--header', },
+    { field: "ID", headerName: "ID", width: 70,headerClassName:'title_table',cellClassName:"cell_table", },
+    { field: "Payment_ID", headerName: "Payment ID", width: 100,headerClassName:'title_table',cellClassName:"cell_table", },
     {
-      field: "Status_ID", headerName: "สถานะ", width: 180,headerClassName: 'super-app-theme--header'
+      field: "Status_ID", headerName: "สถานะ", width: 180,headerClassName:'title_table',cellClassName:"cell_table"
       , renderCell: params => {
 
         if (params.row.Status_ID === 1) {
@@ -177,10 +177,10 @@ function Check_Table_Payment_show() {
         }
       }
     },
-    { field: "Other", headerName: "Comment", width: 300,headerClassName: 'super-app-theme--header', },
-    { field: "Message", headerName: "ข้อความถึงลูกค้า", width: 300,headerClassName: 'super-app-theme--header', },
+    { field: "Other", headerName: "Comment", width: 300,headerClassName:'title_table',cellClassName:"cell_table", },
+    { field: "Message", headerName: "ข้อความถึงลูกค้า", width: 300,headerClassName:'title_table',cellClassName:"cell_table", },
     {
-      field: "Date_time", headerName: "วันที่โอนเงิน", width: 200,headerClassName: 'super-app-theme--header'
+      field: "Date_time", headerName: "วันที่โอนเงิน", width: 200,headerClassName:'title_table',cellClassName:"cell_table"
       , valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm '),
     }
     //{ field: "CustomerID", headerName: "ผู้ส่งเรื่อง", width: 300 },

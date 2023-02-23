@@ -96,18 +96,9 @@ function CreateClaim() {
     };
 
     const handleClear = () => {
-        setReviewID('');
         setUrgencyID('');
-        setDate(null);
         setOrderProblem('');
         setClaimComment('');
-
-        setdataOrderID('');
-        setDataReason('');
-        setdataDateOrder('');
-        setDataSolving('');
-        setDataTechnician('');
-
     };
     const getUrgencyID = async () => {
         const apiUrl = "http://localhost:8080/GetListUrgency";
@@ -137,14 +128,14 @@ function CreateClaim() {
             .then((res) => {
                 if (res.data) {
                     res.data.map((item: any) => {
-                        console.log("itemitemitemitemitem",item)
+                        console.log("itemitemitemitemitem", item)
                         setReviewID(item.ID);
                         setDataReason(item.Checked_payment.Payment.OrderTech.ORDER.Reason);
                         setdataOrderID(item.Checked_payment.Payment.OrderTech.ORDER.ID);
                         setdataDateOrder(item.Checked_payment.Payment.OrderTech.TimeOut);
                         setDataSolving(item.Checked_payment.Payment.OrderTech.Solving);
                         setDataTechnician(item.Checked_payment.Payment.OrderTech.Technician.Name);
-                        
+
                     })
                 }
             });
@@ -245,7 +236,7 @@ function CreateClaim() {
                     setTimeout(() => {
                         handleClear();
                         window.location.href = "/RankingForm";
-                        
+
                     }, 1500)
                     Swal.fire({
                         title: 'บันทึกสำเร็จ',
@@ -276,20 +267,21 @@ function CreateClaim() {
 
     return (
 
-        <Container maxWidth="lg" sx={{ backgroundColor: "#FFFFFF" }}>
+        <Box id='claimCreatFrame'>
             <Box
                 sx={{ flexGrow: 1, padding: 5, marginBottom: 10 }}
             >
+                <Typography id='textClaimCreateTopic1'>
+                    ระบบบันทึกรายละเอียดการเคลม
+                </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <Typography>
-                            <h1>
-                                รายละเอียดการซ่อม
-                            </h1>
+                        <Typography id='textClaimCreateTopic2'>
+                            รายละเอียดการซ่อม
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             เลขที่แจ้งซ่อม
                         </Typography>
                         <TextField
@@ -300,7 +292,7 @@ function CreateClaim() {
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             วันที่แจ้งซ่อม
                         </Typography>
                         <TextField
@@ -311,7 +303,7 @@ function CreateClaim() {
                         />
                     </Grid>
                     <Grid item xs={6} sx={{ marginTop: 5 }}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             วิธีซ่อม
                         </Typography>
                         <TextField
@@ -322,7 +314,7 @@ function CreateClaim() {
                         />
                     </Grid>
                     <Grid item xs={6} sx={{ marginTop: 5 }}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             ช่างผู้ซ่อม
                         </Typography>
                         <TextField
@@ -333,17 +325,16 @@ function CreateClaim() {
                         />
                     </Grid>
                     <Grid item xs={12} sx={{ marginTop: 10 }}>
-                        <Typography>
-                            <h1>
-                                กรุณากรอกรายละเอียดในการเคลม
-                            </h1>
+                        <Typography id='textClaimCreateTopic2'>
+                            กรุณากรอกรายละเอียดในการเคลม
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             ปัญหาที่พบ
                         </Typography>
                         <TextField
+                            id='textfieldClaimCreate1'
                             fullWidth
                             multiline
                             rows={4}
@@ -354,7 +345,7 @@ function CreateClaim() {
                         />
                     </Grid>
                     <Grid item xs={6} sx={{ marginTop: 15 }}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             ระดับความเร่งด่วน
                         </Typography>
                         <FormControl fullWidth>
@@ -375,7 +366,7 @@ function CreateClaim() {
                         </FormControl>
                     </Grid>
                     <Grid item xs={6} sx={{ marginTop: 15 }}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             วันที่แจ้งเคลม
                         </Typography>
                         <FormControl fullWidth variant="outlined">
@@ -389,10 +380,11 @@ function CreateClaim() {
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sx={{ marginBottom: 5 }}>
-                        <Typography >
+                        <Typography id='textClaimCreateTopic3'>
                             หมายเหตุเพิ่มเติม
                         </Typography>
                         <TextField
+                            id='textfieldClaimCreate2'
                             fullWidth
                             multiline
                             rows={4}
@@ -403,11 +395,12 @@ function CreateClaim() {
                         />
                     </Grid>
                     <Grid item xs={4} sx={{ marginTop: 10 }}>
-                        <Button 
-                        variant="contained" 
-                        color="secondary"
-                        component={RouterLink} 
-                        to="/RankingForm"
+                        <Button
+                            id='BtInClaimCreate'
+                            variant="contained"
+                            color="secondary"
+                            component={RouterLink}
+                            to="/RankingForm"
                         >
                             กลับ
                         </Button>
@@ -415,6 +408,7 @@ function CreateClaim() {
                     </Grid>
                     <Grid item xs={4} sx={{ marginTop: 10 }}>
                         <Button
+                            id='BtInClaimCreate'
                             variant="contained"
                             color="success"
                             fullWidth
@@ -425,6 +419,7 @@ function CreateClaim() {
                     </Grid>
                     <Grid item xs={4} sx={{ marginTop: 10 }} style={{ float: "right" }}>
                         <Button
+                            id='BtInClaimCreate'
                             variant="contained"
                             color="error"
                             onClick={handleClear}>
@@ -434,7 +429,7 @@ function CreateClaim() {
                 </Grid>
             </Box>
 
-        </Container>
+        </Box>
 
 
     );

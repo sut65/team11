@@ -7,7 +7,7 @@ import { PaymentInterface, BankInterface, } from "../../../interfaces/PaymentUI"
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import "../CSS/payment.css";
+import "../CSS/PAY_and_CHECKED.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Table_Payment_show from "../Payment/Table_Payment_show";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
@@ -22,10 +22,7 @@ const convertType = (data: string | number | undefined | Float32Array | any) => 
 //ตกแต่ง Grid 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
+  ...theme.typography.body2, padding: theme.spacing(1),  textAlign: 'center',  color: theme.palette.text.secondary,
 }));
 const Item3 = styled(Paper)(({ theme }) => ({
   borderRadius: '15px',
@@ -35,18 +32,16 @@ const Item3 = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   fontSize: 20,
   height: 50,
-  color: theme.palette.text.secondary,
 }));
 const P3 = styled(Paper)(({ theme }) => ({
+  fontFamily:'Noto Sans Thai',
   borderRadius: '15px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: 50,
   backgroundColor:'#FFFFFF',
-  
   fontSize: 17,
-  color: theme.palette.text.secondary,
 }));
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
 
@@ -57,7 +52,6 @@ function Edit_Checked_payment() {
   const [Date_time, setDate] = useState<Dayjs | null>(dayjs());
   const [Checked_payment, setChecked_payment] = React.useState<Partial<Checked_paymentInterface>>({});
   // const [Check_payment_ID, setCheck_payment_ID] = useState('')
-
 
 
   let Check_payment_ID = localStorage.getItem('Checked_Payment_ID');
@@ -102,6 +96,25 @@ function Edit_Checked_payment() {
   const onChangeStatus_check = (event: SelectChangeEvent) => {
     setStatus_check_ID(event.target.value as string);
   };
+
+
+
+
+
+
+
+
+
+  // const onChangeOther = (event: SelectChangeEvent) => {
+  //   setOther(event.target.value as string);
+  // };
+  // const onChangeMessage = (event: SelectChangeEvent) => {
+  //   setMessage(event.target.value as string);
+  // };
+
+
+
+
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,9 +123,9 @@ function Edit_Checked_payment() {
     let data = {
 
       ID: convertType(Check_payment_ID),
-      Payment_ID: convertType(Check_payment_ID), // TODO
-      Other: Other ?? "",
-      Message: Message ?? "",
+      // Payment_ID: convertType(Check_payment_ID), // TODO
+      Other: Checked_payment.Other ?? "",
+      Message: Checked_payment.Message ?? "",
       Date_time: Date_time,
       Status_ID: convertType(Status_check_ID),
       CustomerID: userID,
@@ -195,20 +208,20 @@ function Edit_Checked_payment() {
       });
   };
 
-  const getUser = async () => {
-    const apiUrl = `http://localhost:8080/user/${userID}`;
-    const requestOptions = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
-    fetch(apiUrl, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          setUserName(res.data.Name);
-        }
-      });
-  };
+  // const getUser = async () => {
+  //   const apiUrl = `http://localhost:8080/user/${userID}`;
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: { "Content-Type": "application/json" },
+  //   };
+  //   fetch(apiUrl, requestOptions)
+  //     .then((response) => response.json())
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setUserName(res.data.Name);
+  //       }
+  //     });
+  // };
 
   const getdata_before_edit_CheckedPaymennt = async () => {
     const apiUrl = `http://localhost:8080/GetChecked_payment/${Check_payment_ID}`;
@@ -220,8 +233,11 @@ function Edit_Checked_payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setOther(res.data.Other);
-          setMessage(res.data.Message);
+          // setOther(res.data.Other);
+          // setMessage(res.data.Message);
+          Checked_payment.Message = res.data.Message;
+          Checked_payment.Other = res.data.Other;
+          //setStatus_check_ID(res.data.Status_ID); admore preload
         } else {
           console.log("else");
         }
@@ -250,7 +266,7 @@ function Edit_Checked_payment() {
               //align="center"
               fontFamily="Arial"
             >
-              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} ><br />
+              <b id="Topic_font"><br />
                 ระบบตรวจสอบการชำระเงิน
               </b><br /><br />
             </Typography>
@@ -277,7 +293,7 @@ function Edit_Checked_payment() {
             </Grid>
             <br /><br />
           </Container>
-            <h5 style={{ color: "#FFFFFF", textAlign: "center" }}> *ท่านกำลังแก้ไข รายการบันทึกการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว </h5>
+            <h5 id="Topic_font" style={{textAlign: "center"}}> *ท่านกำลังแก้ไข รายการบันทึกการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว </h5>
           {button_submit_back()}
           <br /><br />
         </Container>
@@ -293,17 +309,17 @@ function Edit_Checked_payment() {
         <Select
           disabled
           native
+          id=""
           value={Check_payment_ID}
           // onChange={onChangePayment}
           inputProps={{
             name: "Combo_Checked_Payment",
           }}
         >
-          <option aria-label="None" value="">
-            คุณยังไม่ได้เลือกรายการ โปรดเรือกรายการอีกครั้ง</option>
+          <option aria-label="None" value="" id="Topic_font">คุณยังไม่ได้เลือกรายการ โปรดเลือกรายการอีกครั้ง</option>
           {Data_Checked.map((item: Checked_paymentInterface) => (
-            <option value={item.ID} key={item.ID}>
-              {'รายการชำระเงินลำดับที่   ' + item.ID}  {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+            <option value={item.ID} key={item.ID} id="Topic_font">
+              {'รายการชำระเงินลำดับที่   ' + item.ID}               {/* ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
             </option>
           ))}
         </Select>
@@ -318,6 +334,7 @@ function Edit_Checked_payment() {
       <FormControl fullWidth variant="outlined">
         <Select
           native
+          id="editcheck_combo"
           value={Status_check_ID}
           onChange={onChangeStatus_check}
           inputProps={{
@@ -346,9 +363,8 @@ function Edit_Checked_payment() {
           size="medium"
           multiline={true}
           rows={4}
-          value={Other || ""}
+          value={Checked_payment.Other || ""}
           onChange={handleInputChange}
-        //inputProps={{ MaxLength: 200 }}
         />
       </FormControl>
     )
@@ -363,7 +379,8 @@ function Edit_Checked_payment() {
           size="medium"
           multiline={true}
           rows={4}
-          value={Message || ""}
+          // value={Message || ""}
+          value={Checked_payment.Message || ""}
           onChange={handleInputChange}
         //inputProps={{ MaxLength: 200 }}
         />
@@ -396,19 +413,17 @@ function Edit_Checked_payment() {
     return (
       <Grid container>
         <Grid item xs={9.5}>
-          <Button size="large" sx={{ backgroundColor: "#434242" }} component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{ fontSize: 17 }} >
+          <Button id="btn_back" component={RouterLink} to="/Checked_paymentShow" variant="contained" style={{ fontSize: 17 }} >
             <b> ย้อนกลับ </b>
           </Button>
         </Grid>
         <Grid item xs={2.5}>
           <Button
-            style={{ float: "right", fontSize: 17 }}
+            id="btn_orange"
             onClick={Update}
             variant="contained"
-            color="success"
             size="large"
-            sx={{ backgroundColor: '#F99417' }}
-          //component={RouterLink} to="/Checked_paymentShow"
+            style={{width: '200px',height:'50px'}}
           >
             <b>แก้ไขการตรวจสอบ</b>
           </Button>

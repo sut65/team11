@@ -12,7 +12,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ResponsiveAppBar from '../../Bar_01';
 import dayjs, { Dayjs } from "dayjs";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import "../CSS/payment.css";
+import "../CSS/PAY_and_CHECKED.css";
 //import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
@@ -108,7 +108,6 @@ function Payment() {
       Sender_name: Payment.Sender_name ?? "",
       Bank_ID: convertType(Bank_ID),
       Amount: convertFloat(Payment.Amount),
-      //Amount_Check: convertFloat(), //ส่ง Order tecth id ไปให้ backend คำนวณเงิน
       Status_ID: 3,
       Date_time: Date_time,
       CustomerID: userID,
@@ -263,7 +262,7 @@ function Payment() {
               //align="center"
               fontFamily="Arial"
             >
-              <b style={{ font: "#FFFFFF", color: "#FFFFFF", }} ><br />
+              <b id='Topic_font'><br />
                 ระบบชำระเงิน
               </b><br/>
 
@@ -285,11 +284,11 @@ function Payment() {
           </Grid>
           {/*แบ่งกลางให้กับข้อความ*/}
           <Grid item xs={2} >
-            <Item2 ><center> <P2>หมายเลข Order</P2> </center></Item2><br />
-            <Item2 ><center> <P2>ชื่อผู้โอนเงิน</P2> </center></Item2><br />
-            <Item2 ><center> <P2>ธนาคาร</P2> </center></Item2><br />
-            <Item2 ><center> <P2>ยอดเงินที่โอนเข้า</P2> </center></Item2><br />
-            <Item2 ><center> <P2>วันเวลาที่ทำการ</P2> </center></Item2><br />
+            <Item2 ><center> <P2 id='black_font'>หมายเลข Order</P2> </center></Item2><br />
+            <Item2 ><center> <P2 id='black_font'>ชื่อผู้โอนเงิน</P2> </center></Item2><br />
+            <Item2 ><center> <P2 id='black_font'>ธนาคาร</P2> </center></Item2><br />
+            <Item2 ><center> <P2 id='black_font'>ยอดเงินที่โอนเข้า</P2> </center></Item2><br />
+            <Item2 ><center> <P2 id='black_font'>วันเวลาที่ทำการ</P2> </center></Item2><br />
           </Grid>
           {/*แบ่งขวาให้กับข้อมูล*/}
           <Grid item xs={6}>
@@ -337,6 +336,7 @@ function Payment() {
       <FormControl fullWidth variant="outlined">
         <Select
           native
+          id='combo_bank'
           value={Bank_ID}
           onChange={onChangeBank}
           inputProps={{
@@ -390,18 +390,18 @@ function Payment() {
       <Grid container spacing={1} style={{ backgroundColor: "rgb(0,0,0,0.4)" ,borderRadius: '25px'}}>
         <Grid item xs={12}></Grid>
         <Grid item xs={5}>
-          <h2 style={{ color: "#FFFFFF", textAlign: "right" }}>ยอดเงินที่ต้องชำระ</h2>
+          <h2 id='Topic_font' style={{textAlign:"right"}}>ยอดเงินที่ต้องชำระ</h2>
         </Grid>
 
         <Grid item xs={2}>
           {/* <Item sx={{ backgroundColor: "#436F77", fontSize: 30, color: "#FFFFFF" }}> */}
-          <Item sx={{ backgroundColor: "rgba(255,255,255,0.2)", fontSize: 30, color: "#FFFFFF" }}>
+          <Item id='Topic_font' sx={{ backgroundColor: "rgba(255,255,255,0.2)", fontSize: 30 }}>
             {amountCheck}
           </Item>
         </Grid>
 
         <Grid item xs={5}>
-          <h2 style={{ color: "#FFFFFF" }}>บาท</h2>
+          <h2 id='Topic_font'>บาท</h2>
         </Grid>
       </Grid>
     )
@@ -429,17 +429,15 @@ function Payment() {
   function button_submit_back() {
     return (
       <Grid item xs={12}>
-        <Button  size="large" sx={{ backgroundColor: "#434242", fontSize: 17 }} component={RouterLink} to="/PaymentShow" variant="contained"  >
+        <Button  id='btn_back' size="large" component={RouterLink} to="/PaymentShow" variant="contained"  >
           <b> ย้อนกลับ </b>
         </Button>
         <Button
-          id= "btn_submit"
-          style={{ float: "right", fontSize: 17 }}
+          id= 'btn_green'
+          style={{ float: "right" ,width: '150px',height:'50px'}}
           onClick={submit}
           variant="contained"
-          color="success"
           size="large"
-          // component={RouterLink} to="/PaymentShow"
         >
           <b>บันทึก</b>
         </Button>

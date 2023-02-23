@@ -32,6 +32,7 @@ type LoginResponse struct {
 	Token string `json:"token"`
 	ID    uint   `json:"id"`
 	Role  string `json:"role"`
+	Name string `json:"name"`
 }
 
 // POST /SignInCustomer
@@ -181,6 +182,7 @@ func SignInAdmin(c *gin.Context) {
 		Token: signedToken,
 		ID:    admin.ID,
 		Role:  role,
+		Name:admin.Name,
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})

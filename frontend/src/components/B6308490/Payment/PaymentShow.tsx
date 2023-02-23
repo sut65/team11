@@ -19,7 +19,7 @@ function Paytech_Show() {
     //===================================================================================================================================
     
     const Tab = styled(TabUnstyled)`
-    font-family: IBM Plex Sans, sans-serif;
+    font-family: Noto Sans Thai;
     color: white;
     cursor: pointer;
     font-size: 1rem;
@@ -40,7 +40,7 @@ function Paytech_Show() {
 
     const TabPanel = styled(TabPanelUnstyled)`
     width: 100%;
-    font-family: IBM Plex Sans, sans-serif;
+    font-family: Noto Sans Thai;
     font-size: 0.875rem;
   `;
 
@@ -72,7 +72,7 @@ function Paytech_Show() {
                             //align="center"
                             fontFamily="Arial"
                         >
-                            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} >
+                            <b id='Topic_font' >
                                 <br />
                                 ระบบชำระเงิน
                             </b>
@@ -105,7 +105,7 @@ function Paytech_Show() {
                 <Grid item xs={12} style={{ backgroundColor: '#091926' }}>
                     <center>
                         <Typography component="h3" variant="h6" gutterBottom fontFamily="Arial" >
-                            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} > ------------ รายการที่ยังไม่ชำระเงิน ------------ </b>
+                            <b id='Topic_font' > ------------ รายการที่ยังไม่ชำระเงิน ------------ </b>
                         </Typography>
                     </center>
                 </Grid>
@@ -123,7 +123,7 @@ function Paytech_Show() {
                 <Grid item xs={12} style={{ backgroundColor: '#091926' }}>
                     <center>
                         <Typography component="h3" variant="h6" gutterBottom fontFamily="Arial" >
-                            <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} > ------------ รายการชำระเงิน ------------ </b>
+                            <b id='Topic_font' > ------------ รายการชำระเงิน ------------ </b>
                         </Typography>
                     </center>
                 </Grid>
