@@ -8,7 +8,6 @@ import (
 	"github.com/sut65/team11/entity"
 )
 
-// POST AddressType
 func CreateAddressType(c *gin.Context) {
 	var addressType entity.AddressType
 	if err := c.ShouldBindJSON(&addressType); err != nil {
@@ -31,7 +30,6 @@ func GetListAddressType(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": addressType})
 }
 
-// POST Province
 func CreateProvince(c *gin.Context) {
 	var province entity.Province
 	if err := c.ShouldBindJSON(&province); err != nil {
@@ -45,7 +43,6 @@ func CreateProvince(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": province})
 }
 
-// POST District
 func CreateDistrict(c *gin.Context) {
 	var district entity.District
 	if err := c.ShouldBindJSON(&district); err != nil {
@@ -59,7 +56,6 @@ func CreateDistrict(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": district})
 }
 
-// POST Tambon
 func CreateTambon(c *gin.Context) {
 	var tambon entity.Tambon
 	if err := c.ShouldBindJSON(&tambon); err != nil {
@@ -173,7 +169,6 @@ func CreateAddress(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": ad})
 }
 
-// GET /Address
 func GetListAddress(c *gin.Context) {
 	var addresses []entity.Address
 	if err := entity.DB().Preload("Customer.GENDER").Preload("Customer.CAREER").Preload("Customer.PREFIX").Preload("AddressType").Preload("Tambon").Preload("Tambon.District").Preload("Tambon.District.Province").Find(&addresses).Error; err != nil {
@@ -193,7 +188,6 @@ func GetAddressBYcustomerID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": address})
 }
 
-// GET /Address:id
 func GetAddress(c *gin.Context) {
 	var address entity.Address
 	id := c.Param("id")
@@ -204,11 +198,14 @@ func GetAddress(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": address})
 }
 
-// PATCH /Address
 func UpdateAddress(c *gin.Context) {
 	var address entity.Address
 
 	if err := c.ShouldBindJSON(&address); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if _, err := govalidator.ValidateStruct(address); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -219,7 +216,6 @@ func UpdateAddress(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": address})
 }
 
-// DELETE /Address
 func DeleteAddress(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM addresses WHERE id = ?", id); tx.RowsAffected == 0 {

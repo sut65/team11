@@ -321,7 +321,34 @@ func Test_Datetime_notPast(t *testing.T) {
 		Type:       Type{},
 		WindowsID:  new(uint),
 		Windows:    Windows{},
-		Save_Time:  time.Now().Add(1 * time.Second),
+		Save_Time:  time.Now().Add(6 * time.Minute),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Device)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("วันที่ และ เวลา ไม่ถูกต้อง"))
+}
+
+func Test_Datetime_notFuture(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "test",
+		Monitor:    "test",
+		GPU:        "test",
+		RAM:        "test",
+		Harddisk:   "test",
+		Problem:    "test",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now().Add(-6 * time.Minute),
 	}
 
 	// ตรวจสอบด้วย govalidator

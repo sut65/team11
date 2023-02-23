@@ -139,7 +139,30 @@ func Test_RecordTime_notFuture(t *testing.T) {
 		Tambon:        Tambon{},
 		Post_Code:     34190,
 		Detail:        "test",
-		Record_Time:   time.Now().Add(1 * time.Second),
+		Record_Time:   time.Now().Add(6 * time.Minute),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(Address)
+
+	g.Expect(ok).NotTo(BeTrue())
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(Equal("วันที่ และ เวลา ไม่ถูกต้อง"))
+}
+
+func Test_RecordTime_notPast(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Address := Address{
+		Customer:      Customer{},
+		CustomerID:    new(uint),
+		AddressTypeID: new(uint),
+		AddressType:   AddressType{},
+		TambonID:      new(uint),
+		Tambon:        Tambon{},
+		Post_Code:     34190,
+		Detail:        "test",
+		Record_Time:   time.Now().Add(-6 * time.Minute),
 	}
 
 	// ตรวจสอบด้วย govalidator
