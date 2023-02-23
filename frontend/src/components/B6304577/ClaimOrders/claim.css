@@ -171,3 +171,37 @@
     color: #FFFFFF;
     font-family: 'Noto Sans Thai';
 }
+
+#claimAdminFrame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin: 348px auto;
+    padding: 50px;
+
+    background-size: cover;
+    position: relative;
+    content: "";
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(100px);
+
+    box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.5);
+}
+
+.textClaimAdminfieldTable {
+    font-family: 'Noto Sans Thai';
+}
+
+#BtInTableAdmin {
+    border-radius: 25px;
+    color: #FFFFFF;
+    font-family: 'Noto Sans Thai';
+}

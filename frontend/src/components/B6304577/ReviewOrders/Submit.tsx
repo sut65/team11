@@ -18,11 +18,8 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import dayjs, { Dayjs } from 'dayjs';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import style from "./style.module.css";
-
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { TextField } from '@mui/material';
 import { StaticDatePicker } from '@mui/x-date-pickers';
 
@@ -70,16 +67,12 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
     };
     const handleChange = (e: any) => {
         setChecked(e.target.checked);
-
-        console.log('The checkbox was toggled');
-
     };
 
     const handleChangeSetDate = (newValue: Dayjs | null) => {
         setValue(newValue);
     };
 
-    // console.log(value?.format("YYYY-MM-DD"));
     async function submit() {
         // Data ที่จะนำไปบันทึกลงในตาราง REVIEW
         let data = {
@@ -100,7 +93,6 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
             CheckForShowReviewBT: true,
         };
 
-        console.log(data);
         const apiUrl = "http://localhost:8080/CreateReview";
         const requestOptions = {
             method: "POST",
@@ -110,12 +102,17 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
                 if (res.data) {
 
                     // Update Checked Payment
 
                     UpdateCheckForShowReviewBT(dataCheckForShowReviewBT);
+                    formDataRating.checkedPaymentID = null;
+                    formDataRating.data1 = null;
+                    formDataRating.commentRating1 = ""
+                    formDataRating.data2 = null;
+                    formDataRating.commentRating2 = ""
+                    setChecked(false);
 
                     // Update Checked Payment
 
@@ -152,7 +149,7 @@ function Submit({ userID, customerName, formDataRating, setFormDataRating, activ
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                 }
             });
     };

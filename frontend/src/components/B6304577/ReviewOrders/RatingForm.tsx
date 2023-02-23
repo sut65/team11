@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
 import Content from './Content';
 import Star1 from './Star1';
 import Star2 from './Star2';
@@ -46,7 +45,7 @@ function RankingForm() {
         } else if (activeStep === 3) {
             return <Submit userID={userID} customerName={customerName} formDataRating={formDataRating} setFormDataRating={setFormDataRating} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} checkedPaymentsAll={checkedPaymentsAll} />
         } else if (activeStep === 4) {
-            return <EditDataReview reviewsID={reviewsID} setActiveStep={setActiveStep} />
+            return <EditDataReview reviewsID={reviewsID} setActiveStep={setActiveStep} userID={userID}/>
         }
     }
 
@@ -63,7 +62,6 @@ function RankingForm() {
                 if (res.data) {
                     // setReviews(res.data)
                     setCustomerName(res.data.Name);
-                    console.log("getCustomerName: ", res.data.Name);
                 }
             });
     };

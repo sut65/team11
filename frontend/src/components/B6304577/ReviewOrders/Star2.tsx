@@ -9,7 +9,6 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
-import style from "./style.module.css";
 import TextField from '@mui/material/TextField';
 import { OutlinedInputProps } from '@mui/material';
 
@@ -124,7 +123,7 @@ function Star2({ customerName, formDataRating, setFormDataRating, activeStep, se
                                 fullWidth
                                 onClick={handleBack}
                                 color="error"
-                                sx={{ mr: 1 ,backgroundColor:"#E96479"}}
+                                sx={{ mr: 1, backgroundColor: "#E96479" }}
                             >
                                 กลับ
                             </Button>
@@ -136,7 +135,7 @@ function Star2({ customerName, formDataRating, setFormDataRating, activeStep, se
                                 fullWidth
                                 onClick={activeStep === steps.length ? handleSubmit : handleNext}
                                 color="primary"
-                                sx={{backgroundColor:"#3795BD"}}
+                                sx={{ backgroundColor: "#3795BD" }}
                             >
                                 {activeStep === steps.length ? 'บันทึก' : 'ถัดไป'}
                             </Button>

@@ -104,7 +104,6 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
     const [date, setDate] = useState<Dayjs | null>(dayjs);
     const [orderProblem, setOrderProblem] = useState('');
     const [claimComment, setClaimComment] = useState('');
-    // const [statusClaimID, setStatusClaimID] = React.useState<any[]>([]);
 
     const [dataOrderID, setdataOrderID] = useState('');
     const [dataDateOrder, setdataDateOrder] = useState('');
@@ -142,7 +141,6 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
         setDate(null);
         setOrderProblem('');
         setClaimComment('');
-
         setdataOrderID('');
         setDataReason('');
         setdataDateOrder('');
@@ -163,7 +161,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             .then((res) => {
                 if (res.data) {
                     setReviews(res.data)
-                    console.log("getReview", res.data)
+                    // console.log("getReview", res.data)
                 }
             });
     };
@@ -179,8 +177,6 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                 if (res.data) {
                     setUrgencys(res.data);
                     // console.log(res.data);
-
-                    // setReviews(res.data)
                 }
             });
     };
@@ -195,9 +191,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             .then((res) => {
                 if (res.data) {
                     setClaims(res.data);
-                    console.log("getListClaimOrders: ", res.data);
-
-                    // setReviews(res.data)
+                    // console.log("getListClaimOrders: ", res.data);
                 }
             });
     };
@@ -239,7 +233,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.data) {
                     // Alert การบันทึกสำเส็จ
                     UpdateCheckBtReport(dataCheckBtReport);
@@ -280,9 +274,9 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             .then((res) => {
                 if (res.data) {
                     getReview();
-                    console.log("Success");
+                    // console.log("Success");
                 } else {
-                    console.log("Error");
+                    // console.log("Error");
                 }
             });
     };
@@ -297,7 +291,7 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                 }
             });
     };
@@ -324,16 +318,15 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                         .then((response) => response.json())
                         .then((res) => {
                             if (res.data) {
-                                console.log(res.data.Checked_payment);
                                 setReviewID(res.data.ID);
                                 setDataReason(res.data.Checked_payment.Payment.OrderTech.ORDER.Reason);
                                 setdataDateOrder(res.data.Checked_payment.Payment.OrderTech.ORDER.Date_time)
                                 setdataOrderID(res.data.Checked_payment.Payment.OrderTech.ORDER.ID)
                                 setDataSolving(res.data.Checked_payment.Payment.OrderTech.Solving)
                                 setDataTechnician(res.data.Checked_payment.Payment.OrderTech.Technician.Name)
-                                console.log("Success");
+                                // console.log("Success");
                             } else {
-                                console.log("Error");
+                                // console.log("Error");
                             }
                         });
 
@@ -439,8 +432,8 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                         ID: params.id,
                         CheckDisableBtEditAndDel: false,
                     };
-                    console.log("dataCheckBtReport : ", dataCheckBtReport);
-                    console.log("dataCheckBtEditAndDelInReview : ", dataCheckBtEditAndDelInReview);
+                    // console.log("dataCheckBtReport : ", dataCheckBtReport);
+                    // console.log("dataCheckBtEditAndDelInReview : ", dataCheckBtEditAndDelInReview);
 
                     const apiUrl = "http://localhost:8080/DeleteClaimOrder";
                     const requestOptions = {
@@ -460,10 +453,10 @@ function ContentClaimOrder({ activeStep, setActiveStep, claimID, setClaimID }: a
                                 }, 1500)
                                 successAlert();
                                 getListClaimOrders();
-                                console.log("Success");
+                                // console.log("Success");
                             } else {
                                 errorAlert();
-                                console.log("Error");
+                                // console.log("Error");
                             }
                         });
 

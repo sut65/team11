@@ -1,31 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { DataGrid } from '@mui/x-data-grid';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Clear, Done } from '@mui/icons-material';
-
-
 import dayjs from 'dayjs';
-import { ReviewInterface } from '../../../interfaces/ReviewUI';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import { FormControl, Rating, Select, SelectChangeEvent } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-import MuiAccordionSummary, {
-    AccordionSummaryProps,
-} from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import { UrgencyInterface } from '../../../interfaces/ClaimUI';
+import "./claim.css"
+import { Box } from '@mui/system';
+import { id } from 'date-fns/locale';
+import { Typography } from '@mui/material';
 
 const yesAlert = () => {
     Swal.fire({
@@ -63,39 +48,11 @@ function ClaimOrderForAdmin() {
 
         };
 
-    const [reviewID, setReviewID] = useState('');
-    const [urgencyID, setUrgencyID] = useState('');
-    const [date, setDate] = useState<Date | null>(null);
-    const [orderProblem, setOrderProblem] = useState('');
-    const [claimComment, setClaimComment] = useState('');
     // const [statusClaimID, setStatusClaimID] = React.useState<any[]>([]);
-
-    const [dataOrderID, setdataOrderID] = useState('');
-    const [dataDateOrder, setdataDateOrder] = useState('');
-    const [dataReason, setDataReason] = useState('');
-    const [dataSolving, setDataSolving] = useState('');
-    const [dataTechnician, setDataTechnician] = useState('');
     const [Claims, setClaims] = useState<any[]>([]);
-    console.log(dataDateOrder);
+    // console.log(dataDateOrder);
 
     // console.log(reviews);
-
-
-    const handleClear = () => {
-        setReviewID('');
-        setUrgencyID('');
-        setDate(null);
-        setOrderProblem('');
-        setClaimComment('');
-
-        setdataOrderID('');
-        setDataReason('');
-        setdataDateOrder('');
-        setDataSolving('');
-        setDataTechnician('');
-
-    };
-
 
     const getListClaimOrders = async () => {
         const apiUrl = "http://localhost:8080/GetListClaimOrders";
@@ -108,9 +65,6 @@ function ClaimOrderForAdmin() {
             .then((res) => {
                 if (res.data) {
                     setClaims(res.data);
-                    console.log(res.data);
-
-                    // setReviews(res.data)
                 }
             });
     };
@@ -124,21 +78,27 @@ function ClaimOrderForAdmin() {
         {
             field: 'Checked_payment',
             headerName: 'รายการซ่อม',
+            headerClassName: 'textClaimAdminfieldTable',
+            cellClassName: 'textClaimAdminfieldTable',
             width: 200,
             renderCell: params => {
-                console.log(params.row.Review.Checked_payment.Payment.OrderTech.ORDER.Reason);
+                // console.log(params.row.Review.Checked_payment.Payment.OrderTech.ORDER.Reason);
                 return <div>{params.row.Review.Checked_payment.Payment.OrderTech.ORDER.Reason}</div>
             }
         },
         {
             field: 'OrderProblem',
             headerName: 'สาเหตุการเคลม',
+            headerClassName: 'textClaimAdminfieldTable',
+            cellClassName: 'textClaimAdminfieldTable',
             width: 300,
 
         },
         {
             field: 'Urgency_ID',
             headerName: 'ระดับความเร่งด่วน',
+            headerClassName: 'textClaimAdminfieldTable',
+            cellClassName: 'textClaimAdminfieldTable',
             width: 200,
             renderCell: params => {
                 return <div>{params.row.Urgency.Urgency_Type}</div>
@@ -147,12 +107,16 @@ function ClaimOrderForAdmin() {
         {
             field: 'Timestamp',
             headerName: 'วันที่',
+            headerClassName: 'textClaimAdminfieldTable',
+            cellClassName: 'textClaimAdminfieldTable',
             width: 200,
             valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY HH:mm:ss '),
         },
         {
             field: 'StatusReview',
             headerName: 'สถานะ',
+            headerClassName: 'textClaimAdminfieldTable',
+            cellClassName: 'textClaimAdminfieldTable',
             width: 200,
             renderCell: params => {
 
@@ -163,6 +127,8 @@ function ClaimOrderForAdmin() {
         {
             field: 'action1',
             headerName: 'อนุมัติการเคลม',
+            headerClassName: 'textClaimAdminfieldTable',
+            cellClassName: 'textClaimAdminfieldTable',
             width: 120,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
@@ -173,8 +139,8 @@ function ClaimOrderForAdmin() {
                         ID: params.id,
                         StatusClaim_ID: 2,
                     };
-                    console.log(dataCheckSucceed);
-            
+                    // console.log(dataCheckSucceed);
+
                     const apiUrlCheckSucceed = "http://localhost:8080/UpdateClaimOrderStatus";
                     const requestOptionsCheckSucceed = {
                         method: "PATCH",
@@ -187,19 +153,21 @@ function ClaimOrderForAdmin() {
                             if (res.data) {
                                 yesAlert();
                                 getListClaimOrders();
-                                console.log("Success");
+                                // console.log("Success");
                             } else {
                                 errorAlert();
-                                console.log("Error");
+                                // console.log("Error");
                             }
                         });
                 };
-                return <Button disabled={params.row.StatusClaim.ID !== 1} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Done />}อนุมัติ</Button>;
+                return <Button id='BtInTableAdmin' disabled={params.row.StatusClaim.ID === 2} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222' }} >{<Done />}อนุมัติ</Button>;
             }
         },
         {
             field: 'action2',
             headerName: 'ไม่อนุมัติการเคลม',
+            headerClassName: 'textClaimAdminfieldTable',
+            cellClassName: 'textClaimAdminfieldTable',
             width: 120,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
@@ -209,8 +177,8 @@ function ClaimOrderForAdmin() {
                         ID: params.id,
                         StatusClaim_ID: 3,
                     };
-                    console.log(dataCheckSucceed);
-            
+                    // console.log(dataCheckSucceed);
+
                     const apiUrlCheckSucceed = "http://localhost:8080/UpdateClaimOrderStatus";
                     const requestOptionsCheckSucceed = {
                         method: "PATCH",
@@ -223,35 +191,38 @@ function ClaimOrderForAdmin() {
                             if (res.data) {
                                 noAlert();
                                 getListClaimOrders();
-                                console.log("Success");
+                                // console.log("Success");
                             } else {
                                 errorAlert();
-                                console.log("Error");
+                                // console.log("Error");
                             }
                         });
-                
+
 
                     // console.log(params.row.Statetus);
 
                 };
-                return <Button disabled={params.row.StatusClaim.ID !== 1} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Clear />} ไม่อนุมัติ </Button>;
+                return <Button id='BtInTableAdmin' disabled={params.row.StatusClaim.ID === 3} variant="contained" color="error" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Clear />} ไม่อนุมัติ </Button>;
                 // return <Button variant="contained" onClick={handleClick} sx={{ cursor: 'pointer' }} >{<Delete />}ลบ</Button>;
             }
         },
     ];
 
     return (
-        <Paper
-            sx={{
-                backgroundColor: "#182e3e",
-                height: '2000px',
-                paddingTop: 20
-            }} >
+        <Box
+            id='claimAdminFrame'
+        >
+            <Typography id="textClaimShowTopic" sx={{marginLeft:"5.5rem"}}>
+                <h1>
+                    ระบบอนุมัติการเคลม
+                </h1>
+
+            </Typography>
             <div style={{ height: 400, width: '100%' }} >
 
                 <div style={{ height: 400, width: '100%' }} >
                     <DataGrid
-                        sx={{ marGinTop: 10, marginLeft: 5, marginRight: 5, background: '#ffffff', color: 'ff0000' }}
+                        sx={{background: '#ffffff', color: 'ff0000' }}
                         rows={Claims}
                         columns={column}
                         pageSize={5}
@@ -261,7 +232,7 @@ function ClaimOrderForAdmin() {
                 </div>
 
             </div>
-        </Paper>
+        </Box >
     );
 }
 

@@ -1,33 +1,18 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { DataGrid, GridEditRowsModel, GridValueGetterParams } from '@mui/x-data-grid'; //npm i @mui/x-data-grid
-import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid'; //npm i @mui/x-data-grid
-import { Delete, Edit } from '@mui/icons-material'; //npm i @mui/icons-material
-import { OutlinedInputProps, Rating } from '@mui/material';
+import { Checkbox, FormControlLabel, FormGroup, OutlinedInputProps, Rating } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs'; //npm i dayjs
-
+import { pink } from '@mui/material/colors';
 import Typography from '@mui/material/Typography';
-import style from "./style.module.css";
 import TextField from '@mui/material/TextField';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import { ReviewInterface } from '../../../interfaces/ReviewUI';
-
-
+import { LocalizationProvider, StaticDatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
 const successAlert = () => {
@@ -39,23 +24,23 @@ const successAlert = () => {
 }
 const errorAlert = () => {
     Swal.fire({
-        title: 'อัพเดตข้อมูลสำเร็จ',
+        title: 'อัพเดตข้อมูลไม่สำเร็จ',
         text: 'You clicked the button.',
         icon: 'error'
     });
 }
 
-function EditDataReview({ reviewsID, setActiveStep }: any) {
+function EditDataReview({ reviewsID, setActiveStep, userID }: any) {
     const [reviews, setReviews] = useState<Partial<ReviewInterface>>({});
     const [editDataReview_Rating_System, seteditDataReview_Rating_System] = useState<number | null>(0);
     const [editDataReview_Comment_System, seteditDataReview_Comment_System] = useState('');
     const [editDataReview_Rating_Technician, seteditDataReview_Rating_Technician] = useState<number | null>(0);
     const [editDataReview_Comment_Technician, seteditDataReview_Comment_Technician] = useState('');
+    const [checkedID, setCheckedID] = useState('');
 
-    // console.log(editDataReview_Rating_System);
-    // console.log(editDataReview_Comment_System);
-    // console.log(editDataReview_Rating_Technician);
-    // console.log(editDataReview_Comment_Technician);
+    const [value, setValue] = useState<Dayjs | null>(dayjs);
+    const [checked, setChecked] = useState(false);
+
 
     let [date, updateDate] = useState(new Date());
 
@@ -91,19 +76,32 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
         setActiveStep(0)
     };
 
+    const handleChange = (e: any) => {
+        setChecked(e.target.checked);
+
+    };
+    const handleClear = () => {
+        setCheckedID('');
+        seteditDataReview_Rating_System(null);
+        seteditDataReview_Comment_System('');
+        seteditDataReview_Rating_Technician(null);
+        seteditDataReview_Comment_Technician('');
+    };
+
     async function submitEdit() {
         // Data ที่จะนำไปอัพเดทข้อมูลลงในตาราง REVIEW
         let data = {
             ID: reviewsID,
+            CheckedPayment_ID: parseInt(checkedID),
             Satisfaction_System_ID: editDataReview_Rating_System,
             Review_Comment_System: editDataReview_Comment_System,
             Satisfaction_Technician_ID: editDataReview_Rating_Technician,
             Review_Comment_Technician: editDataReview_Comment_Technician,
-            TimestampReview: date.toISOString().split("T")[0].concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
-            StatusReview: true,
-            // Customer_ID : 1,
+            TimestampReview: value?.format("YYYY-MM-DD").concat("T", date.toLocaleString().split(" ")[1], "+07:00"),
+            StatusReview: checked,
+            Customer_ID: userID,
         };
-        console.log(data);
+
         const apiUrl = "http://localhost:8080/UpdateReview";
         const requestOptions = {
             method: "PATCH",
@@ -115,13 +113,28 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
             .then((res) => {
                 if (res.data) {
                     successAlert();
+                    handleClear();
                     setTimeout(() => {
                         setActiveStep(0)
                     }, 1500)
-                    console.log("Success");
+                    // Alert การบันทึกสำเส็จ
+                    Swal.fire({
+                        title: 'บันทึกสำเร็จ',
+                        text: 'ขอบคุณสำหรับการรีวิวครั้งนี้',
+                        icon: 'success'
+                    });
+
+                    setTimeout(() => {
+                        setActiveStep(0)
+                    }, 1500)
                 } else {
-                    errorAlert();
-                    console.log("Error");
+                    // Alert การบันทึกไม่สำเส็จ
+                    Swal.fire({
+                        // Display Back-end text response 
+                        title: 'บันทึกไม่สำเร็จ',
+                        text: res.error.split(";")[0],
+                        icon: 'error'
+                    });
                 }
             });
     };
@@ -137,7 +150,8 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+
+                    setCheckedID(res.data.CheckedPayment_ID)
                     seteditDataReview_Rating_System(res.data.Satisfaction_System_ID);
                     seteditDataReview_Comment_System(res.data.Review_Comment_System);
                     seteditDataReview_Rating_Technician(res.data.Satisfaction_Technician_ID);
@@ -152,8 +166,18 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
 
     return (
         <Box id='boxstarFrame' >
+            <Box id='reviewTextInfoFrame' >
+                <Grid container >
+                    <Grid item xs={12}>
+                        <Typography id='textInfo_05'>
+                            ระบบแก้ไขรายละเอียดการรีวิว
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Box>
             <Box
                 id='reviewStarFrame'
+                sx={{ marginTop: "6rem" }}
             >
                 <Typography id='textStarTopic'>
                     เนื้อหาบนเว็บไซต์มีความเหมาะสม และถูกต้อง
@@ -235,6 +259,43 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                     </Typography>
                 </Container>
             </Box>
+            <Box id='reviewTextIndatetimeFrame'>
+                <Typography id='textDatetime'>
+                    วันที่รีวิว
+                </Typography>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <StaticDatePicker
+                        showToolbar={false}
+                        onChange={(newValue) => setValue(newValue)}
+                        value={value}
+                        renderInput={(params) => <TextField {...params} />}
+                        componentsProps={{
+                            actionBar: {
+                                actions: ['today'],
+                            },
+                        }}
+                    />
+                </LocalizationProvider>
+            </Box>
+            <Box sx={{ marginTop: '10px' }}>
+                <FormGroup>
+                    <FormControlLabel
+                        className='textCheck'
+                        sx={{ color: "#ffffff", paddingBottom: 5 }}
+                        label="ตรวจสอบความถูกต้องเรียบร้อยแล้ว"
+                        labelPlacement="end"
+                        control={<Checkbox defaultChecked
+                            checked={checked}
+                            onChange={handleChange}
+                            sx={{
+                                color: pink[800],
+                                '&.Mui-checked': {
+                                    color: pink[600],
+                                },
+                            }} />}
+                    />
+                </FormGroup>
+            </Box>
             <Container
                 maxWidth="md"
                 sx={{ marginTop: 2 }}
@@ -245,7 +306,6 @@ function EditDataReview({ reviewsID, setActiveStep }: any) {
                             <Button
                                 id='BTpageEditReview'
                                 variant="contained"
-                                className={style.btBack}
                                 fullWidth
                                 color="error"
                                 onClick={handleBack}

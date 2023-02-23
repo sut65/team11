@@ -10,7 +10,6 @@ import StepLabel from '@mui/material/StepLabel';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import style from "./style.module.css";
 import { OutlinedInputProps } from '@mui/material';
 
 
@@ -19,9 +18,6 @@ import { OutlinedInputProps } from '@mui/material';
 
 function Star1({ customerName, formDataRating, setFormDataRating, activeStep, setActiveStep, steps, checkedPaymentsAll }: any) {
     const [hover, setHover] = React.useState(-1);
-    // console.log(checkedPaymentsAll);
-
-
     const { data1, commentRating1 } = formDataRating
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -31,7 +27,7 @@ function Star1({ customerName, formDataRating, setFormDataRating, activeStep, se
         setActiveStep(activeStep - 1);
     };
     const handleSubmit = () => {
-        console.log("Submit");
+        // console.log("Submit");
 
     };
 
@@ -156,7 +152,7 @@ function Star1({ customerName, formDataRating, setFormDataRating, activeStep, se
                 </Box>
             </Container>
             <Box sx={{ width: '100%', marginTop: 5, marginBottom: 5 }}>
-                <Stepper activeStep={activeStep - 1} alternativeLabel className={style.MuiStepLabel_label}>
+                <Stepper activeStep={activeStep - 1} alternativeLabel >
                     {steps.map((label: any) => (
                         <Step
                             key={label}

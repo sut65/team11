@@ -1,56 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import { DataGrid } from '@mui/x-data-grid';
-import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Delete, Edit, Report } from '@mui/icons-material';
 import dayjs, { Dayjs } from 'dayjs';
-import { ReviewInterface } from '../../../interfaces/ReviewUI';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import { Container, FormControl, Rating, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, Select, SelectChangeEvent } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
-import MuiAccordionSummary, {
-    AccordionSummaryProps,
-} from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import { UrgencyInterface } from '../../../interfaces/ClaimUI';
 import ContentClaimOrder from './ContentClaim';
-import { Link as RouterLink, Route } from "react-router-dom";
-
-
-function refreshPage() {
-    window.location.reload();
-}
-
-const successAlert = async () => {
-    Swal.fire({
-        title: 'ลบข้อมูลสำเร็จ',
-        text: 'You clicked the button.',
-        icon: 'success'
-    });
-
-}
-const errorAlert = () => {
-    Swal.fire({
-        title: 'ลบข้อมูลไม่สำเร็จ',
-        text: 'You clicked the button.',
-        icon: 'error'
-    });
-}
-
-function renderRating(params: GridRenderCellParams<number>) {
-    return <Rating readOnly value={params.value} />;
-}
+import { Link as RouterLink} from "react-router-dom";
 
 
 function CreateClaim() {
@@ -63,7 +25,6 @@ function CreateClaim() {
     const [date, setDate] = useState<Dayjs | null>(dayjs);
     const [orderProblem, setOrderProblem] = useState('');
     const [claimComment, setClaimComment] = useState('');
-    // const [statusClaimID, setStatusClaimID] = React.useState<any[]>([]);
 
     const [dataOrderID, setdataOrderID] = useState('');
     const [dataDateOrder, setdataDateOrder] = useState('');
@@ -112,8 +73,6 @@ function CreateClaim() {
                 if (res.data) {
                     setUrgencys(res.data);
                     // console.log(res.data);
-
-                    // setReviews(res.data)
                 }
             });
     };
@@ -128,7 +87,7 @@ function CreateClaim() {
             .then((res) => {
                 if (res.data) {
                     res.data.map((item: any) => {
-                        console.log("itemitemitemitemitem", item)
+                        // console.log("itemitemitemitemitem", item)
                         setReviewID(item.ID);
                         setDataReason(item.Checked_payment.Payment.OrderTech.ORDER.Reason);
                         setdataOrderID(item.Checked_payment.Payment.OrderTech.ORDER.ID);
@@ -153,9 +112,9 @@ function CreateClaim() {
             .then((res) => {
                 if (res.data) {
                     getReview();
-                    console.log("Success");
+                    // console.log("Success");
                 } else {
-                    console.log("Error");
+                    // console.log("Error");
                 }
             });
     };
@@ -170,7 +129,7 @@ function CreateClaim() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                 }
             });
     };
@@ -186,7 +145,7 @@ function CreateClaim() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                 }
             });
     };
@@ -217,7 +176,7 @@ function CreateClaim() {
             StateID: 5,
         };
 
-        console.log(dataUpdateOrderStateForClaimOrder);
+        // console.log(dataUpdateOrderStateForClaimOrder);
         const apiUrl = "http://localhost:8080/CreateClaimOrder";
         const requestOptions = {
             method: "POST",
@@ -227,7 +186,7 @@ function CreateClaim() {
         fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (res.data) {
                     // Alert การบันทึกสำเส็จ
                     UpdateCheckBtReport(dataCheckBtReport);

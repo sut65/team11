@@ -51,7 +51,7 @@ type Review struct {
 func init() {
 	govalidator.CustomTypeTagMap.Set("CheckDateTime_TimestampReview", func(i interface{}, _ interface{}) bool {
 		t := i.(time.Time)
-		if t.Before(time.Now().Add(-5 * time.Minute)) || t.After(time.Now().Add(5 * time.Minute)) {
+		if t.Before(time.Now().Add(-30 * time.Minute)) || t.After(time.Now().Add(30 * time.Minute)) {
 			return false
 
 		} else {

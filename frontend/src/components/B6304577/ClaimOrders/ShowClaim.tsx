@@ -1,33 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import { Link as RouterLink, Route } from "react-router-dom";
+import { Link as RouterLink} from "react-router-dom";
 import Button from '@mui/material/Button';
 import { ReviewInterface } from '../../../interfaces/ReviewUI';
-import { DataGrid, GridEditRowsModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { Delete, Edit, Report } from '@mui/icons-material';
-import { Box, Rating } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import { Delete, Edit } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import dayjs from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import style from "./style.module.css";
 import "./claim.css"
 
-
-const headerStyles = {
-    backgroundColor: 'blue',
-    color: 'white',
-    fontWeight: 'bold',
-};
 
 const successAlert = async () => {
     Swal.fire({
@@ -45,18 +29,11 @@ const errorAlert = () => {
     });
 }
 
-function renderRating(params: GridRenderCellParams<number>) {
-    return <Rating readOnly value={params.value} />;
-}
-
-
 function ShowClaim() {
     const [reviews, setReviews] = React.useState<any[]>([]);
     const [Claims, setClaims] = useState<any[]>([]);
     const userID = parseInt(localStorage.getItem("uid") + "");
 
-
-    console.log(reviews)
     const getReview = async () => {
         const apiUrl = `http://localhost:8080/ListReviews_filter_by_customer/${userID}`;
         const requestOptions = {
@@ -68,7 +45,6 @@ function ShowClaim() {
             .then((res) => {
                 if (res.data) {
                     setReviews(res.data)
-                    console.log("getReview", res.data)
                 }
             });
     };
@@ -83,7 +59,7 @@ function ShowClaim() {
             .then((res) => {
                 if (res.data) {
                     setClaims(res.data);
-                    console.log("getListClaimOrders: ", res.data);
+                    // console.log("getListClaimOrders: ", res.data);
 
                     // setReviews(res.data)
                 }
@@ -101,9 +77,9 @@ function ShowClaim() {
             .then((res) => {
                 if (res.data) {
                     getReview();
-                    console.log("Success");
+                    // console.log("Success");
                 } else {
-                    console.log("Error");
+                    // console.log("Error");
                 }
             });
     };
@@ -118,7 +94,7 @@ function ShowClaim() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                 }
             });
     };
@@ -134,7 +110,7 @@ function ShowClaim() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                 }
             });
     };
@@ -158,9 +134,6 @@ function ShowClaim() {
                 const handleClick = () => {
                     params.api.setRowMode(params.id, 'edit');
                     localStorage.setItem("claimID", params.row.ID);
-                    // setActiveStep(1);
-                    // setClaimID(params.id)
-                    // console.log(params.id);
                 };
                 return <Button id='textBtInTableShow' disabled={params.row.StatusClaim.ID !== 1} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} component={RouterLink} to="/EditContentClaimOrder">{<Edit />}แก้ไข</Button>;
             }
@@ -192,8 +165,8 @@ function ShowClaim() {
                         ID: parseInt(params.row.Review.Checked_payment.Payment.OrderTech.ORDER.ID),
                         StateID: 4,
                     };
-                    console.log("dataCheckBtReport : ", dataCheckBtReport);
-                    console.log("dataCheckBtEditAndDelInReview : ", dataCheckBtEditAndDelInReview);
+                    // console.log("dataCheckBtReport : ", dataCheckBtReport);
+                    // console.log("dataCheckBtEditAndDelInReview : ", dataCheckBtEditAndDelInReview);
 
                     const apiUrl = "http://localhost:8080/DeleteClaimOrder";
                     const requestOptions = {
@@ -216,10 +189,10 @@ function ShowClaim() {
 
                                 successAlert();
                                 getListClaimOrders();
-                                console.log("Success");
+                                // console.log("Success");
                             } else {
                                 errorAlert();
-                                console.log("Error");
+                                // console.log("Error");
                             }
                         });
 

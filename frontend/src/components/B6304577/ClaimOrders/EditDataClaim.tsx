@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Delete, Edit } from '@mui/icons-material';
-import dayjs from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-import { Link as RouterLink, Route } from "react-router-dom";
+import { Link as RouterLink} from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormControl, Select, SelectChangeEvent } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import dayjs, { Dayjs } from 'dayjs';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
 const successAlert = () => {
@@ -48,10 +46,10 @@ function EditContentClaimOrder() {
 
     const [reviewID, setReviewID] = useState('');
     const [urgencyID, setUrgencyID] = useState('');
-    const [date, setDate] = useState<Date | null>(null);
+    const [value, setValue] = useState<Dayjs | null>(dayjs);
+    let [dateEdit, updateDate] = useState(new Date());
     const [orderProblem, setOrderProblem] = useState('');
     const [claimComment, setClaimComment] = useState('');
-    // const [statusClaimID, setStatusClaimID] = React.useState<any[]>([]);
 
     const [dataOrderID, setdataOrderID] = useState('');
     const [dataReason, setDataReason] = useState('');
@@ -60,7 +58,6 @@ function EditContentClaimOrder() {
     const [dataTechnician, setDataTechnician] = useState('');
     const [Claims, setClaims] = useState<any[]>([]);
     const [urgencys, setUrgencys] = useState<any[]>([]);
-    // console.log(Claims);
 
     const claimID = parseInt(localStorage.getItem("claimID") + "");
 
@@ -91,7 +88,7 @@ function EditContentClaimOrder() {
     const handleClear = () => {
         setReviewID('');
         setUrgencyID('');
-        setDate(null);
+        // setDate(null);
         setOrderProblem('');
         setClaimComment('');
 
@@ -104,20 +101,18 @@ function EditContentClaimOrder() {
     };
 
 
-    // const getReview = async () => {
-    //     const apiUrl = "http://localhost:8080/GetListReviews";
-    //     const requestOptions = {
-    //         method: "GET",
-    //         headers: { "Content-Type": "application/json" },
-    //     };
-    //     fetch(apiUrl, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 setReviews(res.data)
-    //             }
-    //         });
-    // };
+
+
+
+    // เราใช้ useEffect เพื่อจัดการบางอย่างเมื่อ component เราถูก insert หรือ remove ออกจาก UI tree
+    useEffect(() => {
+        // เราสร้าง setInterval เพื่อ udpate date state ค่าใหม่ทุกๆ 1 วินาที
+        let timerID = setInterval(() => updateDate(new Date()), 1000);
+
+        // เราต้อง return function สำหรับ clear interval ด้วยเมื่อ component ถูกเอาออกจาก UI tree
+        return () => clearInterval(timerID);
+    });
+
     const getUrgencyID = async () => {
         const apiUrl = "http://localhost:8080/GetListUrgency";
         const requestOptions = {
@@ -159,8 +154,6 @@ function EditContentClaimOrder() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log("getEditDataClaim:::::", res.data);
-                    console.log(":::::::::::::::::::::", res.data.ClaimTime);
                     setReviewID(res.data.Review_ID);
                     setDataReason(res.data.Review.Checked_payment.Payment.OrderTech.ORDER.Reason);
                     setdataDateOrder(res.data.Review.Checked_payment.Payment.OrderTech.ORDER.Date_time)
@@ -170,7 +163,6 @@ function EditContentClaimOrder() {
                     setOrderProblem(res.data.OrderProblem);
                     setClaimComment(res.data.Claim_Comment);
                     setUrgencyID(res.data.Urgency_ID);
-                    setDate(res.data.ClaimTime);
                 }
             });
     }
@@ -188,12 +180,12 @@ function EditContentClaimOrder() {
             ID: claimID,
             Review_ID: reviewID,
             Urgency_ID: urgencyID,
-            ClaimTime: date,
+            ClaimTime: value?.format("YYYY-MM-DD").concat("T", dateEdit.toLocaleString().split(" ")[1], "+07:00"),
             OrderProblem: orderProblem,
             Claim_Comment: claimComment,
             StatusClaim_ID: 1,
         };
-        console.log(data);
+        // console.log(data);
         const apiUrl = "http://localhost:8080/UpdateClaimOrder";
         const requestOptions = {
             method: "PATCH",
@@ -209,10 +201,23 @@ function EditContentClaimOrder() {
                         handleClear();
                         window.location.href = "/ShowClaim";
                     }, 1500)
-                    console.log("Success");
+                    // Alert การบันทึกสำเส็จ
+                    Swal.fire({
+                        title: 'แก้ไขสำเร็จ',
+                        text: 'เรารับการรายงานของคุณไว้แล้ว',
+                        icon: 'success'
+                    });
+
+                    handleClear();
+                    // setActiveStep(0)
+
                 } else {
-                    errorAlert();
-                    console.log("Error");
+                    Swal.fire({
+                        // Display Back-end text response 
+                        title: 'แก้ไขไม่สำเร็จ',
+                        text: res.error.split(";")[0],
+                        icon: 'error'
+                    });
                 }
             });
     };
@@ -223,7 +228,7 @@ function EditContentClaimOrder() {
         let data = {
             Review_ID: reviewID,
             Urgency_ID: urgencyID,
-            ClaimTime: date,
+            ClaimTime: value,
             OrderProblem: orderProblem,
             Claim_Comment: claimComment,
             StatusClaim_ID: 1,
@@ -241,17 +246,17 @@ function EditContentClaimOrder() {
                 if (res.data) {
                     successAlert();
                     getListClaimOrders();
-                    console.log("Success");
+                    // console.log("Success");
                 } else {
                     errorAlert();
-                    console.log("Error");
+                    // console.log("Error");
                 }
             });
         let dataCheckSucceed = {
             ID: reviewID,
             CheckSucceed: true,
         };
-        console.log(dataCheckSucceed);
+        // console.log(dataCheckSucceed);
 
         const apiUrlCheckSucceed = "http://localhost:8080/UpdateReviewINClaimOrder";
         const requestOptionsCheckSucceed = {
@@ -263,9 +268,9 @@ function EditContentClaimOrder() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log("Success");
+                    // console.log("Success");
                 } else {
-                    console.log("Error");
+                    // console.log("Error");
                 }
             });
     };
@@ -295,7 +300,7 @@ function EditContentClaimOrder() {
                     let data = {
                         ID: params.id
                     };
-                    console.log(data);
+                    // console.log(data);
                     const apiUrl = "http://localhost:8080/DeleteClaimOrder";
                     const requestOptions = {
                         method: "DELETE",
@@ -308,10 +313,10 @@ function EditContentClaimOrder() {
                             if (res.data) {
                                 successAlert();
                                 getListClaimOrders();
-                                console.log("Success");
+                                // console.log("Success");
                             } else {
                                 errorAlert();
-                                console.log("Error");
+                                // console.log("Error");
                             }
                         });
 
@@ -472,10 +477,10 @@ function EditContentClaimOrder() {
                             วันที่แจ้งเคลม
                         </Typography>
                         <FormControl fullWidth variant="outlined">
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
-                                    value={date}
-                                    onChange={(newValue) => { setDate(newValue); }}
+                                    value={value}
+                                    onChange={(newValue) => { setValue(newValue); }}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
                             </LocalizationProvider>

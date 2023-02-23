@@ -1,30 +1,16 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import { Link as RouterLink, Route } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import Button from '@mui/material/Button';
 import { ReviewInterface } from '../../../interfaces/ReviewUI';
 import { DataGrid } from '@mui/x-data-grid';
 import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Delete, Edit, Report } from '@mui/icons-material';
 import { Box, Rating } from '@mui/material';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import Typography from '@mui/material/Typography';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "./review.css"
 
-
-function refreshPage() {
-    window.location.reload();
-}
 
 const successAlert = async () => {
     Swal.fire({
@@ -50,25 +36,11 @@ function renderRating(params: GridRenderCellParams<number>) {
 function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRating, setFormDataRating, setCheckedPaymentsAll }: any) {
     const [reviews, setReviews] = useState<any[]>([]);
     const [checkedPayments, setCheckedPayments] = useState<any[]>([]);
-    const [checkReviewButton, setCheckReviewButton] = useState<any[]>([]);
 
-    console.log(userID);
+    // console.log(userID);
 
-
-
-
-
-    const { checkedPaymentID, customerID } = formDataRating
-
-    reviews.map((i) => checkReviewButton.push(i.CheckedPayment_ID))
-
-
-    const handleStart = () => {
-        setActiveStep(activeStep + 1);
-    };
 
     //function fethch data จาก backend
-
     const getReview = async () => {
         const apiUrl = `http://localhost:8080/ListReviews_filter_by_customer/${userID}`;
         const requestOptions = {
@@ -109,7 +81,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data);
+                    // console.log(res.data);
                 }
             });
     };
@@ -130,14 +102,13 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             renderCell: (params: GridRenderCellParams) => {
                 const handleClick = () => {
                     params.api.setRowMode(params.id, 'edit');
-                    console.log(params.row);
                     setActiveStep(activeStep + 1);
                     setCheckedPaymentsAll(params.row)
                     setFormDataRating({ ...formDataRating, checkedPaymentID: params.id, customerID: params.row.CustomerID }) //รอระบบล็อคอินจะสามารถเรียก CustomerID จากหน้าlogin
 
                 };
 
-                console.log(params.row.CheckForShowReviewBT);
+                // console.log(params.row.CheckForShowReviewBT);
 
 
 
@@ -212,7 +183,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                     params.api.setRowMode(params.id, 'edit');
                     setActiveStep(4);
                     setReviewsID(params.id);
-                    console.log(params.row);
+                    // console.log(params.row);
                 };
                 return <Button id='textBtInTableReview_checkedPayment' disabled={params.row.CheckDisableBtEditAndDel === true} variant="contained" onClick={handleClick} sx={{ cursor: 'pointer', color: 'ff3222', borderRadius: '25px' }} >{<Edit />}แก้ไข</Button>;
             }
@@ -237,7 +208,7 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
                         CheckForShowReviewBT: false,
                     };
 
-                    console.log(data);
+                    // console.log(data);
                     const apiUrl = "http://localhost:8080/DeleteReview";
                     const requestOptions = {
                         method: "DELETE",
@@ -256,10 +227,10 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
 
                                 successAlert();
 
-                                console.log("Success");
+                                // console.log("Success");
                             } else {
                                 errorAlert();
-                                console.log("Error");
+                                // console.log("Error");
                             }
                         });
                 };
@@ -275,7 +246,6 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             width: 180,
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
-                console.log(params.row.Checked_payment.Payment.OrderTech.ORDER.StateID)
                 const handleClick = () => {
                     params.api.setRowMode(params.id, 'edit');
 
@@ -299,7 +269,6 @@ function Content({ userID, setActiveStep, activeStep, setReviewsID, formDataRati
             editable: false,
             renderCell: (params: GridRenderCellParams) => {
                 const handleClick = () => {
-                    console.log(params.row)
                     localStorage.setItem("localOrderID", params.row.Checked_payment.Payment.OrderTech.ORDER.ID);
                 };
                 
