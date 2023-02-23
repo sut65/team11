@@ -5,13 +5,26 @@ import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import { PaymentInterface, BankInterface, } from "../../../interfaces/PaymentUI";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import "../CSS/PAY_and_CHECKED.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
 import Table_Payment_show from "../Payment/Table_Payment_show";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
+
+import { DateTimePicker, DateTimePickerTabs, DateTimePickerTabsProps, } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import QueryBuilderOutlinedIcon from '@mui/icons-material/QueryBuilderOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+
+const CustomTabs = (props: DateTimePickerTabsProps) => (
+  <React.Fragment >
+    <DateTimePickerTabs {...props} />
+    <Box sx={{ backgroundColor: 'blueviolet', height: 5 }} />
+  </React.Fragment>
+);
 
 ////////////////////////////////////////////_convert_////////////////////////////////////////////////////
 const convertType = (data: string | number | undefined | Float32Array | any) => {
@@ -22,11 +35,11 @@ const convertType = (data: string | number | undefined | Float32Array | any) => 
 //ตกแต่ง Grid 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2, padding: theme.spacing(1),  textAlign: 'center',  color: theme.palette.text.secondary,
+  ...theme.typography.body2, padding: theme.spacing(1), textAlign: 'center', color: theme.palette.text.secondary,
 }));
 const Item3 = styled(Paper)(({ theme }) => ({
   borderRadius: '15px',
-  backgroundColor:'rgba(255,255,255,0.5)',
+  backgroundColor: 'rgba(255,255,255,0.5)',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -34,13 +47,13 @@ const Item3 = styled(Paper)(({ theme }) => ({
   height: 50,
 }));
 const P3 = styled(Paper)(({ theme }) => ({
-  fontFamily:'Noto Sans Thai',
+  fontFamily: 'Noto Sans Thai',
   borderRadius: '15px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   height: 50,
-  backgroundColor:'#FFFFFF',
+  backgroundColor: '#FFFFFF',
   fontSize: 17,
 }));
 ///////////////////////////////////////// Css Internal//////////////////////////////////////////////////////////////
@@ -293,7 +306,7 @@ function Edit_Checked_payment() {
             </Grid>
             <br /><br />
           </Container>
-            <h5 id="Topic_font" style={{textAlign: "center"}}> *ท่านกำลังแก้ไข รายการบันทึกการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว </h5>
+          <h5 id="Topic_font" style={{ textAlign: "center" }}> *ท่านกำลังแก้ไข รายการบันทึกการชำระเงินที่บันทึกเข้าสู่ระบบแล้ว </h5>
           {button_submit_back()}
           <br /><br />
         </Container>
@@ -390,20 +403,23 @@ function Edit_Checked_payment() {
   function Datetime() {
     return (
       <FormControl fullWidth variant="outlined">
-        <Stack component="form" noValidate spacing={3}>
-          <TextField
-            id="datetime-local"
-            type="datetime-local"
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+            renderInput={(params) => <TextField {...params} />}
             value={Date_time ? dayjs(Date_time).format('YYYY-MM-DDTHH:mm') : ''}
-            onChange={(e) => {
-              setDate(dayjs(e.target.value));
+            onChange={(newValue) => {
+              setDate(dayjs(newValue));
             }}
-            sx={{ width: '100%' }}
-            InputLabelProps={{
-              shrink: true,
+            hideTabs={false}
+            components={{ Tabs: CustomTabs }}
+            componentsProps={{
+              tabs: {
+                dateRangeIcon: <CalendarMonthOutlinedIcon />,
+                timeIcon: <QueryBuilderOutlinedIcon />,
+              },
             }}
           />
-        </Stack>
+        </LocalizationProvider>
       </FormControl>
     );
   }
@@ -423,7 +439,7 @@ function Edit_Checked_payment() {
             onClick={Update}
             variant="contained"
             size="large"
-            style={{width: '200px',height:'50px'}}
+            style={{ width: '200px', height: '50px' }}
           >
             <b>แก้ไขการตรวจสอบ</b>
           </Button>
