@@ -56,6 +56,7 @@ p {
   cursor: 'pointer';
   font-size: 17;
   box-shadow: 6px 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 16px; 
 }
 
 #btn_green {
@@ -71,6 +72,7 @@ p {
   background-color: #009a00;
   cursor: 'pointer';
   font-size: 17;
+  border-radius: 10px;
 }
 
 #btn_orange_table {
@@ -78,6 +80,7 @@ p {
   background-color: #F99417;
   cursor: 'pointer';
   font-size: 17;
+  border-radius: 10px;
 }
 
 #btn_orange {
@@ -86,6 +89,7 @@ p {
   cursor: 'pointer';
   font-size: 17;
   box-shadow: 6px 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
 }
 
 #btn_red {
@@ -93,6 +97,7 @@ p {
   background-color: #FF3222;
   cursor: 'pointer';
   font-size: 17;
+  border-radius: 10px;
 
 }
 
@@ -104,6 +109,7 @@ p {
   box-shadow: 6px 4px 8px rgba(0, 0, 0, 0.5);
   width: 120px;
   height: 50px;
+  border-radius: 16px;
 
 
 }

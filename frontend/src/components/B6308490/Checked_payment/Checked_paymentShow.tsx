@@ -10,8 +10,6 @@ import TabPanelUnstyled from '@mui/base/TabPanelUnstyled';
 import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import TabUnstyled, { tabUnstyledClasses } from '@mui/base/TabUnstyled';
 
-
-
 function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
   const [tabIndex, setTabIndex] = React.useState(0);
   //===================================================================================================================================
@@ -85,7 +83,7 @@ function Paytech_Show({ ID, set_ID, setActiveStep }: any) {
                 <TabsUnstyled defaultValue={0}>
                     <TabsList className="TabsList">
                         <Tab>รายการชำระเงินที่ยังไม่ตรวจสอบ</Tab>
-                        <Tab>รายการชำระเงินทั้งหมดทที่ตรวจสอบแล้ว</Tab>
+                        <Tab>รายการชำระเงินทั้งหมดที่ตรวจสอบแล้ว</Tab>
                     </TabsList>
                     <TabPanel value={0}>{show_Payment_not_check()}</TabPanel>
                     <TabPanel value={1}>{show_all_CheckedPayment()}</TabPanel>

@@ -2,19 +2,13 @@ import { Box, Button, colors, Container, IconButton, Typography } from '@mui/mat
 import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRenderCellParams, GridToolbar, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
-// import Payment, { Payment_get_Ordertech_ID } from './Payment'
 import React from 'react';
 import { PaymentInterface } from '../../../interfaces/PaymentUI';
 import dayjs from 'dayjs';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import { Delete, Edit } from '@mui/icons-material';
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import "../CSS/PAY_and_CHECKED.css";
 import Pagination from '@mui/material/Pagination';
-import { Checked_paymentInterface } from '../../../interfaces/Checked_paymentUI';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { bool } from 'prop-types';
-import MarkunreadIcon from '@mui/icons-material/Markunread';
 import SpeakerNotesOffIcon from '@mui/icons-material/SpeakerNotesOff';
 import TextsmsIcon from '@mui/icons-material/Textsms';
 import LensIcon from '@mui/icons-material/Lens';
@@ -43,8 +37,6 @@ function CustomPagination() {
   );
 }
 
-
-
 function Table_Payment_show() {
   //===============list payment details =================
   const [Payment, set_All_Payment] = React.useState<PaymentInterface[]>([]);
@@ -65,12 +57,8 @@ function Table_Payment_show() {
       });
   };
   //====================================================
-
-
   //ฟังก์ชัน สำหรับ Datagrid
   const columns: GridColDef[] = [
-
-
     //{ field: "ID", headerName: "Payment ID", width: 100, headerClassName:'title_table',cellClassName:"cell_table" },
     {
       field: 'แก้ไข',
@@ -106,7 +94,7 @@ function Table_Payment_show() {
         const handleClick = () => {
           swalWithBootstrapButtons.fire({
             title: 'คุณกำลังลบรายการชำระเงิน',
-            text: "การลบรายการชำระเงินนี้ คุณจะต้องบันทึกรายการชำระเงินใหม่เท่านั้น",
+            text: "การลบรายการชำระเงินนี้ คุณจำเป็นต้องบันทึกรายการชำระเงินใหม่เท่านั้น",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'ฉันต้องการลบ',
@@ -291,29 +279,4 @@ function Table_Payment_show() {
 
   )
 }
-
 export default Table_Payment_show
-
-//===============list payment details =================
-// function Get_Message_for_Customer(id: any) {
-//   const [Message, setMessage] = React.useState("")
-//   const getMessage = async () => {
-//     const apiUrl = `http://localhost:8080/GetChecked_payment/${id}`;
-//     const requestOptions = {
-//       method: "GET",
-//       headers: { "Content-Type": "application/json" },
-//     };
-//     fetch(apiUrl, requestOptions)
-//       .then((response) => response.json())
-//       .then((res) => {
-//         if (res.data) {
-//           setMessage(res.data.Message);
-//         } else {
-//           console.log("Table_Payment_show error");
-//         }
-//       });
-//   };
-//   getMessage
-//   return Message
-// }
-//====================================================

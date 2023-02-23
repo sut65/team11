@@ -3,10 +3,7 @@ import { DataGrid, GridColDef, gridPageCountSelector, gridPageSelector, GridRend
 import { useEffect, useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
 import React from 'react';
-import { PaymentInterface } from '../../../interfaces/PaymentUI';
-import dayjs from 'dayjs';
 import { OrderTechInterface } from '../../../interfaces/IOrderTech';
-import { Edit } from '@mui/icons-material';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import Pagination from '@mui/material/Pagination';
 
@@ -15,16 +12,16 @@ function CustomPagination() {
     const apiRef = useGridApiContext();
     const page = useGridSelector(apiRef, gridPageSelector);
     const pageCount = useGridSelector(apiRef, gridPageCountSelector);
-  
+
     return (
-      <Pagination
-        color="primary"
-        count={pageCount}
-        page={page + 1}
-        onChange={(event, value) => apiRef.current.setPage(value - 1)}
-      />
+        <Pagination
+            color="primary"
+            count={pageCount}
+            page={page + 1}
+            onChange={(event, value) => apiRef.current.setPage(value - 1)}
+        />
     );
-  }
+}
 function Table_Paytech_show() {
     const [Paytech_all, set_All_Payment] = React.useState<OrderTechInterface[]>([]);
     const get_All_Paytech = async () => {
@@ -52,22 +49,16 @@ function Table_Paytech_show() {
             headerName: '',
             width: 150,
             editable: false,
-            headerClassName:'title_table',cellClassName:"cell_table",
+            headerClassName: 'title_table', cellClassName: "cell_table",
             renderCell: (params: GridRenderCellParams) => {
-
-                // const [OrderTech_ID, setOrderTech_ID] = useState(9999);
                 const handleClick = () => {
                     params.api.setRowMode(params.id, 'edit');
-                    // const Test_ID = params.id.toString();
-                    //console.log(params.id);
-                    // Payment_get_Ordertech_ID(params.id.toString());
                     localStorage.setItem('Ordertech_ID', params.id.toString());
-
                 };
                 return (
                     <RouterLink to={`/Payment`} style={{ textDecoration: 'none' }}>
-                        <Button id= "btn_green_table"
-                        variant="contained" onClick={handleClick}
+                        <Button id="btn_green_table"
+                            variant="contained" onClick={handleClick}
                             sx={{ cursor: 'pointer', color: 'ff3222', backgroundColor: '#009a00' }} >
                             {<LocalAtmIcon />} ชำระเงิน
                         </Button>
@@ -76,31 +67,30 @@ function Table_Paytech_show() {
             }
         },
         //{ field: "ID", headerName: "OrderTechID", width: 100 },
-        { field: "OrderID", headerName: "OrderID", width: 70 ,headerClassName:'title_table',cellClassName:"cell_table"},
+        { field: "OrderID", headerName: "OrderID", width: 70, headerClassName: 'title_table', cellClassName: "cell_table" },
         //{ field: "TimeOut", headerName: "Time out", width: 100 },
 
         {
-            field: "ID", headerName: "ปัญหาที่พบ", width: 200,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
+            field: "ID", headerName: "ปัญหาที่พบ", width: 200, headerClassName: 'title_table', cellClassName: "cell_table", renderCell: params => {
                 return <div>{params.row.ORDER.Reason} </div>
             }
         },
-        { field: "Solving", headerName: "Solving", width: 200,headerClassName:'title_table',cellClassName:"cell_table" },
+        { field: "Solving", headerName: "Solving", width: 200, headerClassName: 'title_table', cellClassName: "cell_table" },
         {
-            field: "StatusID", headerName: "Status", width: 120,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
+            field: "StatusID", headerName: "Status", width: 120, headerClassName: 'title_table', cellClassName: "cell_table", renderCell: params => {
                 return <div>{params.row.Status.StatusName}</div>
             }
         },
         {
-            field: "DamageID", headerName: "ระดับความรุนแรง", width: 150,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
+            field: "DamageID", headerName: "ระดับความรุนแรง", width: 150, headerClassName: 'title_table', cellClassName: "cell_table", renderCell: params => {
                 return <div>{params.row.Damage.DamageName}</div>
             }
         },
         {
-            field: "TechnicianID", headerName: "ช่างผู้ซ่อม", width: 210,headerClassName:'title_table',cellClassName:"cell_table", renderCell: params => {
+            field: "TechnicianID", headerName: "ช่างผู้ซ่อม", width: 210, headerClassName: 'title_table', cellClassName: "cell_table", renderCell: params => {
                 return <div>{params.row.Technician.Name}</div>
             }
         },
-        // sum of number table is 815
     ];
 
     useEffect(() => {
@@ -117,8 +107,8 @@ function Table_Paytech_show() {
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[50]}
-                components={{ Toolbar: GridToolbar, Pagination: CustomPagination,}}
-                style={{ height: '500px',outline: '3px solid #db36a4', borderRadius: '25px'  }}
+                components={{ Toolbar: GridToolbar, Pagination: CustomPagination, }}
+                style={{ height: '500px', outline: '3px solid #db36a4', borderRadius: '25px' }}
             />
         </div>
     )

@@ -3,14 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link as RouterLink, Route } from "react-router-dom";
 import Container from "@mui/material/Container";
 import { Snackbar, Grid, Box, TextField, AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
-import { PaymentInterface, BankInterface, } from "../../../interfaces/PaymentUI";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import dayjs, { Dayjs } from "dayjs";
 import "../CSS/PAY_and_CHECKED.css";
 import { Checked_paymentInterface, Status_checkInterface } from "../../../interfaces/Checked_paymentUI";
-import Table_Payment_show from "../Payment/Table_Payment_show";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
-import Stack from '@mui/material/Stack';
 
 import { DateTimePicker, DateTimePickerTabs, DateTimePickerTabsProps, } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -110,38 +107,17 @@ function Edit_Checked_payment() {
     setStatus_check_ID(event.target.value as string);
   };
 
-
-
-
-
-
-
-
-
-  // const onChangeOther = (event: SelectChangeEvent) => {
-  //   setOther(event.target.value as string);
-  // };
-  // const onChangeMessage = (event: SelectChangeEvent) => {
-  //   setMessage(event.target.value as string);
-  // };
-
-
-
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
   async function Update() {
     let data = {
 
       ID: convertType(Check_payment_ID),
-      // Payment_ID: convertType(Check_payment_ID), // TODO
       Other: Checked_payment.Other ?? "",
       Message: Checked_payment.Message ?? "",
       Date_time: Date_time,
       Status_ID: convertType(Status_check_ID),
-      CustomerID: userID,
+      Admin_ID: userID,
 
     };
     //console.log(data);
@@ -202,7 +178,6 @@ function Edit_Checked_payment() {
   //ดึงค่าทั้งหมด จากตาราง Payment
   const [Data_Checked, setData_Checked] = React.useState<Checked_paymentInterface[]>([]);
   const getData_Checked = async () => {
-    // const apiUrl = `http://localhost:8080/ListCheckPayment_UPdate`;
     const apiUrl = `http://localhost:8080/ListChecked_payment`;
     const requestOptions = {
       method: "GET",
@@ -212,7 +187,6 @@ function Edit_Checked_payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          // console.log('listpaytech----->',res.data);
           setData_Checked(res.data);
 
         } else {
@@ -220,22 +194,6 @@ function Edit_Checked_payment() {
         }
       });
   };
-
-  // const getUser = async () => {
-  //   const apiUrl = `http://localhost:8080/user/${userID}`;
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
-  //   fetch(apiUrl, requestOptions)
-  //     .then((response) => response.json())
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setUserName(res.data.Name);
-  //       }
-  //     });
-  // };
-
   const getdata_before_edit_CheckedPaymennt = async () => {
     const apiUrl = `http://localhost:8080/GetChecked_payment/${Check_payment_ID}`;
     const requestOptions = {
@@ -246,22 +204,18 @@ function Edit_Checked_payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          // setOther(res.data.Other);
-          // setMessage(res.data.Message);
           Checked_payment.Message = res.data.Message;
           Checked_payment.Other = res.data.Other;
-          //setStatus_check_ID(res.data.Status_ID); admore preload
+          setStatus_check_ID(res.data.Status_ID);
         } else {
           console.log("else");
         }
       });
   };
 
-  //useEffect เป็นการเรียกใช้งานฟังก์ชัน useEffect เมื่อ component นั้นเกิดการเปลี่ยนแปลงค่าของ state ที่เราเล็งเอาไว้ หรือหากไม่กำหนดค่า state ที่เล็งเอาไว้ การทำงานของ useEffect จะทำงานเพียงครั้งเดียวคือก่อน component นั้นจะถูกแสดงขึ้นมา
+
   useEffect(() => {
     getStatus_check();
-    // getChecked_payment();
-    // getsetCheck_payment_Combo();
     getData_Checked();
     getdata_before_edit_CheckedPaymennt();
 
