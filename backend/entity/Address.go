@@ -55,7 +55,7 @@ type Address struct {
 
 	Post_Code   int       `valid:"required~กรุณากรอกรหัสไปรษณีย์,PostCodeNotOver5Digit~กรุณากรอกรหัสไปรษณีย์ 5 หลัก"`
 	Detail      string    `valid:"required~กรุณากรอกรายละเอียดที่อยู่,maxstringlength(500)~รายละเอียดที่อยู่เกิน 500 ตัวอักษร"`
-	Record_Time time.Time `valid:"required~กรุณาใส่วันที่ และ เวลา,CheckDatetimeNotPast~วันที่ และ เวลา ไม่ถูกต้อง"`
+	Record_Time time.Time `valid:"required~กรุณาใส่วันที่ และ เวลา,CheckDatetimeAddressAndDevice~วันที่ และ เวลา ไม่ถูกต้อง"`
 
 	ORDER []ORDER `gorm:"ForeignKey:AddressID"`
 }
@@ -70,5 +70,14 @@ func init() {
 			return false
 		}
 		return true
+	})
+
+	govalidator.CustomTypeTagMap.Set("CheckDatetimeAddressAndDevice", func(i interface{}, _ interface{}) bool {
+		t := i.(time.Time)
+		if t.Before(time.Now().Add(-5*time.Minute)) || t.After(time.Now().Add(5*time.Minute)) {
+			return false
+		} else {
+			return true
+		}
 	})
 }
