@@ -8,56 +8,56 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"; //npm i react-router-dom
 
+
 import "./home.css"
 
-import { Paper } from '@material-ui/core';
-import { margin } from '@mui/system';
+
 
 
 
 
 const images = [
     {
-        url: '/static/images/buttons/breakfast.jpg',
-        title: 'Breakfast',
+        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ระบบ show สมาชิกแจ้งซ่อม',
+        width: '30%',
+        path: "CustomerShow",
+    },
+    {
+        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ระบบที่อยู่ผู้แจ้ง',
+        width: '30%',
+        path: "AddressShowPage",
+    },
+    {
+        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ระบบอุปกรณ์ผู้แจ้ง',
+        width: '30%',
+        path: "DeviceShowPage",
+    },
+    {
+        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ระบบการจัดการข้อมูลการแจ้งซ่อม',
+        width: '30%',
+        path: "ShowOrder",
+    },
+    {
+        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ระบบชำระเงิน',
+        width: '30%',
+        path: "PaymentShow",
+    },
+    {
+        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ระบบประเมินความพึงพอใจ',
         width: '30%',
         path: "RankingForm",
     },
     {
-        url: '/static/images/buttons/burgers.jpg',
-        title: 'Burgers',
+        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ตรวจสอบการเคลม',
         width: '30%',
-        path: "RankingForm",
-    },
-    {
-        url: '/static/images/buttons/camera.jpg',
-        title: 'Camera',
-        width: '30%',
-        path: "RankingForm",
-    },
-    {
-        url: '/static/images/buttons/camera.jpg',
-        title: 'Camera',
-        width: '30%',
-        path: "RankingForm",
-    },
-    {
-        url: '/static/images/buttons/camera.jpg',
-        title: 'Camera',
-        width: '30%',
-        path: "RankingForm",
-    },
-    {
-        url: '/static/images/buttons/camera.jpg',
-        title: 'Camera',
-        width: '30%',
-        path: "RankingForm",
-    },
-    {
-        url: '/static/images/buttons/camera.jpg',
-        title: 'Camera',
-        width: '30%',
-        path: "RankingForm",
+        path: "ShowClaim",
     },
 ];
 
@@ -125,14 +125,6 @@ function HomeForCus() {
 
     let [date, updateDate] = React.useState(new Date());
 
-    // console.log(date.getHours() >= 0 && date.getHours() < 11);
-
-    // console.log("12:12:24 GMT+0700 (เวลาอินโดจีน)".);
-
-    // const getTime = () => {
-
-
-    // };
     const timeCheck = (timeHours: number): void => {
 
         if (timeHours >= 0 && timeHours < 11) {
@@ -218,7 +210,7 @@ function HomeForCus() {
                         <ImageBackdrop sx={{borderRadius:"25px"}} className="MuiImageBackdrop-root" />
                         <Image sx={{borderRadius:"25px"}}>
                             <Typography
-                                sx={{ backgroundColor: 'transparent', justifyContent: "center" ,borderRadius:"25px"}}
+                                sx={{ backgroundColor: 'transparent', justifyContent: "center" ,borderRadius:"25px",fontSize:"20px",fontWeight:"800",fontFamily:"Noto Sans Thai"}}
                                 color="inherit"
                             >
                                 {image.title}

@@ -159,7 +159,7 @@ const menu = [
   },
   { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer" , icon: <MonetizationOnRoundedIcon/> },
   { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer" , icon: <StarRateRoundedIcon/> },
-  { name: "Show Claim Order", path: "/ShowClaim", role: "Customer" , icon: <ReportRoundedIcon/> },
+  { name: "ตรวจสอบการเคลม", path: "/ShowClaim", role: "Customer" , icon: <ReportRoundedIcon/> },
 ];
 
 function App() {

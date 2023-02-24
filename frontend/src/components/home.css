@@ -37,19 +37,19 @@
 #helloCustomer {
     margin-top: 2rem;
     margin-left: 4rem;
-    margin-bottom: 12rem;
-    color: #3f3f3f;
+    margin-bottom: 1rem;
+    color: #3e2100;
     font-family: 'Noto Sans Thai';
     font-weight: 600;
     font-size: 2.5rem;
 }
 
 #Topic1Customer {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     margin-left: 4rem;
     margin-bottom: 4rem;
-    padding-left: 8rem;
-    color: #3f3f3f;
+    padding-left: 1rem;
+    color: #3e2100;
     font-family: 'Noto Sans Thai';
     font-weight: 600;
     font-size: 1.5rem;
