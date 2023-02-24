@@ -3,6 +3,7 @@ import Paper from '@mui/material/Paper';
 import CustomerCreate from './CustomerCreate';
 import CustomerCreate2 from './CustomerCreate2';
 import { CustomerInterface } from '../../../interfaces/CustomerUI';
+import { Padding, Phone } from '@mui/icons-material';
 
 
 const steps = [
@@ -10,6 +11,9 @@ const steps = [
     'Create Account',
     'Sign - up Complete',
 ];
+
+
+
 
 const defaultCreate = {
     PREFIX_ID:0,
@@ -19,14 +23,14 @@ const defaultCreate = {
     GENDER_ID: 0,
     CAREER_ID: 0,
     Phone: "",
-
+    // Phone: "",
     Email: "",
     Password: "",
     RePassword: "",
 };
 
 function CreateForm (){
-
+    
     const [formCreate, setFormCreate] = useState(defaultCreate);
     const [Customer, setCustomer] = useState<Partial<CustomerInterface>>({});
     const [activeStep, setActiveStep] = React.useState(0);
@@ -34,7 +38,7 @@ function CreateForm (){
 
     const PageDisplay = () => {
         if (activeStep === 0) {
-            return <CustomerCreate activeStep={activeStep} setActiveStep={setActiveStep} Customer={Customer} setCustomer={setCustomer} formCreate={formCreate} setFormCreate={setFormCreate} />
+            return <CustomerCreate  activeStep={activeStep} setActiveStep={setActiveStep} Customer={Customer} setCustomer={setCustomer} formCreate={formCreate} setFormCreate={setFormCreate} />
 
         } else if (activeStep === 1) {
             return <CustomerCreate2 formCreate={formCreate} setFormCreate={setFormCreate} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} />
@@ -49,8 +53,10 @@ function CreateForm (){
     return (
         <Paper
             sx={{
-                // backgroundColor: "#182e3e",
-                // height: "1500px"
+                backgroundColor: "rgba(0,0,0,0)",    
+                boxShadow: 0,
+                margin: 10,
+                // paddingY: -30
             }}>
             <form className='form-container'>
                 <div className='text-start'>{PageDisplay()}</div>

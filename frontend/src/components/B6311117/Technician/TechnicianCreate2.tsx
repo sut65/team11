@@ -23,6 +23,9 @@ import { Link as RouterLink, Route } from "react-router-dom";
 import TechnicianCreate from "./TechnicianCreate";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
+
+import "../Technician/Technician.css" 
+
 //Grid
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

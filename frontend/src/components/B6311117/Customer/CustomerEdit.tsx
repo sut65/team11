@@ -40,6 +40,54 @@ import { alpha } from '@mui/material/styles';
 
 import "../Customer/Customer.css"
 
+//TODO จัด Format เลขที่รับเข้ามา
+import { IMaskInput } from 'react-imask';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+const TextMaskCustomPhone = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="000-000-0000"
+        definitions={{
+          '0': /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>} 
+        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  },
+);
+
+const TextMaskCustomID_Card = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="0-0000-00000-00-0"
+        definitions={{
+          '0': /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>} 
+        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  },
+);
+
+
+
 
 
 //Grid
@@ -98,12 +146,15 @@ function CustomerEdit({ formCreate, setFormCreate, activeStep, setActiveStep , s
   };
   function submit() {
 
+    var pphonee = phone.split("-");
+    var pphonee2 = pphonee[0]+pphonee[1]+pphonee[2];
+
     let data = {
     //   ID: convertType(formCreate.ID as number),
       ID: customerID,
       Name: NAMEa,          
       CAREER_ID: convertType(Careera),
-      Phone: phone,
+      Phone: pphonee2,
     };
 
     
@@ -379,7 +430,7 @@ fetch(apiUrl, requestOptions)
 
                     {/* Row: 4 */}
                     <Grid item xs={8} md={7} marginLeft={5}  >
-                      <RedditTextField
+                      {/* <RedditTextField
                                 disabled
                                 id="redditTextFields2"
                                 value={Customer.ID_card}      
@@ -387,7 +438,26 @@ fetch(apiUrl, requestOptions)
                                 // variant="filled"
                                 // size='small'
                                 sx={{width:250}}
-                                />
+                                /> */}
+
+                          <FormControl variant="standard">
+                            <Input
+                                disabled
+                                id="redditTextFieldsCreateNumber"
+                                disableUnderline
+                                type="string"
+                                // value={inPhone1}
+                                value={Customer.ID_card}
+                                // value={values.textmask}
+                                // onChange={(event) => setFormCreate(({...formCreate,ID_card:event.target.value}))}
+                                // onChange={(event) => setPPhone(({...PPhone,inPhone1:event.target.value}), console.log(event.target.value))}
+                                // onChange={handleChangePhone}
+                                // name="textmask"
+                                inputComponent={TextMaskCustomID_Card as any}
+                                // placeholder="X-XXXX-XXXXX-XX-X" 
+                            />
+                          </FormControl>
+
                     </Grid>
 
 
@@ -474,7 +544,7 @@ fetch(apiUrl, requestOptions)
 
                     {/* Row: 10 */}
                     <Grid item xs={6} md={7} marginLeft={5} >
-                    <TextField
+                    {/* <TextField
                             required
                             id="redditTextFields"
                             // label={Customer.Phone}
@@ -487,7 +557,25 @@ fetch(apiUrl, requestOptions)
                             // inputProps={{
                             //     name: "Phone",
                             // }}
-                        />
+                        /> */}
+
+                        <FormControl variant="standard">
+                          <Input
+                              id="redditTextFieldsCreateNumber"
+                              disableUnderline
+                              type="string"
+                              // value={inPhone1}
+                              value={phone}
+                              // value={values.textmask}
+                              onChange={(event) => setPhone(event.target.value)}
+                              // onChange={(event) => setPPhone(({...PPhone,inPhone1:event.target.value}), console.log(event.target.value))}
+                              // onChange={handleChangePhone}
+                              name="textmask"
+                              inputComponent={TextMaskCustomPhone as any}
+                              placeholder="0XX-XXX-XXXX" 
+                          />
+                        </FormControl>
+
                     </Grid>
 
                     </Grid>

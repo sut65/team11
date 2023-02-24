@@ -23,62 +23,31 @@ import { Link as RouterLink, Route } from "react-router-dom";
 import CreateForm from "./CreateForm";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 
-//Grid
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
+import { TextFieldProps } from '@mui/material/TextField';
+import { OutlinedInputProps } from '@mui/material/OutlinedInput';
+import { alpha } from '@mui/material/styles';
 
-//process ข้างบน
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
-    },
-  }));
+import Input from '@mui/material/Input';
 
-function FacebookCircularProgress(props: CircularProgressProps) {
-    return (
-      <Box sx={{ position: 'relative' }}>
-        <CircularProgress
-          variant="determinate"
-          sx={{
-            color: (theme) =>
-              theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-          }}
-          size={40}
-          thickness={4}
-          {...props}
-          value={100}
-        />
-        <CircularProgress
-          variant="indeterminate"
-          disableShrink
-          sx={{
-            color: (theme) => (theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8'),
-            animationDuration: '550ms',
-            position: 'absolute',
-            left: 0,
-            [`& .${circularProgressClasses.circle}`]: {
-              strokeLinecap: 'round',
-            },
-          }}
-          size={40}
-          thickness={4}
-          {...props}
-        />
+import "../Customer/Customer.css"
+
+import { LinearProgressProps } from '@mui/material/LinearProgress';
+
+//TODOprocess ข้างบน
+function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: '100%', mr: 1 }}>
+        <LinearProgress variant="determinate" sx={{height:9, borderRadius:'30px'}} {...props} />
       </Box>
-    );
-  }
-
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value,
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 
 function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep, steps }: any) {
@@ -113,11 +82,18 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
       };
 
     function submit() {
+      var pphonee = formCreate.Phone.split("-");
+      var pphonee2 = pphonee[0]+pphonee[1]+pphonee[2];
+
+      var personalID = formCreate.ID_card.split("-");
+      var personalID2 = personalID[0]+personalID[1]+personalID[2]+personalID[3]+personalID[4];
       let data = {
         Name: formCreate.Name,          
-        ID_card: formCreate.ID_card,      
+        // ID_card: formCreate.ID_card,      
+        ID_card: personalID2,      
         DOB: formCreate.DOB,
-        Phone: formCreate.Phone,
+        // Phone: formCreate.Phone,
+        Phone: pphonee2,
 
         GENDER_ID: convertType(formCreate.GENDER_ID as number),
         // genderID: formCreate.GENDER_ID,
@@ -172,19 +148,35 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                   });
                 }
             });
-  
-      
-  
-  
+
+
   
     }
+
+  //TODO ตัวนับ Progress ด้านบน
+  const [progress, setProgress] = React.useState(50);
+
+  const [input2, setInput2] = React.useState('');
+  const [input3, setInput3] = React.useState('');
+  const [input4, setInput4] = React.useState('');
+
+  const [em, setem] = React.useState('');
+  
+  
+
+
+  // console.log(formCreate.Email)
+  // const [value, setValue] = useState('');
+
+  // console.log(formCreate.Email.length)
+
 
 
 
     return(
-        <Paper style={{ backgroundColor: "#182E3E" }}>
+        <Paper style={{backgroundColor: "rgba(24,46,62,0.5)", borderRadius: 40}}>
       {/* <Bar /> */}
-      <Box sx={{ bgcolor: "#182E3E", height: "100vh" }} >
+      <Box sx={{ backgroundColor: "rgba(24,46,62,0.4)", height: 'auto', borderRadius: 10, paddingY:1 }} >
 
       <div style={{ height: "auto", width: "100%", marginTop: "0px", paddingTop: "30px" }}>
         <Box sx={{ maginX: 0, maginY: 0, height: "10px" }}>
@@ -210,7 +202,7 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
 
       <Container maxWidth="md">
 
-        <Box sx={{ bgcolor: '#f1f8e9', height: '75vh', marginY: 4 }} >
+        <Box sx={{ backgroundColor: "rgba(255,255,255,1)", height: 'auto', marginY: 4 ,borderRadius: 7  }} >
 
             <Grid container spacing={2} paddingX={1} paddingY={0}>
 
@@ -232,14 +224,14 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
 
             </Grid>
         
-            <Grid container spacing={1} paddingX={1} paddingY={1}>
+            <Grid container spacing={1} paddingX={3} paddingY={0}>
                 <Grid item xs={12}>
-                    <BorderLinearProgress variant="determinate" value={50} />
+                  <LinearProgressWithLabel value={progress} />
                 </Grid>
             </Grid>
             <br />
 
-            <Divider />
+            <Divider variant="middle"  />
 
             <Grid container spacing={1} paddingX={30} paddingY={1}>
                 <Grid item xs={10} md={12}  >
@@ -247,17 +239,44 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                             E-mail
                         </b>
                 </Grid>
-                <Grid item xs={10} md={12}  >
-                    <FormControl fullWidth variant="outlined">
+                <Grid container item xs={10} md={12}  >
+                    {/* <FormControl fullWidth variant="outlined"> */}
                         <TextField
-                            id="Email"
-                            variant="outlined"
+                            id="redditTextFieldsCreate2"
+                            variant="standard"
                             type="string"
-                            size="medium"
+                            InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
+                            // size="medium"
                             value={Email}
-                            onChange={(event) => setFormCreate(({...formCreate,Email:event.target.value}))}
+                            onChange={(event) => {
+                              setFormCreate({...formCreate, Email: event.target.value});
+                            }}
+                            onBlur={(Email) => {
+                              console.log("format: "+formCreate.Email.length)
+                              console.log("input: "+input2.length)
+                              console.log("")
+                              //TODO ได้ละ
+                              if ((formCreate.Email.length)/20 > input2.length){
+                                setProgress((num) => num + 16.67);
+                                setInput2(formCreate.Email)
+                              }
+                              //TODO สลาย
+                              else if ((formCreate.Email.length - input2.length)+1 ===  (-input2.length) || (formCreate.Email.length== 0 && input2.length != 0 )){
+                                setProgress((num) => num - 16.67);
+                                setInput2(formCreate.Email)
+                              }
+                              //TODO คงเดิม
+                              else if (((formCreate.Email.length) - input2.length) < (input2.length)){
+                                setProgress((num) => num );
+                                setInput2(formCreate.Email)
+                              }
+                              console.log(formCreate.Email.length - input2.length);
+                              
+                            }}
+                            
+                            placeholder="Enter Username" 
                         />
-                    </FormControl>
+                    {/* </FormControl> */}
                 </Grid>
 
                 <Grid item xs={10} md={12}  >
@@ -265,17 +284,51 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                             Password
                         </b>
                 </Grid>
-                <Grid item xs={10} md={12}  >
-                    <FormControl fullWidth variant="outlined">
-                        <TextField
-                            id="Password"
-                            variant="outlined"
-                            type="string"
-                            size="medium"
+                <Grid container item xs={10} md={12}  >
+                    {/* <FormControl fullWidth variant="outlined"> */}
+                    <FormControl variant="standard">
+                        <Input
+                            id="redditTextFieldsCreate2"
+                            // variant="standard"
+                            disableUnderline
+                            type="password"
+                            placeholder="•••••••"
+                            name="password"
+                            // InputProps={{ disableUnderline: true }}
+                            // size="medium"
                             value={Password}
-                            onChange={(event) => setFormCreate(({...formCreate,Password:event.target.value}))}
+                            // onChange={(event) => setFormCreate(({...formCreate,Password:event.target.value}), setProgress((prevProgress) => (prevProgress > 100 ? 10 : 83)))}
+
+
+                            onChange={(event) => {
+                              setFormCreate({...formCreate,Password:event.target.value});
+                            }}
+                            onBlur={(Password) => {
+                              console.log("format: "+formCreate.Password.length)
+                              console.log("input: "+input3.length)
+                              console.log("")
+                              //TODO ได้ละ
+                              if ((formCreate.Password.length)/20 > input3.length){
+                                setProgress((num) => num + 16.67);
+                                setInput3(formCreate.Password)
+                              }
+                              //TODO สลาย
+                              else if ((formCreate.Password.length - input3.length)+1 ===  (-input3.length) || (formCreate.Password.length== 0 && input3.length != 0 )){
+                                setProgress((num) => num - 16.67);
+                                setInput3(formCreate.Password)
+                              }
+                              //TODO คงเดิม
+                              else if (((formCreate.Password.length) - input3.length) < (input3.length)){
+                                setProgress((num) => num );
+                                setInput3(formCreate.Password)
+                              }
+                              console.log(formCreate.Password.length - input3.length);
+                              
+                            }}
                         />
                     </FormControl>
+                        {/* <Input placeholder="•••••••" type="password" name="password" /> */}
+                    {/* </FormControl> */}
                 </Grid>
 
                 <Grid item xs={10} md={12}  >
@@ -283,23 +336,68 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                             Type - Password again
                         </b>
                 </Grid>
-                <Grid item xs={10} md={12}  >
-                    <FormControl fullWidth variant="outlined">
-                        <TextField
-                            id="RePassword" //!อย่าลืมกลับมาดู Type Password again ว่่าจะทำไหม
-                            variant="outlined"
+                <Grid container item xs={10} md={12}  >
+                    {/* <FormControl fullWidth variant="outlined"> */}
+                        {/* <TextField
+                            id="redditTextFieldsCreate2" //!อย่าลืมกลับมาดู Type Password again ว่่าจะทำไหม
+                            variant="standard"
                             type="string"
-                            size="medium"
+                            InputProps={{ disableUnderline: true }}
+                            // size="medium"
                             value={RePassword}
                             onChange={(event) => setFormCreate(({...formCreate,RePassword:event.target.value}))}
+                        /> */}
+                    {/* </FormControl> */}
+
+                    <FormControl variant="standard">
+                        <Input
+                            id="redditTextFieldsCreate2"
+                            // variant="standard"
+                            disableUnderline
+                            type="password"
+                            placeholder="•••••••"
+                            name="password"
+                            // InputProps={{ disableUnderline: true }}
+                            // size="medium"
+                            value={RePassword}
+                            // onChange={(event) => setFormCreate(({...formCreate,RePassword:event.target.value}), setProgress((prevProgress) => (prevProgress > 100 ? 10 : 100)))}
+
+                            onChange={(event) => {
+                              setFormCreate({...formCreate,RePassword:event.target.value});
+                            }}
+                            onBlur={(RePassword) => {
+                              console.log("format: "+formCreate.RePassword.length)
+                              console.log("input: "+input4.length)
+                              console.log("")
+                              //TODO ได้ละ
+                              if ((formCreate.RePassword.length)/20 > input4.length){
+                                setProgress((num) => num + 16.66);
+                                setInput4(formCreate.RePassword)
+                              }
+                              //TODO สลาย
+                              else if ((formCreate.RePassword.length - input4.length)+1 ===  (-input4.length) || (formCreate.RePassword.length== 0 && input4.length != 0 )){
+                                setProgress((num) => num - 16.66);
+                                setInput4(formCreate.RePassword)
+                              }
+                              //TODO คงเดิม
+                              else if (((formCreate.RePassword.length) - input4.length) < (input4.length)){
+                                setProgress((num) => num );
+                                setInput4(formCreate.RePassword)
+                              }
+                              console.log(formCreate.RePassword.length - input4.length);
+                              
+                            }}
                         />
                     </FormControl>
+
                 </Grid>
             </Grid>
-
-            <Grid container spacing={1} paddingX={2} paddingY={1} >
-                <Grid item xs={7} padding={2}>
+            <br/>
+            <br/>
+            <Grid container spacing={1} paddingX={10} paddingY={0} >
+                <Grid item xs={7} padding={0}>
                   <Button
+                    id="buttonNext"
                     style={{ float: "right", fontSize: 20 }}
                     onClick={submit}
                     // component={RouterLink} to="/CustomerCreate1" 
@@ -310,8 +408,16 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                     <b>Sign - Up</b>
                   </Button>
                 </Grid>
-                <Grid item xs={7} padding={2} marginTop={0} marginLeft={85}>
-                <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} onClick={handleBack} variant="contained"  >
+                <br/>
+                <br/>
+                <Grid container spacing={5} paddingX={3} marginY={3} >
+                <Button 
+                    size="large" 
+                    style={{ float: "left", fontSize: 20, width:150, color:"#f27070", marginTop:10 }}
+                    onClick={handleBack} 
+                    variant="contained"  
+                    id="buttonBack"
+                    >
                 <b>Back</b>
                   </Button>
                 </Grid>
@@ -319,9 +425,6 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
             
             </Box>
             </Container>
-
-
-        
 
         </Box>
       </Paper>
