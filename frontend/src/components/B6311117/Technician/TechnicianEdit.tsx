@@ -8,29 +8,15 @@ import {
   Grid,
   Paper,
   styled,
-  Typography,
 } from "@mui/material";
-import CircularProgress, {
-  circularProgressClasses,
-  CircularProgressProps,
-} from "@mui/material/CircularProgress";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
-import { Margin } from "@mui/icons-material";
-import Divider from "@mui/material/Divider";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
-import {GenderTInterface,
-    EducateInterface,
-    PrefixTInterface,
-    TechnicianInterface} from "../../../interfaces/TechnicianUI"
-import TextField from "@mui/material/TextField";
-import PersonIcon from '@mui/icons-material/Person';
 
+import Divider from "@mui/material/Divider";
+import Select from "@mui/material/Select";
+
+import dayjs  from "dayjs";
+import {EducateInterface,
+        TechnicianInterface} from "../../../interfaces/TechnicianUI"
+import TextField from "@mui/material/TextField";
 import { TextFieldProps } from "@mui/material/TextField";
 import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { alpha } from "@mui/material/styles";
@@ -90,53 +76,19 @@ function TechnicianEdit({ formCreate, setFormCreate, activeStep, setActiveStep ,
     const handleBack = () => {
         setActiveStep(activeStep - 1);
       };
-
-      // const {Location} = formCreate
-      // const {Name} = formCreate
-      // const {Phone} = formCreate
-      // const {EDUCATE_ID} = formCreate
-
-
-//   const { CAREER_ID} = formCreate
-//   const {Name, CAREER_ID, Phone} = formCreate
-  //ระบุว่าใคร login เข้ามา
   const technicianID = parseInt(localStorage.getItem("uid") + "");
-  // const technicianID = useState(1);
-//   setFormCreate(({...formCreate,ID:customerID}))
-
-//   const [Name, setName] = useState("");
-  // const [ID_card, setID_card] = useState("");
-  // const [DOB, setDOB] = useState<Dayjs | null>(dayjs());
-//   const [Phone, setPhone] = useState("");
-
   const [GENDER_NAME, setGENDER_NAME] = useState("");
   const [EDUCATE_NAME, setEDUCATE_NAME] = useState("");
-//   const [CAREER_ID, setCAREER_IDE] = useState("");
   const [PREFIX_NAME, setPREFIX_NAME] = useState("");
 
-  // const [Username, setUsername] = useState("");
-
-
-  // const convertType = (data: string | number | undefined | Float32Array) => {
-  //   let val = typeof data === "string" ? parseInt(data) : data;
-  //   return val;
-  // };
   function submit() {
 
     let data = {
-    //   ID: convertType(formCreate.ID as number),
       ID: technicianID,
       Name: NAMEa,          
       Location: Location,
       Phone: phone,
-      // ID: technicianID,
-      // Name: formCreate.Name,          
-      // Location: formCreate.Location,
-      // Phone: formCreate.Phone,
     };
-
-    
-
     const apiUrl = "http://localhost:8080/UpdateTechnician";
     const requestOptions = {
         method: "PATCH",

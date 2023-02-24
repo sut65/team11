@@ -196,46 +196,11 @@ func PreDeleteCustomer(c *gin.Context) {
 
 	pwd := getPassword_DB(id)
 
-	
-
-
-	// func getPassword_DB(id any) string {
-	// 	var passwordTrue string
-	// 	entity.DB().Table("customers").Select("password").Where("id = ?", id).Row().Scan(&passwordTrue)
-	// 	return passwordTrue
-	// }
-
-
-	// pwd := getPassword_DB(id)
-
-	// compare := {
-	// 	typepwd: 	DeleteCus.Password, // ตัวแปลนี้ จะเก็บค่า Ordertech_ID
-	// 	pwd:  		 getPassword_DB(ccustomer.Password),
-	// }
-
-
-
-
-	// ค้นหา user ด้วย uid ที่ผู้ใช้กรอกเข้ามา
-	// if err := entity.DB().Raw("SELECT * FROM customers WHERE email = ?", DeleteCus.Email).Scan(&customer).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-
-	// 
-	// pwd := "123456"
 	err := bcrypt.CompareHashAndPassword([]byte(pwd), []byte(DeleteCus.Password))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incerrect"})
 		return
 	}
-	//err = nil : รหัสถูกต้อง
-
-	// output := DeleteOutput{
-	// 	status: true,
-	// }
-
-	
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

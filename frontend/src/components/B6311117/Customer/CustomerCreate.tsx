@@ -10,9 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
+import LinearProgress from "@mui/material/LinearProgress";
 
 import Divider from "@mui/material/Divider";
 import Select from "@mui/material/Select";

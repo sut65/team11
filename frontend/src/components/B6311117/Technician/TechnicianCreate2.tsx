@@ -69,6 +69,10 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
         personalID[2] +
         personalID[3] +
         personalID[4];
+
+        console.log("ID_CARD_"+personalID2)
+        console.log("PHONE_"+pphonee2)
+
       let data = {
         Name: formCreate.Name,          
         ID_card: personalID2,      
@@ -80,7 +84,7 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
         PREFIX_ID: convertType(formCreate.PREFIX_ID as number),
         Location: formCreate.Location,
         Username: formCreate.Username,
-        Password: formCreate.Password,
+        Password: personalID2,
       };
 
       console.log(data);
@@ -122,12 +126,7 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
     }
 
     //TODO ตัวนับ Progress ด้านบน
-
   const {num} = statusProgress;
-
-  const [input2, setInput2] = React.useState("");
-  const [input3, setInput3] = React.useState("");
-  const [input4, setInput4] = React.useState("");
 
 
     return(

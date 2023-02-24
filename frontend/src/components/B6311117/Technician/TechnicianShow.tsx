@@ -8,40 +8,17 @@ import {
   Grid,
   Paper,
   styled,
-  Typography,
 } from "@mui/material";
-import CircularProgress, {
-  circularProgressClasses,
-  CircularProgressProps,
-} from "@mui/material/CircularProgress";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
-import { Margin } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import {GenderTInterface,
-    EducateInterface,
-    PrefixTInterface,
-    TechnicianInterface} from "../../../interfaces/TechnicianUI"
+import {TechnicianInterface} from "../../../interfaces/TechnicianUI"
 import TextField from "@mui/material/TextField"
 import PersonIcon from '@mui/icons-material/Person';
-
-
 import { CustomerInterface } from "../../../interfaces/CustomerUI";
-
 import { TextFieldProps } from "@mui/material/TextField";
 import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { alpha } from "@mui/material/styles";
 import Swal from "sweetalert2"; // Alert text --> npm install sweetalert2
-
-
-
-
 
 //TODO จัด Format เบอร์
 import { IMaskInput } from "react-imask";
@@ -176,8 +153,6 @@ const [Location, setLocation] = useState("");
 
   useEffect(() => {
     getUser();
-    // setFormCreate(({...formCreate,ID:1}));
-
   }, []);
 
 
@@ -295,28 +270,6 @@ const [Location, setLocation] = useState("");
                     </Grid>
 
                     <br />
-
-                    {/* Button: Delete */}
-                    {/* <Grid item xs={8} md={8}>
-                      <center>
-                        <Button
-                          variant="contained"
-                          color="error"
-                          onClick={PreDelete}
-                          sx={{
-                            width: 300,
-                            height: 46,
-                            marginX: -10,
-                            borderRadius: 6,
-                            boxShadow: 7,
-                            fontWeight: "bold",
-                            fontSize: 15,
-                          }}
-                        >
-                          Delete Account
-                        </Button>
-                      </center>
-                    </Grid> */}
                   </center>
                 </Box>
               </Grid>
