@@ -139,10 +139,25 @@ func GetDevice(c *gin.Context) {
 }
 
 func UpdateDevice(c *gin.Context) {
+	var customer entity.Customer
+	var types entity.Type
+	var windows entity.Windows
 	var device entity.Device
 
 	if err := c.ShouldBindJSON(&device); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", device.TypeID).First(&types); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทอุปกรณ์"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", device.WindowsID).First(&windows); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกระบบปฎิบัติการ"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", device.CustomerID).First(&customer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
 	if _, err := govalidator.ValidateStruct(device); err != nil {

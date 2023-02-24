@@ -9,15 +9,14 @@ import dayjs, { Dayjs } from 'dayjs';
 import { DeviceInterface, TypeInterface, WindowsInterface } from "../../../interfaces/IDevice";
 import { useNavigate } from 'react-router-dom';
 
-let Device_ID: string;
 function getsetDeviceID(id: string) {
-  Device_ID = id;
+  localStorage.setItem('Device_ID', id);
 } export { getsetDeviceID }
 
 
 function DeviceEdit() {
 
-    let dev_id = Device_ID;
+    let dev_id = localStorage.getItem('Device_ID') || '';
     const navigate = useNavigate();
     const userID = parseInt(localStorage.getItem("uid") + "");
 
@@ -156,7 +155,7 @@ function DeviceEdit() {
                 console.log("Success");
             } else {
                 Swal.fire({
-                    title: 'บันทึกไม่สำเร็จ',
+                    title: 'อัพเดทข้อมูลไม่สำเร็จ',
                     text: res.error.split(";")[0],
                     icon: 'error'
                 });
