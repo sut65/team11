@@ -549,12 +549,12 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                             console.log("")
                             //TODO ได้ละ
                             if ((formCreate.GENDER_ID.length)/40 > input6.length){
-                              setProgress((num) => num + 14.28);
+                              setProgress((num) => num + 7.14);
                               setInput6(formCreate.GENDER_ID)
                             }
                             //TODO สลาย
                             else if ((formCreate.GENDER_ID.length - input6.length)+1 ===  (-input6.length) || (formCreate.GENDER_ID.length== 0 && input6.length != 0 )){
-                              setProgress((num) => num - 14.28);
+                              setProgress((num) => num - 7.14);
                               setInput6(formCreate.GENDER_ID)
                             }
                             //TODO คงเดิม
@@ -663,17 +663,17 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                           console.log("")
                           //TODO ได้ละ
                           if ((formCreate.Phone.length)/30 > input8.length){
-                            setProgress((num) => num + 7.14);
+                            setProgress((num) => num =50);
                             setInput8(formCreate.Phone)
                           }
                           //TODO สลาย
                           else if ((formCreate.Phone.length - input8.length)+1 ===  (-input8.length) || (formCreate.Phone.length== 0 && input8.length != 0 )){
-                            setProgress((num) => num - 7.14);
+                            setProgress((num) => num =50);
                             setInput8(formCreate.Phone)
                           }
                           //TODO คงเดิม
                           else if (((formCreate.Phone.length) - input8.length) < (input8.length)){
-                            setProgress((num) => num );
+                            setProgress((num) => num =50 );
                             setInput8(formCreate.Phone)
                           }
                           console.log(formCreate.Phone.length - input8.length);
