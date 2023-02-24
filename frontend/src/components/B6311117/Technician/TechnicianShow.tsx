@@ -28,23 +28,72 @@ import {GenderTInterface,
     EducateInterface,
     PrefixTInterface,
     TechnicianInterface} from "../../../interfaces/TechnicianUI"
-import TextField from "@mui/material/TextField";
+import TextField from "@mui/material/TextField"
 import PersonIcon from '@mui/icons-material/Person';
 
 
+import { CustomerInterface } from "../../../interfaces/CustomerUI";
 
-//Grid
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { TextFieldProps } from "@mui/material/TextField";
+import { OutlinedInputProps } from "@mui/material/OutlinedInput";
+import { alpha } from "@mui/material/styles";
+import Swal from "sweetalert2"; // Alert text --> npm install sweetalert2
+
+
+
+
+
+//TODO จัด Format เบอร์
+import { IMaskInput } from "react-imask";
+import Input from "@mui/material/Input";
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+const TextMaskCustomPhone = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="000-000-0000"
+        definitions={{
+          "0": /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>}
+        onAccept={(value: any) =>
+          onChange({ target: { name: props.name, value } })
+        }
+        overwrite
+      />
+    );
+  }
+);
+
+const TextMaskCustomID_Card = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="0-0000-00000-00-0"
+        definitions={{
+          "0": /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>}
+        onAccept={(value: any) =>
+          onChange({ target: { name: props.name, value } })
+        }
+        overwrite
+      />
+    );
+  }
+);
 
 function TechnicianShow({formCreate, setFormCreate, activeStep, setActiveStep }: any) {
 
-    const {ID} = formCreate
 
 const handleStart = () => {
     setActiveStep(activeStep + 1);
@@ -52,18 +101,17 @@ const handleStart = () => {
 
   //ระบุว่าใคร login เข้ามา
   const TechnicianID = parseInt(localStorage.getItem("uid") + "");
-  // const technicianID = useState(1);
 
-  const [Name, setName] = useState("");
-  const [ID_card, setID_card] = useState("");
+
+
   const [DOB, setDOB] = useState<Dayjs | null>(dayjs());
-  const [Phone, setPhone] = useState("");
+
 
   const [GENDER_NAME, setGENDER_NAME] = useState("");
   const [EDUCATE_NAME, setEDUCATE_NAME] = useState("");
   const [PREFIX_NAME, setPREFIX_NAME] = useState("");
 
-  const [Username, setUsername] = useState("");
+
 
   const convertType = (data: string | number | undefined | Float32Array) => {
     let val = typeof data === "string" ? parseInt(data) : data;
@@ -96,6 +144,7 @@ const handleStart = () => {
         });
 }
 
+const [Location, setLocation] = useState("");
   //API Get Customer/id
   const [Technician, setTechnician] = React.useState<Partial<TechnicianInterface>>(
     {}
@@ -115,6 +164,7 @@ const handleStart = () => {
             setPREFIX_NAME(res.data.PREFIX.PrefixName)
             setEDUCATE_NAME(res.data.EDUCATE.EducateName)
             setGENDER_NAME(res.data.GENDER.GenderName)
+            setLocation(res.data.Location)
             setDOB(res.data.DOB)
             console.log(Technician)
         }
@@ -130,258 +180,616 @@ const handleStart = () => {
 
   }, []);
 
+
+
+
+
+   // TODO Functions component styles ต่างๆ
+
+  //* TextField วงกลม
+  const RedditTextField = styled((props: TextFieldProps) => (
+    <TextField
+      InputProps={{ disableUnderline: true } as Partial<OutlinedInputProps>}
+      {...props}
+    />
+  ))(({ theme }) => ({
+    "& .MuiOutlinedInput-root": {
+      border: "1px solid #e2e2e1",
+      overflow: "hidden",
+      borderRadius: 30,
+
+      alignContent: "center",
+      backgroundColor: theme.palette.mode === "light" ? "#fcfcfb" : "#2b2b2b",
+      transition: theme.transitions.create([
+        "border-color",
+        "background-color",
+        "box-shadow",
+      ]),
+      "&:hover": {
+        backgroundColor: "transparent",
+      },
+      "&.Mui-focused": {
+        backgroundColor: "transparent",
+        boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+        borderColor: theme.palette.primary.main,
+      },
+    },
+  }));
+
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
-        <br />
 
+    <Paper style={{ backgroundColor: "#182E3E", borderRadius: 40 }}>
+      <br />
 
-      <Box sx={{ bgcolor: "#182E3E", height: "101vh" }}>
+      <Box sx={{ bgcolor: "#182E3E", height: "94vh", borderRadius: 40 }}>
         <Container maxWidth="lg">
           <br />
           <br />
 
-          <Box sx={{ bgcolor: "#f1f8e9", height: "93vh", paddingY: 0 }}>
+          <Box
+            sx={{
+              bgcolor: "#FFFFFF",
+              height: "87vh",
+              paddingY: 0,
+              borderRadius: 7,
+            }}
+          >
+            <Grid container spacing={2} paddingX={7} marginRight={1}>
+              <Grid item xs={6} md={4}></Grid>
 
-          <Grid container spacing={2} paddingX={7} marginRight={1}>
-            <Grid item xs={6} md={4}>
-                
+              <Divider
+                orientation="vertical"
+                sx={{ padding: 2.35, marginTop: 2, marginBottom: 2 }}
+                flexItem
+              />
+              <Grid item xs={6} md={2}>
+                <br />
+                <b style={{ font: "Arial", color: "#000000", fontSize: 30 }}>
+                  My Profile
+                </b>
+                <br />
+                <br />
+              </Grid>
             </Grid>
 
-            <Divider orientation="vertical" sx={{padding: 2, marginTop:2, marginBottom:2}}  flexItem />
-            <Grid item xs={6} md={2}>
-                    <br />  
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 15 }}>My Profile</b>
+            {/* //TODO Grid ใหญ่สุด  */}
+            <Grid container maxWidth="lg" spacing={0} paddingX={5}>
+              <br />
+
+              {/*  //TODO Column1 */}
+              <Grid item xs={6} md={4}>
+                <Box
+                  sx={{
+                    width: 350,
+                  }}
+                >
+                  <br />
+                  <center>
+                    <img
+                      src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png"
+                      alt="L4CDWe.png"
+                      width="220"
+                      height="220"
+                    />
                     <br />
                     <br />
 
+                    {/* Button: Edit */}
+                    <Grid item xs={8} md={8}>
+                      <Button
+                        variant="contained"
+                        color="warning"
+                        onClick={handleStart}
+                        sx={{
+                          width: 300,
+                          height: 46,
+                          marginX: -10,
+                          borderRadius: 6,
+                          boxShadow: 7,
+                          fontWeight: "bold",
+                          fontSize: 15,
+                        }}
+                      >
+                        Edit Profile
+                      </Button>
+                    </Grid>
+
+                    <br />
+
+                    {/* Button: Delete */}
+                    {/* <Grid item xs={8} md={8}>
+                      <center>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          onClick={PreDelete}
+                          sx={{
+                            width: 300,
+                            height: 46,
+                            marginX: -10,
+                            borderRadius: 6,
+                            boxShadow: 7,
+                            fontWeight: "bold",
+                            fontSize: 15,
+                          }}
+                        >
+                          Delete Account
+                        </Button>
+                      </center>
+                    </Grid> */}
+                  </center>
+                </Box>
+              </Grid>
+
+              {/*  //TODO Line:vertical */}
+              <Divider
+                orientation="vertical"
+                sx={{ padding: 2, marginTop: -2, marginBottom: 2, height: 550 }}
+                flexItem
+              />
+
+              {/*  //TODO Column2 */}
+              <Grid item xs={6} md={5} paddingX={5}>
+                <Box
+                  sx={{
+                    width: 620,
+
+                    marginY: -2,
+                  }}
+                >
+                  <Grid container spacing={1} paddingX={0}>
+                    {/* Row: 1 */}
+
+                    <Grid item xs={6} md={3} marginLeft={5} marginTop={2}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Prefix
+                      </b>
+                    </Grid>
+
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Name
+                      </b>
+                    </Grid>
+
+                    {/* Row: 2 */}
+
+                    <Grid item xs={6} md={3} marginLeft={5}>
+                      <RedditTextField
+                        disabled
+                        id="redditTextFields2"
+                        value={PREFIX_NAME}
+                        variant="outlined"
+                      />
+                    </Grid>
+
+                    <Grid item xs={8} md={7} marginLeft={5}>
+                      <RedditTextField
+                        disabled
+                        id="redditTextFields2"
+                        value={Technician.Name}
+                        sx={{ width: 300 }}
+                      />
+                    </Grid>
+
+                    {/* Row: 3 */}
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Personal ID
+                      </b>
+                    </Grid>
+
+                    {/* Row: 4 */}
+                    <Grid item xs={8} md={7} marginLeft={5}>
+                      <FormControl variant="standard">
+                        <Input
+                          disabled
+                          id="redditTextFieldsCreateNumber"
+                          type="string"
+                          value={Technician.ID_card}
+                          disableUnderline
+                          inputComponent={TextMaskCustomID_Card as any}
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    {/* Row: 5 */}
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Date of Birth
+                      </b>
+                    </Grid>
+
+                    {/* Row: 6 */}
+                    <Grid item xs={6} md={8} marginLeft={5}>
+                      <RedditTextField
+                        disabled
+                        id="redditTextFields2"
+                        value={dayjs(Technician.DOB).format("DD/MM/YYYY")}
+                      />
+                    </Grid>
+
+                    {/* Row: 7 */}
+                    <Grid item xs={6} md={3} marginLeft={5} marginTop={2}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Gender
+                      </b>
+                    </Grid>
+
+                    <Grid item xs={6} md={7} marginLeft={5} marginTop={2}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Career
+                      </b>
+                    </Grid>
+
+                    {/* Row: 8 */}
+                    <Grid item xs={6} md={3} marginLeft={5}>
+                      <RedditTextField
+                        disabled
+                        id="redditTextFields2"
+                        value={GENDER_NAME}
+                      />
+                    </Grid>
+
+                    <Grid item xs={8} md={7} marginLeft={5}>
+                      <RedditTextField
+                        disabled
+                        id="redditTextFields2"
+                        value={EDUCATE_NAME}
+                        sx={{ width: 300 }}
+                      />
+                    </Grid>
+
+                    {/* Row: 9 */}
+                    <Grid item xs={6} md={8} marginLeft={5} marginTop={2}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Telephone Number
+                      </b>
+                    </Grid>
+
+                    {/* Row: 10 */}
+                    <Grid item xs={6} md={7} marginLeft={5}>
+                      <FormControl variant="standard">
+                        <Input
+                          disabled
+                          id="redditTextFieldsCreateNumber"
+                          type="string"
+                          value={Technician.Phone}
+                          disableUnderline
+                          inputComponent={TextMaskCustomPhone as any}
+                        />
+                      </FormControl>
+                    </Grid>
+
+                    {/* Row: 11 */}
+                    <Grid item xs={6} md={8} marginLeft={5} marginTop={3}>
+                      <b
+                        style={{
+                          font: "Arial",
+                          color: "#000000",
+                          fontSize: 14,
+                        }}
+                      >
+                        Technician Address
+                      </b>
+                    </Grid>
+                    {/* Row: 12 */}
+                    <Grid item xs={6} md={7} marginLeft={5}>
+                      <FormControl variant="standard">
+                        <Input
+                          id="redditTextFieldsCreateNumber"
+                          disableUnderline
+                          disabled
+                          type="string"
+                          value={Location}
+                          // onChange={(event) => setLocation(event.target.value)}
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
-          
-
-            <Grid container spacing={1} paddingX={5}>
-                {/* 1 */}
-              <Grid item xs={6} md={4}>
-                {/* <center>
-                    <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="128" height="128" />
-                </center> */}
-                
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-              
-
-              <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Prefix</b>
-              
-              </Grid>
-              
-
-              <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Name</b>
-              </Grid>
-              
-              
-              {/* 2 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>2</Item>     */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={2} marginLeft={3} >
-                    <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={PREFIX_NAME}
-                        // defaultValue={PREFIX_NAME}
-                        variant="filled"
-                        size="small"
-                        />
-              </Grid>
-
-              <Grid item xs={6} md={5} marginLeft={2}>
-              <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={Technician.Name}      
-                        // defaultValue={Customer.Name}
-                        variant="filled"
-                        size='small'
-                        />
-              </Grid>
-              {/* 3 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>3</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3}  marginTop={2}  paddingRight={35}  >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Personal ID</b>
-              </Grid>
-
-              {/* 4 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>4</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-              <TextField
-                        disabled
-                        id="filled-disabled"
-                        label={Technician.ID_card}      
-                        // defaultValue={Customer.Name}
-                        variant="filled"
-                        size='small'
-                        />
-              </Grid>
-              {/* 5 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>5</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3} marginTop={2} paddingRight={35}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Date of Birth</b>
-              </Grid>
-              {/* 6 */}
-              <Grid item xs={6} md={4}>
-                <center>
-                <Button variant="contained" color="warning" onClick={handleStart} >
-                    Edit Profile
-                </Button>
-              </center>
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-                        <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={dayjs(Technician.DOB).format('DD/MM/YYYY')}   
-                            // defaultValue={Customer.Name}
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
-              {/* 7 */}
-              <Grid item xs={6} md={4}>
-                <center>
-                <Button variant="contained" color="error" onClick={Delete}>
-                    Deleate Account
-                </Button>
-                </center>
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Gender</b>
-              </Grid>
-
-              <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Educate</b>
-              </Grid>
-              {/* 8 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>8</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={2} marginLeft={3} >
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={GENDER_NAME}
-                            // defaultValue={Customer.GENDER.GenderName}
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
-
-              <Grid item xs={6} md={5} marginLeft={2}>
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={EDUCATE_NAME}
-                            // defaultValue={Customer.GENDER.GenderName}
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
-              {/* 9 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>9</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Telephone Number</b>
-              </Grid>
-              {/* 10 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>10</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={Technician.Phone}
-                            // defaultValue={Customer.Phone} 
-                            variant="filled"
-                            size='small'
-                        />
-              </Grid>
-
-              {/* 11 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>9</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} marginTop={2} >
-              <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Location</b>
-              </Grid>
-              {/* 12 */}
-              <Grid item xs={6} md={4}>
-                {/* <Item>10</Item> */}
-              </Grid>
-              
-              <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
-
-              <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
-              <TextField
-                            disabled
-                            id="filled-disabled"
-                            label={Technician.Location}
-                            // defaultValue={Location} 
-                            variant="filled"
-                            size='small'
-                            
-                        />
-              </Grid>
-
-
-            </Grid>
-            
-
           </Box>
-
         </Container>
-
       </Box>
-
     </Paper>
   );
 }
 export default TechnicianShow;
+
+//     <Paper style={{ backgroundColor: "#182E3E" }}>
+//         <br />
+
+
+//       <Box sx={{ bgcolor: "#182E3E", height: "101vh" }}>
+//         <Container maxWidth="lg">
+//           <br />
+//           <br />
+
+//           <Box sx={{ bgcolor: "#f1f8e9", height: "93vh", paddingY: 0 }}>
+
+//           <Grid container spacing={2} paddingX={7} marginRight={1}>
+//             <Grid item xs={6} md={4}>
+                
+//             </Grid>
+
+//             <Divider orientation="vertical" sx={{padding: 2, marginTop:2, marginBottom:2}}  flexItem />
+//             <Grid item xs={6} md={2}>
+//                     <br />  
+//                     <b style={{ font: "Arial", color: "#000000", fontSize: 15 }}>My Profile</b>
+//                     <br />
+//                     <br />
+
+//             </Grid>
+//           </Grid>
+          
+
+//             <Grid container spacing={1} paddingX={5}>
+//                 {/* 1 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <center>
+//                     <img src="https://sv1.picz.in.th/images/2023/01/27/L4CDWe.png" alt="L4CDWe.png" width="128" height="128" />
+//                 </center> */}
+                
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+              
+
+//               <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Prefix</b>
+              
+//               </Grid>
+              
+
+//               <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Name</b>
+//               </Grid>
+              
+              
+//               {/* 2 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>2</Item>     */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={2} marginLeft={3} >
+//                     <TextField
+//                         disabled
+//                         id="filled-disabled"
+//                         label={PREFIX_NAME}
+//                         // defaultValue={PREFIX_NAME}
+//                         variant="filled"
+//                         size="small"
+//                         />
+//               </Grid>
+
+//               <Grid item xs={6} md={5} marginLeft={2}>
+//               <TextField
+//                         disabled
+//                         id="filled-disabled"
+//                         label={Technician.Name}      
+//                         // defaultValue={Customer.Name}
+//                         variant="filled"
+//                         size='small'
+//                         />
+//               </Grid>
+//               {/* 3 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>3</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3}  marginTop={2}  paddingRight={35}  >
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Personal ID</b>
+//               </Grid>
+
+//               {/* 4 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>4</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
+//               <TextField
+//                         disabled
+//                         id="filled-disabled"
+//                         label={Technician.ID_card}      
+//                         // defaultValue={Customer.Name}
+//                         variant="filled"
+//                         size='small'
+//                         />
+//               </Grid>
+//               {/* 5 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>5</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3} marginTop={2} paddingRight={35}>
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Date of Birth</b>
+//               </Grid>
+//               {/* 6 */}
+//               <Grid item xs={6} md={4}>
+//                 <center>
+//                 <Button variant="contained" color="warning" onClick={handleStart} >
+//                     Edit Profile
+//                 </Button>
+//               </center>
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
+//                         <TextField
+//                             disabled
+//                             id="filled-disabled"
+//                             label={dayjs(Technician.DOB).format('DD/MM/YYYY')}   
+//                             // defaultValue={Customer.Name}
+//                             variant="filled"
+//                             size='small'
+//                         />
+//               </Grid>
+//               {/* 7 */}
+//               <Grid item xs={6} md={4}>
+//                 <center>
+//                 <Button variant="contained" color="error" onClick={Delete}>
+//                     Deleate Account
+//                 </Button>
+//                 </center>
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={2} marginLeft={3} marginTop={2} >
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Gender</b>
+//               </Grid>
+
+//               <Grid item xs={6} md={5} marginLeft={2} marginTop={2}>
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Educate</b>
+//               </Grid>
+//               {/* 8 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>8</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={2} marginLeft={3} >
+//               <TextField
+//                             disabled
+//                             id="filled-disabled"
+//                             label={GENDER_NAME}
+//                             // defaultValue={Customer.GENDER.GenderName}
+//                             variant="filled"
+//                             size='small'
+//                         />
+//               </Grid>
+
+//               <Grid item xs={6} md={5} marginLeft={2}>
+//               <TextField
+//                             disabled
+//                             id="filled-disabled"
+//                             label={EDUCATE_NAME}
+//                             // defaultValue={Customer.GENDER.GenderName}
+//                             variant="filled"
+//                             size='small'
+//                         />
+//               </Grid>
+//               {/* 9 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>9</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} marginTop={2} >
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Telephone Number</b>
+//               </Grid>
+//               {/* 10 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>10</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
+//               <TextField
+//                             disabled
+//                             id="filled-disabled"
+//                             label={Technician.Phone}
+//                             // defaultValue={Customer.Phone} 
+//                             variant="filled"
+//                             size='small'
+//                         />
+//               </Grid>
+
+//               {/* 11 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>9</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} marginTop={2} >
+//               <b style={{ font: "Arial", color: "#000000", fontSize: 10 }}>Location</b>
+//               </Grid>
+//               {/* 12 */}
+//               <Grid item xs={6} md={4}>
+//                 {/* <Item>10</Item> */}
+//               </Grid>
+              
+//               <Divider orientation="vertical" sx={{padding: 2, }}  flexItem />
+
+//               <Grid item xs={6} md={7} marginLeft={3} paddingRight={35} >
+//               <TextField
+//                             disabled
+//                             id="filled-disabled"
+//                             label={Technician.Location}
+//                             // defaultValue={Location} 
+//                             variant="filled"
+//                             size='small'
+                            
+//                         />
+//               </Grid>
+
+
+//             </Grid>
+            
+
+//           </Box>
+
+//         </Container>
+
+//       </Box>
+
+//     </Paper>
+//   );
+// }

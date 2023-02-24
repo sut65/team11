@@ -42,8 +42,8 @@ function CreateTechnician2 (){
     return (
         <Paper
             sx={{
-                // backgroundColor: "#182e3e",
-                // height: '1500px'
+                backgroundColor: "rgba(0,0,0,0)",
+                boxShadow: 0,
             }}>
             <form className='form-container'>
                 <div className='text-start'>{PageDisplay()}</div>

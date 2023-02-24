@@ -102,9 +102,9 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
                       timer: 4000,
                   });
                   console.log(res.data)
-                  // setTimeout(() => {
-                  //     window.location.href = "/";
-                  // }, 2000)
+                  setTimeout(() => {
+                      window.location.href = "/";
+                  }, 3000)
 
                   console.log("Success");
                 } else {
