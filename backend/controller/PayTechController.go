@@ -273,7 +273,7 @@ func Update_odertech_status_for_Just(c *gin.Context) {
 // ===================================================================
 func Update_odertech_status_for_Few(c *gin.Context) {
 	id := c.Param("id")
-	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 5})
+	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 4})
 }
 
 // GET /OrderTech/:id
