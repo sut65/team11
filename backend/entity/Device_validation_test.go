@@ -8,6 +8,30 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func Test_Positive_Device(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Device := Device{
+		CPU:        "Intel Core i7 7700K",
+		Monitor:    "Zowie SLX105s",
+		GPU:        "Geforce RTX 4050",
+		RAM:        "Corsair 4GB DDR 5",
+		Harddisk:   "WD BLUE 1 TB",
+		Problem:    "Blue screen",
+		Customer:   Customer{},
+		CustomerID: new(uint),
+		TypeID:     new(uint),
+		Type:       Type{},
+		WindowsID:  new(uint),
+		Windows:    Windows{},
+		Save_Time:  time.Now(),
+	}
+
+	ok, err := govalidator.ValidateStruct(Device)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(err).To(BeNil())
+}
+
 func Test_CPU_not_blank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
