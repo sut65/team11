@@ -58,13 +58,14 @@ import { Public } from "@mui/icons-material";
 import PublicRoutes from "./components/PublicRoutes";
 import SignInTech from "./components/SignInTech";
 import PermissionDenied from "./components/PermissionDenied";
-import HomeCustomer from "./components/HomeCustomer";
 import SignInAdmin from "./components/SignInAdmin";
 import TimeoutLogic from "./components/TimeoutLogic";
 import CreateClaim from "./components/B6304577/ClaimOrders/CreateClaim";
 import ShowClaim from "./components/B6304577/ClaimOrders/ShowClaim";
 import EditContentClaimOrder from "./components/B6304577/ClaimOrders/EditDataClaim";
+
 import HomeForCus from "./components/HomeForCus";
+import HomeForTech from "./components/HomeForTech";
 
 
 // import Icon for system
@@ -90,6 +91,7 @@ import PriceCheckRoundedIcon from '@mui/icons-material/PriceCheckRounded'; //ร
 
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded'; //รีวิวรูปดาว
 import ReportRoundedIcon from '@mui/icons-material/ReportRounded'; // claim
+
 
 
 const drawerWidth = 240;
@@ -122,44 +124,45 @@ const menu = [
   // { name: "ระบบสมาชิกแจ้งซ่อม", path: "/CustomerCreate" },
 
   // ========== For Technician ========== //
-  { name: "ระบบshowช่าง", path: "/TechnicianShow", role: "Technician", icon: <EngineeringRoundedIcon/>   },
-  { name: "ระบบรับออเดอร์ช่าง", path: "/OrderTech", role: "Technician", icon: <GradingRoundedIcon/>   },
-  { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech", role: "Technician", icon: <PointOfSaleRoundedIcon/>  },
+  { name: "หน้าแรก", path: "/HomeForTech", role: "Technician", icon: <HomeRoundedIcon /> },
+  { name: "ระบบshowช่าง", path: "/TechnicianShow", role: "Technician", icon: <EngineeringRoundedIcon /> },
+  { name: "ระบบรับออเดอร์ช่าง", path: "/OrderTech", role: "Technician", icon: <GradingRoundedIcon /> },
+  { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech", role: "Technician", icon: <PointOfSaleRoundedIcon /> },
 
   // ========== For Admin ========== //
-  { name: "ระบบช่าง", path: "/TechnicianCreate", role: "Admin" , icon: <PersonAddAltRoundedIcon/> },
+  { name: "ระบบช่าง", path: "/TechnicianCreate", role: "Admin", icon: <PersonAddAltRoundedIcon /> },
   {
     name: "ระบบตรวจสอบการชำระเงิน",
     path: "/Checked_paymentShow",
     role: "Admin",
-    icon: <CurrencyExchangeRoundedIcon/> 
+    icon: <CurrencyExchangeRoundedIcon />
   },
   {
     name: "รับเรื่องการรายงานปัญหาหลังการซ่อม",
     path: "/ClaimOrderForAdmin",
     role: "Admin",
-    icon: <ReportRoundedIcon/>
+    icon: <ReportRoundedIcon />
   },
   {
     name: "ระบบ show ยกเลิกการแจ้งซ่อม",
     path: "/RefundShow",
     role: "Admin",
-    icon: <CancelRoundedIcon/>
+    icon: <CancelRoundedIcon />
   },
   // ========== For Customer ========== //
-  { name: "หน้าแรก", path: "/", role: "Customer", icon: <HomeRoundedIcon/> },
-  { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow", role: "Customer" , icon: <ContactEmergencyRoundedIcon/>},
-  { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage", role: "Customer" , icon: <AddHomeWorkRoundedIcon/> },
-  { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage", role: "Customer" , icon: <DevicesRoundedIcon/> },
+  { name: "หน้าแรก", path: "/HomeForCus", role: "Customer", icon: <HomeRoundedIcon /> },
+  { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow", role: "Customer", icon: <ContactEmergencyRoundedIcon /> },
+  { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage", role: "Customer", icon: <AddHomeWorkRoundedIcon /> },
+  { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage", role: "Customer", icon: <DevicesRoundedIcon /> },
   {
     name: "ระบบการจัดการข้อมูลการแจ้งซ่อม",
     path: "/ShowOrder",
     role: "Customer",
-    icon: <DifferenceRoundedIcon/> 
+    icon: <DifferenceRoundedIcon />
   },
-  { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer" , icon: <MonetizationOnRoundedIcon/> },
-  { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer" , icon: <StarRateRoundedIcon/> },
-  { name: "ตรวจสอบการเคลม", path: "/ShowClaim", role: "Customer" , icon: <ReportRoundedIcon/> },
+  { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer", icon: <MonetizationOnRoundedIcon /> },
+  { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer", icon: <StarRateRoundedIcon /> },
+  { name: "ตรวจสอบการเคลม", path: "/ShowClaim", role: "Customer", icon: <ReportRoundedIcon /> },
 ];
 
 function App() {
@@ -295,11 +298,12 @@ function App() {
             <Route path="CreateForm" element={<PublicRoutes />}>
               <Route path="/CreateForm" element={<CreateForm />} />
             </Route>
+
+
           // Protected Routes // Wrap all Route under ProtectedRoutes element //
             ========== For Customer ========== //
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-              <Route path="/" element={<HomeForCus />} />
-
+              <Route path="/HomeForCus" element={<HomeForCus />} />
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
               <Route path="/CustomerShow" element={<CreateForm2 />} />
@@ -338,33 +342,36 @@ function App() {
             <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
               <Route path="/RefundShow" element={<RefundShow />} />
             </Route>
-          // ========== For Customer ========== // // ========== For Technician
-            ========== //
-            <Route
-              path="/"
-              element={<ProtectedRoutes roleRequired="Technician" />}
-            >
+          // ========== For Customer ========== //
+
+
+            // ========== For Technician ========== //
+        
+
+            <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
+              <Route path="/HomeForTech" element={<HomeForTech />} />
+            </Route>
+            
+            <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
               <Route path="/TechnicianShow" element={<CreateTechnician2 />} />
             </Route>
-            <Route
-              path="/"
-              element={<ProtectedRoutes roleRequired="Technician" />}
-            >
+
+            <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
               <Route path="/OrderTech" element={<TableOrderTech />} />
               <Route path="/TableOrder-tech" element={<Table2Order />} />
               <Route path="/OrderTechCreate/:id" element={<OrderTechCreate />} />
               <Route path="/OrderTechUpdate/:id" element={<OrderTechUpdate />} />
             </Route>
-            <Route
-              path="/"
-              element={<ProtectedRoutes roleRequired="Technician" />}
-            >
+
+            <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
               <Route path="/PayTech" element={<TablePayTech />} />
               <Route path="/PayTechCreate/:id" element={<PayTechCreate />} />
               <Route path="/PayTechUpdate/:id" element={<PayTechUpdate />} />
             </Route>
-          // ========== For Technician ========== // // ========== For Admin
-            ========== //
+          // ========== For Technician ========== //
+
+
+            // ========== For Admin ========== //
             <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
               <Route path="/TechnicianCreate" element={<CreateFormTech />} />
             </Route>
