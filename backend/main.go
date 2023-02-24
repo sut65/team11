@@ -139,6 +139,8 @@ func main() {
 	r.GET("/GetListRefund", controller.GetListRefund)
 	r.GET("/GetRefund/:id", controller.GetRefund)
 	r.GET("/DeleteRefund", controller.DeleteRefund)
+	r.PATCH("/Update_state_Refund_Fin/:id", controller.Update_state_Refund_Fin)
+	r.PATCH("/Update_state_Refund_Rej/:id", controller.Update_state_Refund_Rej)
 	// ========== Refund ==========
 
 	// =============== Payment =========================================
