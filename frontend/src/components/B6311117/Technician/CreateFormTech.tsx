@@ -5,11 +5,10 @@ import TechnicianCreate2 from './TechnicianCreate2';
 import { TechnicianInterface } from '../../../interfaces/TechnicianUI';
 
 
-const steps = [
-    'Profile Information',
-    'Create Account',
-    'Sign - up Complete',
-];
+
+const detailStatus = {
+    num: 0,
+  };
 
 const defaultCreate = {
     PREFIX_ID:0,
@@ -20,10 +19,8 @@ const defaultCreate = {
     EDUCATE_ID: 0,
     Phone: "",
     Location: "",
-
-    Email: "",
+    Username: "",
     Password: "",
-    // RePassword: "",
 };
 
 function CreateFormTech (){
@@ -31,14 +28,15 @@ function CreateFormTech (){
     const [formCreate, setFormCreate] = useState(defaultCreate);
     const [Technician, setTechnician] = useState<Partial<TechnicianInterface>>({});
     const [activeStep, setActiveStep] = React.useState(0);
+    const [statusProgress, setstatusProgress] = useState(detailStatus);
 
 
     const PageDisplay = () => {
         if (activeStep === 0) {
-            return <TechnicianCreate activeStep={activeStep} setActiveStep={setActiveStep} Technician={Technician} setTechnician={setTechnician} formCreate={formCreate} setFormCreate={setFormCreate} />
+            return <TechnicianCreate  statusProgress={statusProgress} setstatusProgress={setstatusProgress} activeStep={activeStep} setActiveStep={setActiveStep} Technician={Technician} setTechnician={setTechnician} formCreate={formCreate} setFormCreate={setFormCreate} />
 
         } else if (activeStep === 1) {
-            return <TechnicianCreate2 formCreate={formCreate} setFormCreate={setFormCreate} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} />
+            return <TechnicianCreate2  statusProgress={statusProgress} setstatusProgress={setstatusProgress} formCreate={formCreate} setFormCreate={setFormCreate} activeStep={activeStep} setActiveStep={setActiveStep}  />
 
         } 
         //   else if (activeStep === 2) {
@@ -50,8 +48,9 @@ function CreateFormTech (){
     return (
         <Paper
             sx={{
-                // backgroundColor: "#182e3e",
-                // height: '1500px'
+                backgroundColor: "rgba(0,0,0,0)",
+                boxShadow: 0,
+                margin: 10,
             }}>
             <form className='form-container'>
                 <div className='text-start'>{PageDisplay()}</div>

@@ -18,43 +18,43 @@ import "./home.css"
 
 const images = [
     {
-        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/kMFWVQLk/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบ show สมาชิกแจ้งซ่อม',
         width: '30%',
         path: "CustomerShow",
     },
     {
-        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/28k93897/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบที่อยู่ผู้แจ้ง',
         width: '30%',
         path: "AddressShowPage",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/vTznpyWQ/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบอุปกรณ์ผู้แจ้ง',
         width: '30%',
         path: "DeviceShowPage",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/DZ1LPL04/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบการจัดการข้อมูลการแจ้งซ่อม',
         width: '30%',
         path: "ShowOrder",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/43DpcBfT/Payment.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบชำระเงิน',
         width: '30%',
         path: "PaymentShow",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/02nG4Yfp/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบประเมินความพึงพอใจ',
         width: '30%',
         path: "RankingForm",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/qv7cHNbW/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ตรวจสอบการเคลม',
         width: '30%',
         path: "ShowClaim",

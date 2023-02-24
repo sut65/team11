@@ -1,0 +1,53 @@
+#frame-outline-RequirementPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+
+    min-height: 100vh;
+    margin: auto;
+    padding: 50px;
+
+    background-size: cover;
+    position: relative;
+    content: "";
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(100px);
+    box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.5);
+}
+
+#topic-requirementPage {
+    width: 100%;
+    height: 10vh;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    margin-bottom: 25px;
+}
+
+#system-box-requirement {
+    width: 100%;
+    min-height: 10vh;
+    margin-top: 10px;
+}
+
+#topic-in-requirementPage {
+    justify-content: center;
+    font-family: 'Noto Sans Thai';
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+#text-in-requirementPage {
+    display: flex;
+    justify-content: center;
+    font-family: 'Noto Sans Thai';
+    font-weight: 600;
+    font-size: 1.5rem;
+    flex-direction: column;
+}

@@ -17,6 +17,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import InfoIcon from '@mui/icons-material/Info';
 
 import RankingForm from "./components/B6304577/ReviewOrders/RatingForm";
 import Payment from "./components/B6308490/Payment/Payment";
@@ -92,6 +93,7 @@ import PriceCheckRoundedIcon from '@mui/icons-material/PriceCheckRounded'; //ร
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded'; //รีวิวรูปดาว
 import ReportRoundedIcon from '@mui/icons-material/ReportRounded'; // claim
 import HomeForAdmin from "./components/HomeForAdmin";
+import RequirementPage from "./components/RequirementPage";
 
 
 
@@ -129,6 +131,7 @@ const menu = [
   { name: "ระบบshowช่าง", path: "/TechnicianShow", role: "Technician", icon: <EngineeringRoundedIcon /> },
   { name: "ระบบรับออเดอร์ช่าง", path: "/OrderTech", role: "Technician", icon: <GradingRoundedIcon /> },
   { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech", role: "Technician", icon: <PointOfSaleRoundedIcon /> },
+  { name: "About me", path: "/RequirementPageTechnician", role: "Technician", icon: <InfoIcon/> },
 
   // ========== For Admin ========== //
   { name: "หน้าแรก", path: "/HomeForAdmin", role: "Admin", icon: <HomeRoundedIcon /> },
@@ -136,6 +139,7 @@ const menu = [
   { name: "ระบบตรวจสอบการชำระเงิน", path: "/Checked_paymentShow", role: "Admin", icon: <CurrencyExchangeRoundedIcon /> },
   { name: "รับเรื่องการรายงานปัญหาหลังการซ่อม", path: "/ClaimOrderForAdmin", role: "Admin", icon: <ReportRoundedIcon /> },
   { name: "ระบบ show ยกเลิกการแจ้งซ่อม", path: "/RefundShow", role: "Admin", icon: <CancelRoundedIcon /> },
+  { name: "About me", path: "/RequirementPageAdmin", role: "Admin", icon: <InfoIcon/> },
 
   // ========== For Customer ========== //
   { name: "หน้าแรก", path: "/HomeForCus", role: "Customer", icon: <HomeRoundedIcon /> },
@@ -146,6 +150,7 @@ const menu = [
   { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer", icon: <MonetizationOnRoundedIcon /> },
   { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer", icon: <StarRateRoundedIcon /> },
   { name: "ตรวจสอบการเคลม", path: "/ShowClaim", role: "Customer", icon: <ReportRoundedIcon /> },
+  { name: "About me", path: "/RequirementPageCustomer", role: "Customer", icon: <InfoIcon/> },
 ];
 
 function App() {
@@ -322,14 +327,13 @@ function App() {
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
               <Route path="/RefundCreate" element={<RefundCreate />} />
             </Route>
-            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
-              <Route path="/RefundShow" element={<RefundShow />} />
+            <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
+              <Route path="/RequirementPageCustomer" element={<RequirementPage />} />
             </Route>
           // ========== For Customer ========== //
 
 
             // ========== For Technician ========== //
-
 
             <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
               <Route path="/HomeForTech" element={<HomeForTech />} />
@@ -351,6 +355,9 @@ function App() {
               <Route path="/PayTechCreate/:id" element={<PayTechCreate />} />
               <Route path="/PayTechUpdate/:id" element={<PayTechUpdate />} />
             </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
+              <Route path="/RequirementPageTechnician" element={<RequirementPage />} />
+            </Route>
           // ========== For Technician ========== //
 
 
@@ -368,6 +375,12 @@ function App() {
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
               <Route path="/ClaimOrderForAdmin" element={<ClaimOrderForAdmin />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
+              <Route path="/RequirementPageAdmin" element={<RequirementPage />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
+              <Route path="/RefundShow" element={<RefundShow />} />
             </Route>
           // ========== For Admin ========== //
           </Routes>
