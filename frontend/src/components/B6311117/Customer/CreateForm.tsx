@@ -13,7 +13,9 @@ const steps = [
 ];
 
 
-
+const detailStatus = {
+    num:0,
+}
 
 const defaultCreate = {
     PREFIX_ID:0,
@@ -34,14 +36,17 @@ function CreateForm (){
     const [formCreate, setFormCreate] = useState(defaultCreate);
     const [Customer, setCustomer] = useState<Partial<CustomerInterface>>({});
     const [activeStep, setActiveStep] = React.useState(0);
+    const [statusProgress, setstatusProgress] = useState(detailStatus);
+
+    
 
 
     const PageDisplay = () => {
         if (activeStep === 0) {
-            return <CustomerCreate  activeStep={activeStep} setActiveStep={setActiveStep} Customer={Customer} setCustomer={setCustomer} formCreate={formCreate} setFormCreate={setFormCreate} />
+            return <CustomerCreate statusProgress={statusProgress} setstatusProgress={setstatusProgress}  activeStep={activeStep} setActiveStep={setActiveStep} Customer={Customer} setCustomer={setCustomer} formCreate={formCreate} setFormCreate={setFormCreate} />
 
         } else if (activeStep === 1) {
-            return <CustomerCreate2 formCreate={formCreate} setFormCreate={setFormCreate} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} />
+            return <CustomerCreate2 statusProgress={statusProgress} formCreate={formCreate} setFormCreate={setFormCreate} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} />
 
         } 
         //   else if (activeStep === 2) {
