@@ -6,14 +6,10 @@ import Container from "@mui/material/Container";
 import { AppBar, Button, FormControl, IconButton, Paper, styled, Toolbar, Typography } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { PaymentInterface, BankInterface, /*PAYTECHInterface,*/ } from "../../../interfaces/PaymentUI";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import ResponsiveAppBar from '../../Bar_01';
 import dayjs, { Dayjs } from "dayjs";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import "../CSS/PAY_and_CHECKED.css";
-//import { PayTechInterface } from "../../../interfaces/IPayTech";
 import { OrderTechInterface } from "../../../interfaces/IOrderTech";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
 import Stack from '@mui/material/Stack';
@@ -146,16 +142,17 @@ function Payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          // setSuccess(true);
-          // Alert การบันทึกสำเส็จ
+
           Swal.fire({
             title: 'บันทึกสำเร็จ',
             //text: '',
             icon: 'success',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem('Ordertech_ID');
+              window.location.href = "/PaymentShow";
+            }
           });
-
-          localStorage.removeItem('Ordertech_ID');
-          setTimeout(() => { window.location.href = "/PaymentShow"; }, 3000);
 
         } else {
           Swal.fire({
@@ -164,21 +161,12 @@ function Payment() {
             icon: 'error'
           });
         }
-        console.log(data);
       });
-    // // reset All after Submit
-    // setBank_ID("");
-    // setDate(null);
-    // // setOrderTech_ID("");
-    // setPayment({});
-    // setAmountCheck("ไม่มีข้อมูล");
   }
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแสดงให้ลูกค้า_-////////////////////////////////////////////
 
   const [amountCheck, setAmountCheck] = useState('ไม่มีข้อมูล');
   async function submitPayment() {
-
-    // console.log(data);
     const apiUrl = `http://localhost:8080/SendmoneyToFrontend/${OrderTech_ID}`;
     const requestOptions = {
       method: "GET",
@@ -189,14 +177,11 @@ function Payment() {
       .then((res) => {
         if (res) {
           setAmountCheck(res.sent); //สำหรับแส้งที่ fron เท่านั้น ไม่ได้บันทึก
-          // console.log(res.sent);
         } else {
           console.log("else");
           setAmountCheck('ไม่มีข้อมูล');
         }
       });
-
-    // console.log('Ordertech_id = ',);
   };
   //////////////////////////////-_เรียกยอดเงินรวมออกมาแดงให้ลูกค้า_-////////////////////////////////////////////
   /////////////////////////-_ ส่วนของการโหลดและดึงค่ามาใช้(ใช้กับ Combobox) _-/////////////////////////////////

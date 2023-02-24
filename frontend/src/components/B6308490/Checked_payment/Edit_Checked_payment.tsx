@@ -75,25 +75,7 @@ function Edit_Checked_payment() {
   const [Message, setMessage] = useState('');
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    // setSuccess(false);
-    // setError(false);
-  };
-  const handleChange = (
-    event: React.ChangeEvent<{ name?: string; value: unknown }>
-  ) => {
-    const name = event.target.name as keyof typeof Checked_payment;
-    setChecked_payment({
-      ...Checked_payment,
-      [name]: event.target.value,
-    });
-  };
+ 
   //สร้างฟังก์ชันสำหรับ คอยรับการกระทำ เมื่อคลิ๊ก หรือ เลือก
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -120,7 +102,6 @@ function Edit_Checked_payment() {
       Admin_ID: userID,
 
     };
-    //console.log(data);
     const apiUrl = "http://localhost:8080/UpdateChecked_payment";
     const requestOptions = {
       method: "PATCH",
@@ -136,12 +117,13 @@ function Edit_Checked_payment() {
           Swal.fire({
             title: 'บันทึกการแก้ไขสำเร็จ',
             //text: '',
-            icon: 'success'
+            icon: 'success',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem('Checked_Payment_ID');
+              window.location.href = "/Checked_paymentShow";
+            }
           });
-
-          localStorage.removeItem('Checked_Payment_ID');
-          setTimeout(() => { window.location.href = "/Checked_paymentShow"; }, 3000);
-
         } else {
           Swal.fire({
             // Display Back-end text response 
