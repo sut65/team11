@@ -150,7 +150,7 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
 //   }
 
 
-function CustomerCreate({ formCreate, setFormCreate, activeStep, setActiveStep , steps }: any) {
+function CustomerCreate({ setstatusProgress, statusProgress, formCreate, setFormCreate, activeStep, setActiveStep , steps }: any) {
 
 const handleStart = () => {
     setActiveStep(activeStep + 1);
@@ -261,7 +261,7 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
   }, []);
 
   //TODO ตัวนับ Progress ด้านบน
-  const [progress, setProgress] = React.useState(0);
+  const [progress, setProgress] = statusProgress.num;
   
   const [input2, setInput2] = React.useState('');
   const [input3, setInput3] = React.useState('');
@@ -367,17 +367,17 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                           console.log("")
                           //TODO ได้ละ
                           if ((formCreate.PREFIX_ID.length)/30 > input2.length){
-                            setProgress((num) => num + 7.14);
+                            setProgress(({...statusProgress,num:statusProgress.num + 7.14}));
                             setInput2(formCreate.PREFIX_ID)
                           }
                           //TODO สลาย
                           else if ((formCreate.PREFIX_ID.length - input2.length)+1 ===  (-input2.length) || (formCreate.PREFIX_ID.length== 0 && input2.length != 0 )){
-                            setProgress((num) => num - 7.14);
+                            setProgress(({...statusProgress,num:statusProgress.num - 7.14}));
                             setInput2(formCreate.PREFIX_ID)
                           }
                           //TODO คงเดิม
                           else if (((formCreate.PREFIX_ID.length) - input2.length) < (input2.length)){
-                            setProgress((num) => num );
+                            setProgress(({...statusProgress,num:statusProgress.num}));
                             setInput2(formCreate.PREFIX_ID)
                           }
                           console.log(formCreate.PREFIX_ID.length - input2.length);
@@ -415,17 +415,17 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                       console.log("")
                       //TODO ได้ละ
                       if ((formCreate.Name.length)/30 > input3.length){
-                        setProgress((num) => num + 7.14);
+                        setProgress(({...statusProgress,num:statusProgress.num + 7.14}));
                         setInput3(formCreate.Name)
                       }
                       //TODO สลาย
                       else if ((formCreate.Name.length - input3.length)+1 ===  (-input3.length) || (formCreate.Name.length== 0 && input3.length != 0 )){
-                        setProgress((num) => num - 7.14);
+                        setProgress(({...statusProgress,num:statusProgress.num - 7.14}));
                         setInput3(formCreate.Name)
                       }
                       //TODO คงเดิม
                       else if (((formCreate.Name.length) - input3.length) < (input3.length)){
-                        setProgress((num) => num );
+                        setProgress(({...statusProgress,num:statusProgress.num}));
                         setInput3(formCreate.Name)
                       }
                       console.log(formCreate.Name.length - input3.length);
@@ -473,17 +473,17 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                           console.log("")
                           //TODO ได้ละ
                           if ((formCreate.ID_card.length)/30 > input4.length){
-                            setProgress((num) => num + 7.14);
+                            setProgress(({...statusProgress,num:statusProgress.num + 7.14}));
                             setInput4(formCreate.ID_card)
                           }
                           //TODO สลาย
                           else if ((formCreate.ID_card.length - input4.length)+1 ===  (-input4.length) || (formCreate.ID_card.length== 0 && input4.length != 0 )){
-                            setProgress((num) => num - 7.14);
+                            setProgress(({...statusProgress,num:statusProgress.num - 7.14}));
                             setInput4(formCreate.ID_card)
                           }
                           //TODO คงเดิม
                           else if (((formCreate.ID_card.length) - input4.length) < (input4.length)){
-                            setProgress((num) => num );
+                            setProgress(({...statusProgress,num:statusProgress.num }));
                             setInput4(formCreate.ID_card)
                           }
                           console.log(formCreate.ID_card.length - input4.length);
@@ -513,7 +513,7 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                           inputFormat="DD/MM/YYYY"
                           renderInput={(params) => <TextField {...params} />}
                           value={DOB}
-                          onChange={(newValue) => setFormCreate(({...formCreate,DOB:newValue}), setProgress((num) => num))}
+                          onChange={(newValue) => setFormCreate(({...formCreate,DOB:newValue}))}
                           
                           />
                       </LocalizationProvider>
@@ -537,7 +537,7 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                           id="redditTextFieldsCreateCombo"
                           native
                           value={GENDER_ID}
-                          onChange={(event) => setFormCreate(({...formCreate,GENDER_ID:event.target.value}), setProgress((prevProgress) => (prevProgress >= 50 ? 10 : 35)))}
+                          onChange={(event) => setFormCreate(({...formCreate,GENDER_ID:event.target.value}))}
                           inputProps={{
                               name: "GENDER_ID",
                           }}
@@ -549,17 +549,17 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                             console.log("")
                             //TODO ได้ละ
                             if ((formCreate.GENDER_ID.length)/40 > input6.length){
-                              setProgress((num) => num + 7.14);
+                              setProgress(({...statusProgress,num:statusProgress.num + 7.14}));
                               setInput6(formCreate.GENDER_ID)
                             }
                             //TODO สลาย
                             else if ((formCreate.GENDER_ID.length - input6.length)+1 ===  (-input6.length) || (formCreate.GENDER_ID.length== 0 && input6.length != 0 )){
-                              setProgress((num) => num - 7.14);
+                              setProgress(({...statusProgress,num:statusProgress.num - 7.14}));
                               setInput6(formCreate.GENDER_ID)
                             }
                             //TODO คงเดิม
                             else if (((formCreate.GENDER_ID.length) - input6.length) < (input6.length)){
-                              setProgress((num) => num );
+                              setProgress(({...statusProgress,num:statusProgress.num}));
                               setInput6(formCreate.GENDER_ID)
                             }
                             console.log(formCreate.GENDER_ID.length - input6.length);
@@ -583,7 +583,7 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                         id ="redditTextFieldsCreateComboCareer"
                         native
                         value={CAREER_ID}
-                        onChange={(event) => setFormCreate(({...formCreate,CAREER_ID:event.target.value}), setProgress((prevProgress) => (prevProgress >= 50 ? 10 : 42)) )}
+                        onChange={(event) => setFormCreate(({...formCreate,CAREER_ID:event.target.value}), )}
                         inputProps={{
                             name: "CAREER_ID",
                         }}
@@ -595,17 +595,17 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                           console.log("")
                           //TODO ได้ละ
                           if ((formCreate.CAREER_ID.length)/30 > input7.length){
-                            setProgress((num) => num + 7.14);
+                            setProgress(({...statusProgress,num:statusProgress.num + 7.14}));
                             setInput7(formCreate.CAREER_ID)
                           }
                           //TODO สลาย
                           else if ((formCreate.CAREER_ID.length - input7.length)+1 ===  (-input7.length) || (formCreate.CAREER_ID.length== 0 && input7.length != 0 )){
-                            setProgress((num) => num - 7.14);
+                            setProgress(({...statusProgress,num:statusProgress.num - 7.14}));
                             setInput7(formCreate.CAREER_ID)
                           }
                           //TODO คงเดิม
                           else if (((formCreate.CAREER_ID.length) - input7.length) < (input7.length)){
-                            setProgress((num) => num );
+                            setProgress(({...statusProgress,num:statusProgress.num }));
                             setInput7(formCreate.CAREER_ID)
                           }
                           console.log(formCreate.CAREER_ID.length - input7.length);
@@ -651,7 +651,7 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                         // value={inPhone1}
                         value={Phone}
                         // value={values.textmask}
-                        onChange={(event) => setFormCreate(({...formCreate,Phone:event.target.value}) , setProgress((prevProgress) => (prevProgress > 50 ? 10 : 50)))}
+                        onChange={(event) => setFormCreate(({...formCreate,Phone:event.target.value}), setstatusProgress(({...statusProgress,Number:progress})))}
                         // onChange={(event) => setPPhone(({...PPhone,inPhone1:event.target.value}), console.log(event.target.value))}
                         // onChange={handleChangePhone}
                         name="textmask"
@@ -663,17 +663,17 @@ const [Prefix, setPrefix] = React.useState<PrefixInterface[]>([]);
                           console.log("")
                           //TODO ได้ละ
                           if ((formCreate.Phone.length)/30 > input8.length){
-                            setProgress((num) => num =50);
+                            setProgress(({...statusProgress,num:statusProgress.num + 7.14}));
                             setInput8(formCreate.Phone)
                           }
                           //TODO สลาย
                           else if ((formCreate.Phone.length - input8.length)+1 ===  (-input8.length) || (formCreate.Phone.length== 0 && input8.length != 0 )){
-                            setProgress((num) => num =50);
+                            setProgress(({...statusProgress,num:statusProgress.num - 7.14}));
                             setInput8(formCreate.Phone)
                           }
                           //TODO คงเดิม
                           else if (((formCreate.Phone.length) - input8.length) < (input8.length)){
-                            setProgress((num) => num =50 );
+                            setProgress(({...statusProgress,num:statusProgress.num }));
                             setInput8(formCreate.Phone)
                           }
                           console.log(formCreate.Phone.length - input8.length);

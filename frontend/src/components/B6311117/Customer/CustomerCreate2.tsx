@@ -50,7 +50,7 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
 }
 
 
-function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep, steps }: any) {
+function CustomerCreate2({  statusProgress, formCreate, setFormCreate, activeStep, setActiveStep, steps }: any) {
 
     // const [Name, setName] = useState('');
     // const [ID_card, setID_card] = useState('');
@@ -74,6 +74,7 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
 
       //สร้างฟังก์ชันสำหรับ คอยรับการกระทำ เมื่อคลิ๊ก หรือ เลือก
       const {Email, Password, RePassword} = formCreate
+      const {Number} = statusProgress
 
 
       const convertType = (data: string | number | undefined | Float32Array) => {
@@ -154,7 +155,10 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
     }
 
   //TODO ตัวนับ Progress ด้านบน
-  const [progress, setProgress] = React.useState(50);
+
+
+  const [progress, setProgress] = statusProgress
+  // const progress = statusProgress.Number
 
   const [input2, setInput2] = React.useState('');
   const [input3, setInput3] = React.useState('');
@@ -257,17 +261,17 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                               console.log("")
                               //TODO ได้ละ
                               if ((formCreate.Email.length)/20 > input2.length){
-                                setProgress((num) => num + 16.67);
+                                setProgress(({...statusProgress,num:statusProgress.num + 16.67}));
                                 setInput2(formCreate.Email)
                               }
                               //TODO สลาย
                               else if ((formCreate.Email.length - input2.length)+1 ===  (-input2.length) || (formCreate.Email.length== 0 && input2.length != 0 )){
-                                setProgress((num) => num - 16.67);
+                                setProgress(({...statusProgress,num:statusProgress.num - 16.67}));
                                 setInput2(formCreate.Email)
                               }
                               //TODO คงเดิม
                               else if (((formCreate.Email.length) - input2.length) < (input2.length)){
-                                setProgress((num) => num );
+                                setProgress(({...statusProgress,num:statusProgress.num }));
                                 setInput2(formCreate.Email)
                               }
                               console.log(formCreate.Email.length - input2.length);
@@ -309,17 +313,17 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                               console.log("")
                               //TODO ได้ละ
                               if ((formCreate.Password.length)/20 > input3.length){
-                                setProgress((num) => num + 16.67);
+                                setProgress(({...statusProgress,num:statusProgress.num + 16.67}));
                                 setInput3(formCreate.Password)
                               }
                               //TODO สลาย
                               else if ((formCreate.Password.length - input3.length)+1 ===  (-input3.length) || (formCreate.Password.length== 0 && input3.length != 0 )){
-                                setProgress((num) => num - 16.67);
+                                setProgress(({...statusProgress,num:statusProgress.num - 16.67}));
                                 setInput3(formCreate.Password)
                               }
                               //TODO คงเดิม
                               else if (((formCreate.Password.length) - input3.length) < (input3.length)){
-                                setProgress((num) => num );
+                                setProgress(({...statusProgress,num:statusProgress.num }));
                                 setInput3(formCreate.Password)
                               }
                               console.log(formCreate.Password.length - input3.length);
@@ -371,17 +375,17 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                               console.log("")
                               //TODO ได้ละ
                               if ((formCreate.RePassword.length)/20 > input4.length){
-                                setProgress((num) => num + 16.66);
+                                setProgress(({...statusProgress,num:statusProgress.num + 16.67}));
                                 setInput4(formCreate.RePassword)
                               }
                               //TODO สลาย
                               else if ((formCreate.RePassword.length - input4.length)+1 ===  (-input4.length) || (formCreate.RePassword.length== 0 && input4.length != 0 )){
-                                setProgress((num) => num - 16.66);
+                                setProgress(({...statusProgress,num:statusProgress.num - 16.67}));
                                 setInput4(formCreate.RePassword)
                               }
                               //TODO คงเดิม
                               else if (((formCreate.RePassword.length) - input4.length) < (input4.length)){
-                                setProgress((num) => num );
+                                setProgress(({...statusProgress,num:statusProgress.num - 16.67}));
                                 setInput4(formCreate.RePassword)
                               }
                               console.log(formCreate.RePassword.length - input4.length);
