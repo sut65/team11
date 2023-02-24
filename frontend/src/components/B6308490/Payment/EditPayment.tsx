@@ -125,11 +125,13 @@ function Payment() {
           // Alert การบันทึกสำเส็จ
           Swal.fire({
             title: 'บันทึกการแก้ไขสำเร็จ',
-            icon: 'success'
+            icon: 'success',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem('Payment_ID');
+              window.location.href = "/PaymentShow";
+            }
           });
-
-          localStorage.removeItem('Payment_ID');
-          setTimeout(() => { window.location.href = "/PaymentShow"; }, 3000);
 
           //ถ้าแก้ไขสำเร็จค่อยคืนคว่าว่าง
           setBank_ID("");
@@ -144,7 +146,6 @@ function Payment() {
             icon: 'error'
           });
         }
-        console.log(data);
       });
   }
   const [Bank, setBank] = React.useState<BankInterface[]>([]);
