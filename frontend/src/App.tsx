@@ -64,6 +64,33 @@ import TimeoutLogic from "./components/TimeoutLogic";
 import CreateClaim from "./components/B6304577/ClaimOrders/CreateClaim";
 import ShowClaim from "./components/B6304577/ClaimOrders/ShowClaim";
 import EditContentClaimOrder from "./components/B6304577/ClaimOrders/EditDataClaim";
+import HomeForCus from "./components/HomeForCus";
+
+
+// import Icon for system
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded'; //Home
+
+import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded'; //เพิ่มลูกค้า
+import EngineeringRoundedIcon from '@mui/icons-material/EngineeringRounded'; //แสดงช่าง
+import ContactEmergencyRoundedIcon from '@mui/icons-material/ContactEmergencyRounded'; // แสดงลูกค้า
+
+import AddHomeWorkRoundedIcon from '@mui/icons-material/AddHomeWorkRounded';//ที่อยู่ผู้แจ้ง
+import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'; //อุปกรณ์
+
+import DifferenceRoundedIcon from '@mui/icons-material/DifferenceRounded';  //order รูปสื่อถึง +- เอกสาร
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded'; //ยกเลิก รูปกากบาท
+import CurrencyExchangeRoundedIcon from '@mui/icons-material/CurrencyExchangeRounded';//ขอคืนเงิน
+
+import GradingRoundedIcon from '@mui/icons-material/GradingRounded'; //ระบบรับออร์เดอร์ช่าง
+import PointOfSaleRoundedIcon from '@mui/icons-material/PointOfSaleRounded'; //paytecth
+
+import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded'; // payment
+import RequestQuoteRoundedIcon from '@mui/icons-material/RequestQuoteRounded';//checkedPayment
+import PriceCheckRoundedIcon from '@mui/icons-material/PriceCheckRounded'; //รูปเงิน แลูเครื่องหมายถูก
+
+import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded'; //รีวิวรูปดาว
+import ReportRoundedIcon from '@mui/icons-material/ReportRounded'; // claim
+
 
 const drawerWidth = 240;
 
@@ -95,41 +122,44 @@ const menu = [
   // { name: "ระบบสมาชิกแจ้งซ่อม", path: "/CustomerCreate" },
 
   // ========== For Technician ========== //
-  { name: "ระบบshowช่าง", path: "/TechnicianShow", role: "Technician" },
-  { name: "ระบบรับออเดอร์ช่าง", path: "/OrderTech", role: "Technician" },
-  { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech", role: "Technician" },
+  { name: "ระบบshowช่าง", path: "/TechnicianShow", role: "Technician", icon: <EngineeringRoundedIcon/>   },
+  { name: "ระบบรับออเดอร์ช่าง", path: "/OrderTech", role: "Technician", icon: <GradingRoundedIcon/>   },
+  { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech", role: "Technician", icon: <PointOfSaleRoundedIcon/>  },
 
   // ========== For Admin ========== //
-  { name: "ระบบช่าง", path: "/TechnicianCreate", role: "Admin" },
+  { name: "ระบบช่าง", path: "/TechnicianCreate", role: "Admin" , icon: <PersonAddAltRoundedIcon/> },
   {
     name: "ระบบตรวจสอบการชำระเงิน",
     path: "/Checked_paymentShow",
     role: "Admin",
+    icon: <CurrencyExchangeRoundedIcon/> 
   },
   {
     name: "รับเรื่องการรายงานปัญหาหลังการซ่อม",
     path: "/ClaimOrderForAdmin",
     role: "Admin",
+    icon: <ReportRoundedIcon/>
   },
   {
     name: "ระบบ show ยกเลิกการแจ้งซ่อม",
     path: "/RefundShow",
     role: "Admin",
+    icon: <CancelRoundedIcon/>
   },
-
   // ========== For Customer ========== //
-  { name: "หน้าแรก", path: "/", role: "Customer" },
-  { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow", role: "Customer" },
-  { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage", role: "Customer" },
-  { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage", role: "Customer" },
+  { name: "หน้าแรก", path: "/", role: "Customer", icon: <HomeRoundedIcon/> },
+  { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow", role: "Customer" , icon: <ContactEmergencyRoundedIcon/>},
+  { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage", role: "Customer" , icon: <AddHomeWorkRoundedIcon/> },
+  { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage", role: "Customer" , icon: <DevicesRoundedIcon/> },
   {
     name: "ระบบการจัดการข้อมูลการแจ้งซ่อม",
     path: "/ShowOrder",
     role: "Customer",
+    icon: <DifferenceRoundedIcon/> 
   },
-  { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer" },
-  { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer" },
-  { name: "Show Claim Order", path: "/ShowClaim", role: "Customer" },
+  { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer" , icon: <MonetizationOnRoundedIcon/> },
+  { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer" , icon: <StarRateRoundedIcon/> },
+  { name: "ตรวจสอบการเคลม", path: "/ShowClaim", role: "Customer" , icon: <ReportRoundedIcon/> },
 ];
 
 function App() {
@@ -235,7 +265,7 @@ function App() {
               >
                 {_user === item.role ? (
                   <ListItem button >
-                    <ListItemIcon>{item.role}</ListItemIcon>
+                    <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemIcon>{item.name}</ListItemIcon>
                   </ListItem>
                 ) : (
@@ -268,7 +298,7 @@ function App() {
           // Protected Routes // Wrap all Route under ProtectedRoutes element //
             ========== For Customer ========== //
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-              <Route path="/Home" element={<HomeCustomer />} />
+              <Route path="/" element={<HomeForCus />} />
 
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>

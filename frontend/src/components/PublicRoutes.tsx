@@ -17,7 +17,7 @@ const  PublicRoutes=(props:any) =>{
 
   const auth=useAuth()
 
-  return auth?<Navigate to="/Home"/>: <Outlet/>
+  return auth?<Navigate to="/"/>: <Outlet/>
 }
 
 export default PublicRoutes;
