@@ -40,7 +40,7 @@ func CreateOrderTech(c *gin.Context) {
 	var technician entity.Technician
 	var ORDER entity.ORDER
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร OrderTech
+	// ผลลัพธ์จะถูก bind เข้าตัวแปร OrderTech
 	if err := c.ShouldBindJSON(&OrderTech); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -69,13 +69,13 @@ func CreateOrderTech(c *gin.Context) {
 		return
 	}
 
-	// 14: ค้นหา technician ด้วย id
+	// 3: ค้นหา technician ด้วย id
 	if tx := entity.DB().Where("id = ?", OrderTech.TechnicianID).First(&technician); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "technician not found"})
 		return
 	}
 
-	// 15: สร้าง OrderTech
+	// 16: สร้าง OrderTech
 	pm := entity.OrderTech{
 		Model:      gorm.Model{ID: OrderTech.ID},
 		ORDER:      ORDER,
@@ -94,7 +94,7 @@ func CreateOrderTech(c *gin.Context) {
 		return
 	}
 
-	// 13: บันทึก
+	// 9: บันทึก
 	if err := entity.DB().Create(&pm).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
