@@ -1,103 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Box, Button, Container, FormControl, Grid, Paper, styled, Typography } from '@mui/material';
-import CircularProgress, {
-    circularProgressClasses,
-    CircularProgressProps,
-  } from '@mui/material/CircularProgress';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
-import { Margin } from "@mui/icons-material";
+import LinearProgress from '@mui/material/LinearProgress';
 import Divider from '@mui/material/Divider';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
-import {GenderTInterface,
-    EducateInterface,
-    PrefixTInterface,
-    TechnicianInterface} from "../../../interfaces/TechnicianUI"
+import {TechnicianInterface} from "../../../interfaces/TechnicianUI"
 import TextField from "@mui/material/TextField";
-import Chip from '@mui/material/Chip';
-import { Link as RouterLink, Route } from "react-router-dom";
-import TechnicianCreate from "./TechnicianCreate";
 import Swal from 'sweetalert2' // Alert text --> npm install sweetalert2
+
+import { LinearProgressProps } from "@mui/material/LinearProgress";
+import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 
 
 import "../Technician/Technician.css" 
+import { Padding } from "@mui/icons-material";
 
-//Grid
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-
-//process ข้างบน
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
-    },
-  }));
-
-function FacebookCircularProgress(props: CircularProgressProps) {
-    return (
-      <Box sx={{ position: 'relative' }}>
-        <CircularProgress
+//TODOprocess ข้างบน
+function LinearProgressWithLabel(
+  props: LinearProgressProps & { value: number }
+) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
+        <LinearProgress
           variant="determinate"
-          sx={{
-            color: (theme) =>
-              theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-          }}
-          size={40}
-          thickness={4}
-          {...props}
-          value={100}
-        />
-        <CircularProgress
-          variant="indeterminate"
-          disableShrink
-          sx={{
-            color: (theme) => (theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8'),
-            animationDuration: '550ms',
-            position: 'absolute',
-            left: 0,
-            [`& .${circularProgressClasses.circle}`]: {
-              strokeLinecap: 'round',
-            },
-          }}
-          size={40}
-          thickness={4}
+          sx={{ height: 9, borderRadius: "30px" }}
           {...props}
         />
       </Box>
-    );
-  }
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 
 
-function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveStep, steps }: any) {
-
-    // const [Name, setName] = useState('');
-    // const [ID_card, setID_card] = useState('');
-    // const [DOB, setDOB] = useState<Dayjs | null>(dayjs());
-    // const [Phone, setPhone] = useState('');
-
-    // const [GENDER_ID, setGENDER_ID] = useState('');
-    // const [CAREER_ID, setCAREER_ID] = useState('');
-    // const [PREFIX_ID, setPREFIX_ID] = useState('');
-
-    // const [Email, setEmail] = useState(''); 
-    // const [Password, setPassword] = useState(''); 
-    // const [RePassword, setRePassword] = useState(''); 
+function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setFormCreate, activeStep, setActiveStep, steps }: any) {
 
     const handleBack = () => {
       setActiveStep(activeStep - 1);
@@ -107,7 +48,9 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
     const [genderID, setGenderID] = useState<number>(0);
 
       //สร้างฟังก์ชันสำหรับ คอยรับการกระทำ เมื่อคลิ๊ก หรือ เลือก
-      const {Username, Password, RePassword} = formCreate //!!!!!!
+      const { Password, RePassword} = formCreate //!!!!!!
+
+      const {ID_card, Username }=formCreate;
 
 
       const convertType = (data: string | number | undefined | Float32Array) => {
@@ -116,14 +59,23 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
       };
 
     function submit() {
+      var pphonee = formCreate.Phone.split("-");
+      var pphonee2 = pphonee[0] + pphonee[1] + pphonee[2];
+
+      var personalID = formCreate.ID_card.split("-");
+      var personalID2 =
+        personalID[0] +
+        personalID[1] +
+        personalID[2] +
+        personalID[3] +
+        personalID[4];
       let data = {
         Name: formCreate.Name,          
-        ID_card: formCreate.ID_card,      
+        ID_card: personalID2,      
         DOB: formCreate.DOB,
-        Phone: formCreate.Phone,
+        Phone: pphonee2,
 
         GENDER_ID: convertType(formCreate.GENDER_ID as number),
-        // genderID: formCreate.GENDER_ID,
         EDUCATE_ID: convertType(formCreate.EDUCATE_ID as number),
         PREFIX_ID: convertType(formCreate.PREFIX_ID as number),
         Location: formCreate.Location,
@@ -142,23 +94,20 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    // successAlert();
                     Swal.fire({
                       title: 'บันทึกสำเร็จ',
                       text: 'สร้าง Account Technician สำเร็จ',
                       icon: 'success',
                       showConfirmButton: false,
-                      timer: 7000
+                      timer: 4000,
                   });
                   console.log(res.data)
-                  setTimeout(() => {
-                      // setActiveStep(0)
-                      window.location.href = "/TechnicianCreate";
-                  }, 5000)
+                  // setTimeout(() => {
+                  //     window.location.href = "/";
+                  // }, 2000)
 
                   console.log("Success");
                 } else {
-                    // errorAlert();
                     Swal.fire({
                       // Display Back-end text response 
                       title: 'บันทึกไม่สำเร็จ',
@@ -167,36 +116,46 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
                       showConfirmButton: true,
                       // timer: 3500 
                   });
-
                     console.log("Error");
                 }
             });
-  
-      
-  
-  
-  
     }
 
+    //TODO ตัวนับ Progress ด้านบน
+
+  const {num} = statusProgress;
+
+  const [input2, setInput2] = React.useState("");
+  const [input3, setInput3] = React.useState("");
+  const [input4, setInput4] = React.useState("");
 
 
     return(
-        <Paper style={{ backgroundColor: "#182E3E" }}>
+      <Paper style={{ backgroundColor: "rgba(24,46,62,0.5)", borderRadius: 40 }}>
       {/* <Bar /> */}
-      <Box sx={{ bgcolor: "#182E3E", height: "100vh" }} >
+      <Box sx={{
+          backgroundColor: "rgba(24,46,62,0.4)",
+          height: "auto",
+          borderRadius: 10,
+          paddingY: 1,
+        }}
+        >
 
-      <div style={{ height: "auto", width: "100%", marginTop: "0px", paddingTop: "30px" }}>
-        <Box sx={{ maginX: 0, maginY: 0, height: "10px" }}>
+      <div style={{
+            height: "auto",
+            width: "100%",
+            marginTop: "0px",
+            paddingTop: "30px",
+          }}>
+        <Box sx={{ maginX: 0, maginY: 6, height: "40px" }}>
           <center>
             <Typography
               component="h2"
               variant="h4"
-              //color="#182E3E"
               gutterBottom
-              //align="center"
               fontFamily="Arial"
             >
-              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} >
+              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} id="redditTextFieldsTopic" >
                 Create Technician
               </b>
               <br />
@@ -209,13 +168,19 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
 
       <Container maxWidth="md">
 
-        <Box sx={{ bgcolor: '#f1f8e9', height: '75vh', marginY: 4 }} >
+        <Box sx={{
+              backgroundColor: "rgba(255,255,255,1)",
+              height: "auto",
+              marginY: 4,
+              borderRadius: 7,
+              }} 
+              >
 
             <Grid container spacing={2} paddingX={1} paddingY={0}>
 
                 <Grid item xs={6}>
                     <center>
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
+                    <b style={{ font: "Arial", color: "#000000", fontSize: 15 }} >
                         Profile Information
                     </b>
                     </center>
@@ -223,7 +188,7 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
 
                 <Grid item xs={6}>
                 <center>
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
+                    <b style={{ font: "Arial", color: "#000000", fontSize: 15 }} >
                         Generate Account Technician
                     </b>
                     </center>
@@ -233,100 +198,97 @@ function TechnicianCreate2({ formCreate, setFormCreate, activeStep, setActiveSte
         
             <Grid container spacing={1} paddingX={1} paddingY={1}>
                 <Grid item xs={12}>
-                    <BorderLinearProgress variant="determinate" value={50} />
+                <LinearProgressWithLabel value={num} />
                 </Grid>
             </Grid>
             <br />
 
-            <Divider />
+            <Divider variant="middle" />
 
-            <Grid container spacing={1} paddingX={30} paddingY={1}>
+            <Grid container spacing={1} paddingX={22} paddingY={1}>
                 <Grid item xs={10} md={12}  >
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
-                            Username
+                    <b style={{ font: "Arial", color: "#000000", fontSize: 14 }} >
+                            ID_Employee
                         </b>
                 </Grid>
                 <Grid item xs={10} md={12}  >
-                    <FormControl fullWidth variant="outlined">
                         <TextField
-                            id="Username"
-                            variant="outlined"
+                            id="redditTextFieldsCreate"
+                            variant="standard"
                             type="string"
-                            size="medium"
+                            required
                             value={Username}
-                            onChange={(event) => setFormCreate(({...formCreate,Username:event.target.value}))}
+                            InputProps={
+                              { disableUnderline: true } as Partial<OutlinedInputProps>
+                              }
+                              onChange={(event) => {
+                                setFormCreate({ ...formCreate, Username: event.target.value });
+                              }}
                         />
-                    </FormControl>
                 </Grid>
 
                 <Grid item xs={10} md={12}  >
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
+                    <b style={{ font: "Arial", color: "#000000", fontSize: 14 }} >
                             Password
                         </b>
                 </Grid>
                 <Grid item xs={10} md={12}  >
-                    <FormControl fullWidth variant="outlined">
                         <TextField
-                            id="Password"
-                            variant="outlined"
+                            // disabled
+                            id="redditTextFieldsCreate"
+                            variant="standard"
                             type="string"
-                            size="medium"
-                            value={Password}
-                            onChange={(event) => setFormCreate(({...formCreate,Password:event.target.value}))}
+                            value={ID_card}
+                            InputProps={
+                              { disableUnderline: true } as Partial<OutlinedInputProps>
+                            }
+                            // onChange={(event) => setFormCreate(({...formCreate,Password:event.target.value}))}
                         />
-                    </FormControl>
                 </Grid>
 
-                <Grid item xs={10} md={12}  >
-                    <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
-                            Type - Password again
-                        </b>
-                </Grid>
-                <Grid item xs={10} md={12}  >
-                    <FormControl fullWidth variant="outlined">
-                        <TextField
-                            id="RePassword" //!อย่าลืมกลับมาดู Type Password again ว่่าจะทำไหม
-                            variant="outlined"
-                            type="string"
-                            size="medium"
-                            value={RePassword}
-                            onChange={(event) => setFormCreate(({...formCreate,RePassword:event.target.value}))}
-                        />
-                    </FormControl>
-                </Grid>
             </Grid>
 
-            <Grid container spacing={1} paddingX={2} paddingY={1} >
-                <Grid item xs={7} padding={2}>
-                  <Button
-                    style={{ float: "right", fontSize: 20 }}
-                    onClick={submit}
-                    // component={RouterLink} to="/CustomerCreate1" 
-                    variant="contained"
-                    color="success"
-                    size="large"
-                  >
-                    <b>Create</b>
-                  </Button>
-                </Grid>
-                <Grid item xs={7} padding={2} marginTop={0} marginLeft={85}>
-                <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} onClick={handleBack} variant="contained"  >
-                <b>Back</b>
-                  </Button>
-                </Grid>
-            </Grid>
-            
+
+
+
+            <Grid container spacing={1} paddingX={33} paddingY={5}>
+              <Grid item xs={7} padding={0} sx={{borderRadius:1/2}}>
+                <Button
+                sx={{PaddingX:40}}
+                  id="buttonNext"
+                  style={{ padding:5, fontSize: 20,width: 300, height:70 }}
+                  onClick={submit} 
+                  variant="contained"
+                  color="success"
+                  size="large"
+                >
+                  <b>Generate Technician</b>
+                </Button>
+              </Grid>
+              <br />
+              <br />
+              <Grid container spacing={3} paddingX={10} marginY={3}>
+                <Button
+                  size="large"
+                  style={{
+                    // float: "",
+                    fontSize: 20,
+                    width: 400,
+                    color: "#f27070",
+                    marginTop: 0,
+                  }}
+                  onClick={handleBack}
+                  variant="contained"
+                  id="buttonBack"
+                >
+                  <b>Back</b>
+                </Button>
+              </Grid>
+            </Grid>         
             </Box>
             </Container>
-
-
-        
-
         </Box>
       </Paper>
     )
-
-
-
   }
   export default TechnicianCreate2;

@@ -1,3 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@200;400;600;800&display=swap');
+
+#reviewShowFrame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+
+
+
+  margin: 100px auto;
+  padding: 25px;
+
+  background-size: cover;
+  position: relative;
+  content: "";
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.702);
+  backdrop-filter: blur(100px);
+
+  box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.5);
+}
+
+
 #appbar {
   width: 100%;
   height: 60px;
@@ -30,10 +60,7 @@
   font-weight: 800;
 }
 
-#textDrawer {
-  font-family: "Noto Sans Thai";
-  font-weight: 600;
-}
+
 
 #drawerApp {
   background: rgb(34, 193, 195);
@@ -173,7 +200,7 @@ TextField:focus {
   overflow: hidden;
   border-radius: 30px;
   height: 32px;
-  width: 265px;
+  width: 270px;
   background: #fcfcfb;
   padding: 4%;
   text-align: center;
@@ -263,6 +290,55 @@ TextField:focus {
 }
 
 .DeskTopDate:focus {
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+}
+
+
+/* TODO Create Password */
+
+#redditTextFieldsPassword {
+  border: 2px solid #d0cfcf;
+  overflow: hidden;
+  border-radius: 30px;
+  height: 26px;
+  width: 482px;
+  background: #fcfcfb;
+  padding: 4%;
+  text-align: center;
+  font-size: 23px;
+  font-family: "Noto Sans Thai";
+}
+
+#redditTextFieldsPassword:hover {
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+}
+
+#redditTextFieldsPassword:focus {
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+}
+
+/* TODO Create Toppic */
+
+#redditTextFieldsTopic {
+  border: 3px solid #d0cfcf;
+  overflow: hidden;
+  border-radius: 80px;
+  height: 48px;
+  width: 250px;
+  background:  rgba(0, 0, 0, 0.0);
+  padding: 0%;
+  text-align: center;
+  font-size: 30px;
+  font-family: "Noto Sans Thai";
+}
+
+#redditTextFieldsTopic:hover {
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+}
+
+#redditTextFieldsTopic:focus {
   border-color: #1976d2;
   box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
 }

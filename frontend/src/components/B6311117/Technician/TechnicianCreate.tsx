@@ -24,67 +24,90 @@ import TextField from "@mui/material/TextField";
 import "../Technician/Technician.css" 
 
 
-//Grid
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
+import { OutlinedInputProps } from "@mui/material/OutlinedInput";
+//TODO จัด Format เลขที่รับเข้ามา
+import { IMaskInput } from "react-imask";
+import Input from "@mui/material/Input";
 
-//process ข้างบน
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
-    },
-  }));
+import { LinearProgressProps } from "@mui/material/LinearProgress";
 
-  function FacebookCircularProgress(props: CircularProgressProps) {
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+const TextMaskCustomPhone = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
     return (
-      <Box sx={{ position: 'relative' }}>
-        <CircularProgress
+      <IMaskInput
+        {...other}
+        mask="000-000-0000"
+        definitions={{
+          "0": /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>}
+        onAccept={(value: any) =>
+          onChange({ target: { name: props.name, value } })
+        }
+        overwrite
+      />
+    );
+  }
+);
+
+const TextMaskCustomID_Card = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="0-0000-00000-00-0"
+        definitions={{
+          "0": /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>}
+        onAccept={(value: any) =>
+          onChange({ target: { name: props.name, value } })
+        }
+        overwrite
+      />
+    );
+  }
+);
+
+// //TODOprocess ข้างบน
+function LinearProgressWithLabel(
+  props: LinearProgressProps & { value: number }
+) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
+        <LinearProgress
           variant="determinate"
-          sx={{
-            color: (theme) =>
-              theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-          }}
-          size={40}
-          thickness={4}
-          {...props}
-          value={100}
-        />
-        <CircularProgress
-          variant="indeterminate"
-          disableShrink
-          sx={{
-            color: (theme) => (theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8'),
-            animationDuration: '550ms',
-            position: 'absolute',
-            left: 0,
-            [`& .${circularProgressClasses.circle}`]: {
-              strokeLinecap: 'round',
-            },
-          }}
-          size={40}
-          thickness={4}
+          sx={{ height: 9, borderRadius: "30px" }}
           {...props}
         />
       </Box>
-    );
-  }
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 
-function TechnicianCreate({ formCreate, setFormCreate, activeStep, setActiveStep , steps }: any) {
+function TechnicianCreate({ formCreate, setFormCreate, activeStep, setActiveStep , statusProgress, setstatusProgress }: any) {
 
 const handleStart = () => {
     setActiveStep(activeStep + 1);
+};
+
+const Back = () => {
+  window.location.href = "/";
 };
 
 // ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox และ กรอก Text-Field
@@ -95,7 +118,7 @@ const handleStart = () => {
 // const [Phone, setPhone] = useState('');
 
 // const [GENDER_ID, setGENDER_ID] = useState('');
-// const [CAREER_ID, setCAREER_ID] = useState('');
+// const [EDUCATE_ID, setEDUCATE_ID] = useState('');
 // const [PREFIX_ID, setPREFIX_ID] = useState('');
 
 // const [Email, setEmail] = useState(''); 
@@ -176,14 +199,35 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
     getPrefix();
   }, []);
 
+  //TODO ตัวนับ Progress ด้านบน
+  const {num} = statusProgress
+
+  const [input2, setInput2] = React.useState("");
+  const [input3, setinput3] = React.useState("");
+  const [input4, setInput4] = React.useState("");
+  const [input6, setInput6] = React.useState("");
+  const [input7, setInput7] = React.useState("");
+  const [input8, setInput8] = React.useState("");
+  const [input9, setInput9] = React.useState("");
+
 
   return (
-    <Paper style={{ backgroundColor: "#182E3E" }}>
+    <Paper style={{ backgroundColor: "rgba(24,46,62,0.5)", borderRadius: 40 }}>
       {/* <Bar /> */}
-      <Box sx={{ bgcolor: "#182E3E", height: "120vh" }} >
+      <Box sx={{ backgroundColor: "rgba(24,46,62,0.4)",
+                height: "auto",
+                borderRadius: 10,
+                paddingY: 1, }} 
+                >
 
-      <div style={{ height: "auto", width: "100%", marginTop: "0px", paddingTop: "30px" }}>
-        <Box sx={{ maginX: 0, maginY: 0, height: "10px" }}>
+      <div style={{
+            height: "auto",
+            width: "100%",
+            marginTop: "0px",
+            paddingTop: "30px",
+          }}
+          >
+        <Box sx={{ maginX: 0, maginY: 6, height: "40px" }}>
           <center>
             <Typography
               component="h2"
@@ -191,9 +235,10 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
               //color="#182E3E"
               gutterBottom
               fontFamily="Arial"
+              padding={-4}
             >
-              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} >
-                Create Technician
+              <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} id="redditTextFieldsTopic"  >
+                Create Technician 
               </b>
               <br />
 
@@ -207,7 +252,10 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
 
     <Container maxWidth="md">
 
-        <Box sx={{ bgcolor: '#f1f8e9', height: '105vh', marginY: 4 }} >
+        <Box sx={{backgroundColor: "rgba(255,255,255,1)",
+                  height: "auto",
+                  marginY: 4,
+                  borderRadius: 7,}} >
 
             <Grid container spacing={2} paddingX={1} paddingY={0}>
 
@@ -231,12 +279,12 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
         
             <Grid container spacing={1} paddingX={1} paddingY={1}>
                 <Grid item xs={12}>
-                    <BorderLinearProgress variant="determinate" value={0} />
+                <LinearProgressWithLabel value={num} />
                 </Grid>
             </Grid>
-            <br />
 
-            <Divider />
+            <br />
+            <Divider variant="middle" />
 
             <Grid container spacing={1} paddingX={0} paddingY={1}>
                 <Grid item xs={2} marginLeft={9} >
@@ -250,40 +298,129 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                     </b>
                 </Grid>
 
-                <Grid item xs={2} marginLeft={9}  >
-                    <FormControl fullWidth variant="outlined">
-                        <Select
-                        native
-                        value={PREFIX_ID}
-                        onChange={(event) => setFormCreate(({...formCreate,PREFIX_ID:event.target.value}))}
-                        inputProps={{
-                            name: "PREFIX_ID",
-                        }}
-                        >
-                          <option aria-label="None" value="">
+
+
+                <Grid container item xs={2} marginLeft={9}>
+                <Select
+                  id="redditTextFieldsCreateCombo"
+                  native
+                  value={PREFIX_ID}
+                  onChange={(event) => setFormCreate(({...formCreate,PREFIX_ID:event.target.value}))}
+                  inputProps={{
+                    name: "PREFIX_ID",
+                  }}
+                  variant="standard"
+                  disableUnderline
+                  onBlur={(PREFIX_ID) => {
+                    console.log("format: " + formCreate.PREFIX_ID.length);
+                    console.log("input: " + input2.length);
+                    console.log("");
+                    //TODO ได้ละ
+                    if (formCreate.PREFIX_ID.length / 30 > input2.length) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 7.14,
+                      });
+                      setInput2(formCreate.PREFIX_ID);
+                    }
+                    //TODO สลาย
+                    else if (
+                      formCreate.PREFIX_ID.length - input2.length + 1 ===
+                        -input2.length ||
+                      (formCreate.PREFIX_ID.length == 0 && input2.length != 0)
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num - 7.14,
+                      });
+                      setInput2(formCreate.PREFIX_ID);
+                    }
+                    //TODO คงเดิม
+                    else if (
+                      formCreate.PREFIX_ID.length - input2.length <
+                      input2.length
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 0,
+                      });
+                      setInput2(formCreate.PREFIX_ID);
+                    }
+                    console.log(formCreate.PREFIX_ID.length - input2.length);
+                  }}
+                >
+                      <option aria-label="None" value="">
                             คำนำหน้า                 
-                          </option>
-                        {Prefix.map((item: PrefixTInterface) => (
-                            <option value={item.ID} key={item.ID}>
-                             {item.PrefixName}  {/*ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
-                            </option>
-                        ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
+                      </option>
+                      {Prefix.map((item: PrefixTInterface) => (
+                      <option value={item.ID} key={item.ID}>
+                        {item.PrefixName}  {/*ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+                      </option>
+                  ))}
+                </Select>
+              </Grid>
                 
-                <Grid item xs={7} marginLeft={8}>
-                <FormControl fullWidth variant="outlined">
-                  <TextField
-                    id="Name"
-                    variant="outlined"
-                    type="string"
-                    size="medium"
-                    value={Name}
-                    onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
-                  />
-                </FormControl>
-                </Grid>
+
+
+
+
+
+
+                <Grid container item xs={7} marginLeft={8}>
+                <TextField
+                  id="redditTextFieldsCreate"
+                  variant="standard"
+                  type="string"
+                  InputProps={
+                    { disableUnderline: true } as Partial<OutlinedInputProps>
+                  }
+                  value={Name}
+                  onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
+                  placeholder="Enter your Name"
+                  onBlur={(Name) => {
+                    console.log("format: " + formCreate.Name.length);
+                    console.log("input: " + input3.length);
+                    console.log("");
+                    //TODO ได้ละ
+                    if (formCreate.Name.length / 30 > input3.length) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 7.14,
+                      });
+                      setinput3(formCreate.Name);
+                    }
+                    //TODO สลาย
+                    else if (
+                      formCreate.Name.length - input3.length + 1 ===
+                        -input3.length ||
+                      (formCreate.Name.length == 0 && input3.length != 0)
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num - 7.14,
+                      });
+                      setinput3(formCreate.Name);
+                    }
+                    //TODO คงเดิม
+                    else if (
+                      formCreate.Name.length - input3.length <
+                      input3.length
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 0,
+                      });
+                      setinput3(formCreate.Name);
+                    }
+                    console.log(formCreate.Name.length - input3.length);
+                  }}
+                />
+              </Grid>
+
+
+
+
+
 
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid item xs={8} marginLeft={8}>
@@ -292,19 +429,81 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                     </b>
                 </Grid>
 
+
+
+
+
+
+
                 <Grid item xs={2} marginLeft={9} ></Grid>
-                <Grid item xs={7} marginLeft={8}>
-                    <FormControl fullWidth variant="outlined">
-                    <TextField
-                        id="ID_card"
-                        variant="outlined"
-                        type="string"
-                        size="medium"
-                        value={ID_card}
-                        onChange={(event) => setFormCreate(({...formCreate,ID_card:event.target.value}))}
-                    />
-                    </FormControl>
-                </Grid>
+                <Grid container item xs={7} marginLeft={8}>
+                <FormControl variant="standard">
+                  <Input
+                    id="redditTextFieldsCreate"
+                    disableUnderline
+                    type="string"
+                    value={ID_card}
+                    onChange={(event) => setFormCreate(({...formCreate,ID_card:event.target.value}))}
+                    name="textmask"
+                    inputComponent={TextMaskCustomID_Card as any}
+                    placeholder="X-XXXX-XXXXX-XX-X"
+                    onBlur={(ID_card) => {
+                      console.log("format: " + formCreate.ID_card.length);
+                      console.log("input: " + input4.length);
+                      console.log("");
+                      //TODO ได้ละ
+                      if (formCreate.ID_card.length / 30 > input4.length) {
+                        setstatusProgress({
+                          ...statusProgress,
+                          num: num + 7.14,
+                        });
+                        setInput4(formCreate.ID_card);
+                      }
+                      //TODO สลาย
+                      else if (
+                        formCreate.ID_card.length - input4.length + 1 ===
+                          -input4.length ||
+                        (formCreate.ID_card.length == 0 && input4.length != 0)
+                      ) {
+                        setstatusProgress({
+                          ...statusProgress,
+                          num: num - 7.14,
+                        });
+                        setInput4(formCreate.ID_card);
+                      }
+                      //TODO คงเดิม
+                      else if (
+                        formCreate.ID_card.length - input4.length <
+                        input4.length
+                      ) {
+                        setstatusProgress({
+                          ...statusProgress,
+                          num: num + 0,
+                        });
+                        setInput4(formCreate.ID_card);
+                      }
+                      console.log(formCreate.ID_card.length - input4.length);
+                    }}
+                  />
+                </FormControl>
+              </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid item xs={8} marginLeft={8}>
@@ -338,48 +537,135 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                     </b>
                 </Grid>
 
-                <Grid item xs={2} marginLeft={35  } >
-                  <FormControl fullWidth variant="outlined">
-                          <Select
-                          native
-                          value={GENDER_ID}
-                          onChange={(event) => setFormCreate(({...formCreate,GENDER_ID:event.target.value}))}
-                          inputProps={{
-                              name: "GENDER_ID",
-                          }}
-                          >
-                            <option aria-label="None" value="">
+
+
+
+                <Grid container item xs={2} marginLeft={35}>
+                <Select
+                  id="redditTextFieldsCreateCombo"
+                  native
+                  value={GENDER_ID}
+                  onChange={(event) => setFormCreate(({...formCreate,GENDER_ID:event.target.value}))}
+                  inputProps={{
+                      name: "GENDER_ID",
+                  }}
+                  variant="standard"
+                  disableUnderline
+                  onBlur={(GENDER_ID) => {
+                    console.log("format: " + formCreate.GENDER_ID.length);
+                    console.log("input: " + input6.length);
+                    console.log("");
+                    //TODO ได้ละ
+                    if (formCreate.GENDER_ID.length / 40 > input6.length) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 7.14,
+                      });
+                      setInput6(formCreate.GENDER_ID);
+                    }
+                    //TODO สลาย
+                    else if (
+                      formCreate.GENDER_ID.length - input6.length + 1 ===
+                        -input6.length ||
+                      (formCreate.GENDER_ID.length == 0 && input6.length != 0)
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num - 7.14,
+                      });
+                      setInput6(formCreate.GENDER_ID);
+                    }
+                    //TODO คงเดิม
+                    else if (
+                      formCreate.GENDER_ID.length - input6.length <
+                      input6.length
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 0,
+                      });
+                      setInput6(formCreate.GENDER_ID);
+                    }
+                    console.log(formCreate.GENDER_ID.length - input6.length);
+                  }}
+                >
+                  <option aria-label="None" value="">
                               เพศ                 
-                            </option>
-                          {Gender.map((item: GenderTInterface) => (
-                              <option value={item.ID} key={item.ID}>
-                              {item.GenderName}  {/*ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
-                              </option>
-                          ))}
-                          </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={4} marginLeft={9}>
-                  <FormControl fullWidth variant="outlined">
-                        <Select
-                        native
-                        value={EDUCATE_ID}
+                  </option>
+                  {Gender.map((item: GenderTInterface) => (
+                  <option value={item.ID} key={item.ID}>
+                  {item.GenderName}  {/*ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+                  </option>
+                  ))}
+                </Select>
+              </Grid>
+
+
+
+
+
+
+
+                <Grid container item xs={4} marginLeft={5}>
+                <Select
+                  id="redditTextFieldsCreateComboCareer"
+                  native
+                  value={EDUCATE_ID}
                         onChange={(event) => setFormCreate(({...formCreate,EDUCATE_ID:event.target.value}))}
                         inputProps={{
                             name: "EDUCATE_ID",
                         }}
-                        >
-                          <option aria-label="None" value="">
+                  variant="standard"
+                  disableUnderline
+                  onBlur={(EDUCATE_ID) => {
+                    console.log("format: " + formCreate.EDUCATE_ID.length);
+                    console.log("input: " + input7.length);
+                    console.log("");
+                    //TODO ได้ละ
+                    if (formCreate.EDUCATE_ID.length / 30 > input7.length) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 7.14,
+                      });
+                      setInput7(formCreate.EDUCATE_ID);
+                    }
+                    //TODO สลาย
+                    else if (
+                      formCreate.EDUCATE_ID.length - input7.length + 1 ===
+                        -input7.length ||
+                      (formCreate.EDUCATE_ID.length == 0 && input7.length != 0)
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num - 7.14,
+                      });
+                      setInput7(formCreate.EDUCATE_ID);
+                    }
+                    //TODO คงเดิม
+                    else if (
+                      formCreate.EDUCATE_ID.length - input7.length <
+                      input7.length
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 0,
+                      });
+                      setInput7(formCreate.EDUCATE_ID);
+                    }
+                    console.log(formCreate.EDUCATE_ID.length - input7.length);
+                  }}
+                >
+                  <option aria-label="None" value="">
                             ระดับการศึกษา                 
-                          </option>
-                        {Educate.map((item: EducateInterface) => (
-                            <option value={item.ID} key={item.ID}>
-                             {item.EducateName}  {/*ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
-                            </option>
-                        ))}
-                        </Select>
-                  </FormControl>
-                </Grid>
+                  </option>
+                  {Educate.map((item: EducateInterface) => (
+                  <option value={item.ID} key={item.ID}>
+                  {item.EducateName}  {/*ส่วนนี้คือการดึงไปจนถึง Order ID ของ ฟิว */}
+                  </option>
+                  ))}
+                </Select>
+              </Grid>          
+
 
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid item xs={8} marginLeft={8}>
@@ -389,59 +675,209 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                 </Grid>
 
                 <Grid item xs={2} marginLeft={9} ></Grid>
+
+
                 <Grid item xs={7} marginLeft={8}>
-                    <FormControl fullWidth variant="outlined">
-                    <TextField
-                        id="Phone"
-                        variant="outlined"
-                        type="string"
-                        size="medium"
-                        value={Phone}
-                        onChange={(event) => setFormCreate(({...formCreate,Phone:event.target.value}))}
-                    />
-                    </FormControl>
+                <FormControl variant="standard">
+                  <Input
+                    id="redditTextFieldsCreate"
+                    disableUnderline
+                    type="string"
+                    value={Phone}
+                    onChange={(event) =>
+                      setFormCreate(
+                        { ...formCreate, Phone: event.target.value },
+                        setstatusProgress({
+                          ...statusProgress,
+                          num: num,
+                        })
+                      )
+                    }
+                    name="textmask"
+                    inputComponent={TextMaskCustomPhone as any}
+                    placeholder="0XX-XXX-XXXX"
+                    onBlur={(Phone) => {
+                      console.log("format: " + formCreate.Phone.length);
+                      console.log("input: " + input8.length);
+                      console.log("");
+                      //TODO ได้ละ
+                      if (formCreate.Phone.length / 30 > input8.length) {
+                        setstatusProgress({
+                          ...statusProgress,
+                          num: num + 7.14,
+                        });
+                        setInput8(formCreate.Phone);
+                      }
+                      //TODO สลาย
+                      else if (
+                        formCreate.Phone.length - input8.length + 1 ===
+                          -input8.length ||
+                        (formCreate.Phone.length == 0 && input8.length != 0)
+                      ) {
+                        setstatusProgress({
+                          ...statusProgress,
+                          num: num - 7.14,
+                        });
+                        setInput8(formCreate.Phone);
+                      }
+                      //TODO คงเดิม
+                      else if (
+                        formCreate.Phone.length - input8.length <
+                        input8.length
+                      ) {
+                        setstatusProgress({
+                          ...statusProgress,
+                          num: num + 0,
+                        });
+                        setInput8(formCreate.Phone);
+                      }
+                      console.log(formCreate.Phone.length - input8.length);
+                    }}
+                  />
+                </FormControl>
                 </Grid>
+
+
+                
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
 
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid item xs={8} marginLeft={8}>
                 <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
-                        Location
+                        Address
                     </b>
                 </Grid>
 
-                <Grid item xs={2} marginLeft={9} ></Grid>                    
-                <Grid item xs={7} marginLeft={8}>
-                    <FormControl fullWidth variant="outlined">
-                    <TextField
-                        id="Location"
-                        variant="outlined"
-                        type="string"
-                        size="medium"
-                        value={Location}
-                        onChange={(event) => setFormCreate(({...formCreate,Location:event.target.value}))}
-                    />
-                    </FormControl>
-                </Grid>
+                <Grid item xs={2} marginLeft={9} ></Grid>  
+
+
+
+
+
+
+
+
+                <Grid container item xs={7} marginLeft={8}>
+                <TextField
+                  id="redditTextFieldsCreate"
+                  variant="standard"
+                  type="string"
+                  InputProps={
+                    { disableUnderline: true } as Partial<OutlinedInputProps>
+                  }
+                  value={Location}
+                  onChange={(event) => setFormCreate(({...formCreate,Location:event.target.value}))}
+                  placeholder="Enter your Address"
+                  onBlur={(Name) => {
+                    console.log("format: " + formCreate.Name.length);
+                    console.log("input: " + input9.length);
+                    console.log("");
+                    //TODO ได้ละ
+                    if (formCreate.Name.length / 30 > input9.length) {
+                      setstatusProgress({
+                          ...statusProgress,
+                          num: num + 7.14,
+                      });
+                      setInput9(formCreate.Name);
+                    }
+                    //TODO สลาย
+                    else if (
+                      formCreate.Name.length - input9.length + 1 ===
+                        -input9.length ||
+                      (formCreate.Name.length == 0 && input9.length != 0)
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num - 7.14,
+                      });
+                      setInput9(formCreate.Name);
+                    }
+                    //TODO คงเดิม
+                    else if (
+                      formCreate.Name.length - input9.length <
+                      input9.length
+                    ) {
+                      setstatusProgress({
+                        ...statusProgress,
+                        num: num + 0,
+                      });
+                      setInput9(formCreate.Name);
+                    }
+                    console.log(formCreate.Name.length - input9.length);
+                  }}
+                />
+              </Grid>
+
+
+
+
+
+
+
 
             </Grid>
-            
-            <Grid container spacing={5} paddingX={2} paddingY={3} >
-                <Grid item xs={7} padding={2}>
-                  {/* <Button size="large" sx={{ backgroundColor: "#C70039", fontSize: 20 }} component={RouterLink} to="/" variant="contained"  >
-                    ย้อนกลับ
-                  </Button> */}
-                  <Button
-                    style={{ float: "right", fontSize: 20 }}
-                    onClick={handleStart}
-                    // component={RouterLink} to="/CustomerCreate2" 
-                    variant="contained"
-                    color="success"
-                    size="large"
-                  >
-                    <b>Next</b>
-                  </Button>
-                </Grid>
+
+
+
+
+            <br />
+            <Grid container spacing={5} paddingX={7} paddingY={3}>
+              <Grid item xs={12} padding={2}>
+                <Button
+                  style={{
+                    float: "right",
+                    fontSize: 20,
+                    width: 150,
+                    marginRight: -15,
+                  }}
+                  id="buttonNext"
+                  onClick={handleStart}
+                  variant="contained"
+                  size="large"
+                >
+                  <b>Next</b>
+                </Button>
+
+                <Button
+                  style={{
+                    float: "left",
+                    fontSize: 20,
+                    width: 150,
+                    color: "#f27070",
+                  }}
+                  id="buttonBack"
+                  onClick={Back}
+                  variant="contained"
+                  size="large"
+                >
+                  <b>Back</b>
+                </Button>
+              </Grid>
             </Grid>
+
+
+
+
+
+
+            
+          
 
         </Box>
     </Container>
