@@ -138,3 +138,24 @@ func TestMaxcharector200_Claim_Comment(t *testing.T) {
 	// err.Error() ต้องมี message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("แสดงความคิดเห็นได้ไม่เกิน 200 อักษร"))
 }
+
+func TestClaimOrderAllPass(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	claim_order := Claim_Order{
+		ClaimTime:     time.Now(), // ผิด -->เช็คตรงนี้
+		OrderProblem:  "AAAA",
+		Claim_Comment: "AAAA",
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(claim_order)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+
+
+}

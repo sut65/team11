@@ -60,36 +60,37 @@ func CreateDevice(c *gin.Context) {
 	var windows entity.Windows
 	var device entity.Device
 
-	// ผลลัพธ์ที่ได้จะถูก bind เข้าตัวแปร Device
+	// 8 : ผลลัพธ์ที่ได้จะถูก bind เข้าตัวแปร Device
 	if err := c.ShouldBindJSON(&device); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// ค้นหา Type  ด้วย id
-	if tx := entity.DB().Where("id = ?", device.TypeID).First(&types); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทอุปกรณ์"})
-		return
-	}
-
-	// ค้นหา Windows ด้วย id
-	if tx := entity.DB().Where("id = ?", device.WindowsID).First(&windows); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกระบบปฎิบัติการ"})
-		return
-	}
-
-	// ค้นหา Customer ด้วย id
+	// 9 : ค้นหา Customer ด้วย id
 	if tx := entity.DB().Where("id = ?", device.CustomerID).First(&customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
 
+	// 10 : ค้นหา Type  ด้วย id
+	if tx := entity.DB().Where("id = ?", device.TypeID).First(&types); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทอุปกรณ์"})
+		return
+	}
+
+	// 11 : ค้นหา Windows ด้วย id
+	if tx := entity.DB().Where("id = ?", device.WindowsID).First(&windows); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกระบบปฎิบัติการ"})
+		return
+	}
+
+	// 12 13 14 15 16 17 : Validate
 	if _, err := govalidator.ValidateStruct(device); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	dv := entity.Device{
+	d := entity.Device{
 		CPU:        device.CPU,        // ตั้งค่าฟิลด์ CPU
 		Monitor:    device.Monitor,    // ตั้งค่าฟิลด์ Monitor
 		GPU:        device.GPU,        // ตั้งค่าฟิลด์ GPU
@@ -102,11 +103,11 @@ func CreateDevice(c *gin.Context) {
 		Save_Time:  device.Save_Time,  // ตั้งค่าฟิลด์ Save_Time
 	}
 
-	if err := entity.DB().Create(&dv).Error; err != nil {
+	if err := entity.DB().Create(&d).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": dv})
+	c.JSON(http.StatusOK, gin.H{"data": d})
 }
 
 func GetListDevice(c *gin.Context) {
