@@ -114,7 +114,7 @@ function HomeForAdmin() {
             setNameTime('บ่าย')
         } else if (timeHours >= 17 && timeHours < 19) {
             setNameTime('เย็น')
-        } else if (timeHours > 19) {
+        } else if (timeHours >= 19) {
             setNameTime('ค่ำ')
         }
     };

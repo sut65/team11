@@ -7,11 +7,30 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func TestPositivePayTech(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	paytech := PayTech{
+		Note:         "hello every one",
+		Amount:       20,
+		CostHardware: 4200,
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(paytech)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+
+}
 func TestMaxcharector200_NoteProblem(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	paytech := PayTech{
-		Note:         "When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby",
+		Note: "When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby When its gone, its gone, its gone, its gone, its gone You dead wrong, so wrong, so wrong, so wrong, so wrong So just scoo do do doot baby Its a wrap for you baby (It's a wrap) Its a wrap for you boy (It's a wrap) Oh baby",
 		// Note:         "hello every one",
 		Amount:       20,
 		CostHardware: 4200,

@@ -79,12 +79,12 @@ func CreateClaimOrder(c *gin.Context) {
 		return
 	}
 
-	// 14: แทรกการ validate ไว้ช่วงนี้ของ controller
+	// 14,15,16: แทรกการ validate ไว้ช่วงนี้ของ controller
 	if _, err := govalidator.ValidateStruct(ClaimOrder); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
+	// 17: โยงข้อมูล
 	claimData := entity.Claim_Order{
 		Review_ID:      ClaimOrder.Review_ID,      // โยงความสัมพันธ์กับ Entity Review
 		Urgency_ID:     ClaimOrder.Urgency_ID,     // โยงความสัมพันธ์กับ Entity Urgency
@@ -95,6 +95,7 @@ func CreateClaimOrder(c *gin.Context) {
 		// Customer_ID  :           Review.Customer_ID  , // โยงความสัมพันธ์กับ Entity Customer
 	}
 
+	// 18: บันทึก
 	if err := entity.DB().Create(&claimData).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

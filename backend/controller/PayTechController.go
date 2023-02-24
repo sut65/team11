@@ -35,31 +35,31 @@ func CreatePayTech(c *gin.Context) {
 	var technician entity.Technician
 	var OrderTech entity.OrderTech
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร PayTech
+	// ผลลัพธ์จะถูก bind เข้าตัวแปร PayTech
 	if err := c.ShouldBindJSON(&PayTech); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 10: ค้นหา Hardware ด้วย id
+	// 8: ค้นหา Hardware ด้วย id
 	if tx := entity.DB().Where("id = ?", PayTech.HardwareID).First(&Hardware); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "hardware not found"})
 		return
 	}
 
-	// 12: ค้นหา OrderTech ด้วย id
+	// 9: ค้นหา OrderTech ด้วย id
 	if tx := entity.DB().Where("id = ?", PayTech.OrderTechID).First(&OrderTech); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ordertech not found"})
 		return
 	}
 
-	// 14: ค้นหา technician ด้วย id
+	// 3: ค้นหา technician ด้วย id
 	if tx := entity.DB().Where("id = ?", PayTech.TechnicianID).First(&technician); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "technician not found"})
 		return
 	}
 
-	// 15: สร้าง PayTech
+	// 13: สร้าง PayTech
 	pm := entity.PayTech{
 		Model:      gorm.Model{ID: PayTech.ID},
 		OrderTech:  OrderTech,  // โยงความสัมพันธ์กับ Entity OrderTech
@@ -76,7 +76,7 @@ func CreatePayTech(c *gin.Context) {
 		return
 	}
 
-	// 13: บันทึก
+	// 7: บันทึก
 	if err := entity.DB().Create(&pm).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
