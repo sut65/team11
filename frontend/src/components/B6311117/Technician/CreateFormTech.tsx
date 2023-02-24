@@ -39,9 +39,6 @@ function CreateFormTech (){
             return <TechnicianCreate2  statusProgress={statusProgress} setstatusProgress={setstatusProgress} formCreate={formCreate} setFormCreate={setFormCreate} activeStep={activeStep} setActiveStep={setActiveStep}  />
 
         } 
-        //   else if (activeStep === 2) {
-        //     return <EditDataReview Cusomer={Cusomer} setActiveStep={setActiveStep} />
-        // }
     }
 
 

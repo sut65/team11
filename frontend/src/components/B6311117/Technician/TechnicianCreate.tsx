@@ -110,20 +110,6 @@ const Back = () => {
   window.location.href = "/";
 };
 
-// ประกาศเพื่อ รับค่าที่ได้จากการเลือก combobox และ กรอก Text-Field
-
-// const [Name, setName] = useState('');
-// const [ID_card, setID_card] = useState('');
-// const [DOB, setDOB] = useState<Dayjs | null>(dayjs());
-// const [Phone, setPhone] = useState('');
-
-// const [GENDER_ID, setGENDER_ID] = useState('');
-// const [EDUCATE_ID, setEDUCATE_ID] = useState('');
-// const [PREFIX_ID, setPREFIX_ID] = useState('');
-
-// const [Email, setEmail] = useState(''); 
-// const [Password, setPassword] = useState(''); 
-
 const [Technician, setTechnician] = React.useState<Partial<TechnicianInterface>>({});
 
 
@@ -359,13 +345,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   ))}
                 </Select>
               </Grid>
-                
-
-
-
-
-
-
                 <Grid container item xs={7} marginLeft={8}>
                 <TextField
                   id="redditTextFieldsCreate"
@@ -416,25 +395,12 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   }}
                 />
               </Grid>
-
-
-
-
-
-
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid item xs={8} marginLeft={8}>
                 <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
                         Personal ID
                     </b>
                 </Grid>
-
-
-
-
-
-
-
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid container item xs={7} marginLeft={8}>
                 <FormControl variant="standard">
@@ -487,24 +453,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   />
                 </FormControl>
               </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid item xs={8} marginLeft={8}>
                 <b style={{ font: "Arial", color: "#000000", fontSize: 13 }} >
@@ -599,13 +547,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   ))}
                 </Select>
               </Grid>
-
-
-
-
-
-
-
                 <Grid container item xs={4} marginLeft={5}>
                 <Select
                   id="redditTextFieldsCreateComboCareer"
@@ -738,24 +679,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                 </Grid>
 
 
-                
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
 
                 <Grid item xs={2} marginLeft={9} ></Grid>
                 <Grid item xs={8} marginLeft={8}>
@@ -765,13 +688,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                 </Grid>
 
                 <Grid item xs={2} marginLeft={9} ></Grid>  
-
-
-
-
-
-
-
 
                 <Grid container item xs={7} marginLeft={8}>
                 <TextField
@@ -823,19 +739,7 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   }}
                 />
               </Grid>
-
-
-
-
-
-
-
-
             </Grid>
-
-
-
-
             <br />
             <Grid container spacing={5} paddingX={7} paddingY={3}>
               <Grid item xs={12} padding={2}>
@@ -869,16 +773,7 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   <b>Back</b>
                 </Button>
               </Grid>
-            </Grid>
-
-
-
-
-
-
-            
-          
-
+            </Grid>    
         </Box>
     </Container>
 

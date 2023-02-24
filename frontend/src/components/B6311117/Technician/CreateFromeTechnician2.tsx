@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import TechnicianShow from './TechnicianShow';
 import TechnicianEdit from './TechnicianEdit';
-import { TechnicianInterface } from '../../../interfaces/TechnicianUI';
 
 
 const steps = [
@@ -21,7 +20,6 @@ const defaultCreate = {
 function CreateTechnician2 (){
 
     const [formCreate, setFormCreate] = useState(defaultCreate);
-    // const [Technician, setTechnician] = useState<Partial<TechnicianInterface>>({});
     const [activeStep, setActiveStep] = React.useState(0);
 
 
@@ -33,9 +31,6 @@ function CreateTechnician2 (){
             return <TechnicianEdit formCreate={formCreate} setFormCreate={setFormCreate} activeStep={activeStep} setActiveStep={setActiveStep} steps={steps} />
 
         } 
-        //   else if (activeStep === 2) {
-        //     return <EditDataReview Cusomer={Cusomer} setActiveStep={setActiveStep} />
-        // }
     }
 
 
