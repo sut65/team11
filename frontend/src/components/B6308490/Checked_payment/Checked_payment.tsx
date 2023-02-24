@@ -23,8 +23,6 @@ const CustomTabs = (props: DateTimePickerTabsProps) => (
   </React.Fragment>
 );
 
-
-
 var Edge1 = '15px';
 var Edge2 = '30px';
 
@@ -137,7 +135,6 @@ function Checked_payment() {
       Admin_ID: convertType(userID),
 
     };
-    // console.log(data);
     const apiUrl = "http://localhost:8080/CreateChecked_payment";
     const requestOptions = {
       method: "POST",
@@ -153,12 +150,13 @@ function Checked_payment() {
           Swal.fire({
             title: 'บันทึกสำเร็จ',
             //text: '',
-            icon: 'success'
-
+            icon: 'success',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              localStorage.removeItem('Checked_Payment_ID');
+              window.location.href = "/Checked_paymentShow";
+            }
           });
-          localStorage.removeItem('Checked_Payment_ID');
-          setTimeout(() => { window.location.href = "/Checked_paymentShow";  }, 3000);
-
         } else {
           //setAlertMessage(res.error)
           Swal.fire({
@@ -204,7 +202,6 @@ function Checked_payment() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          // console.log('listpaytech----->',res.data);
           setPayment(res.data);
 
         } else {
