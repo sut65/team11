@@ -20,35 +20,35 @@ func CreatePayment(c *gin.Context) {
 	var Bank entity.Bank
 	var ORDERTECH entity.OrderTech
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Payment
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 9 จะถูก bind เข้าตัวแปร Payment
 	if err := c.ShouldBindJSON(&Payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 9: ค้นหา ORDERTECH ด้วย id
+	// 10: ค้นหา ORDERTECH ด้วย id
 	if tx := entity.DB().Where("id = ?", Payment.OrderTech_ID).First(&ORDERTECH); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ORDERTECH not found"})
 		return
 	}
 
-	// 10: ค้นหา Bank ด้วย id
+	// 11: ค้นหา Bank ด้วย id
 	if tx := entity.DB().Where("id = ?", Payment.Bank_ID).First(&Bank); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "โปรดตรวจสอบคุณอาจลืม เลือกธนาคาร"})
 		return
 	}
 
-	// 11: ค้นหา user ด้วย id
+	// 12: ค้นหา user ด้วย id
 	if tx := entity.DB().Where("id = ?", Payment.CustomerID).First(&Customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
-	// : แทรกการ validate
+	// 13-15 : แทรกการ validate
 	if _, err := govalidator.ValidateStruct(Payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	// 12: สร้าง Payment
+	// 16: สร้าง Payment
 	pm := entity.Payment{
 
 		OrderTech_ID: Payment.OrderTech_ID, // ตัวแปลนี้ จะเก็บค่า Ordertech_ID
@@ -61,7 +61,7 @@ func CreatePayment(c *gin.Context) {
 		CustomerID:   Payment.CustomerID,
 	}
 
-	// 13: บันทึก
+	// 17: บันทึก
 	if err := entity.DB().Create(&pm).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -178,11 +178,6 @@ func DeletePayment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment not found"})
 		return
 	}
-	/*
-		if err := entity.DB().Where("id = ?", id).Delete(&entity.User{}).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}*/
 
 	c.JSON(http.StatusOK, gin.H{"data": id})
 	Update_odertech_status(ordertech_id, 1)
@@ -322,11 +317,3 @@ func get_id_Ordertech_for_status(PaymentID any) int {
 	entity.DB().Table("payments").Select("order_tech_id").Where("id = ?", PaymentID).Row().Scan(&ID_Ordertech)
 	return ID_Ordertech
 }
-
-// ============================================= สำหรับตรวจสอบข้อความถึงลูกค้า =================================================================
-// func Message_in_CheckedPayment(c *gin.Context) {
-// 	var message_to_customer entity.Checked_payment
-// 	id := c.Param("id")
-// 	entity.DB().Table("checked_payments").Select("message").Where("payment_id = ?", id)
-// 	c.JSON(http.StatusOK, gin.H{"data": message_to_customer})
-// }
