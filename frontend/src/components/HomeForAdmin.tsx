@@ -10,25 +10,25 @@ import "./home.css"
 
 const images = [
     {
-        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/JhDbt9Wq/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบช่าง',
         width: '50%',
         path: "TechnicianCreate",
     },
     {
-        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/T1Gm7157/checked-Payment.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบตรวจสอบการชำระเงิน',
         width: '50%',
         path: "Checked_paymentShow",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/qv7cHNbW/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'รับเรื่องการรายงานปัญหาหลังการซ่อม',
         width: '50%',
         path: "ClaimOrderForAdmin",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/8kBn1r4C/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบ show ยกเลิกการแจ้งซ่อม',
         width: '50%',
         path: "RefundShow",
