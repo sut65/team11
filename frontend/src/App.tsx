@@ -91,6 +91,7 @@ import PriceCheckRoundedIcon from '@mui/icons-material/PriceCheckRounded'; //ร
 
 import StarRateRoundedIcon from '@mui/icons-material/StarRateRounded'; //รีวิวรูปดาว
 import ReportRoundedIcon from '@mui/icons-material/ReportRounded'; // claim
+import HomeForAdmin from "./components/HomeForAdmin";
 
 
 
@@ -130,36 +131,18 @@ const menu = [
   { name: "ระบบบันทึกค่าใช้จ่ายของช่าง", path: "PayTech", role: "Technician", icon: <PointOfSaleRoundedIcon /> },
 
   // ========== For Admin ========== //
+  { name: "หน้าแรก", path: "/HomeForAdmin", role: "Admin", icon: <HomeRoundedIcon /> },
   { name: "ระบบช่าง", path: "/TechnicianCreate", role: "Admin", icon: <PersonAddAltRoundedIcon /> },
-  {
-    name: "ระบบตรวจสอบการชำระเงิน",
-    path: "/Checked_paymentShow",
-    role: "Admin",
-    icon: <CurrencyExchangeRoundedIcon />
-  },
-  {
-    name: "รับเรื่องการรายงานปัญหาหลังการซ่อม",
-    path: "/ClaimOrderForAdmin",
-    role: "Admin",
-    icon: <ReportRoundedIcon />
-  },
-  {
-    name: "ระบบ show ยกเลิกการแจ้งซ่อม",
-    path: "/RefundShow",
-    role: "Admin",
-    icon: <CancelRoundedIcon />
-  },
+  { name: "ระบบตรวจสอบการชำระเงิน", path: "/Checked_paymentShow", role: "Admin", icon: <CurrencyExchangeRoundedIcon /> },
+  { name: "รับเรื่องการรายงานปัญหาหลังการซ่อม", path: "/ClaimOrderForAdmin", role: "Admin", icon: <ReportRoundedIcon /> },
+  { name: "ระบบ show ยกเลิกการแจ้งซ่อม", path: "/RefundShow", role: "Admin", icon: <CancelRoundedIcon /> },
+
   // ========== For Customer ========== //
   { name: "หน้าแรก", path: "/HomeForCus", role: "Customer", icon: <HomeRoundedIcon /> },
   { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow", role: "Customer", icon: <ContactEmergencyRoundedIcon /> },
   { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage", role: "Customer", icon: <AddHomeWorkRoundedIcon /> },
   { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage", role: "Customer", icon: <DevicesRoundedIcon /> },
-  {
-    name: "ระบบการจัดการข้อมูลการแจ้งซ่อม",
-    path: "/ShowOrder",
-    role: "Customer",
-    icon: <DifferenceRoundedIcon />
-  },
+  { name: "ระบบการจัดการข้อมูลการแจ้งซ่อม", path: "/ShowOrder", role: "Customer", icon: <DifferenceRoundedIcon /> },
   { name: "ระบบชำระเงิน", path: "/PaymentShow", role: "Customer", icon: <MonetizationOnRoundedIcon /> },
   { name: "ระบบประเมินความพึงพอใจ", path: "/RankingForm", role: "Customer", icon: <StarRateRoundedIcon /> },
   { name: "ตรวจสอบการเคลม", path: "/ShowClaim", role: "Customer", icon: <ReportRoundedIcon /> },
@@ -346,12 +329,12 @@ function App() {
 
 
             // ========== For Technician ========== //
-        
+
 
             <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
               <Route path="/HomeForTech" element={<HomeForTech />} />
             </Route>
-            
+
             <Route path="/" element={<ProtectedRoutes roleRequired="Technician" />}>
               <Route path="/TechnicianShow" element={<CreateTechnician2 />} />
             </Route>
@@ -373,24 +356,18 @@ function App() {
 
             // ========== For Admin ========== //
             <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
+              <Route path="/HomeForAdmin" element={<HomeForAdmin />} />
+            </Route>
+            <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
               <Route path="/TechnicianCreate" element={<CreateFormTech />} />
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
               <Route path="/Checked_payment" element={<Checked_payment />} />
-              <Route
-                path="/Checked_paymentShow"
-                element={<Checked_paymentShow />}
-              />
-              <Route
-                path="/EditChecked_payment"
-                element={<Edit_Checked_payment />}
-              />
+              <Route path="/Checked_paymentShow" element={<Checked_paymentShow />} />
+              <Route path="/EditChecked_payment" element={<Edit_Checked_payment />} />
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Admin" />}>
-              <Route
-                path="/ClaimOrderForAdmin"
-                element={<ClaimOrderForAdmin />}
-              />
+              <Route path="/ClaimOrderForAdmin" element={<ClaimOrderForAdmin />} />
             </Route>
           // ========== For Admin ========== //
           </Routes>

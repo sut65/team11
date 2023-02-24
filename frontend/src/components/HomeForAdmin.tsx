@@ -11,21 +11,27 @@ import "./home.css"
 const images = [
     {
         url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
-        title: 'ระบบ show ช่าง',
+        title: 'ระบบช่าง',
         width: '50%',
-        path: "TechnicianShow",
+        path: "TechnicianCreate",
     },
     {
         url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
-        title: 'ระบบรับออเดอร์ช่าง',
+        title: 'ระบบตรวจสอบการชำระเงิน',
         width: '50%',
-        path: "OrderTech",
+        path: "Checked_paymentShow",
     },
     {
         url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
-        title: 'ระบบบันทึกค่าใช้จ่ายของช่าง',
+        title: 'รับเรื่องการรายงานปัญหาหลังการซ่อม',
         width: '50%',
-        path: "PayTech",
+        path: "ClaimOrderForAdmin",
+    },
+    {
+        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        title: 'ระบบ show ยกเลิกการแจ้งซ่อม',
+        width: '50%',
+        path: "RefundShow",
     },
 ];
 
@@ -85,11 +91,14 @@ const ImageBackdrop = styled('span')(({ theme }) => ({
 
 
 
-function HomeForTech() {
+function HomeForAdmin() {
 
-    const [techName, setCustomerName] = React.useState("");
-    const userID = parseInt(localStorage.getItem("uid") + "");
+    // const [customerName, setCustomerName] = React.useState("");
+    const _user = localStorage.getItem("name")
     const [nameTime, setNameTime] = React.useState("");
+
+    console.log(_user);
+    
 
     let [date, updateDate] = React.useState(new Date());
 
@@ -125,25 +134,7 @@ function HomeForTech() {
         // เราต้อง return function สำหรับ clear interval ด้วยเมื่อ component ถูกเอาออกจาก UI tree
         return () => clearInterval(timerID);
     });
-
-    const getCustomerName = async () => {
-        const apiUrl = `http://localhost:8080/GetTechnician/${userID}`;
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-        };
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    // setReviews(res.data)
-                    setCustomerName(res.data.Name);
-                }
-            });
-    };
     React.useEffect(() => {
-        getCustomerName();
-
         timeCheck(date.getHours());
         setTimeout(() => {
             timeCheck(date.getHours());
@@ -151,13 +142,12 @@ function HomeForTech() {
 
     }, []);
     return (
-
         <Box id="frame-outline-PageForCus" >
             <Typography id='helloCustomer'>
-                สวัสดีตอน{nameTime} คุณ{techName}
+                สวัสดีตอน{nameTime} คุณ{_user}
             </Typography>
             <Typography id='Topic1Customer'>
-                🖥️ บริการทั้งหมดจากเรา
+                เมนูรายการทั้งหมด
             </Typography>
 
             <Box sx={{ display: 'flex', flexWrap: 'wrap', minWidth: 300, width: '100%', justifyContent: "center", }}>
@@ -169,16 +159,16 @@ function HomeForTech() {
                         style={{
                             width: image.width,
                         }}
-                        sx={{ marginX: "10px" ,marginY:"10px"}}
-                        onClick={ (e) => window.location.href = image.path + ""}
+                        sx={{ marginX: "10px", marginY: "10px" }}
+                        onClick={(e) => window.location.href = image.path + ""}
 
 
                     >
-                        <ImageSrc sx={{borderRadius:"25px"}} style={{ backgroundImage: `url(${image.url})` }} />
-                        <ImageBackdrop sx={{borderRadius:"25px"}} className="MuiImageBackdrop-root" />
-                        <Image sx={{borderRadius:"25px"}}>
+                        <ImageSrc sx={{ borderRadius: "25px" }} style={{ backgroundImage: `url(${image.url})` }} />
+                        <ImageBackdrop sx={{ borderRadius: "25px" }} className="MuiImageBackdrop-root" />
+                        <Image sx={{ borderRadius: "25px" }}>
                             <Typography
-                                sx={{ backgroundColor: 'transparent', justifyContent: "center" ,borderRadius:"25px",fontSize:"20px",fontWeight:"800",fontFamily:"Noto Sans Thai"}}
+                                sx={{ backgroundColor: 'transparent', justifyContent: "center", borderRadius: "25px", fontSize: "20px", fontWeight: "800", fontFamily: "Noto Sans Thai" }}
                                 color="inherit"
                             >
                                 {image.title}
@@ -191,4 +181,4 @@ function HomeForTech() {
     )
 }
 
-export default HomeForTech
+export default HomeForAdmin
