@@ -22,6 +22,7 @@ import TextField from "@mui/material/TextField";
 import { TextFieldProps } from "@mui/material/TextField";
 import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { alpha } from "@mui/material/styles";
+import Swal from "sweetalert2"; // Alert text --> npm install sweetalert2
 
 import "../Customer/Customer.css";
 
@@ -131,12 +132,30 @@ function CustomerEdit({
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
+
           setTimeout(() => {
             setActiveStep(0);
           }, 1500);
-          console.log("Success");
+          
+          Swal.fire({
+            title: 'อัพเดตข้อมูลส่วนตัวเรียบร้อย',
+            // text: '',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 4000,
+        });
+
+
         } else {
-          console.log("Error");
+          Swal.fire({
+            // Display Back-end text response 
+            title: 'อัพเดตข้อมูลส่วนตัวไม่สำเร็จ',
+            text: res.error.split(";")[0],
+            icon: 'error',
+            showConfirmButton: true,
+            // timer: 3500 
+        });
+
         }
       });
   }

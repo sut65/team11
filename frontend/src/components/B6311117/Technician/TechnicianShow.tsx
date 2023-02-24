@@ -109,14 +109,9 @@ const handleStart = () => {
         .then((response) => response.json())
         .then((res) => {
             if (res.data) {
-                // successAlert();
                 setTimeout(() => {
-                    console.log(data);
                 }, 1500)
-                console.log("Delete Account Success");
             } else {
-                // errorAlert();
-                console.log("Delete Account Error");
             }
         });
 }
@@ -143,10 +138,8 @@ const [Location, setLocation] = useState("");
             setGENDER_NAME(res.data.GENDER.GenderName)
             setLocation(res.data.Location)
             setDOB(res.data.DOB)
-            console.log(Technician)
         }
      else {
-        console.log("else");
       }
       });
   };
