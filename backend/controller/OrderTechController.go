@@ -23,7 +23,7 @@ type extendedOrderTech struct {
 type extendedOrderTechCus struct {
 	entity.OrderTech
 	// limits int
-	Name   string
+	Name string
 }
 
 type extendedCustomer struct {
@@ -323,7 +323,7 @@ func Get_ListOrder_Only_Ready(c *gin.Context) {
 
 // ============================================= update status Payment =================================================================
 func Update_status_Order(id any) {
-	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 4})
+	entity.DB().Table("ORDERS").Where("id = ?", id).Updates(map[string]interface{}{"state_id": 3})
 }
 
 // ==============================================================================================================

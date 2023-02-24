@@ -105,7 +105,6 @@ function CustomerCreate2({
       Password: formCreate.Password,
     };
 
-    console.log(data);
 
     //TODO POST Customer
     const apiUrl = "http://localhost:8080/CreateCustomer";
@@ -125,15 +124,12 @@ function CustomerCreate2({
             showConfirmButton: false,
             timer: 4000,
           });
-          console.log(res.data);
           setTimeout(() => {
             localStorage.clear();
             window.location.href = "/";
           }, 2000);
 
-          console.log("Success");
         } else {
-          console.log("Error");
 
           Swal.fire({
             // Display Back-end text response
@@ -246,9 +242,6 @@ function CustomerCreate2({
                     setFormCreate({ ...formCreate, Email: event.target.value });
                   }}
                   onBlur={(Email) => {
-                    console.log("format: " + formCreate.Email.length);
-                    console.log("input: " + input2.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.Email.length / 20 > input2.length) {
                       setstatusProgress({
@@ -280,7 +273,6 @@ function CustomerCreate2({
                       });
                       setInput2(formCreate.Email);
                     }
-                    console.log(formCreate.Email.length - input2.length);
                   }}
                   placeholder="Enter Username"
                 />
@@ -307,9 +299,6 @@ function CustomerCreate2({
                       });
                     }}
                     onBlur={(Password) => {
-                      console.log("format: " + formCreate.Password.length);
-                      console.log("input: " + input3.length);
-                      console.log("");
                       //TODO ได้ละ
                       if (formCreate.Password.length / 20 > input3.length) {
                         setstatusProgress({
@@ -341,7 +330,6 @@ function CustomerCreate2({
                         });
                         setInput3(formCreate.Password);
                       }
-                      console.log(formCreate.Password.length - input3.length);
                     }}
                   />
                 </FormControl>
@@ -368,9 +356,6 @@ function CustomerCreate2({
                       });
                     }}
                     onBlur={(RePassword) => {
-                      console.log("format: " + formCreate.RePassword.length);
-                      console.log("input: " + input4.length);
-                      console.log("");
                       //TODO ได้ละ
                       if (formCreate.RePassword.length / 20 > input4.length) {
                         setstatusProgress({
@@ -403,7 +388,6 @@ function CustomerCreate2({
                         });
                         setInput4(formCreate.RePassword);
                       }
-                      console.log(formCreate.RePassword.length - input4.length);
                     }}
                   />
                 </FormControl>

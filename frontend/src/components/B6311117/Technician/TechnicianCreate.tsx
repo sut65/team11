@@ -135,7 +135,6 @@ const [Gender, setGender] = React.useState<GenderTInterface[]>([]);
         if (res.data) {
             setGender(res.data);
         } else {
-          console.log("else");
         }
       });
   };
@@ -154,7 +153,6 @@ const [Educate, setEducate] = React.useState<EducateInterface[]>([]);
         if (res.data) {
             setEducate(res.data);
         } else {
-          console.log("else");
         }
       });
   };
@@ -173,7 +171,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
         if (res.data) {
           setPrefix(res.data);
         } else {
-          console.log("else");
         }
       });
   };
@@ -298,9 +295,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   variant="standard"
                   disableUnderline
                   onBlur={(PREFIX_ID) => {
-                    console.log("format: " + formCreate.PREFIX_ID.length);
-                    console.log("input: " + input2.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.PREFIX_ID.length / 30 > input2.length) {
                       setstatusProgress({
@@ -332,7 +326,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                       });
                       setInput2(formCreate.PREFIX_ID);
                     }
-                    console.log(formCreate.PREFIX_ID.length - input2.length);
                   }}
                 >
                       <option aria-label="None" value="">
@@ -357,9 +350,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   onChange={(event) => setFormCreate(({...formCreate,Name:event.target.value}))}
                   placeholder="Enter your Name"
                   onBlur={(Name) => {
-                    console.log("format: " + formCreate.Name.length);
-                    console.log("input: " + input3.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.Name.length / 30 > input3.length) {
                       setstatusProgress({
@@ -391,7 +381,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                       });
                       setinput3(formCreate.Name);
                     }
-                    console.log(formCreate.Name.length - input3.length);
                   }}
                 />
               </Grid>
@@ -414,9 +403,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                     inputComponent={TextMaskCustomID_Card as any}
                     placeholder="X-XXXX-XXXXX-XX-X"
                     onBlur={(ID_card) => {
-                      console.log("format: " + formCreate.ID_card.length);
-                      console.log("input: " + input4.length);
-                      console.log("");
                       //TODO ได้ละ
                       if (formCreate.ID_card.length / 30 > input4.length) {
                         setstatusProgress({
@@ -448,7 +434,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                         });
                         setInput4(formCreate.ID_card);
                       }
-                      console.log(formCreate.ID_card.length - input4.length);
                     }}
                   />
                 </FormControl>
@@ -500,9 +485,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   variant="standard"
                   disableUnderline
                   onBlur={(GENDER_ID) => {
-                    console.log("format: " + formCreate.GENDER_ID.length);
-                    console.log("input: " + input6.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.GENDER_ID.length / 40 > input6.length) {
                       setstatusProgress({
@@ -534,7 +516,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                       });
                       setInput6(formCreate.GENDER_ID);
                     }
-                    console.log(formCreate.GENDER_ID.length - input6.length);
                   }}
                 >
                   <option aria-label="None" value="">
@@ -559,9 +540,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   variant="standard"
                   disableUnderline
                   onBlur={(EDUCATE_ID) => {
-                    console.log("format: " + formCreate.EDUCATE_ID.length);
-                    console.log("input: " + input7.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.EDUCATE_ID.length / 30 > input7.length) {
                       setstatusProgress({
@@ -593,7 +571,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                       });
                       setInput7(formCreate.EDUCATE_ID);
                     }
-                    console.log(formCreate.EDUCATE_ID.length - input7.length);
                   }}
                 >
                   <option aria-label="None" value="">
@@ -638,9 +615,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                     inputComponent={TextMaskCustomPhone as any}
                     placeholder="0XX-XXX-XXXX"
                     onBlur={(Phone) => {
-                      console.log("format: " + formCreate.Phone.length);
-                      console.log("input: " + input8.length);
-                      console.log("");
                       //TODO ได้ละ
                       if (formCreate.Phone.length / 30 > input8.length) {
                         setstatusProgress({
@@ -672,7 +646,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                         });
                         setInput8(formCreate.Phone);
                       }
-                      console.log(formCreate.Phone.length - input8.length);
                     }}
                   />
                 </FormControl>
@@ -701,9 +674,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                   onChange={(event) => setFormCreate(({...formCreate,Location:event.target.value}))}
                   placeholder="Enter your Address"
                   onBlur={(Name) => {
-                    console.log("format: " + formCreate.Name.length);
-                    console.log("input: " + input9.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.Name.length / 30 > input9.length) {
                       setstatusProgress({
@@ -735,7 +705,6 @@ const [Prefix, setPrefix] = React.useState<PrefixTInterface[]>([]);
                       });
                       setInput9(formCreate.Name);
                     }
-                    console.log(formCreate.Name.length - input9.length);
                   }}
                 />
               </Grid>

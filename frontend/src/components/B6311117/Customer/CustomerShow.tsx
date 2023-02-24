@@ -136,9 +136,7 @@ function CustomerShow({
             ) //เอาตรงนี้ไปเช็ค PS
               .then((response) => response.json())
               .then((Password2) => {
-                console.log(Password2.data);
                 if (Password2.data === true) {
-                  console.log("Delete Account Success");
                   {
                     Delete();
                   }
@@ -186,13 +184,10 @@ function CustomerShow({
       .then((res) => {
         if (res.data) {
           setTimeout(() => {
-            console.log(data);
             localStorage.clear();
             window.location.href = "/";
           }, 3000);
-          console.log("Delete Account Success");
         } else {
-          console.log("Delete Account Error");
         }
       });
   }
@@ -218,9 +213,7 @@ function CustomerShow({
           setGENDER_NAME(res.data.GENDER.GenderName);
           setDOB(res.data.DOB);
           setDate(res.data.DOB);
-          console.log(Customer);
         } else {
-          console.log("else");
         }
       });
   };

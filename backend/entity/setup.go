@@ -191,36 +191,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Role{}).Create(&admin)
 
-	passwordCus, err := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-
-	//Customer
-	customer_1 := Customer{
-		Name:     "ลูกค้า 1",
-		ID_card:  "1-4000-00000-00-1",
-		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Phone:    "0641231231",
-		GENDER:   male,
-		CAREER:   gov_o,
-		PREFIX:   mr,
-		Email:    "customer01@example.com",
-		Password: string(passwordCus),
-		ROLE:     cust,
-	}
-	db.Model(&Customer{}).Create(&customer_1)
-	customer_2 := Customer{
-		Name:     "ชื่อนี้จั๊ดเพิ่มเอง",
-		ID_card:  "1-4000-11111-00-1",
-		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Phone:    "0641231231",
-		GENDER:   male,
-		CAREER:   gov_o,
-		PREFIX:   mr,
-		Email:    "customer02@example.com",
-		Password: string(passwordCus),
-		ROLE:     cust,
-	}
-	db.Model(&Customer{}).Create(&customer_2)
-
 	// Mockup  ======ระบบช่าง========
 	//GenderT
 	maleT := GenderT{
@@ -263,40 +233,6 @@ func SetupDatabase() {
 		EducateName: "ปริญญาเอก",
 	}
 	db.Model(&Educate{}).Create(&DD)
-
-	passwordTech, err := bcrypt.GenerateFromPassword([]byte("1400000000011"), 14)
-	//Technician
-	technician_1 := Technician{
-		Name:     "ช่าง 1",
-		ID_card:  "1-4000-00000-01-1",
-		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Phone:    "0644444444",
-		GENDER:   maleT,
-		EDUCATE:  BD,
-		PREFIX:   mrT,
-		Location: "กรุงเทพ....",
-		Username: "T6500001",
-		Password: string(passwordTech),
-		ROLE:     techni,
-	}
-	db.Model(&Technician{}).Create(&technician_1)
-
-	passwordTech2, err := bcrypt.GenerateFromPassword([]byte("12345678901234"), 14)
-	//Technician
-	technician_2 := Technician{
-		Name:     "supanan rueangsook",
-		ID_card:  "1-3299-01075-61-6",
-		DOB:      time.Date(2001, 8, 9, 15, 05, 45, 100, time.Local),
-		Phone:    "0885870149",
-		GENDER:   maleT,
-		EDUCATE:  BD,
-		PREFIX:   mrT,
-		Location: "กรุงเทพ....",
-		Username: "T6500002",
-		Password: string(passwordTech2),
-		ROLE:     techni,
-	}
-	db.Model(&Technician{}).Create(&technician_2)
 
 	// ====== Mockup Address ========
 
@@ -432,17 +368,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Tambon{}).Create(&tambon_1)
 
-	tambonID := uint(341501)
-	address_1 := Address{
-		Customer:    customer_1,
-		AddressType: aType_1,
-		TambonID:    &tambonID,
-		Post_Code:   34190,
-		Detail:      "test Mockup",
-		Record_Time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-	}
-	db.Model(&Address{}).Create(&address_1)
-
 	// ====== Mockup Address ========
 
 	// ====== Mockup Device ========
@@ -477,19 +402,6 @@ func SetupDatabase() {
 		Windows_Name: "MacOS",
 	}
 	db.Model(&Windows{}).Create(&wind_5)
-
-	device_1 := Device{
-		CPU:      "Intel Core i7 7700K",
-		Monitor:  "Zowie XLSK1994S",
-		GPU:      "Geforce RTX 4050",
-		RAM:      "CORSAIR DOMINATOR PLATINUM RGB 16GB",
-		Harddisk: "WD Blue 1TB",
-		Problem:  "test Problem",
-		Customer: customer_1,
-		Type:     typeD_1,
-		Windows:  wind_1,
-	}
-	db.Model(&Device{}).Create(&device_1)
 
 	// ====== Mockup Device ========
 
@@ -561,42 +473,7 @@ func SetupDatabase() {
 	}
 	db.Model(&State{}).Create(&State_10)
 
-
 	//---------------------------------------------------------------
-
-	Order_1 := ORDER{
-		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Reason:    "เครื่องคอมเสียงดัง",
-		Limits:    12000,
-		CASE:      Case_1,
-		State:     State_1,
-		Device:    device_1,
-		Address:   address_1,
-		Customer:  customer_1,
-	}
-	db.Model(&ORDER{}).Create(&Order_1)
-	Order_2 := ORDER{
-		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Reason:    "จอฟ้า_จั๊ดเพิ่ม_1",
-		Limits:    6000,
-		CASE:      Case_1,
-		State:     State_1,
-		Device:    device_1,
-		Address:   address_1,
-		Customer:  customer_1,
-	}
-	db.Model(&ORDER{}).Create(&Order_2)
-	Order_3 := ORDER{
-		Date_time: time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Reason:    "เปิดไม่ติด_จั๊ดเพิ่ม_2",
-		Limits:    6000,
-		CASE:      Case_1,
-		State:     State_1,
-		Device:    device_1,
-		Address:   address_1,
-		Customer:  customer_2,
-	}
-	db.Model(&ORDER{}).Create(&Order_3)
 
 	// ====== Mockup Order ========
 
@@ -694,43 +571,6 @@ func SetupDatabase() {
 	db.Model(&CostDetail{}).Create(&CostDetailN)
 	// ================== Mockup OrderTech ====================
 
-	// ====== Mockup OrderTech ========
-	OrderTechA := OrderTech{
-		Solving:          "เปลี่ยนสายชาร์จใหม่",
-		TimeOut:          time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status:           StatusA,
-		Damage:           DamageA,
-		CostDetail:       CostDetailA,
-		Technician:       technician_1,
-		ORDER:            Order_1,
-		ForPaymentStatus: false, //จั๊ดเพิ่ม
-	}
-	db.Model(&OrderTech{}).Create(&OrderTechA)
-	OrderTechB := OrderTech{
-		Solving:          "จั๊ดเพิ่ม1-เปลี่ยนสายไฟ",
-		TimeOut:          time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status:           StatusA,
-		Damage:           DamageA,
-		CostDetail:       CostDetailA,
-		Technician:       technician_1,
-		ORDER:            Order_2,
-		ForPaymentStatus: false, //จั๊ดเพิ่ม
-	}
-	db.Model(&OrderTech{}).Create(&OrderTechB)
-	OrderTechC := OrderTech{
-		Solving:          "จั๊ดเพิ่ม2-เปลี่ยนจอ",
-		TimeOut:          time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status:           StatusA,
-		Damage:           DamageA,
-		CostDetail:       CostDetailA,
-		Technician:       technician_1,
-		ORDER:            Order_3,
-		ForPaymentStatus: true, //จั๊ดเพิ่ม
-	}
-	db.Model(&OrderTech{}).Create(&OrderTechC)
-
-	// ====== Mockup OrderTech ========
-
 	// ================== Mockup PayTech ======================
 	//Hardware
 	HardwareA := Hardware{
@@ -809,18 +649,6 @@ func SetupDatabase() {
 
 	// ================== Mockup PayTech ======================
 
-	// ====== Mockup PayTech ========
-	PayTechA := PayTech{
-		Note:         "หน้าจอ 24 นิ้ว",
-		Amount:       1,
-		CostHardware: 200,
-		Hardware:     HardwareA,
-		Technician:   technician_1,
-		OrderTech:    OrderTechA,
-	}
-	db.Model(&PayTech{}).Create(&PayTechA)
-	// ====== Mockup PayTech ========
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// ================== Mockup Payment ======================
 	Bank_1 := Bank{Bank_name: "ธนาคารไทยพาณิชย์"}
@@ -834,29 +662,6 @@ func SetupDatabase() {
 	db.Model(&Bank{}).Create(&Bank_4)
 	db.Model(&Bank{}).Create(&Bank_5)
 
-	Pay_1 := Payment{
-		Sender_Name:  "1.ภัฒนศักดิ์ อัตตะกุล",
-		Amount:       153.22,
-		Amount_Check: 153.22,
-		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status_ID:    4,
-		Bank:         Bank_1,
-		OrderTech:    OrderTechA,
-		Customer:     customer_1,
-	}
-	db.Model(&Payment{}).Create(&Pay_1)
-	Pay_2 := Payment{
-		Sender_Name:  "2.ภัฒนศักดิ์ อัตตะกุล",
-		Amount:       1253.22,
-		Amount_Check: 500,
-		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status_ID:    3,
-		Bank:         Bank_4,
-		OrderTech:    OrderTechB,
-		Customer:     customer_1,
-	}
-	db.Model(&Payment{}).Create(&Pay_2)
-
 	// ================== Mockup Payment ======================
 
 	// ============== Mockup Checked_Payment ==================
@@ -868,16 +673,6 @@ func SetupDatabase() {
 	db.Model(&Status_check{}).Create(&status_2)
 	db.Model(&Status_check{}).Create(&status_3)
 	db.Model(&Status_check{}).Create(&status_4)
-
-	Checked_Pay_1 := Checked_payment{
-		Other:        "นี่คือการทดสอบ comment",
-		Message:      "สวัสดีครับคุณลูกค้า ไม่พบยอดเงินที่ตรงกับข้อมูลที่แจ้งเข้าระบบ กรุณารอการติดต่อกลับจากเรา",
-		Date_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Status_check: status_4,
-		Payment:      Pay_1,
-		Admin_ID:     1,
-	}
-	db.Model(&Checked_payment{}).Create(&Checked_Pay_1)
 
 	// ============== Mockup Checked_Payment ==================
 
@@ -938,23 +733,12 @@ func SetupDatabase() {
 	}
 	db.Model(&Contact{}).Create(&Contact_3)
 
-	Refund_1 := Refund{
-		Refund_time:    time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
-		Refund_Cause:   "ช่างทำตัวไม่สุภาพ",
-		Refund_Contact: "09755555555",
-		ORDER:          Order_1,
-		Cause:          Cause_1,
-		Contact:        Contact_1,
-		Customer:       customer_1,
-	}
-	db.Model(&Refund{}).Create(&Refund_1)
-
 	// ============== Mockup ตาราง Refund ของฟิวส์ ===================================
 
 	//Admin
 	passwordAdmin, err := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	admin1 := Admin{
-		Name:     "Admin 1",
+		Name:     "วทัญญ์ ปราศรัย",
 		ID_card:  "1-1111-11111-11-1",
 		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Phone:    "0444444444",
@@ -964,7 +748,7 @@ func SetupDatabase() {
 	}
 	db.Model(&Admin{}).Create(&admin1)
 	admin2 := Admin{
-		Name:     "Admin 2",
+		Name:     "ภานุพงศ์ แคนอินทร์",
 		ID_card:  "2-2222-22222-22-2",
 		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Phone:    "0444444444",
@@ -974,7 +758,7 @@ func SetupDatabase() {
 	}
 	db.Model(&Admin{}).Create(&admin2)
 	admin3 := Admin{
-		Name:     "Admin 3",
+		Name:     "สุภานัน เรืองแสง",
 		ID_card:  "3-3333-33333-33-3",
 		DOB:      time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
 		Phone:    "0444444444",
