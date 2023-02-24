@@ -64,6 +64,7 @@ import TimeoutLogic from "./components/TimeoutLogic";
 import CreateClaim from "./components/B6304577/ClaimOrders/CreateClaim";
 import ShowClaim from "./components/B6304577/ClaimOrders/ShowClaim";
 import EditContentClaimOrder from "./components/B6304577/ClaimOrders/EditDataClaim";
+import HomeForCus from "./components/HomeForCus";
 
 
 // import Icon for system
@@ -145,7 +146,6 @@ const menu = [
     role: "Admin",
     icon: <CancelRoundedIcon/>
   },
-
   // ========== For Customer ========== //
   { name: "หน้าแรก", path: "/", role: "Customer", icon: <HomeRoundedIcon/> },
   { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow", role: "Customer" , icon: <ContactEmergencyRoundedIcon/>},
@@ -298,7 +298,7 @@ function App() {
           // Protected Routes // Wrap all Route under ProtectedRoutes element //
             ========== For Customer ========== //
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>
-              <Route path="/Home" element={<HomeCustomer />} />
+              <Route path="/" element={<HomeForCus />} />
 
             </Route>
             <Route path="/" element={<ProtectedRoutes roleRequired="Customer" />}>

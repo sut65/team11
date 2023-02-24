@@ -1,15 +1,56 @@
-#homepage {
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:600|Work+Sans:400,500,600,700&display=swap');
+
+
+
+/*
+==========================================================================================
+==============================       HONE CUSTOMER CSS      ==============================
+==========================================================================================
+*/
+#frame-outline-PageForCus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
 
-    height: 760px;
-    margin:auto;
-    background-color: #000000;
-    padding: 25px;
-    opacity: 0.4;
-    display: flex;
+    min-height: 100vh;
+    margin: auto;
+    padding: 50px;
 
-    backdrop-filter: blur(10px)
+    background-size: cover;
+    position: relative;
+    content: "";
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(100px);
+
+    box-shadow: 1px 2px 9px rgba(0, 0, 0, 0.5);
+
+
+}
+
+#helloCustomer {
+    margin-top: 2rem;
+    margin-left: 4rem;
+    margin-bottom: 12rem;
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+#Topic1Customer {
+    margin-top: 2rem;
+    margin-left: 4rem;
+    margin-bottom: 4rem;
+    padding-left: 8rem;
+    color: #3f3f3f;
+    font-family: 'Noto Sans Thai';
+    font-weight: 600;
+    font-size: 1.5rem;
 }
