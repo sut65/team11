@@ -21,6 +21,8 @@ import {GenderTInterface,
 
 import TextField from "@mui/material/TextField";
 
+import "../Technician/Technician.css" 
+
 
 //Grid
 const Item = styled(Paper)(({ theme }) => ({

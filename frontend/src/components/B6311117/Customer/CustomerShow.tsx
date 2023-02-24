@@ -42,6 +42,54 @@ import "../Customer/Customer.css"
 
 
 
+//TODO จัด Format เบอร์
+import { IMaskInput } from 'react-imask';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+const TextMaskCustomPhone = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="000-000-0000"
+        definitions={{
+          '0': /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>} 
+        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  },
+);
+
+const TextMaskCustomID_Card = React.forwardRef<HTMLElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="0-0000-00000-00-0"
+        definitions={{
+          '0': /[0-9] || [a-z]/,
+        }}
+        inputRef={ref as React.RefObject<HTMLInputElement>} 
+        onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  },
+);
+
+
+
 
 
 //Grid
@@ -81,7 +129,6 @@ const handleStart = () => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
-  
   
 
   
@@ -274,6 +321,8 @@ const handleStart = () => {
   const [Customer, setCustomer] = React.useState<Partial<CustomerInterface>>(
     {}
   );
+
+  // const personalIDshow = Customer.ID_card[0]+'-'
 
   const getUser = async () => {
     const apiUrl = `http://localhost:8080/GetCustomer/${customerID}`;
@@ -486,7 +535,7 @@ const handleStart = () => {
 
                     {/* Row: 4 */}
                     <Grid item xs={8} md={7} marginLeft={5}  >
-                      <RedditTextField
+                      {/* <RedditTextField
                                 disabled
                                 id="redditTextFields2"
                                 value={Customer.ID_card}      
@@ -494,7 +543,17 @@ const handleStart = () => {
                                 // variant="filled"
                                 // size='small'
                                 sx={{width:250}}
-                                />
+                                /> */}
+                            <FormControl variant="standard">
+                              <Input
+                                disabled
+                                id="redditTextFieldsCreateNumber"
+                                type="string"
+                                value={Customer.ID_card}
+                                disableUnderline
+                                inputComponent={TextMaskCustomID_Card as any}
+                              />
+                            </FormControl>
                     </Grid>
 
 
@@ -563,7 +622,7 @@ const handleStart = () => {
 
                     {/* Row: 10 */}
                     <Grid item xs={6} md={7} marginLeft={5} >
-                      <RedditTextField
+                      {/* <RedditTextField
                                     disabled
                                     id="redditTextFields2"
                                     value={Customer.Phone}
@@ -571,13 +630,23 @@ const handleStart = () => {
                                     // defaultValue={Customer.Phone} 
                                     // variant="filled"
                                     // size='small'
-                                />
+                                /> */}
+                      <FormControl variant="standard">
+                      <Input
+                        disabled
+                        id="redditTextFieldsCreateNumber"
+                        type="string"
+                        value={Customer.Phone}
+                        disableUnderline
+                        inputComponent={TextMaskCustomPhone as any}
+                      />
+                      </FormControl>
                     </Grid>
 
 
                     {/* Row: 11 */}
-
-
+                    
+                    
 
 
 

@@ -1,4 +1,4 @@
-.RedditTextField-root {
+/* .RedditTextField-root {
     border: 1px solid #e2e2e1;
     overflow: hidden;
     border-radius: 30px;
@@ -22,7 +22,15 @@
   
   .palette-mode-dark .RedditTextField-root {
     background-color: #2b2b2b;
-  }
+  } */
+
+
+/* styles.css */
+
+/* .MuiPickersStaticWrapper-root .MuiPaper-root {
+  border: none;
+} */
+
 
 
 
@@ -92,11 +100,43 @@ TextField {
   }
 
 /*TODO ใช้จริงแค่นี้ */
+/* TODO Show */
+#buttonNext {
+  border-radius: 25px;
+  /* width: 90%; */
+  /* height: 40px; */
+  font-size: 1rem;
+  color: white;
+  font-weight: 700;
+  background-color: #4158D0;
+  background-image: linear-gradient(90deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+
+  border: 0px;
+  cursor: pointer;
+  transition: opacity 0.25s ease-out;
+}
+
+#buttonBack {
+  border-radius: 25px;
+  /* width: 90%; */
+  /* height: 40px; */
+  font-size: 1rem;
+  color: white;
+  font-weight: 700;
+  background-color: #ffffff;
+  /* background-image: linear-gradient(90deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%); */
+
+  border: 0px;
+  cursor: pointer;
+  transition: opacity 0.25s ease-out;
+}
+
+
 #redditTextFields {
     border: 2px solid #d0cfcf;
     overflow: hidden;
     border-radius: 30px;
-    height: 30px;
+    height: 30px; 
     background: #fcfcfb;
     padding: 4%;
     text-align: center;
@@ -120,6 +160,175 @@ TextField {
 
 }
 
+
+
+/* TODO Create */
+
+#redditTextFieldsCreate {
+  border: 2px solid #d0cfcf;
+  overflow: hidden;
+  border-radius: 30px;
+  height: 16px; 
+  width: 482px;
+  background: #fcfcfb;
+  padding: 4%;
+  text-align: center;
+  font-size:18px;
+  font-family: 'Noto Sans Thai';
+  /* height: 20px; */
+  /* font-weight: 700; */
+
+
+}
+
+#redditTextFieldsCreate:hover{
+  /* border: 1px solid #e2e2e1; */
+  /* border-color: #000; */
+  /* box-shadow:rgb(34, 193, 195) 13%; */
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+  /* box-shadow: rgba(25, 118, 210, 0.8) 0 0 0 3px; */
+}
+
+#redditTextFieldsCreate:focus{
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+
+}
+
+/* TODO Create comboBox */
+
+#redditTextFieldsCreateCombo {
+  border: 2.5px solid #d0cfcf;
+  overflow: hidden;
+  border-radius: 30px;
+  height: 40px; 
+  width: 150px;
+  background: #fcfcfb;
+  padding: 4%;
+  text-align: center;
+  font-size:18px;
+  font-family: 'Noto Sans Thai';
+  /* height: 20px; */
+  /* font-weight: 700; */
+
+
+}
+
+#redditTextFieldsCreateCombo:hover{
+  /* border: 1px solid #e2e2e1; */
+  /* border-color: #000; */
+  /* box-shadow:rgb(34, 193, 195) 13%; */
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+  /* box-shadow: rgba(25, 118, 210, 0.8) 0 0 0 3px; */
+}
+
+#redditTextFieldsCreateCombo:focus{
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+
+}
+
+/* TODO Create comboBox Career */
+
+#redditTextFieldsCreateComboCareer {
+  border: 2.5px solid #d0cfcf;
+  overflow: hidden;
+  border-radius: 30px;
+  height: 32px; 
+  width: 265px;
+  background: #fcfcfb;
+  padding: 4%;
+  text-align: center;
+  font-size:18px;
+  font-family: 'Noto Sans Thai';
+  /* height: 20px; */
+  /* font-weight: 700; */
+
+
+}
+
+#redditTextFieldsCreateComboCareer:hover{
+  /* border: 1px solid #e2e2e1; */
+  /* border-color: #000; */
+  /* box-shadow:rgb(34, 193, 195) 13%; */
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+  /* box-shadow: rgba(25, 118, 210, 0.8) 0 0 0 3px; */
+}
+
+#redditTextFieldsCreateComboCareer:focus{
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+
+}
+
+/* TODO Create Form2 */
+
+#redditTextFieldsCreate2 {
+  border: 2px solid #d0cfcf;
+  overflow: hidden;
+  border-radius: 30px;
+  height: 26px; 
+  width: 482px;
+  background: #fcfcfb;
+  padding: 4%;
+  text-align: center;
+  font-size:18px;
+  font-family: 'Noto Sans Thai';
+  /* height: 20px; */
+  /* font-weight: 700; */
+
+
+}
+
+#redditTextFieldsCreate2:hover{
+  /* border: 1px solid #e2e2e1; */
+  /* border-color: #000; */
+  /* box-shadow:rgb(34, 193, 195) 13%; */
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+  /* box-shadow: rgba(25, 118, 210, 0.8) 0 0 0 3px; */
+}
+
+#redditTextFieldsCreate2:focus{
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+
+}
+
+/* TODO Show Format number */
+
+#redditTextFieldsCreateNumber {
+  border: 2px solid #d0cfcf;
+  overflow: hidden;
+  border-radius: 30px;
+  height: 30.57px; 
+  width: 300px;
+  background: #fcfcfb;
+  padding: 4%;
+  text-align: center;
+  font-size:18px;
+  font-family: 'Noto Sans Thai';
+  /* height: 20px; */
+  /* font-weight: 700; */
+
+
+}
+
+#redditTextFieldsCreateNumber:hover{
+  /* border: 1px solid #e2e2e1; */
+  /* border-color: #000; */
+  /* box-shadow:rgb(34, 193, 195) 13%; */
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+  /* box-shadow: rgba(25, 118, 210, 0.8) 0 0 0 3px; */
+}
+
+#redditTextFieldsCreateNumber:focus{
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+
+}
+
+/* TODO textField spacial */
+
 #redditTextFields2{
     /* border-radius: 30px;
     border: 2px solid #d0cfcf; */
@@ -127,6 +336,29 @@ TextField {
     font-size:18px;
     font-family: 'Noto Sans Thai';
 }
-  
 
+.DeskTopDate{
+  border: 4px solid #545353;
+  /* overflow: hidden; */
+  border-radius: 30px;
+  height: 60px; 
+  width: 482px;
+  padding: 4%;
+  /* font-size:18px; */
+  /* font-family: 'Noto Sans Thai'; */
+}
+.MuiPickersStaticWrapper-root .MuiPaper-root {
+  border: none;
+}
+
+.DeskTopDate:hover{
+  box-shadow: rgba(0, 0, 0, 0.6) 0 0 0 1px;
+}
+
+.DeskTopDate:focus{
+  border-color: #1976d2;
+  box-shadow: rgba(25, 118, 210, 0.25) 0 0 0 2px;
+
+}
+  
 
