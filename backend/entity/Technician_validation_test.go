@@ -8,6 +8,35 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func TestPositiveTechnician(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	user := Technician{
+		Name:            "Natthawat",
+		ID_card:         "1489900413819",
+		DOB:             time.Date(2021, 8, 15, 14, 30, 45, 100, time.Local),
+		Phone:           "0643284596",
+		GENDER_ID:       new(uint),
+		GENDER:          GenderT{},
+		EDUCATE_ID:       new(uint),
+		EDUCATE:          Educate{},
+		PREFIX_ID:       new(uint),
+		Location:		"Suranaree",
+		PREFIX:          PrefixT{},
+		Username:           "B6311117",
+		Password:        "11111",
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(user)
+
+	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+}
+
 //TODO Name cannot be Blank
 func TestUserNameTechnicianNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
