@@ -10,19 +10,19 @@ import "./home.css"
 
 const images = [
     {
-        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/JhDbt9Wq/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบ show ช่าง',
         width: '50%',
         path: "TechnicianShow",
     },
     {
-        url: '/static/images/buttons/burgers.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/DZ1LPL04/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบรับออเดอร์ช่าง',
         width: '50%',
         path: "OrderTech",
     },
     {
-        url: '/static/images/buttons/camera.jpg', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
+        url: 'https://i.postimg.cc/bw6TZxSz/image.png', // <------- ใส้รูปตรงนี้โดยใช้เว็บ "https://postimages.org"
         title: 'ระบบบันทึกค่าใช้จ่ายของช่าง',
         width: '50%',
         path: "PayTech",
