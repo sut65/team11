@@ -22,6 +22,8 @@ const PublicRoutes = (props: any) => {
     return auth ? <Navigate to="/HomeForTech" /> : <Outlet />
   } else if (user === "Customer") {
     return auth ? <Navigate to="/HomeForCus" /> : <Outlet />
+  } else if (user === "Admin") {
+    return auth ? <Navigate to="/HomeForAdmin" /> : <Outlet />
   }
 
 
