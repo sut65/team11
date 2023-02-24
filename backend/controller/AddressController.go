@@ -124,36 +124,37 @@ func CreateAddress(c *gin.Context) {
 	var tambon entity.Tambon
 	var address entity.Address
 
-	// ผลลัพธ์ที่ได้จะถูก bind เข้าตัวแปร Address
+	//12 : ผลลัพธ์ที่ได้จะถูก bind เข้าตัวแปร Address
 	if err := c.ShouldBindJSON(&address); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// ค้นหา AddressType  ด้วย id
-	if tx := entity.DB().Where("id = ?", address.AddressTypeID).First(&addressType); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทที่อยู่"})
-		return
-	}
-
-	// ค้นหา Tambon ด้วย id
-	if tx := entity.DB().Where("id = ?", address.TambonID).First(&tambon); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกตำบล"})
-		return
-	}
-
-	// ค้นหา Customer ด้วย id
+	// 13: ค้นหา Customer ด้วย id
 	if tx := entity.DB().Where("id = ?", address.CustomerID).First(&customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
 
+	// 14: ค้นหา AddressType  ด้วย id
+	if tx := entity.DB().Where("id = ?", address.AddressTypeID).First(&addressType); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทที่อยู่"})
+		return
+	}
+
+	// 15: ค้นหา Tambon ด้วย id
+	if tx := entity.DB().Where("id = ?", address.TambonID).First(&tambon); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกตำบล"})
+		return
+	}
+
+	// 16 17 18 : Validate
 	if _, err := govalidator.ValidateStruct(address); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	ad := entity.Address{
+	a := entity.Address{
 		CustomerID:    address.CustomerID,    // โยงความสัมพันธ์กับ Entity Customer
 		AddressTypeID: address.AddressTypeID, // โยงความสัมพันธ์กับ Entity AddressType
 		TambonID:      address.TambonID,      // โยงความสัมพันธ์กับ Entity Tambon
@@ -162,11 +163,11 @@ func CreateAddress(c *gin.Context) {
 		Record_Time:   address.Record_Time, // ตั้งค่าฟิลด์ Record_Time
 	}
 
-	if err := entity.DB().Create(&ad).Error; err != nil {
+	if err := entity.DB().Create(&a).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": ad})
+	c.JSON(http.StatusOK, gin.H{"data": a})
 }
 
 func GetListAddress(c *gin.Context) {

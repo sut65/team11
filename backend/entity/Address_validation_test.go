@@ -8,6 +8,26 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func Test_Positive_Address(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	Address := Address{
+		Customer:      Customer{},
+		CustomerID:    new(uint),
+		AddressTypeID: new(uint),
+		AddressType:   AddressType{},
+		TambonID:      new(uint),
+		Tambon:        Tambon{},
+		Post_Code:     34190,
+		Detail:        "37/2 ถ.เทศบาล 9 หมูบ้าน พูลวิลล่า",
+		Record_Time:   time.Now(),
+	}
+
+	ok, err := govalidator.ValidateStruct(Address)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(err).To(BeNil())
+}
+
 func Test_Postcode_not_blank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
