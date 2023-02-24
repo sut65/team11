@@ -47,42 +47,43 @@ func CreateReview(c *gin.Context) {
 	var Satisfaction_Technician entity.Satisfaction_Technician
 	var Review entity.Review
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 10 จะถูก bind เข้าตัวแปร Review
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 9 จะถูก bind เข้าตัวแปร Review
 	if err := c.ShouldBindJSON(&Review); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 11: ค้นหา CheckPayment  ด้วย id
+	// 10: ค้นหา CheckPayment  ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.CheckedPayment_ID).First(&Checked_payment); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Satisfaction System  not found"})
 		return
 	}
 
-	// 12: ค้นหา Satisfaction_System  ด้วย id
+	// 11: ค้นหา Satisfaction_System  ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.Satisfaction_System_ID).First(&Satisfaction_System); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Satisfaction System  not found"})
 		return
 	}
 
-	// 13: ค้นหา Satisfaction_Technician ด้วย id
+	// 12: ค้นหา Satisfaction_Technician ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.Satisfaction_Technician_ID).First(&Satisfaction_Technician); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Satisfaction Technician  not found"})
 		return
 	}
 
-	// 14: ค้นหา Customer ด้วย id
+	// 13: ค้นหา Customer ด้วย id
 	if tx := entity.DB().Where("id = ?", Review.Customer_ID).First(&Customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
 
-	// 15: แทรกการ validate ไว้ช่วงนี้ของ controller
+	// 14,15,16: แทรกการ validate ไว้ช่วงนี้ของ controller
 	if _, err := govalidator.ValidateStruct(Review); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	// 17: โยงข้อมูล 
 	reviewData := entity.Review{
 		CheckedPayment_ID:          Review.CheckedPayment_ID,      // โยงความสัมพันธ์กับ Entity Order
 		Satisfaction_System_ID:     Review.Satisfaction_System_ID, // โยงความสัมพันธ์กับ Entity Satisfaction_System
@@ -95,6 +96,7 @@ func CreateReview(c *gin.Context) {
 		CheckSucceed:               Review.CheckSucceed,
 	}
 
+	// 18: บันทึก
 	if err := entity.DB().Create(&reviewData).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

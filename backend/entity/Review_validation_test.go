@@ -126,3 +126,25 @@ func TestTimestampReviewIsNotPast(t *testing.T) {
 	// err.Error() ต้องมี message แสดงออกมา
 	g.Expect(err.Error()).To(Equal("กรุณาตรวจสอบวันที่ให้ถูกต้อง"))
 }
+
+func TestReviewAllPass(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	review := Review{
+		Review_Comment_System:      "Great",
+		Review_Comment_Technician:  "Great",
+		TimestampReview:            time.Now(),
+		StatusReview:               true, // ผิด -->เช็คตรงนี้
+		CheckSucceed:               true,
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(review)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+
+}
