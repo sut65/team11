@@ -19,37 +19,37 @@ func CreateChecked_payment(c *gin.Context) {
 	var Payment entity.Payment
 	var Admin entity.Admin
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ * จะถูก bind เข้าตัวแปร Checked_payment
+	// 8: ผลลัพธ์ที่ได้จากขั้นตอนที่ * จะถูก bind เข้าตัวแปร Checked_payment
 	if err := c.ShouldBindJSON(&Checked_payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// ค้นหา Payment ด้วย id
+	// 9: ค้นหา Payment ด้วย id
 	if tx := entity.DB().Where("id = ?", Checked_payment.Payment_ID).First(&Payment); tx.RowsAffected == 0 { //งงอยู่++++++++++++++++++++++++++++++++++
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment not find"})
 		return
 	}
 
-	// *: ค้นหา Status_check ด้วย id
+	// 10: ค้นหา Status_check ด้วย id
 	if tx := entity.DB().Where("id = ?", Checked_payment.Status_ID).First(&Status_check); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "โปรดตรวจสอบเหมือนคุณจะลืมเลือก สถานะ นะ"})
 		return
 	}
 
-	//*: ค้นหา user ด้วย id
+	// 11: ค้นหา user ด้วย id
 	if tx := entity.DB().Where("id = ?", Checked_payment.Admin_ID).First(&Admin); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Admin not found"})
 		return
 	}
 
-	// : แทรกการ validate
+	// 12-15: แทรกการ validate
 	if _, err := govalidator.ValidateStruct(Checked_payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// *: สร้าง Payment
+	// 16: สร้าง Payment
 	pm := entity.Checked_payment{
 		Payment_ID: Checked_payment.Payment_ID, // โยงความสัมพันธ์กับ Entity Payment
 		Status_ID:  Checked_payment.Status_ID,  // โยงความสัมพันธ์กับ Entity Status Check
@@ -59,7 +59,7 @@ func CreateChecked_payment(c *gin.Context) {
 		Admin_ID:   Checked_payment.Admin_ID, // โยงความสัมพันธ์กับ Entity Customer
 	}
 
-	// 13: บันทึก
+	// 17: บันทึก
 	if err := entity.DB().Create(&pm).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
