@@ -44,6 +44,7 @@ function CreateForm() {
       return (
         <CustomerCreate2
           statusProgress={statusProgress}
+          setstatusProgress={setstatusProgress}
           formCreate={formCreate}
           setFormCreate={setFormCreate}
           activeStep={activeStep}

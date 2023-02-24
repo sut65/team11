@@ -197,7 +197,7 @@ function CustomerCreate({
   }, []);
 
   //TODO ตัวนับ Progress ด้านบน
-  const [progress, setProgress] = statusProgress.num;
+  const {num} = statusProgress
 
   const [input2, setInput2] = React.useState("");
   const [input3, setInput3] = React.useState("");
@@ -270,7 +270,7 @@ function CustomerCreate({
 
             <Grid container spacing={1} paddingX={3} paddingY={0}>
               <Grid item xs={12}>
-                <LinearProgressWithLabel value={progress} />
+                <LinearProgressWithLabel value={num} />
               </Grid>
             </Grid>
 
@@ -308,9 +308,9 @@ function CustomerCreate({
                     console.log("");
                     //TODO ได้ละ
                     if (formCreate.PREFIX_ID.length / 30 > input2.length) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num + 7.14,
+                        num: num + 7.14,
                       });
                       setInput2(formCreate.PREFIX_ID);
                     }
@@ -320,9 +320,9 @@ function CustomerCreate({
                         -input2.length ||
                       (formCreate.PREFIX_ID.length == 0 && input2.length != 0)
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num - 7.14,
+                        num: num - 7.14,
                       });
                       setInput2(formCreate.PREFIX_ID);
                     }
@@ -331,9 +331,9 @@ function CustomerCreate({
                       formCreate.PREFIX_ID.length - input2.length <
                       input2.length
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num,
+                        num: num + 0,
                       });
                       setInput2(formCreate.PREFIX_ID);
                     }
@@ -371,9 +371,9 @@ function CustomerCreate({
                     console.log("");
                     //TODO ได้ละ
                     if (formCreate.Name.length / 30 > input3.length) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num + 7.14,
+                        num: num + 7.14,
                       });
                       setInput3(formCreate.Name);
                     }
@@ -383,9 +383,9 @@ function CustomerCreate({
                         -input3.length ||
                       (formCreate.Name.length == 0 && input3.length != 0)
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num - 7.14,
+                        num: num - 7.14,
                       });
                       setInput3(formCreate.Name);
                     }
@@ -394,9 +394,9 @@ function CustomerCreate({
                       formCreate.Name.length - input3.length <
                       input3.length
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num,
+                        num: num + 0,
                       });
                       setInput3(formCreate.Name);
                     }
@@ -435,9 +435,9 @@ function CustomerCreate({
                       console.log("");
                       //TODO ได้ละ
                       if (formCreate.ID_card.length / 30 > input4.length) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num + 7.14,
+                          num: num + 7.14,
                         });
                         setInput4(formCreate.ID_card);
                       }
@@ -447,9 +447,9 @@ function CustomerCreate({
                           -input4.length ||
                         (formCreate.ID_card.length == 0 && input4.length != 0)
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num - 7.14,
+                          num: num - 7.14,
                         });
                         setInput4(formCreate.ID_card);
                       }
@@ -458,9 +458,9 @@ function CustomerCreate({
                         formCreate.ID_card.length - input4.length <
                         input4.length
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num,
+                          num: num + 0,
                         });
                         setInput4(formCreate.ID_card);
                       }
@@ -526,9 +526,9 @@ function CustomerCreate({
                     console.log("");
                     //TODO ได้ละ
                     if (formCreate.GENDER_ID.length / 40 > input6.length) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num + 7.14,
+                        num: num + 7.14,
                       });
                       setInput6(formCreate.GENDER_ID);
                     }
@@ -538,9 +538,9 @@ function CustomerCreate({
                         -input6.length ||
                       (formCreate.GENDER_ID.length == 0 && input6.length != 0)
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num - 7.14,
+                        num: num - 7.14,
                       });
                       setInput6(formCreate.GENDER_ID);
                     }
@@ -549,9 +549,9 @@ function CustomerCreate({
                       formCreate.GENDER_ID.length - input6.length <
                       input6.length
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num,
+                        num: num + 0,
                       });
                       setInput6(formCreate.GENDER_ID);
                     }
@@ -591,9 +591,9 @@ function CustomerCreate({
                     console.log("");
                     //TODO ได้ละ
                     if (formCreate.CAREER_ID.length / 30 > input7.length) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num + 7.14,
+                        num: num + 7.14,
                       });
                       setInput7(formCreate.CAREER_ID);
                     }
@@ -603,9 +603,9 @@ function CustomerCreate({
                         -input7.length ||
                       (formCreate.CAREER_ID.length == 0 && input7.length != 0)
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num - 7.14,
+                        num: num - 7.14,
                       });
                       setInput7(formCreate.CAREER_ID);
                     }
@@ -614,9 +614,9 @@ function CustomerCreate({
                       formCreate.CAREER_ID.length - input7.length <
                       input7.length
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num,
+                        num: num + 0,
                       });
                       setInput7(formCreate.CAREER_ID);
                     }
@@ -655,7 +655,7 @@ function CustomerCreate({
                         { ...formCreate, Phone: event.target.value },
                         setstatusProgress({
                           ...statusProgress,
-                          Number: progress,
+                          num: num,
                         })
                       )
                     }
@@ -668,9 +668,9 @@ function CustomerCreate({
                       console.log("");
                       //TODO ได้ละ
                       if (formCreate.Phone.length / 30 > input8.length) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num + 7.14,
+                          num: num + 7.14,
                         });
                         setInput8(formCreate.Phone);
                       }
@@ -680,9 +680,9 @@ function CustomerCreate({
                           -input8.length ||
                         (formCreate.Phone.length == 0 && input8.length != 0)
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num - 7.14,
+                          num: num - 7.14,
                         });
                         setInput8(formCreate.Phone);
                       }
@@ -691,9 +691,9 @@ function CustomerCreate({
                         formCreate.Phone.length - input8.length <
                         input8.length
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num,
+                          num: num + 0,
                         });
                         setInput8(formCreate.Phone);
                       }

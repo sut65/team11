@@ -55,7 +55,8 @@ function CustomerCreate2({
   setFormCreate,
   activeStep,
   setActiveStep,
-  steps,
+  setstatusProgress,
+  
 }: any) {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
@@ -146,13 +147,12 @@ function CustomerCreate2({
 
   //TODO ตัวนับ Progress ด้านบน
 
-  const [progress, setProgress] = statusProgress;
+  const {num} = statusProgress;
 
   const [input2, setInput2] = React.useState("");
   const [input3, setInput3] = React.useState("");
   const [input4, setInput4] = React.useState("");
 
-  const [em, setem] = React.useState("");
 
   return (
     <Paper style={{ backgroundColor: "rgba(24,46,62,0.5)", borderRadius: 40 }}>
@@ -218,7 +218,7 @@ function CustomerCreate2({
 
             <Grid container spacing={1} paddingX={3} paddingY={0}>
               <Grid item xs={12}>
-                <LinearProgressWithLabel value={progress} />
+                <LinearProgressWithLabel value={num} />
               </Grid>
             </Grid>
             <br />
@@ -249,9 +249,9 @@ function CustomerCreate2({
                     console.log("");
                     //TODO ได้ละ
                     if (formCreate.Email.length / 20 > input2.length) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num + 16.67,
+                        num: num + 16.67,
                       });
                       setInput2(formCreate.Email);
                     }
@@ -261,9 +261,9 @@ function CustomerCreate2({
                         -input2.length ||
                       (formCreate.Email.length == 0 && input2.length != 0)
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num - 16.67,
+                        num: num - 16.67,
                       });
                       setInput2(formCreate.Email);
                     }
@@ -272,9 +272,9 @@ function CustomerCreate2({
                       formCreate.Email.length - input2.length <
                       input2.length
                     ) {
-                      setProgress({
+                      setstatusProgress({
                         ...statusProgress,
-                        num: statusProgress.num,
+                        num: num + 0, 
                       });
                       setInput2(formCreate.Email);
                     }
@@ -310,9 +310,9 @@ function CustomerCreate2({
                       console.log("");
                       //TODO ได้ละ
                       if (formCreate.Password.length / 20 > input3.length) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num + 16.67,
+                          num: num + 16.67,
                         });
                         setInput3(formCreate.Password);
                       }
@@ -322,9 +322,9 @@ function CustomerCreate2({
                           -input3.length ||
                         (formCreate.Password.length == 0 && input3.length != 0)
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num - 16.67,
+                          num: num - 16.67,
                         });
                         setInput3(formCreate.Password);
                       }
@@ -333,9 +333,9 @@ function CustomerCreate2({
                         formCreate.Password.length - input3.length <
                         input3.length
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num,
+                          num: num + 0, 
                         });
                         setInput3(formCreate.Password);
                       }
@@ -371,9 +371,9 @@ function CustomerCreate2({
                       console.log("");
                       //TODO ได้ละ
                       if (formCreate.RePassword.length / 20 > input4.length) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num + 16.67,
+                          num: num + 16.67,
                         });
                         setInput4(formCreate.RePassword);
                       }
@@ -384,9 +384,9 @@ function CustomerCreate2({
                         (formCreate.RePassword.length == 0 &&
                           input4.length != 0)
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num - 16.67,
+                          num: num - 16.67,
                         });
                         setInput4(formCreate.RePassword);
                       }
@@ -395,9 +395,9 @@ function CustomerCreate2({
                         formCreate.RePassword.length - input4.length <
                         input4.length
                       ) {
-                        setProgress({
+                        setstatusProgress({
                           ...statusProgress,
-                          num: statusProgress.num - 16.67,
+                          num: num - 16.67,
                         });
                         setInput4(formCreate.RePassword);
                       }
