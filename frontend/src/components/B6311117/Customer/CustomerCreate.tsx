@@ -224,15 +224,16 @@ function CustomerCreate({
             paddingTop: "30px",
           }}
         >
-          <Box sx={{ maginX: 0, maginY: 0, height: "10px" }}>
+          <Box sx={{ maginX: 0, maginY: 6, height: "40px" }}>
             <center>
               <Typography
                 component="h2"
                 variant="h4"
                 gutterBottom
                 fontFamily="Arial"
+                padding={-4}
               >
-                <b style={{ font: "#FFFFFF", color: "#FFFFFF" }}>Sign - Up</b>
+                <b style={{ font: "#FFFFFF", color: "#FFFFFF" }} id="redditTextFieldsTopic">Sign - Up</b>
                 <br />
               </Typography>
             </center>
@@ -479,7 +480,8 @@ function CustomerCreate({
 
               <Grid item xs={2} marginLeft={9}></Grid>
               <Grid container item xs={7} marginLeft={8}>
-                <FormControl variant="outlined" sx={{ width: 400 }}>
+              <FormControl fullWidth variant="outlined">
+                {/* <FormControl variant="outlined" sx={{ width: 400 }}> */}
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker
                       inputFormat="DD/MM/YYYY"
@@ -569,7 +571,7 @@ function CustomerCreate({
                   ))}
                 </Select>
               </Grid>
-              <Grid container item xs={4} marginLeft={5}>
+              <Grid container item xs={4} marginLeft={9}>
                 <Select
                   id="redditTextFieldsCreateComboCareer"
                   native
@@ -670,7 +672,7 @@ function CustomerCreate({
                       if (formCreate.Phone.length / 30 > input8.length) {
                         setstatusProgress({
                           ...statusProgress,
-                          num: num + 7.14,
+                          num: num + 14.28,
                         });
                         setInput8(formCreate.Phone);
                       }
@@ -682,7 +684,7 @@ function CustomerCreate({
                       ) {
                         setstatusProgress({
                           ...statusProgress,
-                          num: num - 7.14,
+                          num: num - 14.28,
                         });
                         setInput8(formCreate.Phone);
                       }

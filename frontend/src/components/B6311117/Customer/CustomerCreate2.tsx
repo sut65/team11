@@ -26,6 +26,7 @@ import Input from "@mui/material/Input";
 import "../Customer/Customer.css";
 
 import { LinearProgressProps } from "@mui/material/LinearProgress";
+import { PaddingRounded } from "@mui/icons-material";
 
 //TODOprocess ข้างบน
 function LinearProgressWithLabel(
@@ -172,15 +173,16 @@ function CustomerCreate2({
             paddingTop: "30px",
           }}
         >
-          <Box sx={{ maginX: 0, maginY: 0, height: "10px" }}>
+          <Box sx={{ maginX: 0, maginY: 6,height: "40px" }}>
             <center>
               <Typography
                 component="h2"
                 variant="h4"
                 gutterBottom
                 fontFamily="Arial"
+                padding={-4}
               >
-                <b style={{ font: "#FFFFFF", color: "#FFFFFF" }}>Sign - Up</b>
+                <b style={{ font: "#FFFFFF", color: "#FFFFFF"  }} id="redditTextFieldsTopic">Sign - Up</b>
                 <br />
               </Typography>
             </center>
