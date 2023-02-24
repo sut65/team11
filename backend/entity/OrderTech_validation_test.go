@@ -8,6 +8,24 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+func TestPositiveOrderTech(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	ordertech := OrderTech{
+		Solving: "hi",
+		TimeOut: time.Now(),
+	}
+
+	// ตรวจสอบด้วย govalidator
+	ok, err := govalidator.ValidateStruct(ordertech)
+
+	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
+	g.Expect(ok).To(BeTrue())
+
+	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
+	g.Expect(err).To(BeNil())
+}
+
 func TestTimeOutIsNotPast(t *testing.T) {
 	g := NewGomegaWithT(t)
 
