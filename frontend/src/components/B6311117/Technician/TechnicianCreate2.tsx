@@ -70,8 +70,6 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
         personalID[3] +
         personalID[4];
 
-        console.log("ID_CARD_"+personalID2)
-        console.log("PHONE_"+pphonee2)
 
       let data = {
         Name: formCreate.Name,          
@@ -87,7 +85,6 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
         Password: personalID2,
       };
 
-      console.log(data);
         const apiUrl = "http://localhost:8080/CreateTechnician";
         const requestOptions = {
             method: "POST",
@@ -105,12 +102,10 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
                       showConfirmButton: false,
                       timer: 4000,
                   });
-                  console.log(res.data)
                   setTimeout(() => {
                       window.location.href = "/";
                   }, 3000)
 
-                  console.log("Success");
                 } else {
                     Swal.fire({
                       // Display Back-end text response 
@@ -120,7 +115,6 @@ function TechnicianCreate2({ statusProgress, setstatusProgress, formCreate, setF
                       showConfirmButton: true,
                       // timer: 3500 
                   });
-                    console.log("Error");
                 }
             });
     }

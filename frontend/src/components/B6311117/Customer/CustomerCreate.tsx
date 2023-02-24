@@ -145,7 +145,6 @@ function CustomerCreate({
         if (res.data) {
           setGender(res.data);
         } else {
-          console.log("else");
         }
       });
   };
@@ -164,7 +163,6 @@ function CustomerCreate({
         if (res.data) {
           setCareer(res.data);
         } else {
-          console.log("else");
         }
       });
   };
@@ -183,7 +181,6 @@ function CustomerCreate({
         if (res.data) {
           setPrefix(res.data);
         } else {
-          console.log("else");
         }
       });
   };
@@ -302,9 +299,6 @@ function CustomerCreate({
                   variant="standard"
                   disableUnderline
                   onBlur={(PREFIX_ID) => {
-                    console.log("format: " + formCreate.PREFIX_ID.length);
-                    console.log("input: " + input2.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.PREFIX_ID.length / 30 > input2.length) {
                       setstatusProgress({
@@ -336,7 +330,6 @@ function CustomerCreate({
                       });
                       setInput2(formCreate.PREFIX_ID);
                     }
-                    console.log(formCreate.PREFIX_ID.length - input2.length);
                   }}
                 >
                   <option aria-label="None" value="">
@@ -365,9 +358,6 @@ function CustomerCreate({
                     setFormCreate({ ...formCreate, Name: event.target.value })
                   }
                   onBlur={(Name) => {
-                    console.log("format: " + formCreate.Name.length);
-                    console.log("input: " + input3.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.Name.length / 30 > input3.length) {
                       setstatusProgress({
@@ -399,7 +389,6 @@ function CustomerCreate({
                       });
                       setInput3(formCreate.Name);
                     }
-                    console.log(formCreate.Name.length - input3.length);
                   }}
                 />
               </Grid>
@@ -429,9 +418,6 @@ function CustomerCreate({
                     inputComponent={TextMaskCustomID_Card as any}
                     placeholder="X-XXXX-XXXXX-XX-X"
                     onBlur={(ID_card) => {
-                      console.log("format: " + formCreate.ID_card.length);
-                      console.log("input: " + input4.length);
-                      console.log("");
                       //TODO ได้ละ
                       if (formCreate.ID_card.length / 30 > input4.length) {
                         setstatusProgress({
@@ -463,7 +449,6 @@ function CustomerCreate({
                         });
                         setInput4(formCreate.ID_card);
                       }
-                      console.log(formCreate.ID_card.length - input4.length);
                     }}
                   />
                 </FormControl>
@@ -521,9 +506,6 @@ function CustomerCreate({
                   variant="standard"
                   disableUnderline
                   onBlur={(GENDER_ID) => {
-                    console.log("format: " + formCreate.GENDER_ID.length);
-                    console.log("input: " + input6.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.GENDER_ID.length / 40 > input6.length) {
                       setstatusProgress({
@@ -555,7 +537,6 @@ function CustomerCreate({
                       });
                       setInput6(formCreate.GENDER_ID);
                     }
-                    console.log(formCreate.GENDER_ID.length - input6.length);
                   }}
                 >
                   <option aria-label="None" value="">
@@ -586,9 +567,6 @@ function CustomerCreate({
                   variant="standard"
                   disableUnderline
                   onBlur={(CAREER_ID) => {
-                    console.log("format: " + formCreate.CAREER_ID.length);
-                    console.log("input: " + input7.length);
-                    console.log("");
                     //TODO ได้ละ
                     if (formCreate.CAREER_ID.length / 30 > input7.length) {
                       setstatusProgress({
@@ -620,7 +598,6 @@ function CustomerCreate({
                       });
                       setInput7(formCreate.CAREER_ID);
                     }
-                    console.log(formCreate.CAREER_ID.length - input7.length);
                   }}
                 >
                   <option aria-label="None" value="">
@@ -663,9 +640,6 @@ function CustomerCreate({
                     inputComponent={TextMaskCustomPhone as any}
                     placeholder="0XX-XXX-XXXX"
                     onBlur={(Phone) => {
-                      console.log("format: " + formCreate.Phone.length);
-                      console.log("input: " + input8.length);
-                      console.log("");
                       //TODO ได้ละ
                       if (formCreate.Phone.length / 30 > input8.length) {
                         setstatusProgress({
@@ -697,7 +671,6 @@ function CustomerCreate({
                         });
                         setInput8(formCreate.Phone);
                       }
-                      console.log(formCreate.Phone.length - input8.length);
                     }}
                   />
                 </FormControl>

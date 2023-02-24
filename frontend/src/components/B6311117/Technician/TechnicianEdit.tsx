@@ -24,6 +24,7 @@ import { alpha } from "@mui/material/styles";
 //TODO จัด Format เลขที่รับเข้ามา
 import { IMaskInput } from "react-imask";
 import Input from "@mui/material/Input";
+import Swal from "sweetalert2"; // Alert text --> npm install sweetalert2
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -99,14 +100,30 @@ function TechnicianEdit({ formCreate, setFormCreate, activeStep, setActiveStep ,
         .then((response) => response.json())
         .then((res) => {
             if (res.data) {
-                console.log(data);
-                setTimeout(() => {
-                    setActiveStep(0)
-                    console.log(data);
-                }, 1500)
-                console.log("Success");
+
+              setTimeout(() => {
+                setActiveStep(0);
+              }, 2500);
+
+              Swal.fire({
+                title: 'อัพเดตข้อมูลส่วนตัวเรียบร้อย',
+                // text: '',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 3000,
+            });
+    
+    
             } else {
-                console.log("Error");
+              Swal.fire({
+                // Display Back-end text response 
+                title: 'อัพเดตข้อมูลส่วนตัวไม่สำเร็จ',
+                text: res.error.split(";")[0],
+                icon: 'error',
+                showConfirmButton: true,
+                // timer: 3500 
+            });
+    
             }
         });
 
@@ -127,7 +144,6 @@ fetch(apiUrl, requestOptions)
     if (res.data) {
         setEducate(res.data);
     } else {
-      console.log("else");
     }
   });
 };
@@ -160,12 +176,10 @@ fetch(apiUrl, requestOptions)
 
             setPhone(res.data.Phone)
             setNAMEa(res.data.Name)
-            console.log(Technician.Location)
             
             
         }
      else {
-        console.log("else");
       }
       });
   };
@@ -372,7 +386,6 @@ fetch(apiUrl, requestOptions)
                         variant="standard"
                         onChange={(event) => {
                           setNAMEa(event.target.value);
-                          console.log(event.target.value);
                         }}
                         sx={{ width: 300, border: -10 }}
                         InputProps={
